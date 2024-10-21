@@ -1,3 +1,9 @@
+# Dependencies
+1. npm: 10.9.0
+2. WebStorm IDE
+
+(I believe that's all we need to run React)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
