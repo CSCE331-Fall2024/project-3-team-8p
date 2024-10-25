@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ListingCard from "./ListingCard";
+import './index'
 
 function App() {
   return (
