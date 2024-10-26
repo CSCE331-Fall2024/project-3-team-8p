@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
-* This class is used to expose database items through rest endpoints
+* This class exposes database items through REST API endpoints
 * @author Soham Nagawanshi
 */
 @RestController
@@ -17,13 +17,13 @@ import java.util.List;
 public class RestAPIController {
     /**
      * Instance of RestService layer
-     * autowired instantiates restService automatically
+     * '@autowired' automatically instantiates restService
      * */
     @Autowired
     private RestAPIService restService;
 
     /**
-     * This method is used to query all menu items from the database
+     * Queries all menu items from database
      * @return list of MenuItem
      */
     @GetMapping("/menuitems")

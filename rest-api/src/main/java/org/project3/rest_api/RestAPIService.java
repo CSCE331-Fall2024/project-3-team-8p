@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * This class is used to directly interact with the database
+ * This class directly interacts with the database
  *
  *  @author Soham Nagawanshi
  */
@@ -20,14 +20,14 @@ import java.util.function.Function;
 public class RestAPIService {
 
     /**
-     * This is used to maintain a single connection to the database;
-     * Autowired instantiates dataSource automatically
+     * maintains single connection to database;
+     * '@autowired' instantiates dataSource automatically
      **/
     @Autowired
     private DataSource dataSource;
 
     /**
-     * This generic function is used to execute all necessary queries
+     * Executes all necessary SQL queries
      * @param query query string from QueryTemplate
      * @param mapper mapper from SQLToJavaMapper
      * @return list of query results
