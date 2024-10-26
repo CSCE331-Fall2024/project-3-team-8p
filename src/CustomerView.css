@@ -1,0 +1,18 @@
+
+.CustomerView {
+  background-color: #D51A1F; /* Panda Express red */
+  min-height: 100vh;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distributes space between items */
+  padding: 0 50px; /* Optional padding for the container */
+}
+
+.logo {
+  max-width: 150px; /* Adjust the size of the logo */
+  height: auto;
+  margin: 0 20px; /* Optional margin for spacing around the logo */
+}
