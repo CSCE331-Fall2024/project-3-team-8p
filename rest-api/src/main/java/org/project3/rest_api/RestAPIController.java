@@ -15,7 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 public class RestAPIController {
-    // This is used to instantiate rest service
+    /**
+     * Instance of RestService layer
+     * autowired instantiates restService automatically
+     * */
     @Autowired
     private RestAPIService restService;
 
