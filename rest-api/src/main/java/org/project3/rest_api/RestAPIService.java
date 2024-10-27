@@ -72,4 +72,44 @@ public class RestAPIService {
         return items;
     }
 
-}
+    public List<InventoryItem> selectInventoryItems() {
+        List<InventoryItem> items = null;
+        try {
+            items = executeQuery(
+                    String.format(QueryTemplate.selectAllInventoryItems),
+                    SQLToJavaMapper::inventoryItemMapper
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    public List<Employee> selectEmployees() {
+        List<Employee> items = null;
+        try {
+            items = executeQuery(
+                    String.format(QueryTemplate.selectAllEmployees),
+                    SQLToJavaMapper::employeeMapper
+            );
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+
+    }
+        return items;
+    }
+
+    public List<Order> selectOrders() {
+        List<Order> items = null;
+        try {
+            items = executeQuery(
+                    String.format(QueryTemplate.selectAllOrders),
+                    SQLToJavaMapper::orderMapper
+            );
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+    }
+        return items;
+    }

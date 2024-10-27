@@ -39,4 +39,46 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
         }
     }
+    public static InventoryItem inventoryItemMapper(ResultSet rs) {
+        try {
+            return new InventoryItem(
+                    UUID.fromString(rs.getString("inventoryItemId")),
+                    re.getDouble("cost"),
+                    rs.getInt("availablestock"),
+                    rs.getString("itemname")
+            );
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
+        }
+    }
+    public static Employee employeeMapper(ResultSet rs){
+        try {
+            return new Employee(
+                    UUID.fromString(rs.getString("employeeId")),
+                    rs.getString("isManager"),
+                    rs.getString("name"),
+            );
+            )
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
+        }
+    }
+    public static Order orderMapper(ResultSet rs){
+        try {
+            return new Order(
+                    UUID.fromString(rs.getString("orderId")),
+                    UUID.fromString(rs.getString("cashierid")),
+                    rs.getInt("month"),
+                    rs.getInt("week"),
+                    rs.getInt("day"),
+                    rs.getInt("hour"),
+                    rs.getDouble("price")
+            );
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to order", e);
+        }
+    }
 }

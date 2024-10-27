@@ -26,9 +26,18 @@ public class RestAPIController {
      * Queries all menu items from database
      * @return list of MenuItem
      */
-    @GetMapping("/menuitems")
+    @GetMapping("/menuitem")
     public List<MenuItem> getMenuItems() {
         return restService.selectMenuItems();
     }
+
+    @GetMapping("/inventoryitem")
+    public List<InventoryItem> getInventoryItems() {return restService.selectInventoryItems();}
+
+    @GetMapping("/order")
+    public List<Order> getOrders() {return restService.selectOrders();}
+
+    @GetMapping("/employee")
+    public List<Employee> getEmployees() {return restService.selectEmployees();}
 
 }
