@@ -15,6 +15,7 @@
   - shared: components shared across multiple views (e.g., Button, List)
 - **contexts:** simple global shared state (e.g. user data)
 - **hooks:** commonly used React hooks
+- **models:** classes/interfaces that encapsulate information from the database
 - **services:** interface between frontend and backend
   - api: HTTP client logic
     - endpoints: logically grouped API services (e.g., orderService, userService, etc.)
