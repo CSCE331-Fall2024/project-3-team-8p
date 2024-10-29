@@ -43,7 +43,7 @@ public class SQLToJavaMapper {
         try {
             return new InventoryItem(
                     UUID.fromString(rs.getString("inventoryItemId")),
-                    re.getDouble("cost"),
+                    rs.getDouble("cost"),
                     rs.getInt("availablestock"),
                     rs.getString("itemname")
             );
@@ -56,10 +56,9 @@ public class SQLToJavaMapper {
         try {
             return new Employee(
                     UUID.fromString(rs.getString("employeeId")),
-                    rs.getString("isManager"),
-                    rs.getString("name"),
+                    rs.getBoolean("isManager"),
+                    rs.getString("name")
             );
-            )
         }
         catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);

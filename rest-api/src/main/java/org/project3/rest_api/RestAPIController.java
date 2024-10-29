@@ -2,6 +2,9 @@ package org.project3.rest_api;
 
 
 import org.project3.rest_api.models.MenuItem;
+import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

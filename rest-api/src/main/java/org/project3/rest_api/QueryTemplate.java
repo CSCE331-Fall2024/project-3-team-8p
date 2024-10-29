@@ -93,7 +93,9 @@ public class QueryTemplate {
             INSERT INTO orderToInventoryItem (orderId, inventoryItemId, quantity)
             VALUES ('%s', '%s', %d);
             """;
-
+    public static final String selectAllOrder = """
+            SELECT * FROM "order";
+            """;
     // Employees
     /**
      * SQL query to select an employee by employeeId

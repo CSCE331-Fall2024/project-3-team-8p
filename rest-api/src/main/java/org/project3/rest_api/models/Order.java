@@ -13,7 +13,7 @@ public class Order {
     public Integer hour;
     public Double price;
 
-    public Order(UUID orderId, UUID cashierId, Integer month, Integer week, Integer day, Integer hour, Double price){
+    public Order(UUID orderId, UUID cashierId, Integer month, Integer week, Integer day, Integer hour, Double price) {
         this.orderId = orderId;
         this.cashierId = cashierId;
         this.month = month;
@@ -22,7 +22,10 @@ public class Order {
         this.hour = hour;
         this.price = price;
     }
-    public Order(Integer month, Integer week, Integer day, Integer hour, Double price){
-        this month, week, day, hour, price);
+
+    public Order(Integer month, Integer week, Integer day, Integer hour, Double price) {
+            this(UUID.randomUUID(),UUID.randomUUID(),month, week, day, hour, price);
+
     }
+}
 

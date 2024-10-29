@@ -1,6 +1,9 @@
 package org.project3.rest_api;
 
 import org.project3.rest_api.models.MenuItem;
+import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.Employee;
+import org.project3.rest_api.models.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,10 +31,11 @@ public class RestAPIService {
 
     /**
      * Executes all necessary SQL queries
-     * @param query query string from QueryTemplate
+     *
+     * @param query  query string from QueryTemplate
      * @param mapper mapper from SQLToJavaMapper
      * @return list of query results
-     * */
+     */
     public <T> List<T> executeQuery(String query, Function<ResultSet, T> mapper) throws SQLException {
         List<T> results = new ArrayList<>();
 
@@ -92,11 +96,10 @@ public class RestAPIService {
                     String.format(QueryTemplate.selectAllEmployees),
                     SQLToJavaMapper::employeeMapper
             );
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
 
-    }
+        }
         return items;
     }
 
@@ -104,12 +107,12 @@ public class RestAPIService {
         List<Order> items = null;
         try {
             items = executeQuery(
-                    String.format(QueryTemplate.selectAllOrders),
+                    String.format(QueryTemplate.selectAllOrder),
                     SQLToJavaMapper::orderMapper
             );
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-    }
+        }
         return items;
     }
+}
