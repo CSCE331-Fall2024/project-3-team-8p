@@ -9,9 +9,9 @@ interface ItemCardProps<T extends CardItem> {
 
 function ItemCard<T extends CardItem>({ item }: ItemCardProps<T>) {
     return (
-        <div className="item-card p-2 border text-center h-100">
-            <img src={SampleImg} alt={"menu item"} className={"w-100"} />
-            <span>{item.itemName}</span><br/>
+        <div className="item-card p-2 h-100">
+            <img src={SampleImg} alt={"menu item"} className={"w-100 rounded"} />
+            <span>{item.itemName}</span>
         </div>
     );
 }

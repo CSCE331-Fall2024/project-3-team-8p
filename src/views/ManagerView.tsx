@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import './ManagerView.css';
 import ItemGrid from "../components/manager/ItemGrid";
 import CardItem from "../models/interfaces/CardItem";
-import { MENU_ITEM_DATA, INVENTORY_ITEM_DATA, EMPLOYEE_DATA } from "../components/manager/DummyData";
+import { MENU_ITEM_DATA, INVENTORY_ITEM_DATA, EMPLOYEE_DATA } from "../models/dummy-data/DummyData";
 import "./ManagerView.css"
 
 enum LeftPane {
@@ -26,7 +26,7 @@ function ManagerView() {
     const [currRightPane, setCurrRightPane] = useState<RightPane>(RightPane.MenuItems);
     const [items, setItems] = useState<CardItem[]>([]);
 
-    // Load items based on selected tab
+    // Load info in the right pane
     useEffect(() => {
         switch (currRightPane) {
             case RightPane.MenuItems:
@@ -45,29 +45,36 @@ function ManagerView() {
         <div className={"manager-view"}>
             <Row>
                 <Col>
-                    <Nav variant={"tabs"} defaultActiveKey={"/"}>
+                    <Nav
+                        variant={"pills"}
+                        defaultActiveKey={"/"}
+                        className={"px-3"}
+                    >
                         <Nav.Item>
-                            <Nav.Link href="#">Summary</Nav.Link>
+                            <Nav.Link eventKey={LeftPane.Summary}>Summary</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#">Usage Chart</Nav.Link>
+                            <Nav.Link eventKey={LeftPane.UsageChart}>Usage Chart</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#">Sales Report</Nav.Link>
+                            <Nav.Link eventKey={LeftPane.SalesReport}>Sales Report</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#">X-report</Nav.Link>
+                            <Nav.Link eventKey={LeftPane.XReport}>X-report</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#">Z-report</Nav.Link>
+                            <Nav.Link eventKey={LeftPane.ZReport}>Z-report</Nav.Link>
                         </Nav.Item>
                     </Nav>
+                    {/* Left pane */}
+
                 </Col>
                 <Col>
                     <Nav
-                        variant={"tabs"}
+                        variant={"pills"}
                         activeKey={currRightPane}
                         onSelect={(selectedKey) => setCurrRightPane(Number(selectedKey) as RightPane)}
+                        className={"px-3"}
                     >
                         <Nav.Item>
                             <Nav.Link eventKey={RightPane.MenuItems}>Menu Items</Nav.Link>

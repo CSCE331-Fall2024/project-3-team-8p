@@ -1,7 +1,7 @@
-import Employee from "../../models/Employee";
+import Employee from "../Employee";
 import { v4 as uuidv4 } from "uuid";
-import MenuItem from "../../models/MenuItem";
-import InventoryItem from "../../models/InventoryItem";
+import MenuItem from "../MenuItem";
+import InventoryItem from "../InventoryItem";
 
 export const MENU_ITEM_DATA = [
     new MenuItem(uuidv4(), 50.00, "Orange Chicken"),

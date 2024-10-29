@@ -6,7 +6,7 @@ import './App.css';
 function App() {
     return (
         <div className={"panda-express-app"}>
-            <Container>
+            <Container className={"mt-3"}>
                 <ManagerView />
             </Container>
         </div>
