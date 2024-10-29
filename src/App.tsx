@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <h1> MENU </h1>
+        <div className="box">
+          <header className="App-header">
+            <h1> ENTREES </h1>
+            <h1><i> $3.50 ea.</i></h1>
+          </header>
+        </div>
+
+        <div className="box">
+          <header className="App-header">
+            <h1> SIDES </h1>
+            <h1><i> $3.00 ea.</i></h1>
+          </header>
+        </div>
+
+          <div className="box">
+            <header className="App-header">
+              <h1> DRINKS </h1>
+              <h1><i> $1.00 ea.</i></h1>
+            </header>
+          </div>
+
+          <div className="box">
+            <header className="App-header">
+              <h1> APPETIZERS </h1>
+              <h1><i> $1.95 ea.</i></h1>
+            </header>
+          </div>
+      </div>
   );
 }
 
