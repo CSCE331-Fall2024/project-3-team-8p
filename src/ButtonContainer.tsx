@@ -3,13 +3,18 @@ import React, { useState } from 'react';
 import ButtonComponent from './ButtonComponent';
 import './Button.css';
 
-const ButtonContainer: React.FC = () => {
-    const [activeButton, setActiveButton] = useState<string>('Entrees');
+interface ButtonContainerProps {
+    onTabChange: (tab: 'Entrees' | 'Sides' | 'Drinks' | 'Desserts') => void; // Use specific tab keys
+}
 
-    const buttonLabels = ['Entrees', 'Sides', 'Drinks', 'Desserts', 'Leave a Review'];
+const ButtonContainer: React.FC<ButtonContainerProps> = ({ onTabChange }) => {
+    const [activeButton, setActiveButton] = useState<'Entrees' | 'Sides' | 'Drinks' | 'Desserts'>('Entrees');
 
-    const handleClick = (label: string) => {
+    const buttonLabels: ('Entrees' | 'Sides' | 'Drinks' | 'Desserts')[] = ['Entrees', 'Sides', 'Drinks', 'Desserts'];
+
+    const handleClick = (label: 'Entrees' | 'Sides' | 'Drinks' | 'Desserts') => {
         setActiveButton(label);
+        onTabChange(label); // Call onTabChange with the label
     };
 
     return (
