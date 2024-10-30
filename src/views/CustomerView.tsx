@@ -1,12 +1,11 @@
 // CustomerView.tsx
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import listings from '../components/customer/listingData'; // Import listings
 import './CustomerView.css';
 import ListingCard from '../components/customer/ListingCard';
 import ButtonContainer from '../components/customer/ButtonContainer';
 import { Tabs } from '../components/customer/TabsEnum';
-import {banner} from "../Images";
+import {banner} from "../components/images";
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
