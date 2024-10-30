@@ -1,20 +1,19 @@
-// ButtonContainer.tsx
 import React, { useState } from 'react';
+import { Tabs } from '../../TabsEnum'; // Import the Tabs enum
 import ButtonComponent from './ButtonComponent';
-import './Button.css';
 
 interface ButtonContainerProps {
-    onTabChange: (tab: 'Entrees' | 'Sides' | 'Drinks' | 'Desserts') => void; // Use specific tab keys
+    onTabChange: (tab: Tabs) => void;
 }
 
 const ButtonContainer: React.FC<ButtonContainerProps> = ({ onTabChange }) => {
-    const [activeButton, setActiveButton] = useState<'Entrees' | 'Sides' | 'Drinks' | 'Desserts'>('Entrees');
+    const [activeButton, setActiveButton] = useState<Tabs>(Tabs.Entrees);
 
-    const buttonLabels: ('Entrees' | 'Sides' | 'Drinks' | 'Desserts')[] = ['Entrees', 'Sides', 'Drinks', 'Desserts'];
+    const buttonLabels: Tabs[] = [Tabs.Entrees, Tabs.Sides, Tabs.Drinks, Tabs.Desserts];
 
-    const handleClick = (label: 'Entrees' | 'Sides' | 'Drinks' | 'Desserts') => {
+    const handleClick = (label: Tabs) => {
         setActiveButton(label);
-        onTabChange(label); // Call onTabChange with the label
+        onTabChange(label);
     };
 
     return (

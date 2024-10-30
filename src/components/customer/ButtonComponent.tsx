@@ -1,6 +1,6 @@
 // ButtonComponent.tsx
 import React from 'react';
-import './Button.css';
+import '../../Button.css';
 
 interface ButtonComponentProps {
     label: string;
