@@ -21,7 +21,6 @@ public class QueryTemplate {
             SELECT * FROM "order"
             WHERE orderId = '%s';
             """;
-
     /**
      * SQL query to select a random order
      */
@@ -92,9 +91,6 @@ public class QueryTemplate {
     public static final String insertOrderToInventoryItem = """
             INSERT INTO orderToInventoryItem (orderId, inventoryItemId, quantity)
             VALUES ('%s', '%s', %d);
-            """;
-    public static final String selectAllOrder = """
-            SELECT * FROM "order";
             """;
     // Employees
     /**
