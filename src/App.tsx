@@ -4,8 +4,13 @@ import ManagerView from "./views/ManagerView";
 import { Container } from "react-bootstrap";
 import './App.css';
 import CustomerView from "./views/CustomerView";
+import {HTTPClientService} from "./services/HTTPClientService";
 
 function App() {
+
+    let client:HTTPClientService = new HTTPClientService();
+    client.getRequest("menuitems");
+
 
     return (
         <div className={"panda-express-app"}>
