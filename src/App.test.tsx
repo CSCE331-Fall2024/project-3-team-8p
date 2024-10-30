@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import CustomerView from './CustomerView';
+import CustomerView from './views/CustomerView';
 
 test('renders learn react link', () => {
   render(<CustomerView />);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import CustomerView from './CustomerView';
+import CustomerView from './views/CustomerView';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
