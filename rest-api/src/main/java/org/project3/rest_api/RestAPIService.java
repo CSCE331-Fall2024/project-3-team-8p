@@ -111,6 +111,9 @@ public class RestAPIService {
         List<Order> items = null;
         try {
             int currentMonth = calendar.get(Calendar.MONTH) + 1;
+            if (mostRecent == null) {
+                mostRecent = 50;
+            }
             items = executeQuery(
                     String.format(QueryTemplate.selectRecentOrders, currentMonth, mostRecent),
                     SQLToJavaMapper::orderMapper

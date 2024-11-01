@@ -40,8 +40,8 @@ public class RestAPIController {
     }
 
     @GetMapping("/orders")
-    public List<Order> getOrders() {
-        return restService.selectOrders(int mostRecent);
+    public List<Order> getOrders(@RequestParam(required = false) Integer mostRecent) {
+        return restService.selectOrders(mostRecent);
     }
 
     @GetMapping("/employees")
