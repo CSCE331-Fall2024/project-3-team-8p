@@ -5,7 +5,7 @@
 import MenuItem from "../models/MenuItem";
 import {AxiosResponse} from "axios";
 
-export class JSONToTypeScriptService {
+export class JSONToModelMapper {
 
     /*
     * Converts JSON to menu items

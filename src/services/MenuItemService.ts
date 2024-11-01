@@ -2,12 +2,12 @@
 /*
 implements common functionality between all services
 */
-import {HTTPClientService} from "./HTTPClientService";
+import {HTTPClient} from "./HTTPClient";
 import {AxiosError, AxiosResponse} from "axios";
 
-export class APIService {
+export class MenuItemService {
 
-    private readonly _client: HTTPClientService = new HTTPClientService();
+    private readonly _client: HTTPClient = new HTTPClient();
 
     /*Gets menu items by calling httpclient service
     @param successCallback: function to call when request succeeds

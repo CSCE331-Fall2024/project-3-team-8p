@@ -3,7 +3,7 @@ import axios, {AxiosResponse} from 'axios';
 /*
 Sends GET, POST, PUT, and DELETE requests to server
 */
-export class HTTPClientService {
+export class HTTPClient {
     private readonly _baseUrl: string = "http://localhost:8080/api/v1/";
 
     /*
