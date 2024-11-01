@@ -1,3 +1,4 @@
+// ListingCard.tsx
 import React from 'react';
 import styled from 'styled-components';
 
@@ -6,6 +7,7 @@ interface ListingCardProps {
     price: number;
     imageUrl: string;
     quantityOrdered: number;
+    onAddToCart: () => void; // Add this prop
 }
 
 const CardContainer = styled.div`
@@ -15,6 +17,7 @@ const CardContainer = styled.div`
   overflow: hidden;
   background-color: #fff;
   transition: transform 0.2s ease-in-out;
+  cursor: pointer; // Add cursor to indicate clickability
   
   &:hover {
     transform: scale(1.02);
@@ -52,9 +55,9 @@ const Quantity = styled.span`
   display: block;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({ name, price, imageUrl, quantityOrdered }) => {
+const ListingCard: React.FC<ListingCardProps> = ({ name, price, imageUrl, quantityOrdered, onAddToCart }) => {
     return (
-        <CardContainer>
+        <CardContainer onClick={onAddToCart}> {/* Call onAddToCart on click */}
             <Image src={imageUrl} alt={name} />
             <CardContent>
                 <Name>{name}</Name>
