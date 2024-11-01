@@ -35,12 +35,18 @@ public class RestAPIController {
     }
 
     @GetMapping("/inventoryitems")
-    public List<InventoryItem> getInventoryItems() {return restService.selectInventoryItems();}
+    public List<InventoryItem> getInventoryItems() {
+        return restService.selectInventoryItems();
+    }
 
     @GetMapping("/orders")
-    public List<Order> getOrders() {return restService.selectOrders(50);}
+    public List<Order> getOrders() {
+        return restService.selectOrders(int mostRecent);
+    }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {return restService.selectEmployees();}
+    public List<Employee> getEmployees() {
+        return restService.selectEmployees();
+    }
 
 }
