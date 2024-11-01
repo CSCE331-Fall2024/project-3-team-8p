@@ -19,7 +19,7 @@ import {
     DrPepper,
     Aquafina,
     SweetTea
-} from './Images';
+} from '../images';
 
 interface Listing {
     name: string;

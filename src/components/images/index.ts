@@ -1,5 +1,4 @@
 // Images/index.ts
-import logo from './logo.svg';
 import banner from './POS.png';
 import BeijingBeef from './Beijing Beef.png';
 import BlackPepperChicken from './Black Pepper Chicken.png';
@@ -22,7 +21,6 @@ import SweetTea from './Sweet Tea.png';
 
 // Export all images together
 export {
-    logo,
     banner,
     BeijingBeef,
     BlackPepperChicken,
