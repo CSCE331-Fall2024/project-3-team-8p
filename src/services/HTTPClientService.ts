@@ -9,9 +9,7 @@ export class HTTPClientService {
     /*
     Sends GET Requests
     @param endpoint: request endpoint
-    @param successCallback: called when get request is successful
-    @param failureCallback: called when get request fails
-    @return returns a promise for asynchronous api call
+    @return returns a promise AxiosResponse for asynchronous get call
     */
     getRequest(endpoint:string): Promise<AxiosResponse> {
         return axios.get(this._baseUrl + endpoint);
