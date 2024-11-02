@@ -2,6 +2,9 @@ package org.project3.rest_api;
 
 
 import org.project3.rest_api.models.MenuItem;
+import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +33,21 @@ public class RestAPIController {
     @GetMapping("/menuitems")
     public List<MenuItem> getMenuItems() {
         return restService.selectMenuItems();
+    }
+
+    @GetMapping("/inventoryitems")
+    public List<InventoryItem> getInventoryItems() {
+        return restService.selectInventoryItems();
+    }
+
+    @GetMapping("/orders")
+    public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
+        return restService.selectOrders(mostRecent);
+    }
+
+    @GetMapping("/employees")
+    public List<Employee> getEmployees() {
+        return restService.selectEmployees();
     }
 
 }
