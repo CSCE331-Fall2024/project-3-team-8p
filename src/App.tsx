@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import ManagerView from "./views/ManagerView";
+import ManagerView from "./views/Manager/ManagerView";
 import { Container } from "react-bootstrap";
 import './App.css';
-import CustomerView from "./views/CustomerView";
-import {HTTPClient} from "./services/HTTPClient";
+import CustomerView from "./views/Customer/CustomerView";
+import {ApiClient} from "./apis/utils/api-client";
 
 function App() {
 
-    let client:HTTPClient = new HTTPClient();
+    let client:ApiClient = new ApiClient();
     client.getRequest("menuitems");
 
 
@@ -21,8 +21,8 @@ function App() {
                             <div className={"home"}>
                                 {/*  To be replaced by a dedicated "home" or "login page" component  */}
                                 <Link to={"/"}>Home</Link>
-                                <Link to={"/manager"}>Manager</Link>
-                                <Link to={"/customer"}>Customer</Link>
+                                <Link to={"/Manager"}>Manager</Link>
+                                <Link to={"/Customer"}>Customer</Link>
                             </div>
                         } />
                         <Route path="/manager" element={<ManagerView />} />

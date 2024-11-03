@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Col, Row } from "react-bootstrap";
 import './ManagerView.css';
-import ItemGrid from "../components/manager/ItemGrid";
-import CardItem from "../models/interfaces/CardItem";
-import { MENU_ITEM_DATA, INVENTORY_ITEM_DATA, EMPLOYEE_DATA } from "../models/dummy-data/DummyData";
+import ItemGrid from "./ItemGrid";
+import CardItem from "../../models/interfaces/CardItem";
+import { MENU_ITEM_DATA, INVENTORY_ITEM_DATA, EMPLOYEE_DATA } from "../../models/dummy-data/dummy-data";
 import "./ManagerView.css"
 
 enum LeftPane {
@@ -42,7 +42,7 @@ function ManagerView() {
     }, [currRightPane]);
 
     return (
-        <div className={"manager-view"}>
+        <div className={"Manager-view"}>
             <Row>
                 <Col>
                     <Nav

@@ -1,5 +1,5 @@
-// listingData.ts
-import { Tabs } from './TabsEnum';
+// listing-data.ts
+import { Tabs } from '../../views/Customer/tabs-enum';
 import {
     BeijingBeef,
     BlackPepperChicken,
@@ -19,7 +19,7 @@ import {
     DrPepper,
     Aquafina,
     SweetTea
-} from '../images';
+} from '../../../public/images';
 
 interface Listing {
     name: string;
