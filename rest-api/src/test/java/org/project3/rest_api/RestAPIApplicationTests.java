@@ -42,4 +42,34 @@ class RestAPIApplicationTests {
 		).hasSizeGreaterThanOrEqualTo(10);
 	}
 
+	@Test
+	void getInventoryItemsReturnsCorrectCount() throws Exception {
+		// check that there are at least 20 inventory items
+		String url = baseUrl+"inventoryitems";
+
+		assertThat(
+				this.restTemplate.getForObject(url, String.class)
+		).hasSizeGreaterThanOrEqualTo(20);
+	}
+
+	@Test
+	void getOrdersReturnsCorrectCount() throws  Exception {
+		// check that there are at least 100 orders
+		String url = baseUrl+"orders";
+
+		assertThat(
+				this.restTemplate.getForObject(url, String.class)
+		).hasSizeGreaterThanOrEqualTo(100);
+	}
+
+	@Test
+	void getEmployeesReturnsCorrectCount() throws  Exception {
+		// check that there are at least 5 employees
+		String url = baseUrl+"employees";
+
+		assertThat(
+				this.restTemplate.getForObject(url, String.class)
+		).hasSizeGreaterThanOrEqualTo(5);
+	}
+
 }
