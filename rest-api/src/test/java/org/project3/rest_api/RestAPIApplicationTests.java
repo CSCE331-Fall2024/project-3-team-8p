@@ -2,6 +2,7 @@ package org.project3.rest_api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,12 @@ class RestAPIApplicationTests {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+	String baseUrl = " ";
+
+	@BeforeEach
+	public void setup() {
+		baseUrl = "http://localhost:" + port + "/api/v1/";
+	}
 	@Test
 	void contextLoads() {
 		assertThat(controller).isNotNull();
@@ -27,9 +34,11 @@ class RestAPIApplicationTests {
 
 	@Test
 	void getMenuItemsReturnsCorrectCount() throws Exception {
-		System.out.print(this.restTemplate.getForObject("https://localhost:" + port + "/menuitems", String.class));
+		// check that there are at least 10 menu items
+		String url = baseUrl+"menuitems";
+
 		assertThat(
-				this.restTemplate.getForObject("https://localhost:" + port + "/menuitems", String.class)
+				this.restTemplate.getForObject(url, String.class)
 		).hasSizeGreaterThanOrEqualTo(10);
 	}
 
