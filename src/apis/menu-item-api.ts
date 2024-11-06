@@ -1,22 +1,35 @@
 /*
 endpoints for menu item-related requests
 */
-import { ApiClient } from "./utils/api-client";
-import { AxiosError, AxiosResponse } from "axios";
+import { BaseApiClient } from "./base-api-client";
+import MenuItem from "../models/MenuItem";
 
-export class MenuItemApi {
+export class MenuItemApi extends BaseApiClient {
+    constructor() {
+        super("menuitems");
 
-    private readonly _client: ApiClient = new ApiClient();
+        // Add data model mapping interceptor
+        this.apiClient.interceptors.response.use(
+            response => {
+                const mapMenuItem = (item: any): MenuItem => {
+                    return new MenuItem(
+                        item.menuItemId,
+                        item.price,
+                        item.itemName
+                    );
+                };
+
+                response.data = response.data.map(mapMenuItem);
+                return response;
+            }
+        )
+    }
 
     /* Gets menu items by calling ApiClient
     @param successCallback: function to call when request succeeds
     @param failureCallback: function to call when request fails
     */
-    getMenuItems(successCallback: (data: AxiosResponse) => void,
-                 failureCallback: (error: AxiosError) => void): void {
-        this._client.getRequest("menuitems")
-            .then(successCallback)
-            .catch(failureCallback);
-    };
-
+    async getMenuItems(): Promise<MenuItem[]> {
+        return await this.apiClient.get("");
+    }
 }

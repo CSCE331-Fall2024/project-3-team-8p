@@ -1,6 +1,6 @@
 import React from 'react';
 import CardItem from "../../models/interfaces/CardItem";
-import SampleImg from "../../../public/images/sample_image.png";
+import SampleImg from "../images/sample_image.png";
 import "./ItemCard.css"
 
 interface ItemCardProps<T extends CardItem> {

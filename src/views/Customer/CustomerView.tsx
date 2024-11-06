@@ -5,7 +5,7 @@ import './CustomerView.css';
 import ListingCard from './ListingCard';
 import ButtonContainer from './ButtonContainer';
 import { Tabs } from './tabs-enum';
-import {banner} from "../../../public/images";
+import {banner} from "../images";
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
