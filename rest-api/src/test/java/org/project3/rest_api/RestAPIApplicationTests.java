@@ -2,6 +2,7 @@ package org.project3.rest_api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,22 @@ class RestAPIApplicationTests {
 
 	String baseUrl = " ";
 
+	String jsonPrettier(String uglyJson) throws Exception{
+		ObjectMapper objectMapper = new ObjectMapper();
+		Object jsonObject = objectMapper.readValue(uglyJson, Object.class);
+		String prettyJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+		return prettyJson;
+	}
+
+	void printResult(String rawJson, String name) throws Exception {
+		System.out.println(name+": ");
+		System.out.println(
+				jsonPrettier(rawJson)
+		);
+		System.out.println("-".repeat(100));
+	}
+
+
 	@BeforeEach
 	public void setup() {
 		baseUrl = "http://localhost:" + port + "/api/v1/";
@@ -34,42 +51,76 @@ class RestAPIApplicationTests {
 
 	@Test
 	void getMenuItemsReturnsCorrectCount() throws Exception {
-		// check that there are at least 10 menu items
 		String url = baseUrl+"menuitems";
 
+		String rawJson = this.restTemplate.getForObject(url, String.class);
+		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+
+		// check that there are at least 10 menu items
 		assertThat(
-				this.restTemplate.getForObject(url, String.class)
-		).hasSizeGreaterThanOrEqualTo(10);
+				rawArray.length
+		).isGreaterThanOrEqualTo(10);
+
+		printResult(rawJson, "Menu Items");
 	}
 
 	@Test
 	void getInventoryItemsReturnsCorrectCount() throws Exception {
-		// check that there are at least 20 inventory items
 		String url = baseUrl+"inventoryitems";
 
+		String rawJson = this.restTemplate.getForObject(url, String.class);
+		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+
+		// check that there are at least 20 inventory items
 		assertThat(
-				this.restTemplate.getForObject(url, String.class)
-		).hasSizeGreaterThanOrEqualTo(20);
+				rawArray.length
+		).isGreaterThanOrEqualTo(20);
+
+		printResult(rawJson, "Inventory Items");
+
 	}
 
 	@Test
-	void getOrdersReturnsCorrectCount() throws  Exception {
-		// check that there are at least 100 orders
+	void getOrdersReturnsCorrectDefaultCount() throws Exception {
 		String url = baseUrl+"orders";
 
+		String rawJson = this.restTemplate.getForObject(url, String.class);
+		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+
+		// check that there are a default 50 orders
 		assertThat(
-				this.restTemplate.getForObject(url, String.class)
-		).hasSizeGreaterThanOrEqualTo(100);
+				rawArray.length
+		).isEqualTo(50);
+
+		printResult(rawJson, "Orders");
+	}
+
+	@Test
+	void getOrdersReturnsCorrectParamCount() throws Exception {
+		int numOrders = 75;
+		String url = baseUrl+"orders?mostRecent="+numOrders;
+
+		String rawJson = this.restTemplate.getForObject(url, String.class);
+		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+
+		assertThat(rawArray.length).isEqualTo(numOrders);
+
+		printResult(rawJson, "Orders (Parameterized)");
 	}
 
 	@Test
 	void getEmployeesReturnsCorrectCount() throws  Exception {
-		// check that there are at least 5 employees
 		String url = baseUrl+"employees";
 
+		String rawJson = this.restTemplate.getForObject(url, String.class);
+		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+
+		// check that there are at least 5 employees
 		assertThat(
-				this.restTemplate.getForObject(url, String.class)
-		).hasSizeGreaterThanOrEqualTo(5);
+				rawArray.length
+		).isGreaterThanOrEqualTo(5);
+
+		printResult(rawJson, "Employees");
 	}
 
 }
