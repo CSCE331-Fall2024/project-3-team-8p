@@ -15,7 +15,7 @@ export class BaseApiClient {
             },
         });
 
-        // Add error response interceptor
+        // Intercept and handle any errors from API responses
         this.apiClient.interceptors.response.use(
             response => response,
             error => {

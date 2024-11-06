@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Col, Row } from "react-bootstrap";
 import './ManagerView.css';
 import ItemGrid from "./ItemGrid";
-import CardItem from "../../models/interfaces/CardItem";
-import { MENU_ITEM_DATA, INVENTORY_ITEM_DATA, EMPLOYEE_DATA } from "../../models/dummy-data/dummy-data";
 import "./ManagerView.css"
+import useFetchCardItems, { RightPane } from "./useFetchCardItems";
+
 
 enum LeftPane {
     Summary,
@@ -15,31 +15,14 @@ enum LeftPane {
     ZReport
 }
 
-enum RightPane {
-    MenuItems,
-    InventoryItems,
-    Employees
-}
-
 function ManagerView() {
-    const [currLeftPane, setCurrLeftPane] = useState<LeftPane>(LeftPane.Summary);
-    const [currRightPane, setCurrRightPane] = useState<RightPane>(RightPane.MenuItems);
-    const [items, setItems] = useState<CardItem[]>([]);
-
-    // Load info in the right pane
-    useEffect(() => {
-        switch (currRightPane) {
-            case RightPane.MenuItems:
-                setItems(MENU_ITEM_DATA);
-                break;
-            case RightPane.InventoryItems:
-                setItems(INVENTORY_ITEM_DATA);
-                break;
-            case RightPane.Employees:
-                setItems(EMPLOYEE_DATA);
-                break;
-        }
-    }, [currRightPane]);
+    const {
+        cardItems,
+        loading,
+        error,
+        currRightPane,
+        setCurrRightPane
+    } = useFetchCardItems();
 
     return (
         <div className={"Manager-view"}>
@@ -86,7 +69,7 @@ function ManagerView() {
                             <Nav.Link eventKey={RightPane.Employees}>Employees</Nav.Link>
                         </Nav.Item>
                     </Nav>
-                    <ItemGrid items={items} />
+                    <ItemGrid items={cardItems} />
                 </Col>
             </Row>
 

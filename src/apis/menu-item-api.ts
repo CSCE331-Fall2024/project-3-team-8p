@@ -6,30 +6,28 @@ import MenuItem from "../models/MenuItem";
 
 export class MenuItemApi extends BaseApiClient {
     constructor() {
+        // Set the base menu item endpoint
         super("menuitems");
 
-        // Add data model mapping interceptor
+        // Map API JSON responses to our MenuItem model
         this.apiClient.interceptors.response.use(
             response => {
-                const mapMenuItem = (item: any): MenuItem => {
-                    return new MenuItem(
+                response.data = response.data.map((item: any) => (
+                    new MenuItem(
                         item.menuItemId,
                         item.price,
-                        item.itemName
-                    );
-                };
-
-                response.data = response.data.map(mapMenuItem);
+                        item.itemName,
+                    )
+                ));
                 return response;
             }
         )
     }
 
-    /* Gets menu items by calling ApiClient
-    @param successCallback: function to call when request succeeds
-    @param failureCallback: function to call when request fails
+    /*
+    Gets all menu items
     */
-    async getMenuItems(): Promise<MenuItem[]> {
+    async getAllMenuItems(): Promise<MenuItem[]> {
         return await this.apiClient.get("");
     }
 }
