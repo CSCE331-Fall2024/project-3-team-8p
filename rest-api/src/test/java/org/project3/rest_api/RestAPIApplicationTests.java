@@ -22,9 +22,9 @@ class RestAPIApplicationTests {
 	private int port;
 
 	@Autowired
-	private TestRestTemplate restTemplate;
+	protected TestRestTemplate restTemplate;
 
-	private String baseUrl;
+	protected String baseUrl;
 
 	String jsonPrettier(String uglyJson) {
 		String prettyJson = "";
@@ -58,78 +58,5 @@ class RestAPIApplicationTests {
 		assertThat(controller).isNotNull();
 	}
 
-	@Test
-	void getMenuItemsReturnsCorrectCount() throws Exception {
-		String url = baseUrl+"menuitems";
-
-		String rawJson = this.restTemplate.getForObject(url, String.class);
-		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-		// check that there are at least 10 menu items
-		assertThat(
-				rawArray.length
-		).isGreaterThanOrEqualTo(10);
-
-		printResult(rawJson, "Menu Items");
-	}
-
-	@Test
-	void getInventoryItemsReturnsCorrectCount() throws Exception {
-		String url = baseUrl+"inventoryitems";
-
-		String rawJson = this.restTemplate.getForObject(url, String.class);
-		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-		// check that there are at least 20 inventory items
-		assertThat(
-				rawArray.length
-		).isGreaterThanOrEqualTo(20);
-
-		printResult(rawJson, "Inventory Items");
-
-	}
-
-	@Test
-	void getOrdersReturnsCorrectDefaultCount() throws Exception {
-		String url = baseUrl+"orders";
-
-		String rawJson = this.restTemplate.getForObject(url, String.class);
-		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-		// check that there are a default 50 orders
-		assertThat(
-				rawArray.length
-		).isEqualTo(50);
-
-		printResult(rawJson, "Orders");
-	}
-
-	@Test
-	void getOrdersReturnsCorrectParamCount() throws Exception {
-		int numOrders = 75;
-		String url = baseUrl+"orders?mostRecent="+numOrders;
-
-		String rawJson = this.restTemplate.getForObject(url, String.class);
-		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-		assertThat(rawArray.length).isEqualTo(numOrders);
-
-		printResult(rawJson, "Orders (Parameterized)");
-	}
-
-	@Test
-	void getEmployeesReturnsCorrectCount() throws  Exception {
-		String url = baseUrl+"employees";
-
-		String rawJson = this.restTemplate.getForObject(url, String.class);
-		Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-		// check that there are at least 5 employees
-		assertThat(
-				rawArray.length
-		).isGreaterThanOrEqualTo(5);
-
-		printResult(rawJson, "Employees");
-	}
 
 }
