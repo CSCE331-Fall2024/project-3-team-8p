@@ -12,20 +12,41 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.event.annotation.BeforeTestExecution;
 
+/*
+* Parent class for service tests
+* @author Soham Nagawanshi
+*/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RestAPIApplicationTests {
 
+	/*
+	* Instance of rest controller
+	*/
 	@Autowired
 	private RestAPIController controller;
 
+	/*
+	* Random port number
+	* */
 	@LocalServerPort
 	private int port;
 
+	/*
+	* Template that calls endpoints
+	* */
 	@Autowired
 	protected TestRestTemplate restTemplate;
 
+	/*
+	* Base url for endpoints
+	* */
 	protected String baseUrl;
 
+	/*
+	* Prettifies raw json input
+	* @param uglyJson: raw json input
+	* @return prettyJson: prettified json result
+	* */
 	String jsonPrettier(String uglyJson) {
 		String prettyJson = "";
 		try {
@@ -40,6 +61,12 @@ class RestAPIApplicationTests {
 		return prettyJson;
 	}
 
+	/*
+	* Prints json to console
+	* @param rawJson: raw json input
+	* @param name: service name
+	* */
+
 	void printResult(String rawJson, String name) {
 		System.out.println(name+": ");
 		System.out.println(
@@ -48,11 +75,17 @@ class RestAPIApplicationTests {
 		System.out.println("-".repeat(100));
 	}
 
-
+	/*
+	* Builds baseurl with random port and shared endpoint
+	* */
 	@BeforeEach
 	public void setup() {
 		baseUrl = "http://localhost:" + port + "/api/v1/";
 	}
+
+	/*
+	* Ensures controller is initialized properly
+	* */
 	@Test
 	void contextLoads() {
 		assertThat(controller).isNotNull();

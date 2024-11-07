@@ -4,8 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+* Tests endpoints related to employee service
+* */
 public class EmployeeServiceTests extends RestAPIApplicationTests{
 
+    /*
+    * Checks if expected count of employees is returned
+    * */
     @Test
     void getEmployeesReturnsCorrectCount() throws  Exception {
         String url = baseUrl+"employees";
@@ -13,10 +19,10 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
         String rawJson = this.restTemplate.getForObject(url, String.class);
         Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
 
-        // check that there are at least 5 employees
+        final int EXPECTED_EMPLOYEE_COUNT = 5;
         assertThat(
                 rawArray.length
-        ).isGreaterThanOrEqualTo(5);
+        ).isGreaterThanOrEqualTo(EXPECTED_EMPLOYEE_COUNT);
 
         printResult(rawJson, "Employees");
     }

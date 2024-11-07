@@ -4,7 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+* Tests endpoints related to inventory service
+* */
 public class InventoryServiceTests extends RestAPIApplicationTests{
+
+    /*
+    * Checks if expected count of inventory items is returned
+    * */
     @Test
     void getInventoryItemsReturnsCorrectCount() throws Exception {
         String url = baseUrl+"inventoryitems";
@@ -12,10 +19,10 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         String rawJson = this.restTemplate.getForObject(url, String.class);
         Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
 
-        // check that there are at least 20 inventory items
+        final int EXPECTED_ITEM_COUNT = 20;
         assertThat(
                 rawArray.length
-        ).isGreaterThanOrEqualTo(20);
+        ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
         printResult(rawJson, "Inventory Items");
 
