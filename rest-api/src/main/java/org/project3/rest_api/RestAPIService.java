@@ -62,6 +62,17 @@ public class RestAPIService {
         return results;
     }
 
+    private void executeUpdate(String query) {
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            // TODO (maybe): display stack trace graphically somewhere
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Selects all menu items
      *
@@ -120,4 +131,38 @@ public class RestAPIService {
         }
         return items;
     }
+    public void insertEmployee(Employee newEmployee) {
+        executeUpdate(String.format(QueryTemplate.insertEmployee,
+                newEmployee.employeeId,
+                newEmployee.isManager,
+                newEmployee.name
+        ));
+    }
+    public void insertOrder(Order newOrder) {
+        executeUpdate(String.format(QueryTemplate.insertOrder,
+                newOrder.orderId,
+                newOrder.cashierId,
+                newOrder.month,
+                newOrder.week,
+                newOrder.day,
+                newOrder.hour,
+                newOrder.price
+        ));
+    }
+    public void insertInventoryItem(InventoryItem newInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.insertInventoryItem,
+                newInventoryItem.inventoryItemId,
+                newInventoryItem.cost,
+                newInventoryItem.availableStock,
+                newInventoryItem.itemName
+        ));
+    }
+    public void insertMenuItem(MenuItem newMenuItem) {
+        executeUpdate(String.format(QueryTemplate.insertMenuItem,
+                newMenuItem.menuItemId,
+                newMenuItem.price,
+                newMenuItem.itemName
+        ));
+    }
+
 }
