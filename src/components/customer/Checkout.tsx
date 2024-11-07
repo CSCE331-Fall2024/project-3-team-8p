@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useNavigate } from 'react-router-dom'; // For navigation
 import { useCart } from '../../context/CartContext';  // Import the useCart hook
 import styled from 'styled-components';
@@ -67,8 +67,10 @@ const Button = styled.button`
 `;
 
 const Checkout: React.FC = () => {
-    const { cartItems, total } = useCart();  // Access cartItems and total from context
-    const navigate = useNavigate();  // For navigation
+    const { cartItems, total, clearCart } = useCart();// Access cartItems and total from context
+    //const { clearCart } = useContext(CartContext);
+
+    const navigate = useNavigate();// For navigation
 
     // Navigate to the customer view for ordering more items
     const handleOrderMore = () => {
@@ -79,6 +81,7 @@ const Checkout: React.FC = () => {
     const handlePlaceOrder = () => {
         alert('Order placed!');  // You can replace this with your actual order placement logic
         // Optionally clear the cart and navigate
+        clearCart();
         navigate('/customer');  // Reset to customer view after placing the order
     };
 
