@@ -28,6 +28,13 @@ public class MenuItem {
     public String itemName;
 
     /**
+     * A map to store inventory items required to create the menu item and their quantities
+     */
+    public Map<InventoryItem, Integer> inventoryItems = new HashMap<>();
+
+    /**
+
+     /**
      * Constructor to create a MenuItem with a specified ID.
      *
      * @param menuItemId the unique ID of the menu item
@@ -48,5 +55,13 @@ public class MenuItem {
      */
     public MenuItem(Double price, String itemName) {
         this(UUID.randomUUID(), price, itemName);
+    }
+
+    public Boolean isAvailable() {
+        for (InventoryItem item : inventoryItems.keySet()) {
+            if (item.availableStock <= 0)
+                return false;
+        }
+        return true;
     }
 }
