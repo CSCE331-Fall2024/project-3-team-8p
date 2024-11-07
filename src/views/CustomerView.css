@@ -40,7 +40,8 @@
   height: auto;
   margin: 0 20px; /* Optional margin for spacing around the logo */
 }
-.padding{
-  margin-top: 40px;
-  background-color: #D51A1F;
+.padding {
+  margin-top: 20px; /* Reduced margin to avoid excessive space */
+  padding: 0px; /* Optional padding if you need inner space */
+  background-color: transparent; /* Change or remove background if not required */
 }

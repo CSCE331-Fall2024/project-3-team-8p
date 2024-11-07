@@ -1,6 +1,7 @@
 // CustomerView.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import listings from '../components/customer/listingData'; // Import listings
 import './CustomerView.css';
 import ListingCard from '../components/customer/ListingCard';
@@ -49,7 +50,9 @@ function CustomerView() {
             <div className="button-container">
                 <button className="black-button">Accessibility</button>
                 <img src={banner} alt="Centered Top Image" className="BannerImage" />
+                <Link to={"/checkout"}>
                 <button className="black-button">Checkout</button>
+                </Link>
             </div>
             <div className="cardSection">
                 {listings[activeTab].map((listing, index) => {
