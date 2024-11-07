@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { MenuItemApi } from "../../apis/menu-item-api";
 import CardItem from "../../models/interfaces/CardItem";
+import { InventoryItemApi } from "../../apis/inventory-item-api";
+import { EmployeeApi } from "../../apis/employee-api";
 
 
 enum RightPane {
@@ -10,6 +12,8 @@ enum RightPane {
 }
 
 const menuItemApi = new MenuItemApi();
+const inventoryItemApi = new InventoryItemApi()
+const employeeApi = new EmployeeApi()
 
 const useFetchCardItems = () => {
     const [currRightPane, setCurrRightPane] = useState<RightPane>(RightPane.MenuItems);
@@ -24,10 +28,14 @@ const useFetchCardItems = () => {
                 let itemData: CardItem[];
                 switch (currRightPane) {
                     case RightPane.MenuItems:
-                        itemData = await menuItemApi.getAllMenuItems();
+                        itemData = await menuItemApi.getMenuItems();
                         break;
                     case RightPane.InventoryItems:
+                        itemData = await inventoryItemApi.getInventoryItems();
+                        break;
                     case RightPane.Employees:
+                        itemData = await employeeApi.getEmployees();
+                        break;
                     default:
                         itemData = [];
                         break;

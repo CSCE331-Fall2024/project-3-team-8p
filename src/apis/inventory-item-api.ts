@@ -1,22 +1,23 @@
 /*
-endpoints for menu item-related requests
+endpoints for inventory-related requests
 */
 import BaseApi from "./base-api";
-import MenuItem from "../models/MenuItem";
+import InventoryItem from "../models/InventoryItem";
 
-export class MenuItemApi extends BaseApi {
+export class InventoryItemApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
-        super("menuitems");
+        super("inventoryitems");
 
         // Map API JSON responses to our MenuItem model
         this.apiClient.interceptors.response.use(
             response => {
                 return response.data.map((item: any) => (
-                    new MenuItem(
-                        item.menuItemId,
-                        item.price,
-                        item.itemName,
+                    new InventoryItem(
+                        item.inventoryItemId,
+                        item.cost,
+                        item.availableStock,
+                        item.itemName
                     )
                 ));
             }
@@ -26,7 +27,7 @@ export class MenuItemApi extends BaseApi {
     /*
     Gets all menu items
     */
-    async getMenuItems(): Promise<MenuItem[]> {
+    async getInventoryItems(): Promise<InventoryItem[]> {
         return await this.apiClient.get("");
     }
 }

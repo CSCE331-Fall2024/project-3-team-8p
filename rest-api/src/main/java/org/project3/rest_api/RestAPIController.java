@@ -24,7 +24,7 @@ public class RestAPIController {
      * '@autowired' automatically instantiates restService
      * */
     @Autowired
-    private RestAPIService restService;
+    private RestAPIService restService; 
 
     /**
      * Queries all menu items from database
