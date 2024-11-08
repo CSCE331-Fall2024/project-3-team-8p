@@ -137,12 +137,12 @@ public class RestAPIService {
         ));
     }
     public void insertOrder(Order newOrder) {
-        for (InventoryItem item : newOrder.inventoryItems.keySet()) {
-            executeUpdate(String.format(QueryTemplate.decreaseInventoryItemQty,
-                    newOrder.inventoryItems.get(item),
-                    item.inventoryItemId
-            ));
-        }
+//        for (InventoryItem item : newOrder.inventoryItems.keySet()) {
+//            executeUpdate(String.format(QueryTemplate.decreaseInventoryItemQty,
+//                    newOrder.inventoryItems.get(item),
+//                    item.inventoryItemId
+//            ));
+//        }
         executeUpdate(String.format(QueryTemplate.insertOrder,
                 newOrder.orderId,
                 newOrder.cashierId,
@@ -152,14 +152,14 @@ public class RestAPIService {
                 newOrder.hour,
                 newOrder.price
         ));
-        for (MenuItem item : newOrder.menuItems.keySet()) {
-            Integer menuItemQty = newOrder.menuItems.get(item);
-            executeUpdate(String.format(QueryTemplate.insertOrderToMenuItem,
-                    newOrder.orderId,
-                    item.menuItemId,
-                    menuItemQty
-            ));
-        }
+//        for (MenuItem item : newOrder.menuItems.keySet()) {
+//            Integer menuItemQty = newOrder.menuItems.get(item);
+//            executeUpdate(String.format(QueryTemplate.insertOrderToMenuItem,
+//                    newOrder.orderId,
+//                    item.menuItemId,
+//                    menuItemQty
+//            ));
+//        }
     }
     public void insertInventoryItem(InventoryItem newInventoryItem) {
         executeUpdate(String.format(QueryTemplate.insertInventoryItem,

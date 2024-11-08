@@ -7,8 +7,6 @@ import org.project3.rest_api.models.Order;
 import org.project3.rest_api.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.UUID;
-
 import java.util.List;
 
 
@@ -52,65 +50,22 @@ public class RestAPIController {
     }
 
     @PostMapping("/employees")
-    public void addEmployee(
-            @RequestParam (name = "employeeId", required = false) UUID employeeId,
-            @RequestParam boolean isManager,
-            @RequestParam String name) {
-        Employee newEmployee;
-        if (employeeId == null) {
-            newEmployee = new Employee(employeeId, isManager, name);
-        }
-        else{
-            newEmployee = new Employee(isManager, name);
-        }
+    public void addEmployee(@RequestBody Employee newEmployee) {
         restService.insertEmployee(newEmployee);
     }
-    @PostMapping("/menu-items")
-    public void addMenuItem(
-            @RequestParam (name = "menuItemId", required = false) UUID menuitemId,
-            @RequestParam Double price,
-            @RequestParam String itemName) {
-        MenuItem newMenuItem;
-        if (menuitemId == null) {
-            newMenuItem = new MenuItem(menuitemId, price, itemName);
-        }
-        else{
-            newMenuItem = new MenuItem(price, itemName);
-        }
+    @PostMapping(value = "/menu-items")
+    public void addMenuItem(@RequestBody MenuItem newMenuItem) {
+        System.out.println(newMenuItem);
         restService.insertMenuItem(newMenuItem);
     }
+
     @PostMapping("/inventory-items")
-    public void addInventoryItem(
-            @RequestParam (name = "inventoryItemId", required = false) UUID inventoryItemId,
-            @RequestParam Double cost,
-            @RequestParam Integer availableStock,
-            @RequestParam String itemName) {
-        InventoryItem newInventoryItem;
-        if (inventoryItemId == null) {
-            newInventoryItem = new InventoryItem(inventoryItemId, cost, availableStock, itemName);
-        }
-        else{
-            newInventoryItem = new InventoryItem(cost, availableStock, itemName);
-        }
+    public void addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
         restService.insertInventoryItem(newInventoryItem);
     }
-    @PostMapping("/orders")
-    public void addOrder(
-            @RequestParam (name = "orderId", required = false) UUID orderId,
-            @RequestParam (name = "cashierId") UUID cashierId,
-            @RequestParam Integer month,
-            @RequestParam Integer week,
-            @RequestParam Integer day,
-            @RequestParam Integer hour,
-            @RequestParam Double price) {
-        Order newOrder;
-        if (orderId == null) {
-            newOrder = new Order( cashierId, month, week, day, hour, price);
-        }
-        else{
-            newOrder = new Order(orderId, cashierId, month, week, day, hour, price);
-        }
+    @PostMapping(value = "/orders")
+    public void addOrder(@RequestBody Order newOrder) {
+        System.out.println(newOrder);
         restService.insertOrder(newOrder);
     }
-
 }
