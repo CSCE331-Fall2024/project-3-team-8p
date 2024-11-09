@@ -14,7 +14,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     * Checks if expected count of menu items is returned
     * */
     @Test
-    void getMenuItemsReturnsCorrectCount() throws Exception {
+    void getMenuItemsReturnsCorrectCount() {
         String url = baseUrl+"menuitems";
 
         String rawJson = this.restTemplate.getForObject(url, String.class);

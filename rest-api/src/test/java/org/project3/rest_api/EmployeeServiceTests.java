@@ -13,7 +13,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
     * Checks if expected count of employees is returned
     * */
     @Test
-    void getEmployeesReturnsCorrectCount() throws  Exception {
+    void getEmployeesReturnsCorrectCount() {
         String url = baseUrl+"employees";
 
         String rawJson = this.restTemplate.getForObject(url, String.class);

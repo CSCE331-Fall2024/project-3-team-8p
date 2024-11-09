@@ -13,7 +13,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     * Checks if expected count of inventory items is returned
     * */
     @Test
-    void getInventoryItemsReturnsCorrectCount() throws Exception {
+    void getInventoryItemsReturnsCorrectCount() {
         String url = baseUrl+"inventoryitems";
 
         String rawJson = this.restTemplate.getForObject(url, String.class);

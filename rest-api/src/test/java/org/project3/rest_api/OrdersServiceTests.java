@@ -13,7 +13,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * Checks if correct default count of orders is returned
     * */
     @Test
-    void getOrdersReturnsCorrectDefaultCount() throws Exception {
+    void getOrdersReturnsCorrectDefaultCount() {
         String url = baseUrl+"orders";
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
@@ -31,7 +31,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * Checks if correct parameterized count of orders is returned
     * */
     @Test
-    void getOrdersReturnsCorrectParamCount() throws Exception {
+    void getOrdersReturnsCorrectParamCount() {
         int EXPECTED_ORDER_COUNT = 75;
         String url = baseUrl+"orders?mostRecent="+EXPECTED_ORDER_COUNT;
 
