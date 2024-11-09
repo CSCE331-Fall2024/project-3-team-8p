@@ -29,21 +29,33 @@ public class RestAPIController {
      * Queries all menu items from database
      * @return list of MenuItem
      */
-    @GetMapping("/menuitems")
+    @GetMapping("/menu-items")
     public List<MenuItem> getMenuItems() {
         return restService.selectMenuItems();
     }
 
-    @GetMapping("/inventoryitems")
+    /**
+    * Queries all inventory items from database
+    * @return list of InventoryItem
+    */
+    @GetMapping("/inventory-items")
     public List<InventoryItem> getInventoryItems() {
         return restService.selectInventoryItems();
     }
 
+    /**
+     * Queries provided number of orders from database
+     * @return list of Order
+     * */
     @GetMapping("/orders")
     public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
         return restService.selectOrders(mostRecent);
     }
 
+    /**
+     * Queries employees from database
+     * @return list of employee
+     * */
     @GetMapping("/employees")
     public List<Employee> getEmployees() {
         return restService.selectEmployees();
