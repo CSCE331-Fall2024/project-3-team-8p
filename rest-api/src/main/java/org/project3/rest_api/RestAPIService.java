@@ -61,6 +61,15 @@ public class RestAPIService {
 
         return results;
     }
+    private void executeUpdate(String query) {
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Selects all menu items
@@ -79,6 +88,13 @@ public class RestAPIService {
         }
         return items;
     }
+    public void updateMenuItem(MenuItem updatedMenuItem) {
+        executeUpdate(String.format(QueryTemplate.updateMenuItem,
+                updatedMenuItem.price,
+                updatedMenuItem.itemName,
+                updatedMenuItem.menuItemId
+        ));
+    }
 
     public List<InventoryItem> selectInventoryItems() {
         List<InventoryItem> items = null;
@@ -91,6 +107,14 @@ public class RestAPIService {
             e.printStackTrace();
         }
         return items;
+    }
+    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
+                updatedInventoryItem.cost,
+                updatedInventoryItem.availableStock,
+                updatedInventoryItem.itemName,
+                updatedInventoryItem.inventoryItemId
+        ));
     }
 
     public List<Employee> selectEmployees() {
@@ -106,6 +130,14 @@ public class RestAPIService {
         }
         return items;
     }
+    public void updateEmployee(Employee updatedEmployee) {
+        executeUpdate(String.format(QueryTemplate.updateEmployee,
+                updatedEmployee.isManager,
+                updatedEmployee.name,
+                updatedEmployee.employeeId
+        ));
+    }
+
 
     public List<Order> selectOrders(Integer mostRecent) {
         List<Order> items = null;

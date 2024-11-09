@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -49,5 +50,19 @@ public class RestAPIController {
     public List<Employee> getEmployees() {
         return restService.selectEmployees();
     }
+    @PutMapping("/employees/{employeeId}")
+    public void updateEmployee(@PathVariable UUID employeeId, @RequestBody Employee updatedEmployee) {
+        restService.updateEmployee(updatedEmployee);
+    }
+    @PutMapping("/menuitems/{menuItemId}")
+    public void updateMenuItem(@PathVariable UUID menuItemId, @RequestBody MenuItem updatedMenuItem) {
+        restService.updateMenuItem(updatedMenuItem);
+    }
+    @PutMapping("/inventoryitems/{inventoryItemId}")
+    public void updateInventoryItem(@PathVariable UUID inventoryItemId, @RequestBody InventoryItem updatedInventoryItem) {
+        restService.updateInventoryItem(updatedInventoryItem);
+    }
+
+
 
 }

@@ -10,6 +10,8 @@ public class InventoryItem{
     public Integer availableStock;
     public String itemName;
 
+    public InventoryItem(){}
+
     public InventoryItem(UUID inventoryItemId, Double cost, Integer availableStock, String itemName){
         this.inventoryItemId = inventoryItemId;
         this.cost = cost;
