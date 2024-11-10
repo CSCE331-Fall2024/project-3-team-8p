@@ -35,14 +35,7 @@ public class RestAPIController {
         return restService.selectMenuItems();
     }
 
-    /**
-    * Queries all inventory items from database
-    * @return list of InventoryItem
-    */
-    @GetMapping("/inventory-items")
-    public List<InventoryItem> getInventoryItems() {
-        return restService.selectInventoryItems();
-    }
+
 
     /**
      * Queries provided number of orders from database
@@ -67,21 +60,6 @@ public class RestAPIController {
         }
 
         restService.insertMenuItem(newMenuItem);
-    }
-
-    /**
-     * Creates new inventory items in database
-     * @param newInventoryItem  InventoryItem object to be created in database
-     * */
-    @PostMapping("/inventory-items")
-    public void addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
-
-        // Create an inventory item id if not provided by the user
-        if (newInventoryItem.inventoryItemId == null) {
-            newInventoryItem.inventoryItemId = UUID.randomUUID();
-        }
-
-        restService.insertInventoryItem(newInventoryItem);
     }
 
     /**
