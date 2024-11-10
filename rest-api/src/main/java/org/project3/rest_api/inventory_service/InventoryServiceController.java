@@ -10,7 +10,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/inventory-service")
 @CrossOrigin
-public class InventoryController extends RestAPIController {
+public class InventoryServiceController extends RestAPIController {
 
     /**
      * Queries all inventory items from database
