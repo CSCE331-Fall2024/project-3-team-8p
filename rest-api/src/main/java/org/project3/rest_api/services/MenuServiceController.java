@@ -22,7 +22,7 @@ public class MenuServiceController extends RestAPIController {
      */
     @GetMapping
     public List<MenuItem> getMenuItems() {
-        return restService.selectMenuItems();
+        return dbConnector.selectMenuItems();
     }
 
     /**
@@ -37,6 +37,6 @@ public class MenuServiceController extends RestAPIController {
             newMenuItem.menuItemId = UUID.randomUUID();
         }
 
-        restService.insertMenuItem(newMenuItem);
+        dbConnector.insertMenuItem(newMenuItem);
     }
 }

@@ -22,7 +22,7 @@ public class EmployeeServiceController extends RestAPIController {
      * */
     @GetMapping
     public List<Employee> getEmployees() {
-        return restService.selectEmployees();
+        return dbConnector.selectEmployees();
     }
 
     /**
@@ -37,6 +37,6 @@ public class EmployeeServiceController extends RestAPIController {
             newEmployee.employeeId = UUID.randomUUID();
         }
 
-        restService.insertEmployee(newEmployee);
+        dbConnector.insertEmployee(newEmployee);
     }
 }

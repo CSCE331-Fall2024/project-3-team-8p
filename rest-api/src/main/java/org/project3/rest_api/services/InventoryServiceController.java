@@ -22,7 +22,7 @@ public class InventoryServiceController extends RestAPIController {
      */
     @GetMapping
     public List<InventoryItem> getInventoryItems() {
-        return restService.selectInventoryItems();
+        return dbConnector.selectInventoryItems();
     }
 
     /**
@@ -37,6 +37,6 @@ public class InventoryServiceController extends RestAPIController {
             newInventoryItem.inventoryItemId = UUID.randomUUID();
         }
 
-        restService.insertInventoryItem(newInventoryItem);
+        dbConnector.insertInventoryItem(newInventoryItem);
     }
 }

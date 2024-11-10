@@ -23,7 +23,7 @@ public class OrderServiceController extends RestAPIController {
      * */
     @GetMapping
     public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
-        return restService.selectOrders(mostRecent);
+        return dbConnector.selectOrders(mostRecent);
     }
 
     /**
@@ -38,6 +38,6 @@ public class OrderServiceController extends RestAPIController {
             newOrder.orderId = UUID.randomUUID();
         }
 
-        restService.insertOrder(newOrder);
+        dbConnector.insertOrder(newOrder);
     }
 }
