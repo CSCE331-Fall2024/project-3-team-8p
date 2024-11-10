@@ -114,7 +114,12 @@ public class RestAPIController {
     * */
     @PostMapping(value = "/orders")
     public void addOrder(@RequestBody Order newOrder) {
-        System.out.println(newOrder);
+
+        // Create an order id if not provided by the user
+        if (newOrder.orderId == null) {
+            newOrder.orderId = UUID.randomUUID();
+        }
+
         restService.insertOrder(newOrder);
     }
 }
