@@ -82,7 +82,7 @@ public class RestAPIController {
      * Creates new menu item in database
      * @param newMenuItem MenuItem object to be created in database
     * */
-    @PostMapping(value = "/menu-items")
+    @PostMapping("/menu-items")
     public void addMenuItem(@RequestBody MenuItem newMenuItem) {
 
         // Create a menu item id if not provided by the user
@@ -93,10 +93,25 @@ public class RestAPIController {
         restService.insertMenuItem(newMenuItem);
     }
 
+    /**
+     * Creates new inventory items in database
+     * @param newInventoryItem  InventoryItem object to be created in database
+     * */
     @PostMapping("/inventory-items")
     public void addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
+
+        // Create an inventory item id if not provided by the user
+        if (newInventoryItem.inventoryItemId == null) {
+            newInventoryItem.inventoryItemId = UUID.randomUUID();
+        }
+
         restService.insertInventoryItem(newInventoryItem);
     }
+
+    /**
+     * Creates new orders in database
+     * @param newOrder Order object to be created in database
+    * */
     @PostMapping(value = "/orders")
     public void addOrder(@RequestBody Order newOrder) {
         System.out.println(newOrder);

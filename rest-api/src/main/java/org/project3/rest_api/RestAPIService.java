@@ -161,6 +161,7 @@ public class RestAPIService {
 //            ));
 //        }
     }
+
     public void insertInventoryItem(InventoryItem newInventoryItem) {
         executeUpdate(String.format(QueryTemplate.insertInventoryItem,
                 newInventoryItem.inventoryItemId,
@@ -169,6 +170,7 @@ public class RestAPIService {
                 newInventoryItem.itemName
         ));
     }
+
     public void insertMenuItem(MenuItem newMenuItem) {
         executeUpdate(String.format(QueryTemplate.insertMenuItem,
                 newMenuItem.menuItemId,
