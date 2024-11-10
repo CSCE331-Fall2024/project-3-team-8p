@@ -1,27 +1,54 @@
 package org.project3.rest_api.models;
 
 import java.util.UUID;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * The Employee class represents an employee in the Panda Express POS system.
+ * It stores information about the employee, including their ID, whether they are a manager, and their name.
+ *
+ * @author Kevin Zhang
+ */
 
 public class Employee {
-    @JsonProperty("employeeId")
+    /**
+     * Unique identifier for the employee
+     */
     public UUID employeeId;
-    @JsonProperty("isManager")
+
+    /**
+     * Boolean indicating if the employee is a manager
+     */
     public boolean isManager;
-    @JsonProperty("name")
+
+    /**
+     * Name of the employee
+     */
     public String name;
 
-    public Employee(@JsonProperty("employeeId") UUID employeeId, @JsonProperty("isManager")boolean isManager,  @JsonProperty("name")String name) {
+    /**
+     * Constructor to create an Employee with a specified ID.
+     *
+     * @param employeeId the unique ID of the employee
+     * @param isManager  whether the employee is a manager
+     * @param name       the name of the employee
+     */
+    public Employee(UUID employeeId, boolean isManager, String name) {
         this.employeeId = employeeId;
         this.isManager = isManager;
         this.name = name;
     }
-
+    /**
+     * Constructor to create an Employee with an automatically generated ID.
+     *
+     * @param isManager whether the employee is a manager
+     * @param name      the name of the employee
+     */
     public Employee(boolean isManager, String name) {
         this(UUID.randomUUID(), isManager, name);
     }
-    Employee() {
-
-    }
+    /**
+     * Default constructor for Employee
+     */
+    Employee() {}
 
 }
