@@ -25,11 +25,11 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         String url = baseUrl;
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
-        Order[] rawArray = this.restTemplate.getForObject(url, Order[].class);
+        Order[] itemArray = this.restTemplate.getForObject(url, Order[].class);
 
         final int DEFAULT_ORDER_COUNT = 50;
         assertThat(
-                rawArray.length
+                itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
 
         printResult(rawJson, "Orders");
