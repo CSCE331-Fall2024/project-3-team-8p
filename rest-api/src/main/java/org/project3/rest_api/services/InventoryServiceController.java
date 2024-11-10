@@ -1,11 +1,15 @@
-package org.project3.rest_api.inventory_service;
+package org.project3.rest_api.services;
 
-import org.project3.rest_api.RestAPIController;
 import org.project3.rest_api.models.InventoryItem;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * Exposes inventory-related services through endpoints
+ * @author Soham Nagawanshi
+ * */
 
 @RestController
 @RequestMapping("api/inventory-service")

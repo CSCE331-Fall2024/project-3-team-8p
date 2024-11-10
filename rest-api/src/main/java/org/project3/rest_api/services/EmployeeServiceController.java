@@ -1,6 +1,5 @@
-package org.project3.rest_api.employee_service;
+package org.project3.rest_api.services;
 
-import org.project3.rest_api.RestAPIController;
 import org.project3.rest_api.models.Employee;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +8,7 @@ import java.util.UUID;
 
 /**
  * Exposes employee-related services through endpoints
+ * @author Soham Nagawanshi
  * */
 
 @RestController

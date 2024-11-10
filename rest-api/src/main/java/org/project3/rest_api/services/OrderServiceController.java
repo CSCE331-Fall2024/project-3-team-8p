@@ -1,12 +1,16 @@
-package org.project3.rest_api.order_service;
+package org.project3.rest_api.services;
 
-import org.project3.rest_api.RestAPIController;
 import org.project3.rest_api.models.Order;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+
+/**
+ * Exposes order-related services through endpoints
+ * @author Soham Nagawanshi
+ * */
 @RestController
 @RequestMapping("api/order-service")
 @CrossOrigin

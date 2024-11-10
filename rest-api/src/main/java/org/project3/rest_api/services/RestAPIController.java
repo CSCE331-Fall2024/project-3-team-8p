@@ -1,18 +1,13 @@
-package org.project3.rest_api;
+package org.project3.rest_api.services;
 
 
-import org.project3.rest_api.models.MenuItem;
-import org.project3.rest_api.models.InventoryItem;
-import org.project3.rest_api.models.Order;
-import org.project3.rest_api.models.Employee;
+import org.project3.rest_api.database.DBConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.UUID;
 
 
 /**
-* This class exposes database items through REST API endpoints
+* Exposes database items through REST API endpoints
 * @author Soham Nagawanshi
 */
 @RestController
@@ -24,5 +19,5 @@ public class RestAPIController {
      * '@autowired' automatically instantiates restService
      * */
     @Autowired
-    protected RestAPIService restService;
+    protected DBConnector restService;
 }

@@ -1,4 +1,4 @@
-package org.project3.rest_api;
+package org.project3.rest_api.database;
 
 import org.project3.rest_api.models.*;
 

@@ -1,11 +1,15 @@
-package org.project3.rest_api.menu_service;
+package org.project3.rest_api.services;
 
-import org.project3.rest_api.RestAPIController;
 import org.project3.rest_api.models.MenuItem;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * Exposes menu-related services through endpoints
+ * @author Soham Nagawanshi
+ * */
 
 @RestController
 @RequestMapping("api/menu-service")
