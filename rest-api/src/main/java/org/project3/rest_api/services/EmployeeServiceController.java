@@ -2,6 +2,7 @@ package org.project3.rest_api.services;
 
 import org.project3.rest_api.models.Employee;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.PatchExchange;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,4 +40,21 @@ public class EmployeeServiceController extends RestAPIController {
 
         dbConnector.insertEmployee(newEmployee);
     }
+
+    /**
+     * Updates employees in database
+     * @param employeeId ID of employee to update
+     * @param newIsManager new employee position
+     * @param newName new employee name
+     * */
+    @PutMapping
+    public void updateEmployee(@PathVariable UUID employeeId,
+                               @RequestParam(required = false) Boolean newIsManager,
+                               @RequestParam(required = false) String newName) {
+        System.out.println(employeeId);
+        System.out.println(newIsManager);
+        System.out.println(newName);
+
+    }
+
 }
