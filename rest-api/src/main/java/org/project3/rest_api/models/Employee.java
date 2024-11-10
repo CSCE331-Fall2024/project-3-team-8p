@@ -1,7 +1,5 @@
 package org.project3.rest_api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.UUID;
 
 public class Employee {

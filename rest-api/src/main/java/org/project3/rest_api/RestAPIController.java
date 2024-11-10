@@ -24,7 +24,7 @@ public class RestAPIController {
      * '@autowired' automatically instantiates restService
      * */
     @Autowired
-    private RestAPIService restService;
+    protected RestAPIService restService;
 
     /**
      * Queries all menu items from database
@@ -52,30 +52,6 @@ public class RestAPIController {
     @GetMapping("/orders")
     public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
         return restService.selectOrders(mostRecent);
-    }
-
-    /**
-     * Queries employees from database
-     * @return list of employee
-     * */
-    @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        return restService.selectEmployees();
-    }
-
-    /**
-     * Creates new employee in database
-     * @param newEmployee Employee object to be created in database
-    */
-    @PostMapping("/employees")
-    public void addEmployee(@RequestBody Employee newEmployee) {
-
-        // Create an employee id if not provided by the user
-        if (newEmployee.employeeId == null) {
-            newEmployee.employeeId = UUID.randomUUID();
-        }
-
-        restService.insertEmployee(newEmployee);
     }
 
     /**
