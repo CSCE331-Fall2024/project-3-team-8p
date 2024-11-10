@@ -6,7 +6,9 @@ import java.util.UUID;
  * The InventoryItem class represents an item in the inventory for the Panda Express POS system.
  * It stores information about the inventory item, including its ID, cost, available stock, and name.
  *
- * @auther Kevin Zhang
+ * @author Kevin Zhang
+ * @author Soham Nagawanshi
+ * @author Ryan Kha
  */
 public class InventoryItem {
     /**
@@ -54,4 +56,9 @@ public class InventoryItem {
     public InventoryItem(Double cost, Integer availableStock, String itemName) {
         this(UUID.randomUUID(), cost, availableStock, itemName);
     }
+
+    /**
+     * No-arg default constructor for InventoryItem
+     * */
+    public InventoryItem() {}
 }

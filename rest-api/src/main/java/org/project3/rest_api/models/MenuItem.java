@@ -1,9 +1,5 @@
 package org.project3.rest_api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -28,26 +24,7 @@ public class MenuItem {
      * Name of the menu item
      */
     public String itemName;
-    /**
-     * A map to store inventory items required to create the menu item and their quantities
-     */
-//    @JsonProperty("inventoryItems")
-//    public Map<InventoryItem, Integer> inventoryItems = new HashMap<>();
-    /**
-     * Checks if the menu item is available based on the availability of its required inventory items.
-     *
-     * @return true if all inventory items required for the menu item are available, false otherwise
-     */
-//    public Boolean isAvailable() {
-//        for (InventoryItem item : inventoryItems.keySet()) {
-//            if (item.availableStock <= 0)
-//                return false;
-//        }
-//        return true;
-//    }
-    public MenuItem(){
 
-    }
     /**
      * Constructor to create a MenuItem with a specified ID.
      *
@@ -55,7 +32,7 @@ public class MenuItem {
      * @param price      the price of the menu item
      * @param itemName   the name of the menu item
      */
-    public MenuItem(@JsonProperty("menuItemId") UUID menuItemId, @JsonProperty("price") Double price, @JsonProperty("itemName") String itemName) {
+    public MenuItem(UUID menuItemId, Double price, String itemName) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
@@ -72,12 +49,8 @@ public class MenuItem {
     }
 
     /**
-     * Adds or updates the quantity of an InventoryItem required for this menu item.
-     *
-     * @param item     the inventory item to be added or updated
-     * @param quantity the quantity of the inventory item required for the menu item
-     */
-//    public void addOrUpdateInventoryItem(InventoryItem item, Integer quantity) {
-//        inventoryItems.put(item, quantity);
-//    }
+     * No-arg default constructor for MenuItem
+     * */
+    public MenuItem() {}
+
 }

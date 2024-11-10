@@ -7,6 +7,8 @@ import java.util.UUID;
  * It stores information about the employee, including their ID, whether they are a manager, and their name.
  *
  * @author Kevin Zhang
+ * @author Soham Nagawanshi
+ * @author Ryan Kha
  */
 
 public class Employee {
@@ -47,8 +49,8 @@ public class Employee {
         this(UUID.randomUUID(), isManager, name);
     }
     /**
-     * Default constructor for Employee
+     * No-arg default constructor for Employee
      */
-    Employee() {}
+    public Employee() {}
 
 }

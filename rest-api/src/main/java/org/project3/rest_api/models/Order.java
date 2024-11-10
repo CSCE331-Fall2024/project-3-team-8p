@@ -1,8 +1,6 @@
 package org.project3.rest_api.models;
 
 import java.util.UUID;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The Order class represents a customer order in the Panda Express POS system.
@@ -10,6 +8,8 @@ import java.util.Map;
  * total price, and items purchased. The items are divided into two categories: inventory items and menu items.
  *
  * @author Kevin Zhang
+ * @author Soham Nagawanshi
+ * @author Ryan Kha
  */
 public class Order {
     /**
@@ -46,16 +46,6 @@ public class Order {
      * Total price of the order
      */
     public Double price;
-
-    /**
-     * A map to store inventory items in the order and their quantities
-     */
-    public Map<InventoryItem, Integer> inventoryItems = new HashMap<>();
-
-    /**
-     * A map to store menu items in the order and their quantities
-     */
-    public Map<MenuItem, Integer> menuItems = new HashMap<>();
 
     /**
      * Constructor to create an Order with an automatically generated order ID.
@@ -106,25 +96,9 @@ public class Order {
     }
 
     /**
-     * Adds or updates the quantity of an InventoryItem in the order.
-     *
-     * @param item     the inventory item to be added or updated
-     * @param quantity the quantity of the item
-     */
-    public void addOrUpdateInventoryItem(InventoryItem item, int quantity) {
-        inventoryItems.put(item, quantity);
-    }
+     * No-arg default constructor for order
+     * */
+    public Order() {}
 
-    /**
-     * Adds or updates the quantity of a MenuItem in the order.
-     * Adjusts the total price of the order based on the new quantity of the menu item.
-     *
-     * @param item     the menu item to be added or updated
-     * @param quantity the quantity of the item
-     */
-    public void addOrUpdateMenuItem(MenuItem item, int quantity) {
-        double priceDiff = (quantity - menuItems.getOrDefault(item, 0)) * item.price;
-        price += priceDiff;
-        menuItems.put(item, quantity);
-    }
 }
+
