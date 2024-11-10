@@ -6,7 +6,7 @@ import org.project3.rest_api.models.MenuItem;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/*
+/**
 * Tests endpoints related to menu service
 * */
 public class MenuServiceTests extends RestAPIApplicationTests {
@@ -16,11 +16,11 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         baseUrl += "menu-service";
     }
 
-    /*
-    * Checks if expected count of menu items is returned
+    /**
+    * Checks if GET returns expected menu item count
     * */
     @Test
-    void getMenuItemsReturnsCorrectCount() {
+    void getMenuItemReturnsCorrectCount() {
         String url = baseUrl;
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
@@ -34,11 +34,13 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         printResult(rawJson, "Menu Items");
     }
 
+    /**
+     * Checks if POST correctly increments menu item count
+     * */
     @Test
-    void getMenuItemsIncrementsCount() {
+    void postMenuItemIncrementsCount() {
         String url = baseUrl;
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
         MenuItem[] oldItemArray = this.restTemplate.getForObject(url, MenuItem[].class);
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
@@ -47,12 +49,12 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         this.restTemplate.postForObject(baseUrl,
                 new MenuItem(
                         12.99,
-                        "Mystery Item"
+                        "Test Menu Item"
                 ),
                 MenuItem.class
         );
 
-        rawJson = this.restTemplate.getForObject(url, String.class);
+        String rawJson = this.restTemplate.getForObject(url, String.class);
         MenuItem[] newItemArray = this.restTemplate.getForObject(url, MenuItem[].class);
 
         assertThat(
@@ -60,8 +62,6 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
         printResult(rawJson, "Menu Items");
-
-
 
     }
 

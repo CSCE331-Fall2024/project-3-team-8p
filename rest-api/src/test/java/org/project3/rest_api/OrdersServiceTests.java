@@ -1,8 +1,8 @@
 package org.project3.rest_api;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,11 +17,11 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         baseUrl+="order-service";
     }
 
-    /*
-    * Checks if correct default count of orders is returned
+    /**
+    * Checks if GET returns correct order count
     * */
     @Test
-    void getOrdersReturnsCorrectDefaultCount() {
+    void getOrderReturnsCorrectDefaultCount() {
         String url = baseUrl;
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
@@ -35,11 +35,11 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         printResult(rawJson, "Orders");
     }
 
-    /*
-    * Checks if correct parameterized count of orders is returned
+    /**
+    * Checks if GET returns correct parameterized order count
     * */
     @Test
-    void getOrdersReturnsCorrectParamCount() {
+    void getOrderReturnsCorrectParamCount() {
         int EXPECTED_ORDER_COUNT = 75;
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
