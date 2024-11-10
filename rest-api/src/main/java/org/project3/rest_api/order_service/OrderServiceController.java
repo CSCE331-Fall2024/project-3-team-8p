@@ -17,7 +17,7 @@ public class OrderServiceController extends RestAPIController {
      * @param mostRecent number of most recent orders to query
      * @return list of Order
      * */
-    @GetMapping("/orders")
+    @GetMapping
     public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
         return restService.selectOrders(mostRecent);
     }
@@ -26,7 +26,7 @@ public class OrderServiceController extends RestAPIController {
      * Creates new orders in database
      * @param newOrder Order object to be created in database
      * */
-    @PostMapping(value = "/orders")
+    @PostMapping
     public void addOrder(@RequestBody Order newOrder) {
 
         // Create an order id if not provided by the user
