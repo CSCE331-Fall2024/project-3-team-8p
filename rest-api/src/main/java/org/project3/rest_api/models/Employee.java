@@ -1,5 +1,7 @@
 package org.project3.rest_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.UUID;
 
 public class Employee {
@@ -7,13 +9,16 @@ public class Employee {
     public boolean isManager;
     public String name;
 
-    // Default constructor
-    public Employee() {
-    }
+    public Employee() {}
 
-    // Constructor with parameters
     public Employee(UUID employeeId, boolean isManager, String name) {
         this.employeeId = employeeId;
+        this.isManager = isManager;
+        this.name = name;
+    }
+
+    public Employee(boolean isManager, String name) {
+        this.employeeId = UUID.randomUUID();
         this.isManager = isManager;
         this.name = name;
     }
