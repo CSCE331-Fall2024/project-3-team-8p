@@ -6,8 +6,14 @@ import CustomerView from "./views/CustomerView";
 import Checkout from "./components/customer/Checkout";
 import './App.css';
 import { CartProvider } from './context/CartContext';
+import {HTTPClient} from "./services/HTTPClient";
 
 function App() {
+
+    let client:HTTPClient = new HTTPClient();
+    client.getRequest("menuitems");
+
+
     return (
         <div className="panda-express-app">
             <Container className="mt-3">
