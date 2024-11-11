@@ -21,7 +21,6 @@ public class QueryTemplate {
             SELECT * FROM "order"
             WHERE orderId = '%s';
             """;
-
     /**
      * SQL query to select a random order
      */
@@ -93,7 +92,6 @@ public class QueryTemplate {
             INSERT INTO orderToInventoryItem (orderId, inventoryItemId, quantity)
             VALUES ('%s', '%s', %d);
             """;
-
     // Employees
     /**
      * SQL query to select an employee by employeeId
