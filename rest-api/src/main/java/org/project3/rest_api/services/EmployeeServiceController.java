@@ -12,7 +12,7 @@ import java.util.UUID;
  * */
 
 @RestController
-@RequestMapping("api/employee-service")
+@RequestMapping("api/employee")
 @CrossOrigin
 public class EmployeeServiceController extends RestAPIController {
 

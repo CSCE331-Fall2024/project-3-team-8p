@@ -12,7 +12,7 @@ import java.util.UUID;
  * */
 
 @RestController
-@RequestMapping("api/menu-service")
+@RequestMapping("api/menu")
 @CrossOrigin
 public class MenuServiceController extends RestAPIController {
 
