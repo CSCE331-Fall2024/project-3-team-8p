@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/employee")
 @CrossOrigin
-public class EmployeeServiceController extends RestAPIController {
+public class EmployeeServiceController extends BaseAPIController {
 
     /**
      * Queries employees from database

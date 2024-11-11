@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/menu")
 @CrossOrigin
-public class MenuServiceController extends RestAPIController {
+public class MenuServiceController extends BaseAPIController {
 
     /**
      * Queries all menu items from database
