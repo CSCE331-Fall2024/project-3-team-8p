@@ -45,6 +45,7 @@ public class InventoryServiceController extends RestAPIController {
      * */
     @PutMapping
     public void updateInventoryItem(@RequestBody InventoryItem updatedInventoryItem) {
+
         //TODO: add validation for updatedInventoryItem's id
         dbConnector.updateInventoryItem(updatedInventoryItem);
     }
