@@ -1,6 +1,9 @@
 package org.project3.rest_api;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.MenuItem;
+import org.project3.rest_api.models.Order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,37 +12,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class OrdersServiceTests extends RestAPIApplicationTests{
 
-    /*
-    * Checks if correct default count of orders is returned
+    @BeforeEach
+    void orderSetup() {
+        baseUrl+="order-service";
+    }
+
+    /**
+    * Checks if GET returns correct order count
     * */
     @Test
-    void getOrdersReturnsCorrectDefaultCount() {
-        String url = baseUrl+"orders";
+    void getOrderReturnsCorrectDefaultCount() {
+        String url = baseUrl;
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+        Order[] itemArray = this.restTemplate.getForObject(url, Order[].class);
 
         final int DEFAULT_ORDER_COUNT = 50;
         assertThat(
-                rawArray.length
+                itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
 
         printResult(rawJson, "Orders");
     }
 
-    /*
-    * Checks if correct parameterized count of orders is returned
+    /**
+    * Checks if GET returns correct parameterized order count
     * */
     @Test
-    void getOrdersReturnsCorrectParamCount() {
+    void getOrderReturnsCorrectParamCount() {
         int EXPECTED_ORDER_COUNT = 75;
-        String url = baseUrl+"orders?mostRecent="+EXPECTED_ORDER_COUNT;
+        String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
         String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+        Order[] rawArray = this.restTemplate.getForObject(url, Order[].class);
 
         assertThat(rawArray.length).isEqualTo(EXPECTED_ORDER_COUNT);
 
         printResult(rawJson, "Orders (Parameterized)");
     }
+
+
 }

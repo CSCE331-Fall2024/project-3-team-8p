@@ -1,7 +1,5 @@
 package org.project3.rest_api.models;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class InventoryItem{
@@ -9,6 +7,9 @@ public class InventoryItem{
     public Double cost;
     public Integer availableStock;
     public String itemName;
+
+    public InventoryItem(){
+    }
 
     public InventoryItem(UUID inventoryItemId, Double cost, Integer availableStock, String itemName){
         this.inventoryItemId = inventoryItemId;

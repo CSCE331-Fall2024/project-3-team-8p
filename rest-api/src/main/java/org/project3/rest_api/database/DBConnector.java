@@ -1,4 +1,4 @@
-package org.project3.rest_api;
+package org.project3.rest_api.database;
 
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.InventoryItem;
@@ -23,7 +23,7 @@ import java.util.Calendar;
  */
 
 @Repository
-public class RestAPIService {
+public class DBConnector {
     public final Calendar calendar = Calendar.getInstance();
     /**
      * maintains single connection to database;
@@ -55,11 +55,20 @@ public class RestAPIService {
 
             rs.close();
         } catch (SQLException e) {
-            // TODO (maybe): display stack trace graphically somewhere
             e.printStackTrace();
         }
 
         return results;
+    }
+
+    private void executeUpdate(String query) {
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -120,4 +129,42 @@ public class RestAPIService {
         }
         return items;
     }
+
+    public void insertEmployee(Employee newEmployee) {
+        executeUpdate(String.format(QueryTemplate.insertEmployee,
+                newEmployee.employeeId,
+                newEmployee.isManager,
+                newEmployee.name
+        ));
+    }
+
+    public void insertOrder(Order newOrder) {
+        executeUpdate(String.format(QueryTemplate.insertOrder,
+                newOrder.orderId,
+                newOrder.cashierId,
+                newOrder.month,
+                newOrder.week,
+                newOrder.day,
+                newOrder.hour,
+                newOrder.price
+        ));
+    }
+
+    public void insertInventoryItem(InventoryItem newInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.insertInventoryItem,
+                newInventoryItem.inventoryItemId,
+                newInventoryItem.cost,
+                newInventoryItem.availableStock,
+                newInventoryItem.itemName
+        ));
+    }
+
+    public void insertMenuItem(MenuItem newMenuItem) {
+        executeUpdate(String.format(QueryTemplate.insertMenuItem,
+                newMenuItem.menuItemId,
+                newMenuItem.price,
+                newMenuItem.itemName
+        ));
+    }
+
 }
