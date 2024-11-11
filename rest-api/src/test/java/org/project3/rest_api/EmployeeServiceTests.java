@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.InventoryItem;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -65,5 +69,53 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
         printResult(rawJson, "Employees");
 
     }
+
+    /**
+     * Checks if PUT correctly updates employee
+     * */
+//    @Test
+//    void putEmployeeUpdatesCorrectly() {
+//        String url = baseUrl;
+//
+//        Employee oldEmployee = this.restTemplate.getForObject(url, Employee[].class)[0];
+//
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(oldEmployee.name);
+//
+//        String reverseName = builder.reverse().toString();
+//
+//        final boolean EXPECTED_IS_MANAGER = !oldEmployee.isManager;
+//        final String EXPECTED_NAME = reverseName;
+//
+//        // perform PUT request
+//        this.restTemplate.put(
+//                url,
+//                new Employee(
+//                        oldEmployee.employeeId,
+//                        !oldEmployee.isManager,
+//                        reverseName
+//                )
+//        );
+//
+//        String rawJson = this.restTemplate.getForObject(url, String.class);
+//        List<Employee> allEmployees = this.restTemplate.getForObject(url, Employee[].class);
+//
+//        Employee newEmployee = Arrays.stream(allEmployees)
+//                .filter(employee -> employee.employeeId == oldEmployee.employeeId)
+//                .collect(Collectors.toList());
+//
+//
+//        assertThat(
+//                newEmployee.name
+//        ).isEqualTo(EXPECTED_NAME);
+//
+//        assertThat(
+//                newEmployee.isManager
+//        ).isEqualTo(EXPECTED_IS_MANAGER);
+//
+//        printResult(rawJson, "Employees");
+//
+//
+//    }
 
 }

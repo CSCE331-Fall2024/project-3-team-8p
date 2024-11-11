@@ -116,6 +116,19 @@ public class DBConnector {
         return items;
     }
 
+    /**
+     * Updates an employee's information
+     *
+     * @param updatedEmployee an {@code Employee} object containing an employee's updated information
+     */
+    public void updateEmployee(Employee updatedEmployee) {
+        executeUpdate(String.format(QueryTemplate.updateEmployee,
+                updatedEmployee.isManager,
+                updatedEmployee.name,
+                updatedEmployee.employeeId
+        ));
+    }
+
     public List<Order> selectOrders(Integer mostRecent) {
         List<Order> items = null;
         try {
@@ -164,6 +177,20 @@ public class DBConnector {
                 newMenuItem.menuItemId,
                 newMenuItem.price,
                 newMenuItem.itemName
+        ));
+    }
+
+    /**
+     * Updates an existing inventory item
+     *
+     * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
+     */
+    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
+                updatedInventoryItem.cost,
+                updatedInventoryItem.availableStock,
+                updatedInventoryItem.itemName,
+                updatedInventoryItem.inventoryItemId
         ));
     }
 

@@ -43,18 +43,12 @@ public class EmployeeServiceController extends RestAPIController {
 
     /**
      * Updates employees in database
-     * @param employeeId ID of employee to update
-     * @param newIsManager new employee position
-     * @param newName new employee name
+     * @param updatedEmployee Employee object to be updated in database
      * */
     @PutMapping
-    public void updateEmployee(@PathVariable UUID employeeId,
-                               @RequestParam(required = false) Boolean newIsManager,
-                               @RequestParam(required = false) String newName) {
-        System.out.println(employeeId);
-        System.out.println(newIsManager);
-        System.out.println(newName);
-
+    public void updateEmployee(@RequestBody Employee updatedEmployee) {
+        //TODO: add validation for updatedEmployee's id
+        dbConnector.updateEmployee(updatedEmployee);
     }
 
 }
