@@ -4,6 +4,7 @@ import ManagerView from "./views/ManagerView";
 import { Container } from "react-bootstrap";
 import './App.css';
 import CustomerView from "./views/CustomerView";
+import MenuBoardView from "./views/MenuBoardView";
 import {HTTPClient} from "./services/HTTPClient";
 
 function App() {
@@ -23,10 +24,12 @@ function App() {
                                 <Link to={"/"}>Home</Link>
                                 <Link to={"/manager"}>Manager</Link>
                                 <Link to={"/customer"}>Customer</Link>
+                                <Link to={"/menuboard"}>Menu Boards</Link>
                             </div>
                         } />
                         <Route path="/manager" element={<ManagerView />} />
                         <Route path="/customer" element={<CustomerView />} />
+                        <Route path="/menuboard" element={<MenuBoardView />} />
                     </Routes>
                 </BrowserRouter>
             </Container>
