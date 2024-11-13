@@ -30,8 +30,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         currentMonth = calendar.get(Calendar.MONTH);
         currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        // this ensures that the order will show up in the most recent 50 orders
-        currentHour = 8;
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         normalizeDateFields();
     }
 
@@ -53,8 +52,8 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     /**
      * GET request for orders
      */
-    Order[] getOrders() {
-        return this.restTemplate.getForObject(baseUrl, Order[].class);
+    Order[] getOrders(String url) {
+        return this.restTemplate.getForObject(url, Order[].class);
     }
 
     /**
@@ -63,7 +62,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     @Test
     void getOrderReturnsCorrectDefaultCount() {
 
-        Order[] itemArray = getOrders();
+        Order[] itemArray = getOrders(baseUrl);
 
         final int DEFAULT_ORDER_COUNT = 50;
         assertThat(
@@ -81,7 +80,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         int EXPECTED_ORDER_COUNT = 75;
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
-        Order[] rawArray = getOrders();
+        Order[] rawArray = getOrders(url);
 
         assertThat(rawArray.length).isEqualTo(EXPECTED_ORDER_COUNT);
 
@@ -109,7 +108,8 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
                 Order.class
         );
 
-        Order[] newOrders = getOrders();
+        int avgOrderPerMonth = 5700;
+        Order[] newOrders = getOrders(baseUrl+"?mostRecent="+avgOrderPerMonth);
         Optional<Order> postedOrder = Arrays.stream(newOrders).filter(
                 order -> {
                     return order.orderId.equals(newOrder.orderId);
@@ -118,6 +118,8 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
         // check that the order exists
         assertThat(postedOrder).isPresent();
+
+        // no print because large query
 
     }
 
