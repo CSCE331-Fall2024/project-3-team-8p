@@ -32,9 +32,13 @@ function MenuBoardView() {
                     <ListingCard
                         key={index}
                         name={listing.name}
+                        calories={listing.calories}
                         imageUrl={listing.imageUrl}
+
                     />
+
                 ))}
+
             </div>
             <div className="padding">
                 <ButtonContainer onTabChange={handleTabChange} />
