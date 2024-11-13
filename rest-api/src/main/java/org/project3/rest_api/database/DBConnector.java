@@ -4,6 +4,8 @@ import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,10 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
-import java.util.Calendar;
+
 /**
  * This class directly interacts with the database
  *
@@ -158,6 +159,34 @@ public class DBConnector {
                 newInventoryItem.itemName
         ));
     }
+    public Map<String, Integer> selectSales(
+            Integer startMonth,
+            Integer endMonth,
+            Integer startDay,
+            Integer endDay
+    ) {
+        // Let's use `TreeMap` here so the items are ordered alphabetically in the UI
+        Map<String, Integer> sales = new TreeMap<>();
+        try {
+            List<MenuItemWithQty> itemsWithQty = executeQuery(
+                    String.format(QueryTemplate.selectMenuItemSalesByTimePeriod,
+                            startMonth,
+                            endMonth,
+                            startDay,
+                            endDay,
+                            startMonth,
+                            endMonth
+                    ),
+                    SQLToJavaMapper::menuItemWithQtyMapper
+            );
+            for (MenuItemWithQty item : itemsWithQty) {
+                sales.put(item.menuItem.itemName, item.quantity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sales;
+    }
 
     public void insertMenuItem(MenuItem newMenuItem) {
         executeUpdate(String.format(QueryTemplate.insertMenuItem,
@@ -165,6 +194,33 @@ public class DBConnector {
                 newMenuItem.price,
                 newMenuItem.itemName
         ));
+    }
+    public Map<String, Integer> selectProductUsage(
+            Integer startMonth,
+            Integer endMonth,
+            Integer startDay,
+            Integer endDay
+    ) {
+        Map<String, Integer> productUsage = new TreeMap<>();
+        try {
+            List<InventoryItemWithQty> menuItemToInventoryItems = executeQuery(
+                    String.format(QueryTemplate.selectInventoryUseByTimePeriod,
+                            startMonth,
+                            endMonth,
+                            startDay,
+                            endDay,
+                            startMonth,
+                            endMonth
+                    ),
+                    SQLToJavaMapper::inventoryItemWithQtyMapper
+            );
+            for (InventoryItemWithQty item : menuItemToInventoryItems) {
+                productUsage.put(item.inventoryItem.itemName, item.quantity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productUsage;
     }
 
 }

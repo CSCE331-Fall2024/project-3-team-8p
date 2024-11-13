@@ -1,6 +1,8 @@
 package org.project3.rest_api.database;
 
 import org.project3.rest_api.models.*;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +52,49 @@ public class SQLToJavaMapper {
         }
         catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
+        }
+    }
+    /**
+     * Maps a ResultSet row to a MenuItemWithQty object.
+     *
+     * @param rs the ResultSet containing the menu item and quantity data
+     * @return a MenuItemWithQty object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static MenuItemWithQty menuItemWithQtyMapper(ResultSet rs) {
+        try {
+            return new MenuItemWithQty(
+                    new MenuItem(
+                            UUID.fromString(rs.getString("menuItemId")),
+                            rs.getDouble("price"),
+                            rs.getString("itemName")
+                    ),
+                    rs.getInt("count")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to MenuItemWithQty", e);
+        }
+    }
+    /**
+     * Maps a ResultSet row to an InventoryItemWithQty object.
+     *
+     * @param rs the ResultSet containing the inventory item and quantity data
+     * @return an InventoryItemWithQty object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static InventoryItemWithQty inventoryItemWithQtyMapper(ResultSet rs) {
+        try {
+            return new InventoryItemWithQty(
+                    new InventoryItem(
+                            UUID.fromString(rs.getString("inventoryItemId")),
+                            rs.getDouble("cost"),
+                            rs.getInt("availableStock"),
+                            rs.getString("itemName")
+                    ),
+                    rs.getInt("itemsUsed")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to InventoryItemWithQty", e);
         }
     }
     public static Employee employeeMapper(ResultSet rs){

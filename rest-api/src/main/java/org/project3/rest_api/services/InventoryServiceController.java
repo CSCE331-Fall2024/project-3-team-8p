@@ -4,6 +4,7 @@ import org.project3.rest_api.models.InventoryItem;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -38,5 +39,14 @@ public class InventoryServiceController extends BaseAPIController {
         }
 
         dbConnector.insertInventoryItem(newInventoryItem);
+    }
+    @GetMapping("/sales")
+    public Map<String, Integer> selectSales(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
     }
 }

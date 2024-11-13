@@ -4,6 +4,7 @@ import org.project3.rest_api.models.MenuItem;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -38,5 +39,14 @@ public class MenuServiceController extends BaseAPIController {
         }
 
         dbConnector.insertMenuItem(newMenuItem);
+    }
+    @GetMapping("/product-usage")
+    public Map<String, Integer> selectProductUsage(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }
