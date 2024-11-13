@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 */
 public class RestAPIController {
     /**
-     * Instance of RestService layer
-     * '@autowired' automatically instantiates restService
+     * Instance of DBConnector layer
+     * '@autowired' automatically instantiates dbConnector
      * */
     @Autowired
     protected DBConnector dbConnector;
