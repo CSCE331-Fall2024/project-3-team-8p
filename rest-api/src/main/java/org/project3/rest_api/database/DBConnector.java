@@ -61,6 +61,10 @@ public class DBConnector {
         return results;
     }
 
+    /**
+     * Inserts or modifies database
+     * @param query query used to modify database
+     * */
     private void executeUpdate(String query) {
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
@@ -89,6 +93,11 @@ public class DBConnector {
         return items;
     }
 
+    /**
+     * Selects all inventory items
+     *
+     * @return a {@code List<InventoryItem>} of all inventory items
+     */
     public List<InventoryItem> selectInventoryItems() {
         List<InventoryItem> items = null;
         try {
@@ -102,6 +111,11 @@ public class DBConnector {
         return items;
     }
 
+    /**
+     * Selects all the employees
+     *
+     * @return a {@code List<Employee>} of all employees
+     */
     public List<Employee> selectEmployees() {
         List<Employee> items = null;
         try {
@@ -129,6 +143,12 @@ public class DBConnector {
         ));
     }
 
+    /**
+     * Selects the {@code mostRecent} most recent orders from the database
+     *
+     * @param mostRecent the number of most recent orders to select
+     * @return a {@code List<Order>} of most recent orders
+     */
     public List<Order> selectOrders(Integer mostRecent) {
         List<Order> items = null;
         try {
@@ -143,6 +163,11 @@ public class DBConnector {
         return items;
     }
 
+    /**
+     * Adds a new employee
+     *
+     * @param newEmployee the employee to add
+     */
     public void insertEmployee(Employee newEmployee) {
         executeUpdate(String.format(QueryTemplate.insertEmployee,
                 newEmployee.employeeId,
@@ -151,6 +176,11 @@ public class DBConnector {
         ));
     }
 
+    /**
+     * Places an order
+     *
+     * @param newOrder the order to place
+     */
     public void insertOrder(Order newOrder) {
         executeUpdate(String.format(QueryTemplate.insertOrder,
                 newOrder.orderId,
@@ -163,6 +193,11 @@ public class DBConnector {
         ));
     }
 
+    /**
+     * Adds a new inventory item
+     *
+     * @param newInventoryItem the inventory item to add
+     */
     public void insertInventoryItem(InventoryItem newInventoryItem) {
         executeUpdate(String.format(QueryTemplate.insertInventoryItem,
                 newInventoryItem.inventoryItemId,
@@ -172,6 +207,11 @@ public class DBConnector {
         ));
     }
 
+    /**
+     * Adds a new menu item
+     *
+     * @param newMenuItem the menu item to add
+     */
     public void insertMenuItem(MenuItem newMenuItem) {
         executeUpdate(String.format(QueryTemplate.insertMenuItem,
                 newMenuItem.menuItemId,
