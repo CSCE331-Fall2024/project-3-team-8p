@@ -97,6 +97,36 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to InventoryItemWithQty", e);
         }
     }
+    /**
+     * Maps a ResultSet row to a Double representing the order sum.
+     *
+     * @param rs the ResultSet containing the order sum data
+     * @return a Double value representing the order sum
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static Double orderSumMapper(ResultSet rs) {
+        try {
+            double orderSum = rs.getDouble("sum");
+            return Math.round(orderSum * 100.0) / 100.0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to Double", e);
+        }
+    }
+
+    /**
+     * Maps a ResultSet row to a Double representing the total count of orders.
+     *
+     * @param rs the ResultSet containing the total count data
+     * @return a Double value representing the total count
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static Double orderTotalMapper(ResultSet rs) {
+        try {
+            return (double) rs.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to Integer", e);
+        }
+    }
     public static Employee employeeMapper(ResultSet rs){
         try {
             return new Employee(

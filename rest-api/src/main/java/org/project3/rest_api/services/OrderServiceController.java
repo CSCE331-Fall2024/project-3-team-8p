@@ -4,6 +4,7 @@ import org.project3.rest_api.models.Order;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -39,5 +40,10 @@ public class OrderServiceController extends BaseAPIController {
         }
 
         dbConnector.insertOrder(newOrder);
+    }
+    @GetMapping("/XorZ")
+    public List<Map<String, List<Double>>> selectXorZ(@RequestParam boolean wholeday) {
+        Map<String, List<Double>> reportData = dbConnector.fetchXOrZReport(wholeday);
+        return List.of(reportData);
     }
 }
