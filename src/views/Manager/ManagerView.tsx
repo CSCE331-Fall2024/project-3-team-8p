@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Button, Col, Row } from "react-bootstrap";
 import './ManagerView.css';

@@ -35,12 +35,13 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
                 formData.menuItemId,
                 formData.price,
                 formData.itemName
-            ))
+            ));
             onClose();
         } catch (e) {
             console.log(e);
         }
     };
+
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
