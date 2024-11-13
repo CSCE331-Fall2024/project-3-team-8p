@@ -181,6 +181,20 @@ public class DBConnector {
     }
 
     /**
+     * Updates an existing menu item
+     *
+     * @param updatedMenuItem a {@code MenuItem} object representing the menu item to update
+     */
+    public void updateMenuItem(MenuItem updatedMenuItem) {
+        executeUpdate(String.format(QueryTemplate.updateMenuItem,
+                updatedMenuItem.price,
+                updatedMenuItem.itemName,
+                updatedMenuItem.menuItemId
+        ));
+    }
+
+
+    /**
      * Updates an existing inventory item
      *
      * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
