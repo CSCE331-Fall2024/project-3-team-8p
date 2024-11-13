@@ -5,7 +5,7 @@ In the rest-api directory, you can run:
 
 Runs the app locally. You should be able to access APIs at
 
-`http://localhost:8080/api/*-service`
+`http://localhost:8080/api/*`
 
 Replace * with:
 1. "menu" for menu item related tasks
