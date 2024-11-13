@@ -14,7 +14,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
     @BeforeEach
     void orderSetup() {
-        baseUrl+="order-service";
+        baseUrl+="order";
     }
 
     /**

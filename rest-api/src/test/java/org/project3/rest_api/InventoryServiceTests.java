@@ -13,7 +13,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
     @BeforeEach
     void inventorySetup() {
-        baseUrl += "inventory-service";
+        baseUrl += "inventory";
     }
 
     /**

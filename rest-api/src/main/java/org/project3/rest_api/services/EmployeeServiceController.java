@@ -2,7 +2,6 @@ package org.project3.rest_api.services;
 
 import org.project3.rest_api.models.Employee;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.PatchExchange;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,9 +12,9 @@ import java.util.UUID;
  * */
 
 @RestController
-@RequestMapping("api/employee-service")
+@RequestMapping("api/employee")
 @CrossOrigin
-public class EmployeeServiceController extends RestAPIController {
+public class EmployeeServiceController extends BaseAPIController {
 
     /**
      * Queries employees from database

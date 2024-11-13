@@ -13,7 +13,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
     @BeforeEach
     void menuSetup() {
-        baseUrl += "menu-service";
+        baseUrl += "menu";
     }
 
     /**

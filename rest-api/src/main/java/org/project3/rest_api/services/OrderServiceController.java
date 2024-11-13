@@ -12,9 +12,9 @@ import java.util.UUID;
  * @author Soham Nagawanshi
  * */
 @RestController
-@RequestMapping("api/order-service")
+@RequestMapping("api/order")
 @CrossOrigin
-public class OrderServiceController extends RestAPIController {
+public class OrderServiceController extends BaseAPIController {
 
     /**
      * Queries provided number of orders from database
