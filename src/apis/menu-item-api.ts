@@ -7,26 +7,40 @@ import MenuItem from "../models/MenuItem";
 export class MenuItemApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
-        super("menuitems");
-
-        // Map API JSON responses to our MenuItem model
-        this.apiClient.interceptors.response.use(
-            response => {
-                return response.data.map((item: any) => (
-                    new MenuItem(
-                        item.menuItemId,
-                        item.price,
-                        item.itemName,
-                    )
-                ));
-            }
-        )
+        super("menu");
     }
 
     /*
     Gets all menu items
     */
     async getMenuItems(): Promise<MenuItem[]> {
-        return await this.apiClient.get("");
+        const response = await this.apiClient.get("");
+        return response.data.map((item: any) => (
+            new MenuItem(
+                item.menuItemId,
+                item.price,
+                item.itemName
+            )
+        ));
+    }
+
+    async addMenuItem(item: MenuItem): Promise<void> {
+        try {
+            const menuItemData = {
+                menuItemId: item.menuItemId,
+                price: item.price,
+                itemName: item.itemName,
+            };
+
+            this.apiClient.post("", menuItemData)
+                .then(response => {
+                    console.log("Response: ", response.data)
+                })
+                .catch(error => {
+                    throw new Error("Error when adding menu item: " + error);
+                })
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

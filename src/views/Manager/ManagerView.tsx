@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import './ManagerView.css';
-import ItemGrid from "./ItemGrid";
+import ItemGrid from "./components/ItemGrid";
 import "./ManagerView.css"
 import useFetchCardItems, { RightPane } from "./useFetchCardItems";
+import { MenuItemApi } from "../../apis/menu-item-api";
+import { InventoryItemApi } from "../../apis/inventory-item-api";
+import { EmployeeApi } from "../../apis/employee-api";
+import MenuItemModal from "./components/MenuItemModal";
+import CardItem from "../../models/interfaces/CardItem";
+import MenuItem from "../../models/MenuItem";
 
 
 enum LeftPane {
@@ -15,6 +21,24 @@ enum LeftPane {
     ZReport
 }
 
+// TODO: Should probably replace this with some global state
+const menuItemApi = new MenuItemApi();
+const inventoryItemApi = new InventoryItemApi()
+const employeeApi = new EmployeeApi()
+
+const getPageTitle = (currRightPane: RightPane) => {
+    switch (currRightPane) {
+        case RightPane.MenuItems:
+            return "Menu Item";
+        case RightPane.InventoryItems:
+            return "Inventory Item";
+        case RightPane.Employees:
+            return "Employee";
+        default:
+            return "";
+    }
+}
+
 function ManagerView() {
     const {
         cardItems,
@@ -22,7 +46,16 @@ function ManagerView() {
         error,
         currRightPane,
         setCurrRightPane
-    } = useFetchCardItems();
+    } = useFetchCardItems(menuItemApi, inventoryItemApi, employeeApi);
+    const [showModal, setShowModal] = useState(false);
+    const [currItem, setCurrItem] = useState<CardItem | undefined>(undefined)
+
+    const handleCloseModal = () => setShowModal(false);
+
+    const handleShowModal = (item?: CardItem) => {
+        setCurrItem(item);
+        setShowModal(true);
+    };
 
     return (
         <div className={"Manager-view"}>
@@ -69,7 +102,22 @@ function ManagerView() {
                             <Nav.Link eventKey={RightPane.Employees}>Employees</Nav.Link>
                         </Nav.Item>
                     </Nav>
-                    <ItemGrid items={cardItems} />
+
+                    <Button
+                        className={"my-4 mx-3"}
+                        onClick={() => handleShowModal()}
+                    >
+                        Add {getPageTitle(currRightPane)}
+                    </Button>
+
+                    <MenuItemModal
+                        currMenuItem={currItem as MenuItem}
+                        showModal={showModal}
+                        onClose={handleCloseModal}
+                        menuItemApi={menuItemApi}
+                    />
+
+                    <ItemGrid items={cardItems} onItemClick={handleShowModal} />
                 </Col>
             </Row>
 

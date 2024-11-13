@@ -1,5 +1,6 @@
 import InventoryItem from "./InventoryItem";
 import CardItem from "./interfaces/CardItem";
+import { v4 as uuidv4 } from "uuid";
 
 export default class MenuItem implements CardItem {
     private readonly _menuItemId: string;
@@ -7,10 +8,13 @@ export default class MenuItem implements CardItem {
     private readonly _itemName: string;
     private readonly _inventoryItems: InventoryItem[];
 
-    constructor(menuItemId: string, price: number, itemName: string) {
-        this._menuItemId = menuItemId;
-        this._price = price;
-        this._itemName = itemName;
+
+    constructor();
+    constructor(menuItemId: string, price: number, itemName: string);
+    constructor(menuItemId?: string, price?: number, itemName?: string) {
+        this._menuItemId = menuItemId || uuidv4();
+        this._price = price || 0;
+        this._itemName = itemName || "";
         this._inventoryItems = [];
     }
 

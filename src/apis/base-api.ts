@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 Sends GET, POST, PUT, and DELETE requests to server
 */
 export default class BaseApi {
-    private readonly _baseUrl: string = "http://localhost:8080/api/v1";
+    private readonly _baseUrl: string = "http://localhost:8080/api";
     protected apiClient: AxiosInstance;
 
     constructor(endpoint: string) {
