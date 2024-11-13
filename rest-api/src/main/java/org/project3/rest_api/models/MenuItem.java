@@ -25,8 +25,6 @@ public class MenuItem {
      */
     public String itemName;
 
-    public MenuItem() {}
-
     /**
      * Constructor to create a MenuItem with a specified ID.
      *
@@ -49,5 +47,10 @@ public class MenuItem {
     public MenuItem(Double price, String itemName) {
         this(UUID.randomUUID(), price, itemName);
     }
+
+    /**
+     * No-arg default constructor for MenuItem
+     * */
+    public MenuItem() {}
 
 }
