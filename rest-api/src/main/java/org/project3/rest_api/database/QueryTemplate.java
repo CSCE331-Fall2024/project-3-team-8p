@@ -35,7 +35,7 @@ public class QueryTemplate {
      */
     public static final String selectRecentOrders = """
                 SELECT * FROM "order"
-                WHERE month = %d
+                WHERE month = %d AND day <= %d
                 ORDER BY month DESC, day DESC, hour DESC
                 LIMIT %d;
                 """;

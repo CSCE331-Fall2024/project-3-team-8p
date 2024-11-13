@@ -133,8 +133,9 @@ public class DBConnector {
         List<Order> items = null;
         try {
             int currentMonth = calendar.get(Calendar.MONTH) + 1;
+            int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
             items = executeQuery(
-                    String.format(QueryTemplate.selectRecentOrders, currentMonth, mostRecent),
+                    String.format(QueryTemplate.selectRecentOrders, currentMonth, currentDay, mostRecent),
                     SQLToJavaMapper::orderMapper
             );
         } catch (SQLException e) {
