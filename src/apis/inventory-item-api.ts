@@ -4,7 +4,7 @@ endpoints for inventory-related requests
 import BaseApi from "./base-api";
 import InventoryItem from "../models/InventoryItem";
 
-export class InventoryItemApi extends BaseApi {
+export default class InventoryItemApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
         super("inventory");

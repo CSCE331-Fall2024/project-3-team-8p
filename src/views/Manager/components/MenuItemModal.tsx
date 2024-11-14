@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import { MenuItemApi } from "../../../apis/menu-item-api";
+import MenuItemApi from "../../../apis/menu-item-api";
 import MenuItem from "../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
     showModal: boolean;
-    onClose: () => void;
+    onClose: (didAddOrUpdate: boolean) => void;
     menuItemApi: MenuItemApi;
 }
 
@@ -29,19 +29,28 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
         }
     }, [currMenuItem, showModal]);
 
+    const handleCancelChanges = () => onClose(false);
+
     const handleSaveChanges = async () => {
         try {
-            await menuItemApi.addMenuItem(new MenuItem(
-                formData.menuItemId,
-                formData.price,
-                formData.itemName
-            ));
-            onClose();
+            if (currMenuItem) {
+                await menuItemApi.updateMenuItem(new MenuItem(
+                    formData.menuItemId,
+                    formData.price,
+                    formData.itemName
+                ));
+            } else {
+                await menuItemApi.addMenuItem(new MenuItem(
+                    formData.menuItemId,
+                    formData.price,
+                    formData.itemName
+                ));
+            }
+            onClose(true);
         } catch (e) {
             console.log(e);
         }
     };
-
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -52,7 +61,7 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
     }
 
     return (
-        <Modal show={showModal} onHide={onClose}>
+        <Modal show={showModal} onHide={handleCancelChanges}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {currMenuItem ? "Add" : "Edit"} Menu Item
@@ -85,7 +94,7 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"secondary"} onClick={onClose}>
+                <Button variant={"secondary"} onClick={handleCancelChanges}>
                     Close
                 </Button>
                 <Button variant={"primary"} onClick={handleSaveChanges}>
