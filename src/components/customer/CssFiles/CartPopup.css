@@ -1,0 +1,46 @@
+/* CartPopup.css */
+
+.popup-container {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: 250px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.clear-button,
+.toggle-button {
+    background-color: #D51A1F; /* Panda Express red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.clear-button {
+    margin-top: 10px;
+    margin-left: 45px;
+}
+
+.toggle-button {
+    margin-bottom: 10px;
+}
+
+.clear-button:hover,
+.toggle-button:hover {
+    background-color: #A81618; /* Darker red on hover */
+}

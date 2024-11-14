@@ -5,7 +5,7 @@ import ManagerView from "./views/ManagerView";
 import CustomerView from "./views/CustomerView";
 import Checkout from "./components/customer/Checkout";
 import './App.css';
-import { CartProvider } from './context/CartContext';
+import { CartProvider } from './components/customer/context/CartContext';
 import {HTTPClient} from "./services/HTTPClient";
 
 function App() {

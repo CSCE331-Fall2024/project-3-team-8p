@@ -1,60 +1,35 @@
-// listingData.ts
 import { Tabs } from './TabsEnum';
-import {
-    BeijingBeef,
-    BlackPepperChicken,
-    BlackPepperSteak,
-    OrangeChicken,
-    KungPao,
-    HotOnes,
-    HoneyWalnut,
-    HoneySesame,
-    GrilledTeriyaki,
-    BroccoliBeef,
-    WhiteRice,
-    FriedRice,
-    SuperGreens,
-    ChowMein,
-    Pepsi,
-    DrPepper,
-    Aquafina,
-    SweetTea
-} from '../images';
 
-interface Listing {
-    name: string;
-    price: number;
-    imageUrl: string;
-    quantityOrdered: number;
-}
 
-const listings: Record<Tabs, Listing[]> = {
+import MenuItem from '../../models/MenuItem';
+
+const listings: Record<Tabs, MenuItem[]> = {
     [Tabs.Entrees]: [
-        { name: 'Beijing Beef', price: 4.40, imageUrl: BeijingBeef, quantityOrdered: 0 },
-        { name: 'The Original Orange Chicken', price: 4.40, imageUrl: OrangeChicken, quantityOrdered: 0 },
-        { name: 'Kung Pao Chicken', price: 4.40, imageUrl: KungPao, quantityOrdered: 0 },
-        { name: 'Hot Ones Blazing Bourbon Chicken', price: 4.40, imageUrl: HotOnes, quantityOrdered: 0 },
-        { name: 'Honey Walnut Shrimp', price: 4.40, imageUrl: HoneyWalnut, quantityOrdered: 0 },
-        { name: 'Honey Sesame Chicken Breast', price: 4.40, imageUrl: HoneySesame, quantityOrdered: 0 },
-        { name: 'Grilled Teriyaki', price: 4.40, imageUrl: GrilledTeriyaki, quantityOrdered: 0 },
-        { name: 'Black Pepper Sirloin Steak', price: 4.40, imageUrl: BlackPepperSteak, quantityOrdered: 0 },
-        { name: 'Black Pepper Chicken', price: 4.40, imageUrl: BlackPepperChicken, quantityOrdered: 0 },
-        { name: 'Broccoli Beef', price: 4.40, imageUrl: BroccoliBeef, quantityOrdered: 0 },
+        new MenuItem("1", 4.40, "Beijing Beef", "Beijing Beef.png"),
+        new MenuItem("2", 4.40, "The Original Orange Chicken", "The Original Orange Chicken.png"),
+        new MenuItem("3", 4.40, "Kung Pao Chicken", "Kung Pao Chicken.png"),
+        new MenuItem("4", 4.40, "Hot Ones Blazing Bourbon Chicken", "Hot Ones Blazing Bourbon Chicken.png"),
+        new MenuItem("5", 4.40, "Honey Walnut Shrimp", "Honey Walnut Shrimp.png"),
+        new MenuItem("6", 4.40, "Honey Sesame Chicken Breast", "Honey Sesame Chicken Breast.png"),
+        new MenuItem("7", 4.40, "Grilled Teriyaki", "Grilled Teriyaki Chicken.png"),
+        new MenuItem("8", 4.40, "Black Pepper Sirloin Steak", "Black Pepper Sirloin Steak.png"),
+        new MenuItem("9", 4.40, "Black Pepper Chicken", "Black Pepper Chicken.png"),
+        new MenuItem("10", 4.40, "Broccoli Beef", "Broccoli Beef.png"),
     ],
     [Tabs.Sides]: [
-        { name: 'White Rice', price: 4.40, imageUrl: WhiteRice, quantityOrdered: 0 },
-        { name: 'Fried Rice', price: 4.40, imageUrl: FriedRice, quantityOrdered: 0 },
-        { name: 'Chow Mein', price: 4.40, imageUrl: ChowMein, quantityOrdered: 0 },
-        { name: 'Super Greens', price: 4.40, imageUrl: SuperGreens, quantityOrdered: 0 },
+        new MenuItem("11", 4.40, "White Rice", "White Steamed Rice.png"),
+        new MenuItem("12", 4.40, "Fried Rice", "Fried Rice.png"),
+        new MenuItem("13", 4.40, "Chow Mein", "Chow Mein.png"),
+        new MenuItem("14", 4.40, "Super Greens", "Super Greens.png"),
     ],
     [Tabs.Drinks]: [
-        { name: 'Dr. Pepper', price: 4.40, imageUrl: DrPepper, quantityOrdered: 0 },
-        { name: 'Pepsi', price: 4.40, imageUrl: Pepsi, quantityOrdered: 0 },
-        { name: 'Aquafina', price: 4.40, imageUrl: Aquafina, quantityOrdered: 0 },
-        { name: 'Sweet Tea', price: 4.40, imageUrl: SweetTea, quantityOrdered: 0 },
+        new MenuItem("15", 4.40, "Dr. Pepper", "Dr. Pepper.png"),
+        new MenuItem("16", 4.40, "Pepsi", "Pepsi.png"),
+        new MenuItem("17", 4.40, "Aquafina", "Aquafina.png"),
+        new MenuItem("18", 4.40, "Sweet Tea", "Sweet Tea.png"),
     ],
     [Tabs.Desserts]: [
-        { name: 'Mochi', price: 4.99, imageUrl: 'https://via.placeholder.com/300', quantityOrdered: 1 },
+        new MenuItem("19", 4.99, "Mochi", "https://via.placeholder.com/300"),
     ],
 };
 

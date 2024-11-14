@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import listings from '../components/customer/listingData'; // Import listings
 import './CustomerView.css';
 import ListingCard from '../components/customer/ListingCard';
 import ButtonContainer from '../components/customer/ButtonContainer';
 import { Tabs } from '../components/customer/TabsEnum';
-import { banner } from "../components/images";
-import { Listing } from "../components/customer/types";
 import CartPopup from '../components/customer/CartPopup'; // Import CartPopup
-import { useCart } from '../context/CartContext'; // Import the useCart hook
+import { useCart } from '../components/customer/context/CartContext'; // Import the useCart hook
+import MenuItem from '../models/MenuItem';
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
@@ -23,21 +21,21 @@ function CustomerView() {
         <div className="CustomerView">
             <div className="button-container">
                 <button className="black-button">Accessibility</button>
-                <img src={banner} alt="Centered Top Image" className="BannerImage" />
+                <img src={"POS.png"} alt="Centered Top Image" className="BannerImage" />
                 <Link to="/checkout">
                     <button className="black-button">Checkout</button>
                 </Link>
             </div>
             <div className="cardSection">
-                {listings[activeTab].map((listing, index) => {
+                {listings[activeTab].map((listing: MenuItem) => {
                     // Find the quantity ordered for the current listing
-                    const cartItem = cartItems.find(item => item.name === listing.name);
+                    const cartItem = cartItems.find(item => item.menuItemId === listing.menuItemId);
                     const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
 
                     return (
                         <ListingCard
-                            key={index}
-                            name={listing.name}
+                            key={listing.menuItemId}
+                            name={listing.itemName}
                             price={listing.price}
                             imageUrl={listing.imageUrl}
                             quantityOrdered={quantityOrdered} // Pass the quantity ordered to the ListingCard

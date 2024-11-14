@@ -15,7 +15,9 @@ export class JSONToModelMapper {
             return new MenuItem(
                         item.menuItemId,
                         item.price,
-                        item.itemName
+                        item.itemName,
+                        item.imageUrl,
+                        item.quantityOrdered
             )
         });
     }
