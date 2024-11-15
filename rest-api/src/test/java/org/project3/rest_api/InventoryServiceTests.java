@@ -36,6 +36,10 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     }
 
     /**
+     * Checks if GET menu items' inventory items returns correctly
+     * */
+
+    /**
      * Checks if POST correctly increments inventory item count
      * */
     @Test
