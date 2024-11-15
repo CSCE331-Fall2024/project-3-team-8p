@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+import java.util.Random;
+
 /**
 * Parent class for service tests
 * @author Soham Nagawanshi
@@ -39,11 +41,17 @@ class RestAPIApplicationTests {
 	protected String baseUrl;
 
 	/**
+	 * Random object for generating random numbers
+	 * */
+	protected Random rand = new Random();
+
+
+	/**
 	* Prettifies raw json input
 	* @param uglyJson: raw json input
 	* @return prettyJson: prettified json result
 	* */
-	String jsonPrettier(String uglyJson) {
+	protected String jsonPrettier(String uglyJson) {
 		String prettyJson = "";
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -63,7 +71,7 @@ class RestAPIApplicationTests {
 	* @param name: service name
 	* */
 
-	void printResult(String rawJson, String name) {
+	protected void printResult(String rawJson, String name) {
 		System.out.println(name+": ");
 		System.out.println(
 				jsonPrettier(rawJson)
@@ -77,6 +85,13 @@ class RestAPIApplicationTests {
 	@BeforeEach
 	public void setup() {
 		baseUrl = "http://localhost:" + port +"/api/";
+	}
+
+	/**
+	 * Generic get request utilized by children
+	 * */
+	String getRawJson(String url) {
+		return this.restTemplate.getForObject(url, String.class);
 	}
 
 
