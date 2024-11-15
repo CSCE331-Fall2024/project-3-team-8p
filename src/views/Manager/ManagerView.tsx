@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Button, Col, Row, Spinner } from "react-bootstrap";
-import './ManagerView.css';
+import './css/ManagerView.css';
 import ItemGrid from "./components/ItemGrid";
-import "./ManagerView.css"
-import useFetchCardItems, { RightPane } from "./useFetchCardItems";
+import "./css/ManagerView.css"
+import useFetchCardItems, { RightPane } from "./hooks/useFetchCardItems";
 import MenuItemApi from "../../apis/menu-item-api";
 import InventoryItemApi from "../../apis/inventory-item-api";
 import EmployeeApi from "../../apis/employee-api";

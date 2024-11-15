@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import CardItem from "../../models/interfaces/CardItem";
-import InventoryItemApi from "../../apis/inventory-item-api";
-import MenuItemApi from "../../apis/menu-item-api";
-import EmployeeApi from "../../apis/employee-api";
+import CardItem from "../../../models/interfaces/CardItem";
+import InventoryItemApi from "../../../apis/inventory-item-api";
+import MenuItemApi from "../../../apis/menu-item-api";
+import EmployeeApi from "../../../apis/employee-api";
 
 
 enum RightPane {

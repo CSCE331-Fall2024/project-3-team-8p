@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
 import CardItem from "../../../models/interfaces/CardItem";
 import ItemCard from "./ItemCard";
-import "./ItemGrid.css"
+import "../css/ItemGrid.css"
 
 interface ItemGridProps<T extends CardItem> {
     items: T[];
