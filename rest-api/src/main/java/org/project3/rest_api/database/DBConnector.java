@@ -353,7 +353,7 @@ public class DBConnector {
         // Get sales per hour data from DBDriverSingleton
         List<Double> hourlySales;
         List<Double> hourlyOrders;
-        Map<String, List<Double>> reportData = null;
+        Map<String, List<Double>> reportData = new TreeMap<>();
 
         if (wholeDay) {
             hourlySales = selectSalesByHourForDay();
