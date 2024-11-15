@@ -2,11 +2,10 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.MenuItem;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +22,8 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     /**
      * GET request for inventory tests
      * */
-    InventoryItem[] getInventoryItems() {
-        return this.restTemplate.getForObject(baseUrl, InventoryItem[].class);
+    InventoryItem[] getInventoryItems(String url) {
+        return this.restTemplate.getForObject(url, InventoryItem[].class);
     }
 
     /**
@@ -35,7 +34,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
         final int EXPECTED_ITEM_COUNT = 20;
         assertThat(
-                getInventoryItems().length
+                getInventoryItems(baseUrl).length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
         printResult(getRawJson(baseUrl), "Inventory Items");
@@ -45,6 +44,23 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     /**
      * Checks if GET menu items' inventory items returns correctly
      * */
+    @Test
+    void getMenuItemInventoryItemsReturnsCorrectCount() {
+        List<MenuItem> menuItems =  dbConnector.selectMenuItems();
+        int randIdx = rand.nextInt(menuItems.size());
+        MenuItem randItem = menuItems.get(randIdx);
+
+        final int EXPECTED_INV_COUNT = this.dbConnector.selectMenuItemInventoryItems(
+                randItem.menuItemId
+        ).size();
+
+        InventoryItem[] invItem = getInventoryItems(baseUrl+"?menuItemId="+randItem.menuItemId);
+
+        assertThat(
+                invItem.length
+        ).isEqualTo(EXPECTED_INV_COUNT);
+
+    }
 
     /**
      * Checks if POST correctly increments inventory item count
@@ -52,7 +68,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     @Test
     void postInventoryItemIncrementsCount() {
 
-        InventoryItem[] oldItemArray = getInventoryItems();
+        InventoryItem[] oldItemArray = getInventoryItems(baseUrl);
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
@@ -67,7 +83,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         );
 
 
-        InventoryItem[] newItemArray = getInventoryItems();
+        InventoryItem[] newItemArray = getInventoryItems(baseUrl);
 
         assertThat(
                 newItemArray.length
@@ -83,7 +99,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     @Test
     void putInventoryItemCorrectlyUpdatesInfo() {
 
-        InventoryItem[] oldItemArray = getInventoryItems();
+        InventoryItem[] oldItemArray = getInventoryItems(baseUrl);
         int randIdx = rand.nextInt(oldItemArray.length);
         InventoryItem origInvItem = oldItemArray[randIdx];
 
@@ -98,7 +114,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
                 origInvItem
         );
 
-        InventoryItem[] newItemArray = getInventoryItems();
+        InventoryItem[] newItemArray = getInventoryItems(baseUrl);
         Optional<InventoryItem> newItem = Arrays.stream(newItemArray).filter(
                 inventoryItem -> {
                     return inventoryItem.inventoryItemId.equals(origInvItem.inventoryItemId);
