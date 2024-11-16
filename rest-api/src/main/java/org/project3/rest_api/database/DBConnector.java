@@ -4,7 +4,7 @@ import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.Order;
-import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
+import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -201,8 +201,8 @@ public class DBConnector {
      * @param orderId ID of the placed order
      * @param itemWithQties Inventory items and quantities associated with order
      * */
-    public void insertOrderInventoryItems(UUID orderId, InventoryItemWithQty[] itemWithQties) {
-        for (InventoryItemWithQty item : itemWithQties) {
+    public void insertOrderInventoryItems(UUID orderId, ItemWithQty[] itemWithQties) {
+        for (ItemWithQty item : itemWithQties) {
             executeUpdate(String.format(QueryTemplate.insertOrderToInventoryItem,
                     orderId,
                     item.id,

@@ -1,8 +1,7 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Order;
-import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
+import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,11 +47,20 @@ public class OrderServiceController extends BaseAPIController {
     /**
      * Updates orderToInventoryItem table
      * @param itemsWithQties List of inventory items and quantities included in order
+     * @param orderId ID of order associated with itemsWithQties
      * */
     @PostMapping("{orderId}/inventory")
-    public void mapOrderToInventory(@RequestBody InventoryItemWithQty[] itemsWithQties,
+    public void mapOrderToInventory(@RequestBody ItemWithQty[] itemsWithQties,
                                     @PathVariable UUID orderId) {
         dbConnector.insertOrderInventoryItems(orderId, itemsWithQties);
     }
+
+    /**
+     * Updates orderToMenuItem table
+     * @param itemsWithQties List of menu items and quantities included in order
+     * @param orderId ID of order associated with itemsWithQties
+     * */
+    @PostMapping("{orderId}/menu")
+    public void mapOrderToMenu(@RequestBody )
 
 }
