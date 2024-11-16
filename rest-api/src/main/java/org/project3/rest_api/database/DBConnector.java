@@ -220,7 +220,7 @@ public class DBConnector {
      * @param orderId ID of the placed order
      * @param itemWithQties Inventory items and quantities associated with order
      * */
-    public void insertOrderInventoryItems(UUID orderId, ItemWithQty[] itemWithQties) {
+    public void insertOrderInventoryItems(UUID orderId, List<ItemWithQty> itemWithQties) {
         for (ItemWithQty item : itemWithQties) {
             executeUpdate(String.format(QueryTemplate.insertOrderToInventoryItem,
                     orderId,
@@ -236,7 +236,7 @@ public class DBConnector {
      * @param orderId ID of placed order
      * @param itemWithQties Menu Items and quantities associated with order
      * */
-    public void insertOrderMenuItems(UUID orderId, ItemWithQty[] itemWithQties) {
+    public void insertOrderMenuItems(UUID orderId, List<ItemWithQty> itemWithQties) {
         for (ItemWithQty item : itemWithQties) {
             executeUpdate(String.format(QueryTemplate.insertOrderToMenuItem,
                     orderId,
@@ -257,6 +257,33 @@ public class DBConnector {
                 newInventoryItem.cost,
                 newInventoryItem.availableStock,
                 newInventoryItem.itemName
+        ));
+    }
+
+    /**
+     * Updates an existing inventory item
+     *
+     * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
+     */
+    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
+                updatedInventoryItem.cost,
+                updatedInventoryItem.availableStock,
+                updatedInventoryItem.itemName,
+                updatedInventoryItem.inventoryItemId
+        ));
+    }
+
+    /**
+     * Decreases quantity of inventory item
+     *
+     * @param inventoryItemId ID of inventory item to update
+     * @param decreaseBy How much to subtract from inventory item stock
+     * */
+    public void decreaseInventoryItemQty(UUID inventoryItemId, int decreaseBy) {
+        executeUpdate(String.format(QueryTemplate.decreaseInventoryItemQty,
+                decreaseBy,
+                inventoryItemId
         ));
     }
 
@@ -286,19 +313,5 @@ public class DBConnector {
         ));
     }
 
-
-    /**
-     * Updates an existing inventory item
-     *
-     * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
-     */
-    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
-        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
-                updatedInventoryItem.cost,
-                updatedInventoryItem.availableStock,
-                updatedInventoryItem.itemName,
-                updatedInventoryItem.inventoryItemId
-        ));
-    }
 
 }

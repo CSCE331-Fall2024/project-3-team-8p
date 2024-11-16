@@ -1,5 +1,6 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Order;
 import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.web.bind.annotation.*;
@@ -56,13 +57,29 @@ public class OrderServiceController extends BaseAPIController {
 
     /**
      * Updates orderToMenuItem table
-     * @param itemsWithQties List of menu items and quantities included in order
      * @param orderId ID of order associated with itemsWithQties
+     * @param itemsWithQties List of menu items and quantities included in order
      * */
     @PostMapping("{orderId}/menu")
     public void mapOrderToMenu(@PathVariable UUID orderId,
-                               @RequestBody ItemWithQty[] itemsWithQties) {
+                               @RequestBody List<ItemWithQty> itemsWithQties) {
 
+        for (ItemWithQty menuItem : itemsWithQties) {
+            List<InventoryItem> invItems = dbConnector.selectMenuItemInventoryItems(menuItem.id);
+
+            List<ItemWithQty> invItemsWithQty = invItems.stream().map(inventoryItem -> {
+                // update stock of inventory item
+                dbConnector.decreaseInventoryItemQty(inventoryItem.inventoryItemId, menuItem.quantity);
+                // return an object associating each inventory item with its quantity in the order
+                return new ItemWithQty(inventoryItem.inventoryItemId, menuItem.quantity);
+            }).toList();
+
+            // insert each associated inventory item into orderToInventoryItem
+            dbConnector.insertOrderInventoryItems(orderId, invItemsWithQty);
+        }
+
+
+        // insert menu items into orderToMenuItem
         dbConnector.insertOrderMenuItems(orderId, itemsWithQties);
 
     }
