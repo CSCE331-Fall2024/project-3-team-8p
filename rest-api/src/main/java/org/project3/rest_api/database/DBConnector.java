@@ -212,6 +212,22 @@ public class DBConnector {
     }
 
     /**
+     * Maps order to menu items
+     *
+     * @param orderId ID of placed order
+     * @param itemWithQties Menu Items and quantities associated with order
+     * */
+    public void insertOrderMenuItems(UUID orderId, ItemWithQty[] itemWithQties) {
+        for (ItemWithQty item : itemWithQties) {
+            executeUpdate(String.format(QueryTemplate.insertOrderToMenuItem,
+                    orderId,
+                    item.id,
+                    item.quantity
+                    ));
+        }
+    }
+
+    /**
      * Adds a new inventory item
      *
      * @param newInventoryItem the inventory item to add

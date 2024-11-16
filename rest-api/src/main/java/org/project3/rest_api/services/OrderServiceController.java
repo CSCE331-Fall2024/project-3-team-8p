@@ -30,7 +30,6 @@ public class OrderServiceController extends BaseAPIController {
     /**
      * Creates new orders in database
      * @param newOrder Order object to be created in database
-     * @param menuItems List of menu items and quantities included in order
      * */
     @PostMapping
     public Order addOrder(@RequestBody Order newOrder) {
@@ -44,16 +43,16 @@ public class OrderServiceController extends BaseAPIController {
         return newOrder;
     }
 
-    /**
-     * Updates orderToInventoryItem table
-     * @param itemsWithQties List of inventory items and quantities included in order
-     * @param orderId ID of order associated with itemsWithQties
-     * */
-    @PostMapping("{orderId}/inventory")
-    public void mapOrderToInventory(@RequestBody ItemWithQty[] itemsWithQties,
-                                    @PathVariable UUID orderId) {
-        dbConnector.insertOrderInventoryItems(orderId, itemsWithQties);
-    }
+//    /**
+//     * Updates orderToInventoryItem table
+//     * @param itemsWithQties List of inventory items and quantities included in order
+//     * @param orderId ID of order associated with itemsWithQties
+//     * */
+//    @PostMapping("{orderId}/inventory")
+//    public void mapOrderToInventory(@PathVariable UUID orderId,
+//                                    @RequestBody ItemWithQty[] itemsWithQties) {
+//        dbConnector.insertOrderInventoryItems(orderId, itemsWithQties);
+//    }
 
     /**
      * Updates orderToMenuItem table
@@ -61,6 +60,11 @@ public class OrderServiceController extends BaseAPIController {
      * @param orderId ID of order associated with itemsWithQties
      * */
     @PostMapping("{orderId}/menu")
-    public void mapOrderToMenu(@RequestBody )
+    public void mapOrderToMenu(@PathVariable UUID orderId,
+                               @RequestBody ItemWithQty[] itemsWithQties) {
+
+        dbConnector.insertOrderMenuItems(orderId, itemsWithQties);
+
+    }
 
 }
