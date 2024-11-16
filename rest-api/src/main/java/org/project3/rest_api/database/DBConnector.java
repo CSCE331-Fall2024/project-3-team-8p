@@ -4,6 +4,7 @@ import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.Calendar;
 /**
@@ -191,6 +193,22 @@ public class DBConnector {
                 newOrder.hour,
                 newOrder.price
         ));
+    }
+
+    /**
+     * Maps order to inventory items
+     *
+     * @param orderId ID of the placed order
+     * @param itemWithQties Inventory items and quantities associated with order
+     * */
+    public void insertOrderInventoryItems(UUID orderId, InventoryItemWithQty[] itemWithQties) {
+        for (InventoryItemWithQty item : itemWithQties) {
+            executeUpdate(String.format(QueryTemplate.insertOrderToInventoryItem,
+                    orderId,
+                    item.id,
+                    item.quantity
+                    ));
+        }
     }
 
     /**

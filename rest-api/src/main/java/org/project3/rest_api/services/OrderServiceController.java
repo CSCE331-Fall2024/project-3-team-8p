@@ -1,6 +1,8 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +31,10 @@ public class OrderServiceController extends BaseAPIController {
     /**
      * Creates new orders in database
      * @param newOrder Order object to be created in database
+     * @param menuItems List of menu items and quantities included in order
      * */
     @PostMapping
-    public void addOrder(@RequestBody Order newOrder) {
+    public Order addOrder(@RequestBody Order newOrder) {
 
         // Create an order id if not provided by the user
         if (newOrder.orderId == null) {
@@ -39,5 +42,17 @@ public class OrderServiceController extends BaseAPIController {
         }
 
         dbConnector.insertOrder(newOrder);
+        return newOrder;
     }
+
+    /**
+     * Updates orderToInventoryItem table
+     * @param itemsWithQties List of inventory items and quantities included in order
+     * */
+    @PostMapping("{orderId}/inventory")
+    public void mapOrderToInventory(@RequestBody InventoryItemWithQty[] itemsWithQties,
+                                    @PathVariable UUID orderId) {
+        dbConnector.insertOrderInventoryItems(orderId, itemsWithQties);
+    }
+
 }
