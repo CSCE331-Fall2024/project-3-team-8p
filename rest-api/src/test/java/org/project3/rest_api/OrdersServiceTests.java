@@ -2,6 +2,7 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
 
 import java.util.*;
@@ -119,7 +120,29 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         // check that the order exists
         assertThat(postedOrder).isPresent();
 
+        // check item association logic
+        mapOrderToMenuUpdatesCorrectly(newOrder.orderId);
+
         // no print because large query
+
+    }
+
+    /**
+     * Check if order to menu item/inventory item is updated correctly
+     * */
+    @Test
+    void mapOrderToMenuUpdatesCorrectly(UUID orderId) {
+
+        // select two random menu items to associate with the order
+        List<MenuItem> menuItems = dbConnector.selectMenuItems();
+        int randIdx1 = rand.nextInt(menuItems.size());
+        int randIdx2 = rand.nextInt(menuItems.size());
+        int randQty = rand.nextInt(5);
+
+        MenuItem randItem1 = menuItems.get(randIdx1);
+        MenuItem randItem2 = menuItems.get(randIdx2);
+
+
 
     }
 

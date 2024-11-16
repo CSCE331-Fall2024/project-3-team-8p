@@ -44,17 +44,6 @@ public class OrderServiceController extends BaseAPIController {
         return newOrder;
     }
 
-//    /**
-//     * Updates orderToInventoryItem table
-//     * @param itemsWithQties List of inventory items and quantities included in order
-//     * @param orderId ID of order associated with itemsWithQties
-//     * */
-//    @PostMapping("{orderId}/inventory")
-//    public void mapOrderToInventory(@PathVariable UUID orderId,
-//                                    @RequestBody ItemWithQty[] itemsWithQties) {
-//        dbConnector.insertOrderInventoryItems(orderId, itemsWithQties);
-//    }
-
     /**
      * Updates orderToMenuItem table
      * @param orderId ID of order associated with itemsWithQties
