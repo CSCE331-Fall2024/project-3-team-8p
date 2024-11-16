@@ -96,6 +96,25 @@ public class DBConnector {
     }
 
     /**
+     * Selects all inventory items associated with a given menu item
+     *
+     * @param menuItemId the UUID of the menu item to select inventory items for
+     * @return a {@code List<InventoryItem>} of inventory items associated with the given menu item
+     */
+    public List<InventoryItem> selectMenuItemInventoryItems(UUID menuItemId) {
+        List<InventoryItem> items = null;
+        try {
+            items = executeQuery(
+                    String.format(QueryTemplate.selectMenuItemInventoryItem, menuItemId),
+                    SQLToJavaMapper::inventoryItemMapper
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    /**
      * Selects all inventory items
      *
      * @return a {@code List<InventoryItem>} of all inventory items

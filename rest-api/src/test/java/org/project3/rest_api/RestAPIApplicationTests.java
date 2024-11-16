@@ -2,6 +2,7 @@ package org.project3.rest_api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.project3.rest_api.database.DBConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,6 +28,12 @@ class RestAPIApplicationTests {
 	* */
 	@Autowired
 	protected TestRestTemplate restTemplate;
+
+	/**
+	 * DBConnector instance used for endpoint testing
+	 * */
+	@Autowired
+	protected DBConnector dbConnector;
 
 	/**
 	* Base url for endpoints

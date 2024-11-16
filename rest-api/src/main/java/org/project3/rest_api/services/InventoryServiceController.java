@@ -3,7 +3,9 @@ package org.project3.rest_api.services;
 import org.project3.rest_api.models.InventoryItem;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -17,11 +19,17 @@ import java.util.UUID;
 public class InventoryServiceController extends BaseAPIController {
 
     /**
-     * Queries all inventory items from database
+     * Queries database for inventory items
+     * @param menuItemId menu item for which to grab inventory items; returns all items if not provided
      * @return list of InventoryItem
      */
     @GetMapping
-    public List<InventoryItem> getInventoryItems() {
+    public List<InventoryItem> getInventoryItems(@RequestParam Optional<UUID> menuItemId) {
+
+        if (menuItemId.isPresent()) {
+            return dbConnector.selectMenuItemInventoryItems(menuItemId.get());
+        }
+
         return dbConnector.selectInventoryItems();
     }
 
