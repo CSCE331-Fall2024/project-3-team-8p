@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs } from './TabsEnum'; // Import the Tabs enum
+import { Tabs } from './tabs-enum'; // Import the Tabs enum
 import ButtonComponent from './ButtonComponent';
 
 interface ButtonContainerProps {
