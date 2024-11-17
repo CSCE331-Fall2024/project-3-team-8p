@@ -301,6 +301,24 @@ public class DBConnector {
     }
 
     /**
+     * Maps menu items to inventory items
+     *
+     * @param invItemsWithQty inventory items and quantities associated with menu items
+     * */
+    public void insertMenuItemInventoryItems(UUID menuItemId, List<ItemWithQty> invItemsWithQty) {
+
+        for (ItemWithQty invItem : invItemsWithQty) {
+            executeUpdate(String.format(QueryTemplate.insertMenuItemToInventoryItem,
+                    menuItemId,
+                    invItem.id,
+                    invItem.quantity
+            ));
+        }
+
+
+    }
+
+    /**
      * Updates an existing menu item
      *
      * @param updatedMenuItem a {@code MenuItem} object representing the menu item to update

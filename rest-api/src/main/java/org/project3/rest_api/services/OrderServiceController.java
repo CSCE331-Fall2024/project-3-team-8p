@@ -46,14 +46,14 @@ public class OrderServiceController extends BaseAPIController {
 
     /**
      * Updates orderToMenuItem table
-     * @param orderId ID of order associated with itemsWithQties
-     * @param itemsWithQties List of menu items and quantities included in order
+     * @param orderId ID of order associated with menuItemsWithQties
+     * @param menuItemsWithQties List of menu items and quantities included in order
      * */
     @PostMapping("{orderId}/menu")
     public void mapOrderToMenu(@PathVariable UUID orderId,
-                               @RequestBody List<ItemWithQty> itemsWithQties) {
+                               @RequestBody List<ItemWithQty> menuItemsWithQties) {
 
-        for (ItemWithQty menuItem : itemsWithQties) {
+        for (ItemWithQty menuItem : menuItemsWithQties) {
             List<InventoryItem> invItems = dbConnector.selectMenuItemInventoryItems(menuItem.id);
 
             List<ItemWithQty> invItemsWithQty = invItems.stream().map(inventoryItem -> {
@@ -69,7 +69,7 @@ public class OrderServiceController extends BaseAPIController {
 
 
         // insert menu items into orderToMenuItem
-        dbConnector.insertOrderMenuItems(orderId, itemsWithQties);
+        dbConnector.insertOrderMenuItems(orderId, menuItemsWithQties);
 
     }
 
