@@ -32,7 +32,6 @@ public class MenuServiceController extends BaseAPIController {
      * */
     @PostMapping
     public void addMenuItem(@RequestBody MenuItem newMenuItem) {
-
         // Create a menu item id if not provided by the user
         if (newMenuItem.menuItemId == null) {
             newMenuItem.menuItemId = UUID.randomUUID();
@@ -40,6 +39,7 @@ public class MenuServiceController extends BaseAPIController {
 
         dbConnector.insertMenuItem(newMenuItem);
     }
+
     @GetMapping("/product-usage")
     public Map<String, Integer> selectProductUsage(
             @RequestParam Integer startMonth,

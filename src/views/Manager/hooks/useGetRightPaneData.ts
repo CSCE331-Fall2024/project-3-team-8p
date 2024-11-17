@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import CardItem from "../../models/interfaces/CardItem";
-import { InventoryItemApi } from "../../apis/inventory-item-api";
-import { MenuItemApi } from "../../apis/menu-item-api";
-import { EmployeeApi } from "../../apis/employee-api";
+import CardItem from "../../../models/interfaces/CardItem";
+import { InventoryItemApi } from "../../../apis/inventory-item-api";
+import { MenuItemApi } from "../../../apis/menu-item-api";
+import { EmployeeApi } from "../../../apis/employee-api";
 
 
 enum RightPane {
@@ -11,7 +11,7 @@ enum RightPane {
     Employees
 }
 
-const useFetchCardItems = (
+const useGetRightPaneData = (
     menuItemApi: MenuItemApi,
     inventoryItemApi: InventoryItemApi,
     employeeApi: EmployeeApi,
@@ -22,7 +22,7 @@ const useFetchCardItems = (
     const [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        const fetchItems = async () => {
+        const getItems = async () => {
             setLoading(true);
             try {
                 let itemData: CardItem[];
@@ -51,8 +51,7 @@ const useFetchCardItems = (
                 setLoading(false);
             }
         };
-
-        fetchItems();
+        getItems();
     }, [currRightPane, menuItemApi, inventoryItemApi, employeeApi]);
 
     return {
@@ -64,5 +63,5 @@ const useFetchCardItems = (
     };
 };
 
-export default useFetchCardItems;
+export default useGetRightPaneData;
 export { RightPane };

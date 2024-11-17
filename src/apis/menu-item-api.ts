@@ -25,22 +25,35 @@ export class MenuItemApi extends BaseApi {
     }
 
     async addMenuItem(item: MenuItem): Promise<void> {
-        try {
-            const menuItemData = {
-                menuItemId: item.menuItemId,
-                price: item.price,
-                itemName: item.itemName,
-            };
+        const menuItemData = {
+            menuItemId: item.menuItemId,
+            price: item.price,
+            itemName: item.itemName,
+        };
 
-            this.apiClient.post("", menuItemData)
-                .then(response => {
-                    console.log("Response: ", response.data)
-                })
-                .catch(error => {
-                    throw new Error("Error when adding menu item: " + error);
-                })
+        try {
+            const response = await this.apiClient.post("", menuItemData);
+            console.log("Response: ", response.data);
         } catch (error) {
-            console.error(error);
+            console.error("Error when adding menu item: " + error);
+            throw error
         }
+    }
+
+    async getProductUsageReport(
+        startMonth: number,
+        endMonth: number,
+        startDay: number,
+        endDay: number): Promise<Record<string, number>> {
+
+        const response = await this.apiClient.get<Record<string, number>>("/product-usage", {
+            params: {
+                startMonth: startMonth,
+                endMonth: endMonth,
+                startDay: startDay,
+                endDay: endDay,
+            }
+        });
+        return response.data;
     }
 }

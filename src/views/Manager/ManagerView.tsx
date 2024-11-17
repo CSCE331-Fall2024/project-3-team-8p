@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Button, Col, Row } from "react-bootstrap";
-import './ManagerView.css';
+import './css/ManagerView.css';
 import ItemGrid from "./components/ItemGrid";
-import "./ManagerView.css"
-import useFetchCardItems, { RightPane } from "./useFetchCardItems";
+import "./css/ManagerView.css"
+import useGetRightPaneData, { RightPane } from "./hooks/useGetRightPaneData";
 import { MenuItemApi } from "../../apis/menu-item-api";
 import { InventoryItemApi } from "../../apis/inventory-item-api";
 import { EmployeeApi } from "../../apis/employee-api";
 import MenuItemModal from "./components/MenuItemModal";
 import CardItem from "../../models/interfaces/CardItem";
 import MenuItem from "../../models/MenuItem";
+import { LeftPane } from "./hooks/useGetLeftPaneData";
 
-
-enum LeftPane {
-    Summary,
-    UsageChart,
-    SalesReport,
-    XReport,
-    ZReport
-}
 
 // TODO: Should probably replace this with some global state
 const menuItemApi = new MenuItemApi();
@@ -46,7 +39,7 @@ function ManagerView() {
         error,
         currRightPane,
         setCurrRightPane
-    } = useFetchCardItems(menuItemApi, inventoryItemApi, employeeApi);
+    } = useGetRightPaneData(menuItemApi, inventoryItemApi, employeeApi);
     const [showModal, setShowModal] = useState(false);
     const [currItem, setCurrItem] = useState<CardItem | undefined>(undefined)
 
@@ -66,9 +59,6 @@ function ManagerView() {
                         defaultActiveKey={"/"}
                         className={"px-3"}
                     >
-                        <Nav.Item>
-                            <Nav.Link eventKey={LeftPane.Summary}>Summary</Nav.Link>
-                        </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey={LeftPane.UsageChart}>Usage Chart</Nav.Link>
                         </Nav.Item>
