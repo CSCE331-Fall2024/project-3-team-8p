@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Button, Col, Row, Spinner } from "react-bootstrap";
 import './css/ManagerView.css';

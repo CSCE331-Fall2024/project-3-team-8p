@@ -37,13 +37,15 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
                 await menuItemApi.updateMenuItem(new MenuItem(
                     formData.menuItemId,
                     formData.price,
-                    formData.itemName
+                    formData.itemName,
+                    `images/${formData.itemName}.png`
                 ));
             } else {
                 await menuItemApi.addMenuItem(new MenuItem(
                     formData.menuItemId,
                     formData.price,
-                    formData.itemName
+                    formData.itemName,
+                    `images/${formData.itemName}.png`
                 ));
             }
             onClose(true);
