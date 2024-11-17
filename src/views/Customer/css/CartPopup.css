@@ -31,15 +31,6 @@
     padding: 5px 10px;
 }
 
-.clear-button {
-    margin-top: 10px;
-    margin-left: 45px;
-}
-
-.toggle-button {
-    margin-bottom: 10px;
-}
-
 .clear-button:hover,
 .toggle-button:hover {
     background-color: #A81618; /* Darker red on hover */

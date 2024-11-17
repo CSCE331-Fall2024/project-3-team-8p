@@ -1,6 +1,10 @@
 package org.project3.rest_api;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.Order;
+
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,37 +13,115 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class OrdersServiceTests extends RestAPIApplicationTests{
 
-    /*
-    * Checks if correct default count of orders is returned
+    /**
+     * Calendar info for order tests
+     * */
+    private final Calendar calendar = Calendar.getInstance();
+    private final TimeZone timeZone = TimeZone.getTimeZone("America/Chicago");
+    private Integer currentMonth;
+    private Integer currentWeek;
+    private Integer currentDay;
+    private Integer currentHour;
+
+    @BeforeEach
+    void orderSetup() {
+        calendar.setTimeZone(timeZone);
+        baseUrl+="order";
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        normalizeDateFields();
+    }
+
+    void normalizeDateFields() {
+        // 12 PM  is represented as 0
+        currentHour = currentHour == 0 ? 12 : currentHour;
+
+        // Workday starts at 10am and ends at 10pm
+        currentHour = (currentHour - 10) % 12 + 1;
+
+        // Return the positive modulus rather than negative
+        if (currentHour <= 0)
+            currentHour += 12;
+
+        // current month is 0 indexed
+        currentMonth++;
+    }
+
+    /**
+     * GET request for orders
+     */
+    Order[] getOrders(String url) {
+        return this.restTemplate.getForObject(url, Order[].class);
+    }
+
+    /**
+    * Checks if GET returns correct order count
     * */
     @Test
-    void getOrdersReturnsCorrectDefaultCount() {
-        String url = baseUrl+"orders";
+    void getOrderReturnsCorrectDefaultCount() {
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+        Order[] itemArray = getOrders(baseUrl);
 
         final int DEFAULT_ORDER_COUNT = 50;
         assertThat(
-                rawArray.length
+                itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
 
-        printResult(rawJson, "Orders");
+        printResult(getRawJson(baseUrl), "Orders");
     }
 
-    /*
-    * Checks if correct parameterized count of orders is returned
+    /**
+    * Checks if GET returns correct parameterized order count
     * */
     @Test
-    void getOrdersReturnsCorrectParamCount() {
+    void getOrderReturnsCorrectParamCount() {
         int EXPECTED_ORDER_COUNT = 75;
-        String url = baseUrl+"orders?mostRecent="+EXPECTED_ORDER_COUNT;
+        String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+        Order[] rawArray = getOrders(url);
 
         assertThat(rawArray.length).isEqualTo(EXPECTED_ORDER_COUNT);
 
-        printResult(rawJson, "Orders (Parameterized)");
+        printResult(getRawJson(url), "Orders (Parameterized)");
     }
+
+    /**
+     * Checks if POST correctly creates new order
+     * */
+    @Test
+    void postOrdersCorrectlyCreatesOrder() {
+
+        Order newOrder = new Order(
+                UUID.fromString("46ffb227-8283-43b5-97aa-0a519a62f721"),
+                currentMonth,
+                currentWeek,
+                currentDay,
+                currentHour,
+                10.59
+        );
+
+        // post the order
+        this.restTemplate.postForObject(baseUrl,
+                newOrder,
+                Order.class
+        );
+
+        int avgOrderPerMonth = 5700;
+        Order[] newOrders = getOrders(baseUrl+"?mostRecent="+avgOrderPerMonth);
+        Optional<Order> postedOrder = Arrays.stream(newOrders).filter(
+                order -> {
+                    return order.orderId.equals(newOrder.orderId);
+                }
+        ).findFirst();
+
+        // check that the order exists
+        assertThat(postedOrder).isPresent();
+
+        // no print because large query
+
+    }
+
+
 }

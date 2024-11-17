@@ -18,13 +18,15 @@ const CartPopup: React.FC<CartPopupProps> = ({ cartItems, total, onClearCart }) 
 
     return (
         <div className="popup-container" style={{ maxHeight: isOpen ? '400px' : '80px' }}>
-            <button className="toggle-button" onClick={toggleCart}>
-                {isOpen ? 'Hide Cart' : 'Show Cart'}
-            </button>
-            <button className="clear-button" onClick={onClearCart}>Clear Cart</button>
+            <div className="d-flex justify-content-between">
+                <button className="toggle-button" onClick={toggleCart}>
+                    {isOpen ? 'Hide Cart' : 'Show Cart'}
+                </button>
+                <button className="clear-button" onClick={onClearCart}>Clear Cart</button>
+            </div>
             {isOpen && (
                 <>
-                    <h3>Cart</h3>
+                    <h3 className={"mt-3"}>Cart</h3>
                     {cartItems.length === 0 ? (
                         <div>Your cart is empty.</div>
                     ) : (

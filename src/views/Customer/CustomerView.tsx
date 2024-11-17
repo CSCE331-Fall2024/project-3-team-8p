@@ -9,6 +9,7 @@ import CartPopup from './components/CartPopup'; // Import CartPopup
 import { useCart } from './context/CartContext'; // Import the useCart hook
 import MenuItem from '../../models/MenuItem';
 
+
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
     const { cartItems, total, addToCart, clearCart } = useCart(); // Access context values
@@ -21,7 +22,7 @@ function CustomerView() {
         <div className="CustomerView">
             <div className="button-container">
                 <button className="black-button">Accessibility</button>
-                <img src={"POS.png"} alt="Centered Top Image" className="BannerImage" />
+                <img src={"images/POS.png"} alt={"Logo"} className="BannerImage" />
                 <Link to="/checkout">
                     <button className="black-button">Checkout</button>
                 </Link>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Tabs } from '../TabsEnum'; // Import the Tabs enum
 import ButtonComponent from './ButtonComponent';
+import { Tabs } from "../TabsEnum";
 
 interface ButtonContainerProps {
     onTabChange: (tab: Tabs) => void;

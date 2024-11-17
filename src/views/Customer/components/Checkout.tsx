@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../css/Checkout.css';
-import MenuItem from '../../../models/MenuItem'; // Ensure you import MenuItem
 
 const Checkout: React.FC = () => {
     const { cartItems, total, clearCart } = useCart();

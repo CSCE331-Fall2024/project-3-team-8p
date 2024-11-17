@@ -1,4 +1,3 @@
-// MenuItem.ts
 import InventoryItem from "./InventoryItem";
 import CardItem from "./interfaces/CardItem";
 
