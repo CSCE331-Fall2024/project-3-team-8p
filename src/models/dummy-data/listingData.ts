@@ -1,7 +1,7 @@
-import { Tabs } from './TabsEnum';
+import { Tabs } from '../../views/Customer/TabsEnum';
 
 
-import MenuItem from '../../models/MenuItem';
+import MenuItem from '../MenuItem';
 
 const listings: Record<Tabs, MenuItem[]> = {
     [Tabs.Entrees]: [

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import MenuItem from "../../../models/MenuItem";
 
 // Define the shape of the CartItem, which will have the MenuItem and a quantityOrdered
-interface CartItem {
+export interface CartItem {
     menuItemId: string;
     price: number;
     itemName: string;

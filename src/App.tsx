@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { Container } from "react-bootstrap";
-import ManagerView from "./views/ManagerView";
-import CustomerView from "./views/CustomerView";
-import Checkout from "./components/customer/Checkout";
+import CustomerView from "./views/Customer/CustomerView";
+import Checkout from "./views/Customer/components/Checkout";
 import './App.css';
-import { CartProvider } from './components/customer/context/CartContext';
+import { CartProvider } from './views/Customer/context/CartContext';
 import {HTTPClient} from "./services/HTTPClient";
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
                                 <Link to="/customer">Customer</Link>
                             </div>
                         } />
-                        <Route path="/manager" element={<ManagerView />} />
+                        {/*<Route path="/manager" element={<ManagerView />} />*/}
 
                         {/* Wrap CustomerView and Checkout in CartProvider */}
                         <Route path="/customer" element={

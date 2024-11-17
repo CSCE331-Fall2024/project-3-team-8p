@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import './CssFiles/CartPopup.css';
-import MenuItem from "../../models/MenuItem";
-
-// Define the type for a cart item, extending from MenuItem
-interface CartItem extends MenuItem {
-    quantityOrdered: number;
-}
+import '../css/CartPopup.css';
+import { CartItem } from "../context/CartContext";
 
 // Define the props type for CartPopup
 interface CartPopupProps {

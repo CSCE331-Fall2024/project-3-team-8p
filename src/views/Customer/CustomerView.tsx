@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import listings from '../components/customer/listingData'; // Import listings
-import './CustomerView.css';
-import ListingCard from '../components/customer/ListingCard';
-import ButtonContainer from '../components/customer/ButtonContainer';
-import { Tabs } from '../components/customer/TabsEnum';
-import CartPopup from '../components/customer/CartPopup'; // Import CartPopup
-import { useCart } from '../components/customer/context/CartContext'; // Import the useCart hook
-import MenuItem from '../models/MenuItem';
+import listings from '../../models/dummy-data/listingData'; // Import listings
+import './css/CustomerView.css';
+import ListingCard from './components/ListingCard';
+import ButtonContainer from './components/ButtonContainer';
+import { Tabs } from './TabsEnum';
+import CartPopup from './components/CartPopup'; // Import CartPopup
+import { useCart } from './context/CartContext'; // Import the useCart hook
+import MenuItem from '../../models/MenuItem';
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);

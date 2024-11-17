@@ -1,6 +1,6 @@
 // ListingCard.tsx
 import React from 'react';
-import './CssFiles/ListingCard.css';
+import '../css/ListingCard.css';
 
 interface ListingCardProps {
     name: string;
