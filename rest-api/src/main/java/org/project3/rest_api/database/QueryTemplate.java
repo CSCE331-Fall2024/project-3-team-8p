@@ -142,6 +142,17 @@ public class QueryTemplate {
                 WHERE employeeId = '%s';
                 """;
 
+    /**
+     * SQL query to delete an existing employee
+     * */
+    /**
+     * SQL query to delete a menu item
+     */
+    public static final String deleteEmployee = """
+                DELETE FROM employee 
+                WHERE employeeid='%s'; 
+                """;
+
     // Inventory items
     /**
      * SQL query to select an inventory item by inventoryItemId

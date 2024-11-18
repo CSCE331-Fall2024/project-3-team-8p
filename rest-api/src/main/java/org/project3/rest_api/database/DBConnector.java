@@ -165,6 +165,16 @@ public class DBConnector {
     }
 
     /**
+     * Deletes an employee with given UUID
+     * @param employeeId ID of menu item to be deleted
+     * */
+    public void deleteEmployee(UUID employeeId) {
+        executeUpdate(String.format(QueryTemplate.deleteEmployee,
+                employeeId
+        ));
+    }
+
+    /**
      * Selects the {@code mostRecent} most recent orders from the database
      *
      * @param mostRecent the number of most recent orders to select
