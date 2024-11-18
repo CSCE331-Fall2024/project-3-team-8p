@@ -285,6 +285,19 @@ public class DBConnector {
     }
 
     /**
+     *
+     * */
+    /**
+     * Deletes an employee with given UUID
+     * @param invItemId ID of menu item to be deleted
+     * */
+    public void deleteInventoryItem(UUID invItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteInventoryItem,
+                invItemId
+        ));
+    }
+
+    /**
      * Decreases quantity of inventory item
      *
      * @param inventoryItemId ID of inventory item to update

@@ -32,7 +32,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     @Test
     void getInventoryItemReturnsCorrectCount() {
 
-        final int EXPECTED_ITEM_COUNT = 20;
+        final int EXPECTED_ITEM_COUNT = dbConnector.selectInventoryItems().size();
         assertThat(
                 getInventoryItems(baseUrl).length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
@@ -72,13 +72,15 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
+        InventoryItem newInvItem = new InventoryItem(
+                0.99,
+                376,
+                "Test Inventory Item"
+        );
+
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
-                new InventoryItem(
-                        0.99,
-                        376,
-                        "Test Inventory Item"
-                ),
+                newInvItem,
                 InventoryItem.class
         );
 
@@ -91,6 +93,9 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
         printResult(getRawJson(baseUrl), "Inventory Items");
 
+        // remove the inventory item after testing is successful
+        this.dbConnector.deleteInventoryItem(newInvItem.inventoryItemId);
+
     }
 
     /**
@@ -101,45 +106,55 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
         InventoryItem[] oldItemArray = getInventoryItems(baseUrl);
         int randIdx = rand.nextInt(oldItemArray.length);
+
         InventoryItem origInvItem = oldItemArray[randIdx];
 
-        final double EXPECTED_ITEM_COST = ++origInvItem.cost;
-        final int EXPECTED_STOCK = ++origInvItem.availableStock;
-        final String EXPECTED_NAME = "Special " + origInvItem.itemName;
+        // round to two decimal places
+        double newCost = Math.round((origInvItem.cost + 0.05)*100.0)/100.0;
 
-        origInvItem.itemName = "Special " + origInvItem.itemName;
+        InventoryItem newInvItem = new InventoryItem(
+                origInvItem.inventoryItemId,
+                newCost,
+                origInvItem.availableStock + 12,
+                "Special " + origInvItem.itemName
+        );
 
         // perform the PUT request
         this.restTemplate.put(baseUrl,
-                origInvItem
+                newInvItem
         );
 
         InventoryItem[] newItemArray = getInventoryItems(baseUrl);
-        Optional<InventoryItem> newItem = Arrays.stream(newItemArray).filter(
+        Optional<InventoryItem> findInvItem = Arrays.stream(newItemArray).filter(
                 inventoryItem -> {
-                    return inventoryItem.inventoryItemId.equals(origInvItem.inventoryItemId);
+                    return inventoryItem.inventoryItemId.equals(newInvItem.inventoryItemId);
                 }
         ).findFirst();
 
         // check that new item is not null
-        assertThat(newItem).isPresent();
+        assertThat(findInvItem).isPresent();
 
         // check if PUT correctly updated fields
-        InventoryItem safeItem = newItem.get();
+        InventoryItem safeItem = findInvItem.get();
 
         assertThat(
                 safeItem.cost
-        ).isEqualTo(EXPECTED_ITEM_COST);
+        ).isEqualTo(newInvItem.cost);
 
         assertThat(
                 safeItem.availableStock
-        ).isEqualTo(EXPECTED_STOCK);
+        ).isEqualTo(newInvItem.availableStock);
 
         assertThat(
                 safeItem.itemName
-        ).isEqualTo(EXPECTED_NAME);
+        ).isEqualTo(newInvItem.itemName);
 
         printResult(getRawJson(baseUrl), "Inventory Items");
+
+        // put back he original item after tests have succeeded
+        this.restTemplate.put(baseUrl,
+                newInvItem
+        );
 
     }
 

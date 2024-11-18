@@ -187,6 +187,14 @@ public class QueryTemplate {
                 """;
 
     /**
+     * SQL query to delete inventory items
+     * */
+    public static final String deleteInventoryItem = """
+                DELETE FROM inventoryItem
+                WHERE inventoryItemId='%s';
+                """;
+
+    /**
      * SQL query to decrease the quantity of an inventory item
      */
     public static final String decreaseInventoryItemQty = """
