@@ -319,6 +319,17 @@ public class DBConnector {
     }
 
     /**
+     * Deletes menu item with given UUID
+     *
+     * @param menuItemId ID of menu item to be deleted
+     * */
+    public void deleteMenuItem(UUID menuItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteMenuItem,
+                menuItemId
+                ));
+    }
+
+    /**
      * Updates an existing menu item
      *
      * @param updatedMenuItem a {@code MenuItem} object representing the menu item to update
