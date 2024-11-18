@@ -1,5 +1,13 @@
 /* Checkout.css */
 
+
+.weather-container {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+}
+
 .checkout-container {
     padding: 20px;
     display: flex;
@@ -8,6 +16,13 @@
     justify-content: space-between;
     min-height: 100vh;
     background-color: #f4f4f9; /* Light background color for the page */
+}
+
+.recommendation {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #444;
+    font-style: italic;
 }
 
 .cart-item {
