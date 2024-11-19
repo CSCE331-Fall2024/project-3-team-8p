@@ -195,6 +195,17 @@ public class DBConnector {
     }
 
     /**
+     * Deletes an order from the database
+     *
+     * @param orderId ID of order to be deleted
+     * */
+    public void deleteOrder(UUID orderId) {
+        executeUpdate(String.format(QueryTemplate.deleteOrder,
+                orderId
+                ));
+    }
+
+    /**
      * Adds a new employee
      *
      * @param newEmployee the employee to add

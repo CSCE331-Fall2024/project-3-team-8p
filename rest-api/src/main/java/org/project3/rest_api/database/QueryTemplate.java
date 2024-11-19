@@ -78,6 +78,14 @@ public class QueryTemplate {
                 """;
 
     /**
+     * SQL query to delete an order
+     * */
+    public static final String deleteOrder = """
+                DELETE FROM "order"
+                WHERE orderId = '%s';
+                """;
+
+    /**
      * SQL query to insert an order to a menu item
      */
     public static final String insertOrderToMenuItem = """
