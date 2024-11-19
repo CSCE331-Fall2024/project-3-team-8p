@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.MenuItem;
 
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         MenuItem[] itemArray = getMenuItems();
 
-        final int EXPECTED_ITEM_COUNT = 10;
+        final int EXPECTED_ITEM_COUNT = dbConnector.selectMenuItems().size();
         assertThat(
                 itemArray.length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
@@ -52,12 +53,14 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
+        MenuItem newMenuItem = new MenuItem(
+                12.99,
+                "Test Menu Item"
+        );
+
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
-                new MenuItem(
-                        12.99,
-                        "Test Menu Item"
-                ),
+                newMenuItem,
                 MenuItem.class
         );
 
@@ -69,6 +72,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
+        // remove the menu item after testing is succesful
+        dbConnector.deleteMenuItem(newMenuItem.menuItemId);
     }
 
     /**
@@ -79,22 +84,23 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         MenuItem[] oldItemArray = getMenuItems();
         int randIdx = rand.nextInt(oldItemArray.length);
+
         MenuItem origMenuItem = oldItemArray[randIdx];
-
-        final double EXPECTED_ITEM_PRICE = ++origMenuItem.price;
-        final String EXPECTED_NAME = "Spicy " + origMenuItem.itemName;
-
-        origMenuItem.itemName = "Spicy " + origMenuItem.itemName;
+        MenuItem newMenuItem = new MenuItem(
+                origMenuItem.menuItemId,
+                origMenuItem.price + 0.03,
+                "Spicy " + origMenuItem.itemName
+        );
 
         // perform the PUT request
         this.restTemplate.put(baseUrl,
-                origMenuItem
+                newMenuItem
         );
 
         MenuItem[] newItemArray = getMenuItems();
         Optional<MenuItem> newItem = Arrays.stream(newItemArray).filter(
                 menuItem -> {
-                    return menuItem.menuItemId.equals(origMenuItem.menuItemId);
+                    return menuItem.menuItemId.equals(newMenuItem.menuItemId);
                 }
         ).findFirst();
 
@@ -106,14 +112,17 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         assertThat(
                 safeItem.price
-        ).isEqualTo(EXPECTED_ITEM_PRICE);
+        ).isEqualTo(newMenuItem.price);
 
         assertThat(
                 safeItem.itemName
-        ).isEqualTo(EXPECTED_NAME);
+        ).isEqualTo(newMenuItem.itemName);
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
+        // put the original menu item back after testing is over
+        this.restTemplate.put(baseUrl,
+                origMenuItem);
     }
 
 
