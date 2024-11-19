@@ -1,19 +1,16 @@
-/*
-endpoints for employee-related requests
-*/
 import BaseApi from "./base-api";
 import Employee from "../models/Employee";
 
-export default class EmployeeApi extends BaseApi {
+export default class OrderApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
-        super("employee");
+        super("order");
     }
 
     /*
     Gets all menu items
     */
-    async getEmployees(): Promise<Employee[]> {
+    async getXReport(): Promise<Record<string, number[]>> {
         const response = await this.apiClient.get("");
         return response.data.map((item: any) => (
             new Employee(

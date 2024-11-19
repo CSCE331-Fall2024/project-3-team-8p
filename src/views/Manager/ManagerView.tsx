@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Button, Col, Row } from "react-bootstrap";
 import './css/ManagerView.css';
 import ItemGrid from "./components/ItemGrid";
 import "./css/ManagerView.css"
 import useGetRightPaneData, { RightPane } from "./hooks/useGetRightPaneData";
-import { MenuItemApi } from "../../apis/menu-item-api";
-import { InventoryItemApi } from "../../apis/inventory-item-api";
-import { EmployeeApi } from "../../apis/employee-api";
+import MenuItemApi from "../../apis/menu-item-api";
+import InventoryItemApi from "../../apis/inventory-item-api";
+import EmployeeApi from "../../apis/employee-api";
 import MenuItemModal from "./components/MenuItemModal";
 import CardItem from "../../models/interfaces/CardItem";
 import MenuItem from "../../models/MenuItem";
-import { LeftPane } from "./hooks/useGetLeftPaneData";
+import useGetLeftPaneData, { LeftPane } from "./hooks/useGetLeftPaneData";
+import SingleBarChart from "./components/SingleBarChart";
 
 
 // TODO: Should probably replace this with some global state
@@ -19,7 +20,22 @@ const menuItemApi = new MenuItemApi();
 const inventoryItemApi = new InventoryItemApi()
 const employeeApi = new EmployeeApi()
 
-const getPageTitle = (currRightPane: RightPane) => {
+const getLeftPaneTitle = (currLeftPane: LeftPane) => {
+    switch (currLeftPane) {
+        case LeftPane.UsageChart:
+            return "Inventory Item Usage";
+        case LeftPane.SalesReport:
+            return "Sales Report";
+        case LeftPane.XReport:
+            return "X Report";
+        case LeftPane.ZReport:
+            return "Z Report";
+        default:
+            return "";
+    }
+}
+
+const getRightPaneTitle = (currRightPane: RightPane) => {
     switch (currRightPane) {
         case RightPane.MenuItems:
             return "Menu Item";
@@ -33,6 +49,7 @@ const getPageTitle = (currRightPane: RightPane) => {
 }
 
 function ManagerView() {
+    const { currLeftPane, setCurrLeftPane, productUsageData, getData } = useGetLeftPaneData(menuItemApi, inventoryItemApi);
     const {
         cardItems,
         loading,
@@ -40,6 +57,7 @@ function ManagerView() {
         currRightPane,
         setCurrRightPane
     } = useGetRightPaneData(menuItemApi, inventoryItemApi, employeeApi);
+
     const [showModal, setShowModal] = useState(false);
     const [currItem, setCurrItem] = useState<CardItem | undefined>(undefined)
 
@@ -53,11 +71,12 @@ function ManagerView() {
     return (
         <div className={"Manager-view"}>
             <Row>
-                <Col>
+                <Col className={"px-4"}>
                     <Nav
                         variant={"pills"}
-                        defaultActiveKey={"/"}
-                        className={"px-3"}
+                        activeKey={currLeftPane}
+                        onSelect={(selectedKey: string | null) => setCurrLeftPane(Number(selectedKey) as LeftPane)}
+                        className={"pt-3 pb-5"}
                     >
                         <Nav.Item>
                             <Nav.Link eventKey={LeftPane.UsageChart}>Usage Chart</Nav.Link>
@@ -73,14 +92,15 @@ function ManagerView() {
                         </Nav.Item>
                     </Nav>
                     {/* Left pane */}
+                    <SingleBarChart chartName={getLeftPaneTitle(currLeftPane)} chartData={productUsageData} onGetChartData={getData} />
 
                 </Col>
-                <Col>
+                <Col className={"px-4"}>
                     <Nav
                         variant={"pills"}
                         activeKey={currRightPane}
-                        onSelect={(selectedKey) => setCurrRightPane(Number(selectedKey) as RightPane)}
-                        className={"px-3"}
+                        onSelect={(selectedKey: string | null) => setCurrRightPane(Number(selectedKey) as RightPane)}
+                        className={"pt-3 pb-5"}
                     >
                         <Nav.Item>
                             <Nav.Link eventKey={RightPane.MenuItems}>Menu Items</Nav.Link>
@@ -94,10 +114,10 @@ function ManagerView() {
                     </Nav>
 
                     <Button
-                        className={"my-4 mx-3"}
+                        className={"mb-3"}
                         onClick={() => handleShowModal()}
                     >
-                        Add {getPageTitle(currRightPane)}
+                        Add {getRightPaneTitle(currRightPane)}
                     </Button>
 
                     <MenuItemModal

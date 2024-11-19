@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import { MenuItemApi } from "../../../apis/menu-item-api";
+import MenuItemApi from "../../../apis/menu-item-api";
 import MenuItem from "../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,8 +12,14 @@ interface ModalProps {
     menuItemApi: MenuItemApi;
 }
 
+type FormData = {
+    menuItemId: string,
+    itemName: string,
+    price: number
+};
+
 function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalProps) {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         menuItemId: currMenuItem?.menuItemId ?? uuidv4(),
         itemName: currMenuItem?.itemName ?? "",
         price: currMenuItem?.price ?? 0.0,

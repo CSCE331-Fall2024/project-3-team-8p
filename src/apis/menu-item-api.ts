@@ -4,7 +4,7 @@ endpoints for menu item-related requests
 import BaseApi from "./base-api";
 import MenuItem from "../models/MenuItem";
 
-export class MenuItemApi extends BaseApi {
+export default class MenuItemApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
         super("menu");
@@ -40,13 +40,13 @@ export class MenuItemApi extends BaseApi {
         }
     }
 
-    async getProductUsageReport(
+    async getSalesReport(
         startMonth: number,
         endMonth: number,
         startDay: number,
         endDay: number): Promise<Record<string, number>> {
 
-        const response = await this.apiClient.get<Record<string, number>>("/product-usage", {
+        const response = await this.apiClient.get<Record<string, number>>("/sales", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,

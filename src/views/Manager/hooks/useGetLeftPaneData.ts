@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { MenuItemApi } from "../../../apis/menu-item-api";
-import { InventoryItemApi } from "../../../apis/inventory-item-api";
+import MenuItemApi from "../../../apis/menu-item-api";
+import InventoryItemApi from "../../../apis/inventory-item-api";
 
 
 enum LeftPane {
@@ -15,9 +15,9 @@ const useGetLeftPaneData = (
     inventoryItemApi: InventoryItemApi,
 ) => {
     const [currLeftPane, setCurrLeftPane] = useState<LeftPane>(LeftPane.UsageChart);
-    const [productUsageData, setProductUsageData] = useState<Record<string, number> | undefined>(undefined);
+    const [singleBarChartData, setSingleBarChartData] = useState<Record<string, number> | undefined>(undefined);
 
-    const getData = useCallback(async (
+    const getChartData = useCallback(async (
         startMonth: number,
         endMonth: number,
         startDay: number,
@@ -27,18 +27,20 @@ const useGetLeftPaneData = (
 
         switch (currLeftPane) {
             case LeftPane.UsageChart:
-                reportData = await menuItemApi.getProductUsageReport(startMonth, endMonth, startDay, endDay);
+                reportData = await inventoryItemApi.getProductUsageReport(startMonth, endMonth, startDay, endDay);
                 break;
             case LeftPane.SalesReport:
+                reportData = await menuItemApi.getSalesReport(startMonth, endMonth, startDay, endDay);
+                break;
             case LeftPane.XReport:
             case LeftPane.ZReport:
             default:
                 reportData = undefined;
         }
-        setProductUsageData(reportData);
-    }, [currLeftPane, menuItemApi]);
+        setSingleBarChartData(reportData);
+    }, [currLeftPane, menuItemApi, inventoryItemApi]);
 
-    return { currLeftPane, productUsageData, getData };
+    return { currLeftPane, setCurrLeftPane, productUsageData: singleBarChartData, getData: getChartData };
 }
 
 export default useGetLeftPaneData;

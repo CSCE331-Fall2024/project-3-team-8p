@@ -12,7 +12,7 @@ interface ItemGridProps<T extends CardItem> {
 function ItemGrid<T extends CardItem>({ items, onItemClick }: ItemGridProps<T>) {
 
     return (
-        <Container className={"item-grid py-4"}>
+        <Container className={"item-grid"}>
             <Row>
                 {items.map((item: T) => (
                     <Col key={item.id} md={3} className={"mb-4"}>
