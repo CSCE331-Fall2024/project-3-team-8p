@@ -1,5 +1,6 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class MenuServiceController extends BaseAPIController {
 
     /**
      * Updates menuItemToInventoryItem table
-     * @param menuItemId ID of menu item associated with ItemWithQties
+     * @param menuItemId ID of menu item associated with invItemsWithQties
      * @param invItemsWithQties List of inventory items and quantities included in menu item
      * */
     @PostMapping("{menuItemId}/inventory")
@@ -65,5 +66,19 @@ public class MenuServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedMenuItem's item id
         dbConnector.updateMenuItem(updatedMenuItem);
+    }
+
+    /**
+     * Updates menuItemToInventoryItem table
+     * @param menuItemID ID of menu item associated with invItemsWithQties
+     * @param newInvItemsWithQties List of inventory items and quantities included in menu item
+     * */
+    @PutMapping("{menuItemId}/inventory")
+    public void updateMenuItemToInventoryItem(@PathVariable UUID menuItemID,
+                                              @RequestBody List<ItemWithQty> newInvItemsWithQties) {
+        // filter out items that don't need to be created
+        List<InventoryItem> oldInvItems = this.dbConnector.selectMenuItemInventoryItems(menuItemID);
+
+
     }
 }
