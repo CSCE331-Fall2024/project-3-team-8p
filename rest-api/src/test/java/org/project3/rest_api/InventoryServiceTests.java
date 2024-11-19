@@ -153,7 +153,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
 
         // put back he original item after tests have succeeded
         this.restTemplate.put(baseUrl,
-                newInvItem
+                origInvItem
         );
 
     }
