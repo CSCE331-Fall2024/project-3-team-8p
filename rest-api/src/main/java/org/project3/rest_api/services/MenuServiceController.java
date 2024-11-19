@@ -52,6 +52,10 @@ public class MenuServiceController extends BaseAPIController {
     @PostMapping("{menuItemId}/inventory")
     public void mapMenutoInventory(@PathVariable UUID menuItemId,
                                    @RequestBody List<ItemWithQty> invItemsWithQties) {
+
+        // delete existing entries in menuItemToInventoryItem
+        dbConnector.deleteMenuItemToInventoryItem(menuItemId);
+
         // add a new entry for each inventory item
         dbConnector.insertMenuItemInventoryItems(menuItemId, invItemsWithQties);
 
@@ -68,17 +72,4 @@ public class MenuServiceController extends BaseAPIController {
         dbConnector.updateMenuItem(updatedMenuItem);
     }
 
-    /**
-     * Updates menuItemToInventoryItem table
-     * @param menuItemID ID of menu item associated with invItemsWithQties
-     * @param newInvItemsWithQties List of inventory items and quantities included in menu item
-     * */
-    @PutMapping("{menuItemId}/inventory")
-    public void updateMenuItemToInventoryItem(@PathVariable UUID menuItemID,
-                                              @RequestBody List<ItemWithQty> newInvItemsWithQties) {
-        // filter out items that don't need to be created
-        List<InventoryItem> oldInvItems = this.dbConnector.selectMenuItemInventoryItems(menuItemID);
-
-
-    }
 }

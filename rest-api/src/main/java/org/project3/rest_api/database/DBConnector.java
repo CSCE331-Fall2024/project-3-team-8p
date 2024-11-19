@@ -364,6 +364,17 @@ public class DBConnector {
     }
 
     /**
+     * Removes all inventory items associated with a given menu item
+     *
+     * @param menuItemId the UUID of the menu item to remove connections for
+     */
+    public void deleteMenuItemToInventoryItem(UUID menuItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteMenuItemToInventoryItem,
+                menuItemId
+        ));
+    }
+
+    /**
      * Updates an existing menu item
      *
      * @param updatedMenuItem a {@code MenuItem} object representing the menu item to update
