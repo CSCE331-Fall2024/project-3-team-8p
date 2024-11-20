@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../css/Checkout.css';
-
-
+import { WeatherService, WeatherData } from '../../../apis/WeatherService'
 
 
 const Checkout: React.FC = () => {
     const { cartItems, total, clearCart } = useCart();
     const navigate = useNavigate();
+
+    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+    const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
 
     const getWeatherRecommendation = (weather: string, temperature: number): string => {
         if (weather.includes('rain')) {
@@ -22,36 +24,15 @@ const Checkout: React.FC = () => {
         }
     };
 
-    const [weather, setWeather] = useState<string | null>(null);
-    const [temperature, setTemperature] = useState<number | null>(null);
-    const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
-
-    const fetchWeather = async () => {
-        try {
-            // Replace with your OpenWeather API key
-            const API_KEY = '99469efe4065076d644eb0ef7a745882';
-            // Replace with your desired city or use geolocation for dynamic location
-            const CITY = 'College Station';
-            const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=imperial&appid=${API_KEY}`
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                setWeather(data.weather[0].description);
-                setTemperature(data.main.temp);
-            } else {
-                console.error('Failed to fetch weather data');
-            }
-        } catch (error) {
-            console.error('Error fetching weather:', error);
-        } finally {
-            setLoadingWeather(false);
-        }
-    };
-
     useEffect(() => {
-        fetchWeather();
+        const fetchWeatherData = async () => {
+            setLoadingWeather(true);
+            const data = await WeatherService.fetchWeather();
+            setWeatherData(data);
+            setLoadingWeather(false);
+        };
+
+        fetchWeatherData();
     }, []);
 
     const handleOrderMore = () => {
@@ -86,13 +67,13 @@ const Checkout: React.FC = () => {
                 <h3>Current Weather</h3>
                 {loadingWeather ? (
                     <p>Loading weather...</p>
-                ) : weather && temperature !== null ? (
+                ) : weatherData ? (
                     <>
                         <p>
-                            {weather.charAt(0).toUpperCase() + weather.slice(1)} | {temperature}°F
+                            {weatherData.weather.charAt(0).toUpperCase() + weatherData.weather.slice(1)} | {weatherData.temperature}°F
                         </p>
                         <p className="recommendation">
-                            {getWeatherRecommendation(weather, temperature)}
+                            {getWeatherRecommendation(weatherData.weather, weatherData.temperature)}
                         </p>
                     </>
                 ) : (
@@ -113,8 +94,6 @@ const Checkout: React.FC = () => {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 };
