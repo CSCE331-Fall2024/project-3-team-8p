@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Form } from "react-bootstrap";
+import { XZReportData } from "../../../apis/order-api";
 
 interface SingleBarChartProps {
     chartName: string;
-    chartData: Record<string, number> | undefined
+    chartData: XZReportData | undefined
     onGetChartData: (startMonth: number, endMonth: number, startDay: number, endDay: number) => void
 }
 
 type ChartData = {
-    itemName: string,
-    usage: number
+    hour: number,
+    numOrders: number,
+    amountSales: number
 };
 
 type FormData = {
@@ -28,18 +30,20 @@ const getFormattedDate = (daysOffset: number = 0) => {
     return `${date.getFullYear()}-${month}-${day}`;
 }
 
-function SingleBarChart({ chartName, chartData, onGetChartData }: SingleBarChartProps) {
+function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarChartProps) {
     // By default, get the previous week's data
     const [formData, setFormData] = useState<FormData>({
         startDate: getFormattedDate(-7),
         endDate: getFormattedDate(),
     });
 
-    let barChartData: ChartData[] = chartData
-        ? Object.entries(chartData).map(
-            ([itemName, usage]: [string, number]) => ({
-                itemName: itemName,
-                usage: usage
+    console.log(chartData);
+
+    const barChartData: ChartData[] = chartData
+        ? chartData.ordersByHour.map((currHourOrders, index) => ({
+                hour: index + 1,
+                numOrders: currHourOrders,
+                amountSales: chartData?.salesByHour[index],
             }))
         : [];
 
@@ -96,20 +100,19 @@ function SingleBarChart({ chartName, chartData, onGetChartData }: SingleBarChart
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
-                                {/*<XAxis type="number" />*/}
                                 <XAxis
                                     type="number"
-                                    // xAxisId="top"
                                     orientation="top"
                                 />
                                 <YAxis
-                                    dataKey="itemName"
+                                    dataKey="hour"
                                     type="category"
                                     width={90}
                                     tick={{ fontSize: 12 }}
                                 />
                                 <Tooltip />
-                                <Bar dataKey="usage" fill="#8884d8" />
+                                <Bar dataKey="numOrders" fill="#8884d8" />
+                                <Bar dataKey="amountSales" fill="#88884d8" />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -141,4 +144,4 @@ function SingleBarChart({ chartName, chartData, onGetChartData }: SingleBarChart
     );
 }
 
-export default SingleBarChart;
+export default SingleBarComponent;

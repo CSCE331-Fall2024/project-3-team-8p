@@ -46,7 +46,7 @@ export default class MenuItemApi extends BaseApi {
         startDay: number,
         endDay: number): Promise<Record<string, number>> {
 
-        const response = await this.apiClient.get<Record<string, number>>("/sales", {
+        const response = await this.apiClient.get<Record<string, number>>("/sales-report", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,

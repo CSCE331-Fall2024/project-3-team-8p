@@ -12,13 +12,16 @@ import MenuItemModal from "./components/MenuItemModal";
 import CardItem from "../../models/interfaces/CardItem";
 import MenuItem from "../../models/MenuItem";
 import useGetLeftPaneData, { LeftPane } from "./hooks/useGetLeftPaneData";
-import SingleBarChart from "./components/SingleBarChart";
+import SingleBarComponent from "./components/SingleBarComponent";
+import OrderApi, { XZReportData } from "../../apis/order-api";
+import DoubleBarComponent from "./components/DoubleBarComponent";
 
 
 // TODO: Should probably replace this with some global state
 const menuItemApi = new MenuItemApi();
-const inventoryItemApi = new InventoryItemApi()
-const employeeApi = new EmployeeApi()
+const inventoryItemApi = new InventoryItemApi();
+const employeeApi = new EmployeeApi();
+const orderApi = new OrderApi();
 
 const getLeftPaneTitle = (currLeftPane: LeftPane) => {
     switch (currLeftPane) {
@@ -49,7 +52,12 @@ const getRightPaneTitle = (currRightPane: RightPane) => {
 }
 
 function ManagerView() {
-    const { currLeftPane, setCurrLeftPane, productUsageData, getData } = useGetLeftPaneData(menuItemApi, inventoryItemApi);
+    const {
+        currLeftPane,
+        setCurrLeftPane,
+        productUsageData,
+        getData
+    } = useGetLeftPaneData(menuItemApi, inventoryItemApi, orderApi);
     const {
         cardItems,
         loading,
@@ -92,8 +100,28 @@ function ManagerView() {
                         </Nav.Item>
                     </Nav>
                     {/* Left pane */}
-                    <SingleBarChart chartName={getLeftPaneTitle(currLeftPane)} chartData={productUsageData} onGetChartData={getData} />
+                    {(currLeftPane === LeftPane.UsageChart || currLeftPane === LeftPane.SalesReport) && (
+                        <>
+                            {console.log("Rendering single bar chart")}
+                            <SingleBarComponent
+                                chartName={getLeftPaneTitle(currLeftPane)}
+                                chartData={productUsageData as Record<string, number>}
+                                onGetChartData={getData}
+                            />
+                        </>
 
+                    )}
+                    {!(currLeftPane === LeftPane.UsageChart || currLeftPane === LeftPane.SalesReport) && (
+                        <>
+                            {console.log("Rendering double bar chart")}
+                            <DoubleBarComponent
+                                chartName={getLeftPaneTitle(currLeftPane)}
+                                chartData={productUsageData as XZReportData}
+                                onGetChartData={getData}
+                            />
+                        </>
+
+                    )}
                 </Col>
                 <Col className={"px-4"}>
                     <Nav

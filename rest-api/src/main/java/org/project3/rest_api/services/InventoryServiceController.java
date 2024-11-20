@@ -40,13 +40,14 @@ public class InventoryServiceController extends BaseAPIController {
 
         dbConnector.insertInventoryItem(newInventoryItem);
     }
-    @GetMapping("/sales")
-    public Map<String, Integer> selectSales(
+
+    @GetMapping("/product-usage")
+    public Map<String, Integer> getProductUsageReport(
             @RequestParam Integer startMonth,
             @RequestParam Integer endMonth,
             @RequestParam Integer startDay,
             @RequestParam Integer endDay
     ) {
-        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
+        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }

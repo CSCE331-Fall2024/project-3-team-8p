@@ -1,5 +1,9 @@
 import BaseApi from "./base-api";
-import Employee from "../models/Employee";
+
+export type XZReportData = {
+    ordersByHour: number[],
+    salesByHour: number[]
+};
 
 export default class OrderApi extends BaseApi {
     constructor() {
@@ -7,17 +11,17 @@ export default class OrderApi extends BaseApi {
         super("order");
     }
 
-    /*
-    Gets all menu items
-    */
-    async getXReport(): Promise<Record<string, number[]>> {
-        const response = await this.apiClient.get("");
-        return response.data.map((item: any) => (
-            new Employee(
-                item.employeeId,
-                item.name,
-                item.isManager
-            )
-        ))
+    async getXReport(): Promise<XZReportData> {
+        const response = await this.apiClient.get<XZReportData>("xz-report", {
+            params: { wholeDay: false }
+        });
+        return response.data;
+    }
+
+    async getZReport(): Promise<XZReportData> {
+        const response = await this.apiClient.get<XZReportData>("xz-report", {
+            params: { wholeDay: true }
+        })
+        return response.data;
     }
 }

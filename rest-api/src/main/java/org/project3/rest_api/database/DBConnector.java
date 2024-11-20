@@ -362,8 +362,8 @@ public class DBConnector {
             hourlyOrders = selectOrdersByHour();
             hourlySales = selectSalesByHour();
         }
-        reportData.put("sales", hourlySales);
-        reportData.put("orders", hourlyOrders);
+        reportData.put("salesByHour", hourlySales);
+        reportData.put("ordersByHour", hourlyOrders);
 
         return reportData;
 

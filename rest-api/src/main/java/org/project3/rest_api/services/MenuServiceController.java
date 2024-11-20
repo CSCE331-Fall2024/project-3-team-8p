@@ -40,13 +40,13 @@ public class MenuServiceController extends BaseAPIController {
         dbConnector.insertMenuItem(newMenuItem);
     }
 
-    @GetMapping("/product-usage")
-    public Map<String, Integer> selectProductUsage(
+    @GetMapping("/sales-report")
+    public Map<String, Integer> getSalesReport(
             @RequestParam Integer startMonth,
             @RequestParam Integer endMonth,
             @RequestParam Integer startDay,
             @RequestParam Integer endDay
     ) {
-        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
+        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
     }
 }
