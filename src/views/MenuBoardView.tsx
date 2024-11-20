@@ -1,6 +1,5 @@
-// MenuBoardView.tsx
 import React, { useState } from 'react';
-import listings from '../components/menu-boards/listingData'; // Import listings
+import listings from '../components/menu-boards/listingData';
 import './MenuBoardView.css';
 import ListingCard from '../components/menu-boards/ListingCard';
 import ButtonContainer from '../components/menu-boards/ButtonContainer';
@@ -34,7 +33,7 @@ function MenuBoardView() {
                         name={listing.name}
                         calories={listing.calories}
                         imageUrl={listing.imageUrl}
-
+                        specialItems={listing.specialItems}
                     />
 
                 ))}
