@@ -40,6 +40,17 @@ public class MenuServiceController extends BaseAPIController {
         dbConnector.insertMenuItem(newMenuItem);
     }
 
+    /**
+     * Updates menu items in database
+     * @param updatedMenuItem MenuItem object to be updated in database
+     * */
+    @PutMapping
+    public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
+
+        //TODO: add validation for updatedMenuItem's item id
+        dbConnector.updateMenuItem(updatedMenuItem);
+    }
+
     @GetMapping("/sales-report")
     public Map<String, Integer> getSalesReport(
             @RequestParam Integer startMonth,

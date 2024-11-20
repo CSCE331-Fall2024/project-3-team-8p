@@ -41,6 +41,14 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
         }
     }
+
+    /**
+     * Maps a ResultSet row to an InventoryItem object.
+     *
+     * @param rs the ResultSet containing the inventory item data
+     * @return an InventoryItem object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
     public static InventoryItem inventoryItemMapper(ResultSet rs) {
         try {
             return new InventoryItem(
@@ -54,6 +62,7 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
         }
     }
+
     /**
      * Maps a ResultSet row to a MenuItemWithQty object.
      *
@@ -75,6 +84,7 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to MenuItemWithQty", e);
         }
     }
+
     /**
      * Maps a ResultSet row to an InventoryItemWithQty object.
      *
@@ -139,6 +149,14 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
         }
     }
+
+    /**
+     * Maps a ResultSet row to an Order object.
+     *
+     * @param rs the ResultSet containing the order data
+     * @return an Order object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
     public static Order orderMapper(ResultSet rs){
         try {
             return new Order(
