@@ -11,9 +11,8 @@ import EmployeeApi from "../../apis/employee-api";
 import MenuItemModal from "./components/MenuItemModal";
 import CardItem from "../../models/interfaces/CardItem";
 import MenuItem from "../../models/MenuItem";
-import useGetLeftPaneData, { LeftPane } from "./hooks/useGetLeftPaneData";
 import SingleBarComponent from "./components/SingleBarComponent";
-import OrderApi, { XZReportData } from "../../apis/order-api";
+import OrderApi from "../../apis/order-api";
 import DoubleBarComponent from "./components/DoubleBarComponent";
 
 
@@ -23,10 +22,17 @@ const inventoryItemApi = new InventoryItemApi();
 const employeeApi = new EmployeeApi();
 const orderApi = new OrderApi();
 
+enum LeftPane {
+    UsageChart,
+    SalesReport,
+    XReport,
+    ZReport
+}
+
 const getLeftPaneTitle = (currLeftPane: LeftPane) => {
     switch (currLeftPane) {
         case LeftPane.UsageChart:
-            return "Inventory Item Usage";
+            return "Product Usage Report";
         case LeftPane.SalesReport:
             return "Sales Report";
         case LeftPane.XReport:
@@ -53,12 +59,6 @@ const getRightPaneTitle = (currRightPane: RightPane) => {
 
 function ManagerView() {
     const {
-        currLeftPane,
-        setCurrLeftPane,
-        productUsageData,
-        getData
-    } = useGetLeftPaneData(menuItemApi, inventoryItemApi, orderApi);
-    const {
         cardItems,
         loading,
         error,
@@ -66,6 +66,7 @@ function ManagerView() {
         setCurrRightPane
     } = useGetRightPaneData(menuItemApi, inventoryItemApi, employeeApi);
 
+    const [currLeftPane, setCurrLeftPane] = useState<LeftPane>(LeftPane.UsageChart)
     const [showModal, setShowModal] = useState(false);
     const [currItem, setCurrItem] = useState<CardItem | undefined>(undefined)
 
@@ -101,23 +102,21 @@ function ManagerView() {
                     </Nav>
                     {/* Left pane */}
                     {(currLeftPane === LeftPane.UsageChart || currLeftPane === LeftPane.SalesReport) && (
-                        <>
-                            {console.log("Rendering single bar chart")}
-                            <SingleBarComponent
-                                chartName={getLeftPaneTitle(currLeftPane)}
-                                chartData={productUsageData as Record<string, number>}
-                                onGetChartData={getData}
-                            />
-                        </>
-
+                        <SingleBarComponent
+                            chartName={getLeftPaneTitle(currLeftPane)}
+                            dataProvider={currLeftPane === LeftPane.UsageChart
+                                ? inventoryItemApi.getProductUsageReport.bind(inventoryItemApi)
+                                : menuItemApi.getSalesReport.bind(menuItemApi)}
+                        />
                     )}
-                    {!(currLeftPane === LeftPane.UsageChart || currLeftPane === LeftPane.SalesReport) && (
+                    {(currLeftPane === LeftPane.XReport || currLeftPane === LeftPane.ZReport) && (
                         <>
-                            {console.log("Rendering double bar chart")}
                             <DoubleBarComponent
                                 chartName={getLeftPaneTitle(currLeftPane)}
-                                chartData={productUsageData as XZReportData}
-                                onGetChartData={getData}
+                                dataProvider={currLeftPane == LeftPane.XReport
+                                    ? orderApi.getXReport.bind(orderApi)
+                                    : orderApi.getZReport.bind(orderApi)
+                                }
                             />
                         </>
 

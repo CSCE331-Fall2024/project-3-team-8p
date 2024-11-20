@@ -1,9 +1,5 @@
 import BaseApi from "./base-api";
-
-export type XZReportData = {
-    ordersByHour: number[],
-    salesByHour: number[]
-};
+import XZReportData from "../models/typedefs/XZReportData";
 
 export default class OrderApi extends BaseApi {
     constructor() {

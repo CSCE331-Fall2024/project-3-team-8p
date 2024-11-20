@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Form } from "react-bootstrap";
+import ProductUsageData from "../../../models/typedefs/ProductUsageData";
+import SalesReportData from "../../../models/typedefs/SalesReportData";
 
 interface SingleBarChartProps {
     chartName: string;
-    chartData: Record<string, number> | undefined
-    onGetChartData: (startMonth: number, endMonth: number, startDay: number, endDay: number) => void
+    dataProvider: (
+        startMonth: number,
+        endMonth: number,
+        startDay: number,
+        endDay: number
+    ) => Promise<ProductUsageData | SalesReportData>;
 }
 
 type ChartData = {
@@ -26,22 +32,39 @@ const getFormattedDate = (daysOffset: number = 0) => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${date.getFullYear()}-${month}-${day}`;
-}
+};
 
-function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarChartProps) {
+const getChartUnits = (chartName: string) => {
+    if (chartName === "Product Usage Report") {
+        return "Amount Used";
+    } else {
+        // Sales Report
+        return "Items Sold";
+    }
+};
+
+function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
     // By default, get the previous week's data
     const [formData, setFormData] = useState<FormData>({
         startDate: getFormattedDate(-7),
         endDate: getFormattedDate(),
     });
+    const [chartData, setChartData] = useState<ChartData[]>([]);
 
-    let barChartData: ChartData[] = chartData
-        ? Object.entries(chartData).map(
+    const getReportData = useCallback(async (
+        startMonth: number,
+        endMonth: number,
+        startDay: number,
+        endDay: number
+    ) => {
+        const reportData: SalesReportData | ProductUsageData = await dataProvider(startMonth, endMonth, startDay, endDay);
+        setChartData(Object.entries(reportData).map(
             ([itemName, usage]: [string, number]) => ({
                 itemName: itemName,
                 amount: usage
-            }))
-        : [];
+            })));
+        console.log(reportData);
+    }, [dataProvider]);
 
     const parseDateInfo = useCallback(() => {
         // Parse start/end days and months from the form data
@@ -67,10 +90,10 @@ function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarC
     // Populate the chart with default values when it first loads
     useEffect(() => {
         const { startMonth, endMonth, startDay, endDay } = parseDateInfo();
-        onGetChartData(startMonth, endMonth, startDay, endDay);
-    }, [onGetChartData, parseDateInfo]);
+        getReportData(startMonth, endMonth, startDay, endDay);
+    }, [parseDateInfo, getReportData, formData]);
 
-    const calculatedHeight = barChartData.length * 55 + 100;
+    const calculatedHeight = chartData.length * 55 + 100;
 
     return (
         <div className={"chart-data"}>
@@ -86,7 +109,7 @@ function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarC
                     <div style={{ height: `${calculatedHeight}px`, minHeight: '100%' }}>
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart
-                                data={barChartData}
+                                data={chartData}
                                 layout="vertical"
                                 margin={{
                                     top: 0,
@@ -96,10 +119,8 @@ function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarC
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
-                                {/*<XAxis type="number" />*/}
                                 <XAxis
                                     type="number"
-                                    // xAxisId="top"
                                     orientation="top"
                                 />
                                 <YAxis
@@ -109,7 +130,12 @@ function SingleBarComponent({ chartName, chartData, onGetChartData }: SingleBarC
                                     tick={{ fontSize: 12 }}
                                 />
                                 <Tooltip />
-                                <Bar dataKey="amount" fill="#8884d8" />
+                                <Legend
+                                    verticalAlign="top"
+                                    align="left"
+                                    height={36}
+                                />
+                                <Bar dataKey="amount" name={getChartUnits(chartName)} fill="#8884d8" />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>

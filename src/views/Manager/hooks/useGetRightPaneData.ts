@@ -40,7 +40,6 @@ const useGetRightPaneData = (
                         itemData = [];
                         break;
                 }
-
                 setCardItems(itemData);
             } catch (e) {
                 if (e instanceof Error) {

@@ -3,6 +3,7 @@ endpoints for inventory-related requests
 */
 import BaseApi from "./base-api";
 import InventoryItem from "../models/InventoryItem";
+import ProductUsageData from "../models/typedefs/ProductUsageData";
 
 export default class InventoryItemApi extends BaseApi {
     constructor() {
@@ -29,9 +30,9 @@ export default class InventoryItemApi extends BaseApi {
         startMonth: number,
         endMonth: number,
         startDay: number,
-        endDay: number): Promise<Record<string, number>> {
+        endDay: number): Promise<ProductUsageData> {
 
-        const response = await this.apiClient.get<Record<string, number>>("/product-usage", {
+        const response = await this.apiClient.get<ProductUsageData>("/product-usage", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,

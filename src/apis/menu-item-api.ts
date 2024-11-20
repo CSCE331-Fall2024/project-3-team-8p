@@ -3,6 +3,7 @@ endpoints for menu item-related requests
 */
 import BaseApi from "./base-api";
 import MenuItem from "../models/MenuItem";
+import SalesReportData from "../models/typedefs/SalesReportData";
 
 export default class MenuItemApi extends BaseApi {
     constructor() {
@@ -44,9 +45,9 @@ export default class MenuItemApi extends BaseApi {
         startMonth: number,
         endMonth: number,
         startDay: number,
-        endDay: number): Promise<Record<string, number>> {
+        endDay: number): Promise<SalesReportData> {
 
-        const response = await this.apiClient.get<Record<string, number>>("/sales-report", {
+        const response = await this.apiClient.get<SalesReportData>("/sales-report", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,
