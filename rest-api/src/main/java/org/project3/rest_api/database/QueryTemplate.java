@@ -336,4 +336,25 @@ public class QueryTemplate {
                     i.availableStock,
                     i.itemName;
                 """;
+    public static final String selectNutritionInfoByMenuItemId = """
+                SELECT nutrition_info
+                FROM menuitem
+                WHERE menuItemId = '%s';
+                """;
+    public static final String addNutritionInfo = """
+                INSERT INTO menuitem (menuItemId, itemname, price, nutrition_info)
+                VALUES ('%s', '%s', %.2f, '{
+                      "calories": %d,
+                      "fat": %d,
+                      "protein": %d,
+                      "sugar": %d,
+                      "carbohydrates": %d,
+                      "isPremium": %b,
+                      "allergens": [%s]
+                    }')
+                ON DUPLICATE KEY UPDATE
+                    itemname = VALUES(itemname),
+                    price = VALUES(price),
+                    nutrition_info = VALUES(nutrition_info);
+                """;
 }

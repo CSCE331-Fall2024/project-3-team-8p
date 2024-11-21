@@ -1,9 +1,14 @@
 package org.project3.rest_api.database;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.project3.rest_api.models.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,13 +35,26 @@ public class SQLToJavaMapper {
      */
     public static MenuItem menuItemMapper(ResultSet rs) {
         try {
+            String nutritionInfoJson = rs.getString("nutritioninfo");
+            NutritionInfo nutritionInfo = null;
+
+            // Parse only if nutritioninfo is not null
+            if (nutritionInfoJson != null && !nutritionInfoJson.isEmpty()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                nutritionInfo = objectMapper.readValue(nutritionInfoJson, NutritionInfo.class);
+            }
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),
-                    rs.getString("itemName")
+                    rs.getString("itemName"),
+                    nutritionInfo
             );
         } catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
     public static InventoryItem inventoryItemMapper(ResultSet rs) {

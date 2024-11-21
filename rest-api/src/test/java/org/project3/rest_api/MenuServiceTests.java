@@ -2,7 +2,10 @@ package org.project3.rest_api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.MenuItem;
+import org.project3.rest_api.models.NutritionInfo;
 
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,22 +47,29 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         MenuItem[] oldItemArray = this.restTemplate.getForObject(url, MenuItem[].class);
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
-
+        NutritionInfo nutritionInfo = new NutritionInfo(
+                List.of("Peanuts", "Soy"),
+                250,
+                10,
+                15,
+                5,
+                30,
+                true
+        );
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
                 new MenuItem(
                         12.99,
-                        "Test Menu Item"
+                        "Test Menu Item",
+                        nutritionInfo
                 ),
                 MenuItem.class
         );
-
         String rawJson = this.restTemplate.getForObject(url, String.class);
+        System.out.println("Raw JSON: " + rawJson);
         MenuItem[] newItemArray = this.restTemplate.getForObject(url, MenuItem[].class);
 
-        assertThat(
-                newItemArray.length
-        ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
+        assertThat(newItemArray.length).isEqualTo(EXPECTED_ITEM_COUNT);
 
         printResult(rawJson, "Menu Items");
 
