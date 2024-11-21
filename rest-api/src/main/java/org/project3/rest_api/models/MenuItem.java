@@ -30,6 +30,7 @@ public class MenuItem {
     @JsonProperty("itemName")
     public String itemName;
 
+<<<<<<< HEAD
     /**
      * Nutrition and allergens information for the menu item
      */
@@ -38,6 +39,8 @@ public class MenuItem {
 
     public MenuItem() {}
 
+=======
+>>>>>>> cb036214fe2978ec9cf0dc1779a6212b418292be
     /**
      * Constructor to create a MenuItem with a specified ID.
      *
@@ -62,5 +65,10 @@ public class MenuItem {
     public MenuItem(Double price, String itemName, NutritionInfo nutritionInfo) {
         this(UUID.randomUUID(), price, itemName, nutritionInfo);
     }
+
+    /**
+     * No-arg default constructor for MenuItem
+     * */
+    public MenuItem() {}
 
 }

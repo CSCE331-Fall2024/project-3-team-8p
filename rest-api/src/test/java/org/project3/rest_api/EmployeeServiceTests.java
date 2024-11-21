@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.InventoryItem;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -14,25 +18,29 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
 
     @BeforeEach
     void employeeSetup() {
-        baseUrl += "employee-service";
+        baseUrl += "employee";
     }
+
+    /**
+     * GET request for employee tests
+     * */
+    Employee[] getEmployees() {
+       return this.restTemplate.getForObject(baseUrl, Employee[].class);
+    }
+
 
     /**
     * Checks if expected count of employees is returned
     * */
     @Test
     void getEmployeeReturnsCorrectCount() {
-        String url = baseUrl;
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
-
-        final int EXPECTED_EMPLOYEE_COUNT = 5;
+        final int EXPECTED_EMPLOYEE_COUNT = dbConnector.selectEmployees().size();
         assertThat(
-                rawArray.length
+                getEmployees().length
         ).isGreaterThanOrEqualTo(EXPECTED_EMPLOYEE_COUNT);
 
-        printResult(rawJson, "Employees");
+        printResult(getRawJson(baseUrl), "Employees");
     }
 
     /**
@@ -40,29 +48,83 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
      * */
     @Test
     void postEmployeeIncrementsCount() {
-        String url = baseUrl;
 
-        Employee[] oldEmpArray = this.restTemplate.getForObject(url, Employee[].class);
+        Employee[] oldEmpArray = getEmployees();
 
         final int EXPECTED_ITEM_COUNT = oldEmpArray.length + 1;
 
+        Employee newEmployee = new Employee(
+                false,
+                "Test Employee"
+        );
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
-                new Employee(
-                        false,
-                        "Test Employee"
-                ),
+                newEmployee,
                 Employee.class
         );
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Employee[] newEmpArray = this.restTemplate.getForObject(url, Employee[].class);
+        Employee[] newEmpArray = getEmployees();
 
         assertThat(
                 newEmpArray.length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
-        printResult(rawJson, "Employees");
+        printResult(getRawJson(baseUrl), "Employees");
+
+        // remove the new employee from the database after testing
+        dbConnector.deleteEmployee(newEmployee.employeeId);
+
+    }
+
+    /**
+     * Checks if PUT correctly updates Employee information
+     * */
+    @Test
+    void putEmployeeCorrectlyUpdatesInfo() {
+
+        Employee[] oldEmpArray = getEmployees();
+        int randIdx = rand.nextInt(oldEmpArray.length);
+
+        Employee originalEmployee = oldEmpArray[randIdx];
+        Employee newEmployee = new Employee(
+                originalEmployee.employeeId,
+                !originalEmployee.isManager,
+                originalEmployee.name + " Jr."
+
+        );
+
+        // perform the put request
+        this.restTemplate.put(baseUrl,
+                newEmployee
+        );
+
+        // check if the new array contains the new name
+        Employee[] newEmpArray = getEmployees();
+        Optional<Employee> findEmployee = Arrays.stream(newEmpArray).filter(
+                employee -> {
+                    return employee.employeeId.equals(newEmployee.employeeId);
+                }
+        ).findFirst();
+
+        // check if new employee is not null
+        assertThat(findEmployee).isPresent();
+
+        Employee safeEmp = findEmployee.get();
+
+        // check is PUT correctly updated fields
+        assertThat(
+                safeEmp.name
+        ).isEqualTo(newEmployee.name);
+        assertThat(
+                safeEmp.isManager
+        ).isEqualTo(newEmployee.isManager);
+
+        printResult(getRawJson(baseUrl), "Employees");
+
+        // put the original employee back after testing
+        this.restTemplate.put(baseUrl,
+                originalEmployee
+        );
 
     }
 
