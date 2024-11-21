@@ -2,8 +2,11 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
+
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,9 +15,47 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class OrdersServiceTests extends RestAPIApplicationTests{
 
+    /**
+     * Calendar info for order tests
+     * */
+    private final Calendar calendar = Calendar.getInstance();
+    private final TimeZone timeZone = TimeZone.getTimeZone("America/Chicago");
+    private Integer currentMonth;
+    private Integer currentWeek;
+    private Integer currentDay;
+    private Integer currentHour;
+
     @BeforeEach
     void orderSetup() {
-        baseUrl+="order-service";
+        calendar.setTimeZone(timeZone);
+        baseUrl+="order";
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        normalizeDateFields();
+    }
+
+    void normalizeDateFields() {
+        // 12 PM  is represented as 0
+        currentHour = currentHour == 0 ? 12 : currentHour;
+
+        // Workday starts at 10am and ends at 10pm
+        currentHour = (currentHour - 10) % 12 + 1;
+
+        // Return the positive modulus rather than negative
+        if (currentHour <= 0)
+            currentHour += 12;
+
+        // current month is 0 indexed
+        currentMonth++;
+    }
+
+    /**
+     * GET request for orders
+     */
+    Order[] getOrders(String url) {
+        return this.restTemplate.getForObject(url, Order[].class);
     }
 
     /**
@@ -22,17 +63,15 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * */
     @Test
     void getOrderReturnsCorrectDefaultCount() {
-        String url = baseUrl;
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Order[] itemArray = this.restTemplate.getForObject(url, Order[].class);
+        Order[] itemArray = getOrders(baseUrl);
 
-        final int DEFAULT_ORDER_COUNT = 50;
+        final int DEFAULT_ORDER_COUNT = this.dbConnector.selectOrders(50).size();
         assertThat(
                 itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
 
-        printResult(rawJson, "Orders");
+        printResult(getRawJson(baseUrl), "Orders");
     }
 
     /**
@@ -40,15 +79,55 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * */
     @Test
     void getOrderReturnsCorrectParamCount() {
-        int EXPECTED_ORDER_COUNT = 75;
+        int EXPECTED_ORDER_COUNT = this.dbConnector.selectOrders(75).size();
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Order[] rawArray = this.restTemplate.getForObject(url, Order[].class);
+        Order[] rawArray = getOrders(url);
 
         assertThat(rawArray.length).isEqualTo(EXPECTED_ORDER_COUNT);
 
-        printResult(rawJson, "Orders (Parameterized)");
+        printResult(getRawJson(url), "Orders (Parameterized)");
+    }
+
+    /**
+     * Checks if POST correctly creates new order
+     * */
+    @Test
+    void postOrdersCorrectlyCreatesOrder() {
+
+        List<Employee> allEmployees = this.dbConnector.selectEmployees();
+        int randIdx = rand.nextInt(allEmployees.size());
+        Employee someEmployee = allEmployees.get(randIdx);
+
+        Order newOrder = new Order(
+                someEmployee.employeeId,
+                currentMonth,
+                currentWeek,
+                currentDay,
+                currentHour,
+                10.59
+        );
+
+        // post the order
+        this.restTemplate.postForObject(baseUrl,
+                newOrder,
+                Order.class
+        );
+
+        int avgOrderPerMonth = 5700;
+        Order[] newOrders = getOrders(baseUrl+"?mostRecent="+avgOrderPerMonth);
+        Optional<Order> postedOrder = Arrays.stream(newOrders).filter(
+                order -> {
+                    return order.orderId.equals(newOrder.orderId);
+                }
+        ).findFirst();
+
+        // check that the order exists
+        assertThat(postedOrder).isPresent();
+
+        // remove the order after testing is successful
+        this.dbConnector.deleteOrder(newOrder.orderId);
+
     }
 
 

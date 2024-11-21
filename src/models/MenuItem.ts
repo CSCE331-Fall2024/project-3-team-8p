@@ -9,9 +9,7 @@ export default class MenuItem implements CardItem {
     private readonly _inventoryItems: InventoryItem[];
 
 
-    constructor();
-    constructor(menuItemId: string, price: number, itemName: string);
-    constructor(menuItemId?: string, price?: number, itemName?: string) {
+    constructor(menuItemId: string, price: number, itemName: string) {
         this._menuItemId = menuItemId || uuidv4();
         this._price = price || 0;
         this._itemName = itemName || "";
