@@ -1,52 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import MenuItemApi from "../../../apis/menu-item-api";
-import MenuItem from "../../../models/MenuItem";
+import EmployeeApi from "../../../apis/employee-api";
+import Employee from "../../../models/Employee";
 import { v4 as uuidv4 } from "uuid";
 
+
 interface ModalProps {
-    currMenuItem: MenuItem | undefined;
+    currEmployee: Employee | undefined;
     showModal: boolean;
     onClose: (didUpdate: boolean) => void;
-    api: MenuItemApi;
+    api: EmployeeApi;
 }
 
 type FormData = {
-    menuItemId: string,
-    itemName: string,
-    price: number
+    employeeId: string,
+    name: string,
+    isManager: boolean,
 };
 
-const getInitialFormData = (menuItem?: MenuItem) => ({
-    menuItemId: menuItem?.menuItemId ?? uuidv4(),
-    itemName: menuItem?.itemName ?? "",
-    price: menuItem?.price ?? 0.0,
+const getInitialFormData = (currEmployee?: Employee) => ({
+    employeeId: currEmployee?.employeeId ?? uuidv4(),
+    name: currEmployee?.name ?? "",
+    isManager: currEmployee?.isManager ?? false,
 });
 
-function MenuItemModal({ currMenuItem, showModal, onClose, api }: ModalProps) {
-    const [formData, setFormData] = useState<FormData>(getInitialFormData(currMenuItem));
+function MenuItemModal({ currEmployee, showModal, onClose, api }: ModalProps) {
+    const [formData, setFormData] = useState<FormData>(getInitialFormData(currEmployee));
 
     useEffect(() => {
         // Update the form data whenever we close/reopen the modal
         if (showModal) {
-            setFormData(getInitialFormData(currMenuItem));
+            setFormData(getInitialFormData(currEmployee));
         }
-    }, [currMenuItem, showModal]);
+    }, [currEmployee, showModal]);
 
     const handleSaveChanges = async () => {
         try {
-            const itemToSave = new MenuItem(
-                formData.menuItemId,
-                formData.price,
-                formData.itemName
+            const employeeToSave = new Employee(
+                formData.employeeId,
+                formData.name,
+                formData.isManager
             );
 
-            if (currMenuItem) {
-                await api.updateMenuItem(itemToSave);
+            if (currEmployee) {
+                await api.updateEmployee(employeeToSave);
             } else {
-                await api.addMenuItem(itemToSave)
+                await api.addEmployee(employeeToSave)
             }
+
             onClose(true);
         } catch (e) {
             console.log(e);
@@ -56,10 +58,10 @@ function MenuItemModal({ currMenuItem, showModal, onClose, api }: ModalProps) {
     const handleCancelChanges = () => onClose(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const { name, type, value, checked } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: name === "price" ? parseFloat(value) || 0 : value
+            [name]: type === "checkbox" ? checked : value
         }));
     }
 
@@ -67,30 +69,28 @@ function MenuItemModal({ currMenuItem, showModal, onClose, api }: ModalProps) {
         <Modal show={showModal} onHide={handleCancelChanges}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {currMenuItem ? "Edit" : "Add"} Menu Item
+                    {currEmployee ? "Edit" : "Add"} Inventory Item
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group className={"mb-3"} controlId={"formName"}>
-                        <Form.Label>Item Name</Form.Label>
+                        <Form.Label>Employee Name</Form.Label>
                         <Form.Control
-                            name={"itemName"}
+                            name={"name"}
                             type={"text"}
-                            value={formData.itemName}
-                            placeholder={"Enter item name"}
+                            value={formData.name}
+                            placeholder={"Enter employee name"}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
 
-                    <Form.Group className={"mb-3"} controlId={"formPrice"}>
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                            name={"price"}
-                            type={"number"}
-                            step={"0.01"}
-                            value={formData.price}
-                            placeholder={"Enter Price"}
+                    <Form.Group className="mb-3" controlId="formIsManager">
+                        <Form.Check
+                            name={"isManager"}
+                            type="checkbox"
+                            checked={formData.isManager}
+                            label="Is Manager"
                             onChange={handleInputChange}
                         />
                     </Form.Group>

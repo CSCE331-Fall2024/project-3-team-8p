@@ -63,7 +63,6 @@ function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
                 itemName: itemName,
                 amount: usage
             })));
-        console.log(reportData);
     }, [dataProvider]);
 
     const parseDateInfo = useCallback(() => {

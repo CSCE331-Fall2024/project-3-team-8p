@@ -16,13 +16,15 @@ export default class MenuItemApi extends BaseApi {
     */
     async getMenuItems(): Promise<MenuItem[]> {
         const response = await this.apiClient.get("");
-        return response.data.map((item: any) => (
-            new MenuItem(
-                item.menuItemId,
-                item.price,
-                item.itemName
-            )
-        ));
+        return response.data
+            .map((item: any) => (
+                new MenuItem(
+                    item.menuItemId,
+                    item.price,
+                    item.itemName
+                )
+            ))
+            .sort((a: MenuItem, b: MenuItem) => a.itemName.localeCompare(b.itemName));
     }
 
     async addMenuItem(item: MenuItem): Promise<void> {
@@ -32,13 +34,17 @@ export default class MenuItemApi extends BaseApi {
             itemName: item.itemName,
         };
 
-        try {
-            const response = await this.apiClient.post("", menuItemData);
-            console.log("Response: ", response.data);
-        } catch (error) {
-            console.error("Error when adding menu item: " + error);
-            throw error
-        }
+        await this.apiClient.post("", menuItemData);
+    }
+
+    async updateMenuItem(item: MenuItem): Promise<void> {
+        const menuItemData = {
+            menuItemId: item.menuItemId,
+            price: item.price,
+            itemName: item.itemName,
+        };
+
+        await this.apiClient.put("", menuItemData);
     }
 
     async getSalesReport(

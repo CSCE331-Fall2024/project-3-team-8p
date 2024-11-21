@@ -14,6 +14,10 @@ import MenuItem from "../../models/MenuItem";
 import SingleBarComponent from "./components/SingleBarComponent";
 import OrderApi from "../../apis/order-api";
 import DoubleBarComponent from "./components/DoubleBarComponent";
+import InventoryItemModal from "./components/InventoryItemModal";
+import InventoryItem from "../../models/InventoryItem";
+import EmployeeModal from "./components/EmployeeModal";
+import Employee from "../../models/Employee";
 
 
 // TODO: Should probably replace this with some global state
@@ -60,6 +64,7 @@ const getRightPaneTitle = (currRightPane: RightPane) => {
 function ManagerView() {
     const {
         cardItems,
+        refreshItems,
         loading,
         error,
         currRightPane,
@@ -70,7 +75,12 @@ function ManagerView() {
     const [showModal, setShowModal] = useState(false);
     const [currItem, setCurrItem] = useState<CardItem | undefined>(undefined)
 
-    const handleCloseModal = () => setShowModal(false);
+    const handleCloseModal = (didUpdate: boolean) => {
+        if (didUpdate) {
+            refreshItems();
+        }
+        setShowModal(false);
+    }
 
     const handleShowModal = (item?: CardItem) => {
         setCurrItem(item);
@@ -113,7 +123,7 @@ function ManagerView() {
                         <>
                             <DoubleBarComponent
                                 chartName={getLeftPaneTitle(currLeftPane)}
-                                dataProvider={currLeftPane == LeftPane.XReport
+                                dataProvider={currLeftPane === LeftPane.XReport
                                     ? orderApi.getXReport.bind(orderApi)
                                     : orderApi.getZReport.bind(orderApi)
                                 }
@@ -140,21 +150,38 @@ function ManagerView() {
                         </Nav.Item>
                     </Nav>
 
-                    <Button
-                        className={"mb-3"}
-                        onClick={() => handleShowModal()}
-                    >
-                        Add {getRightPaneTitle(currRightPane)}
-                    </Button>
+                    {currRightPane === RightPane.MenuItems && (
+                        <MenuItemModal
+                            currMenuItem={currItem as MenuItem}
+                            showModal={showModal}
+                            onClose={handleCloseModal}
+                            api={menuItemApi}
+                        />
+                    )}
 
-                    <MenuItemModal
-                        currMenuItem={currItem as MenuItem}
-                        showModal={showModal}
-                        onClose={handleCloseModal}
-                        menuItemApi={menuItemApi}
+                    {currRightPane === RightPane.InventoryItems && (
+                        <InventoryItemModal
+                            currItem={currItem as InventoryItem}
+                            showModal={showModal}
+                            onClose={handleCloseModal}
+                            api={inventoryItemApi}
+                        />
+                    )}
+
+                    {currRightPane === RightPane.Employees && (
+                        <EmployeeModal
+                            currEmployee={currItem as Employee}
+                            showModal={showModal}
+                            onClose={handleCloseModal}
+                            api={employeeApi}
+                        />
+                    )}
+
+                    <ItemGrid
+                        pageTitle={getRightPaneTitle(currRightPane)}
+                        items={cardItems}
+                        onAddOrUpdateItem={handleShowModal}
                     />
-
-                    <ItemGrid items={cardItems} onItemClick={handleShowModal} />
                 </Col>
             </Row>
 
