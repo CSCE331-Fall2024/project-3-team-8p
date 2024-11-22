@@ -1,5 +1,8 @@
 package org.project3.rest_api.models;
 
+import org.project3.rest_api.models.wrappers.ItemWithQty;
+
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -46,6 +49,11 @@ public class Order {
      * Total price of the order
      */
     public Double price;
+
+    /**
+     * List of menu items & quantities associated with the order
+     * */
+    public List<ItemWithQty> menuItemsWithQties;
 
     /**
      * Constructor to create an Order with an automatically generated order ID.

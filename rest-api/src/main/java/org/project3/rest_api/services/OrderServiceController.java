@@ -39,8 +39,8 @@ public class OrderServiceController extends BaseAPIController {
         if (newOrder.orderId == null) {
             newOrder.orderId = UUID.randomUUID();
         }
-
         dbConnector.insertOrder(newOrder);
+        mapOrderToMenu(newOrder.orderId, newOrder.menuItemsWithQties);
         return newOrder;
     }
 
@@ -49,9 +49,8 @@ public class OrderServiceController extends BaseAPIController {
      * @param orderId ID of order associated with menuItemsWithQties
      * @param menuItemsWithQties List of menu items and quantities included in order
      * */
-    @PostMapping("{orderId}/menu")
-    public void mapOrderToMenu(@PathVariable UUID orderId,
-                               @RequestBody List<ItemWithQty> menuItemsWithQties) {
+    public void mapOrderToMenu(UUID orderId,
+                               List<ItemWithQty> menuItemsWithQties) {
 
         for (ItemWithQty menuItem : menuItemsWithQties) {
             List<InventoryItem> invItems = dbConnector.selectMenuItemInventoryItems(menuItem.id);
@@ -66,7 +65,6 @@ public class OrderServiceController extends BaseAPIController {
             // insert each associated inventory item into orderToInventoryItem
             dbConnector.insertOrderInventoryItems(orderId, invItemsWithQty);
         }
-
 
         // insert menu items into orderToMenuItem
         dbConnector.insertOrderMenuItems(orderId, menuItemsWithQties);
