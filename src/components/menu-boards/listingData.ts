@@ -33,7 +33,7 @@ interface Listing {
 const listings: Record<Tabs, Listing[]> = {
     [Tabs.Entrees]: [
         { name: 'Beijing Beef', imageUrl: BeijingBeef, calories: 400, specialItems: [spicy, wok]},
-        { name: 'The Original Orange Chicken', imageUrl: OrangeChicken, calories: 400, specialItems: [spicy, wok]},
+        { name: 'The Original Orange Chicken', imageUrl: OrangeChicken, calories: 400, specialItems: []},
         { name: 'Kung Pao Chicken', imageUrl: KungPao, calories: 400, specialItems: [spicy, wok] },
         { name: 'Hot Ones Blazing Bourbon Chicken', imageUrl: HotOnes, calories: 400, specialItems: [spicy, wok] },
         { name: 'Honey Walnut Shrimp', imageUrl: HoneyWalnut, calories: 400, specialItems: [spicy, wok] },

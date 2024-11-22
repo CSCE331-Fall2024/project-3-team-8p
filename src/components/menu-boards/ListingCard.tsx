@@ -5,8 +5,10 @@ interface ListingCardProps {
     name: string;
     imageUrl: string;
     calories: number;
-    specialItems: string[];
+    specialItems?: string[]; // Optional property
 }
+
+
 
 
 const CardContainer = styled.div`
@@ -47,13 +49,13 @@ const Calories = styled.h3`
     justify-content: center;
 `;
 
-const SpecialItems = styled.img`
+const SpecialItems = styled.div`
     width: 100%;
-    height: 200px;
+    max-height: 200px;
     object-fit: contain;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, calories, specialItems }) => {
+const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, calories, specialItems = [] }) => {
     return (
         <CardContainer>
             <Image src={imageUrl} alt={name} />
@@ -61,13 +63,18 @@ const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, calories, spe
                 <Name>{name}</Name>
                 <Calories>{calories} cal</Calories>
                 <SpecialItems>
-                    {specialItems.map((item, index) => (
-                        <img key={index} src={item} alt={`Special item ${index + 1}`} />
-                    ))}
+                    {specialItems.length > 0 ? (
+                        specialItems.map((item, index) => (
+                            <img key={index} src={item} alt={`Special item ${index + 1}`} />
+                        ))
+                    ) : (
+                        <p>No special items available.</p>
+                    )}
                 </SpecialItems>
             </CardContent>
         </CardContainer>
     );
 };
+
 
 export default ListingCard;

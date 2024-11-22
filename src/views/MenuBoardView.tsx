@@ -5,7 +5,7 @@ import ListingCard from '../components/menu-boards/ListingCard';
 import ButtonContainer from '../components/menu-boards/ButtonContainer';
 import { Tabs } from '../components/menu-boards/TabsEnum';
 import { Prices } from '../components/menu-boards/TabsEnum';
-import {banner} from "../components/images";
+// import {banner} from "../components/images";
 
 function MenuBoardView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
@@ -35,7 +35,6 @@ function MenuBoardView() {
                         imageUrl={listing.imageUrl}
                         specialItems={listing.specialItems}
                     />
-
                 ))}
 
             </div>
