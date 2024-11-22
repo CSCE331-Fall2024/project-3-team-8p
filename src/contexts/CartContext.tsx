@@ -1,35 +1,29 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import MenuItem from "../../../models/MenuItem";
+import React, { createContext, useContext, useState, ReactElement } from 'react';
+import MenuItem from "../models/MenuItem";
+import CartItem from "../models/interfaces/CartItem";
 
-// Define the shape of the CartItem, which will have the MenuItem and a quantityOrdered
-export interface CartItem {
-    menuItemId: string;
-    price: number;
-    itemName: string;
-    imageUrl: string;
-    quantityOrdered: number;
-}
 
-// Define the shape of the CartContext
 interface CartContextType {
     cartItems: CartItem[];
-    total: number;
+    cartTotal: number;
     addToCart: (item: MenuItem) => void;
     clearCart: () => void;
 }
 
-// Initialize the context with default values
+interface CartProviderProps {
+    children: ReactElement;
+}
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// CartProvider component to wrap your application
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartProvider = ({ children }: CartProviderProps) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [total, setTotal] = useState<number>(0);
+    const [cartTotal, setCartTotal] = useState<number>(0);
 
     const addToCart = (item: MenuItem) => {
-        const existingItem = cartItems.find(cartItem => cartItem.menuItemId === item.menuItemId);
+        const existingItem: CartItem | undefined = cartItems.find(cartItem => cartItem.menuItemId === item.menuItemId);
 
-        // Update quantity if the item already exists in the cart
+        // Increment quantity by 1 if the item already exists in the cart
         if (existingItem) {
             const updatedItems = cartItems.map(cartItem =>
                 cartItem.menuItemId === item.menuItemId
@@ -49,17 +43,23 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setCartItems([...cartItems, cartItem]);  // Add the new CartItem
         }
 
-        // Update total price
-        setTotal(prevTotal => prevTotal + item.price);
+        setCartTotal(prevTotal => prevTotal + item.price);
     };
 
     const clearCart = () => {
         setCartItems([]);
-        setTotal(0);
+        setCartTotal(0);
+    };
+
+    const value: CartContextType = {
+        cartItems,
+        cartTotal,
+        addToCart,
+        clearCart,
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, total, addToCart, clearCart }}>
+        <CartContext.Provider value={value}>
             {children}
         </CartContext.Provider>
     );
@@ -68,9 +68,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 // Custom hook to use the CartContext in other components
 export const useCart = (): CartContextType => {
     const context = useContext(CartContext);
-    if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
+    if (context === undefined) {
+        throw new Error("useCart must be used within a CartProvider");
     }
     return context;
 };
-

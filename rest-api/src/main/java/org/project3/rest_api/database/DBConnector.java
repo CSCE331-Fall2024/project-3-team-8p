@@ -41,7 +41,7 @@ public class DBConnector {
      * @param mapper mapper from SQLToJavaMapper
      * @return list of query results
      */
-    public <T> List<T> executeQuery(String query, Function<ResultSet, T> mapper) throws SQLException {
+    private <T> List<T> executeQuery(String query, Function<ResultSet, T> mapper) throws SQLException {
         List<T> results = new ArrayList<>();
 
         try (Connection conn = dataSource.getConnection();
@@ -112,6 +112,19 @@ public class DBConnector {
         return items;
     }
 
+    public Employee selectEmployee(String name) {
+        List<Employee> employees = new ArrayList<>();
+        try {
+            employees = executeQuery(
+                    String.format(QueryTemplate.selectEmployeeByName, name),
+                    SQLToJavaMapper::employeeMapper
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees.isEmpty() ? null : employees.getFirst();
+    }
+
     /**
      * Selects all the employees
      *
@@ -121,7 +134,7 @@ public class DBConnector {
         List<Employee> items = null;
         try {
             items = executeQuery(
-                    String.format(QueryTemplate.selectAllEmployees),
+                    QueryTemplate.selectAllEmployees,
                     SQLToJavaMapper::employeeMapper
             );
         } catch (SQLException e) {

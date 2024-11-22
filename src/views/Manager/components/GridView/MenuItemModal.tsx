@@ -1,56 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import InventoryItemApi from "../../../apis/inventory-item-api";
-import InventoryItem from "../../../models/InventoryItem";
+import MenuItemApi from "../../../../apis/menu-item-api";
+import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
-    currItem: InventoryItem | undefined;
+    currMenuItem: MenuItem | undefined;
     showModal: boolean;
     onClose: (didUpdate: boolean) => void;
-    api: InventoryItemApi;
+    api: MenuItemApi;
 }
 
 type FormData = {
-    inventoryItemId: string,
-    availableStock: number,
-    cost: number
+    menuItemId: string,
     itemName: string,
+    price: number
 };
 
-const getInitialFormData = (currItem?: InventoryItem) => ({
-    inventoryItemId: currItem?.inventoryItemId ?? uuidv4(),
-    availableStock: currItem?.availableStock ?? 0,
-    cost: currItem?.cost ?? 0.0,
-    itemName: currItem?.itemName ?? "",
+const getInitialFormData = (menuItem?: MenuItem) => ({
+    menuItemId: menuItem?.menuItemId ?? uuidv4(),
+    itemName: menuItem?.itemName ?? "",
+    price: menuItem?.price ?? 0.0,
 });
 
-function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
-    const [formData, setFormData] = useState<FormData>(getInitialFormData(currItem));
+function MenuItemModal({ currMenuItem, showModal, onClose, api }: ModalProps) {
+    const [formData, setFormData] = useState<FormData>(getInitialFormData(currMenuItem));
 
     useEffect(() => {
         // Update the form data whenever we close/reopen the modal
         if (showModal) {
-            setFormData(getInitialFormData(currItem));
+            setFormData(getInitialFormData(currMenuItem));
         }
-    }, [currItem, showModal]);
+    }, [currMenuItem, showModal]);
 
     const handleSaveChanges = async () => {
         try {
-            const itemToSave = new InventoryItem(
-                formData.inventoryItemId,
-                formData.cost,
-                formData.availableStock,
+            const itemToSave = new MenuItem(
+                formData.menuItemId,
+                formData.price,
                 formData.itemName
             );
 
-            if (currItem) {
-                await api.updateInventoryItem(itemToSave);
+            if (currMenuItem) {
+                await api.updateMenuItem(itemToSave);
             } else {
-                await api.addInventoryItem(itemToSave)
+                await api.addMenuItem(itemToSave)
             }
-
             onClose(true);
         } catch (e) {
             console.log(e);
@@ -63,7 +59,7 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
         const { name, value } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: name === "cost" ? parseFloat(value) || 0 : value
+            [name]: name === "price" ? parseFloat(value) || 0 : value
         }));
     }
 
@@ -71,7 +67,7 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
         <Modal show={showModal} onHide={handleCancelChanges}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {currItem ? "Edit" : "Add"} Inventory Item
+                    {currMenuItem ? "Edit" : "Add"} Menu Item
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -87,26 +83,14 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
                         />
                     </Form.Group>
 
-                    <Form.Group className={"mb-3"} controlId={"formAvailableStock"}>
-                        <Form.Label>Available Stock</Form.Label>
-                        <Form.Control
-                            name={"availableStock"}
-                            type={"number"}
-                            step={"0.01"}
-                            value={formData.availableStock}
-                            placeholder={"Enter Available Stock"}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group className={"mb-3"} controlId={"formCost"}>
+                    <Form.Group className={"mb-3"} controlId={"formPrice"}>
                         <Form.Label>Price</Form.Label>
                         <Form.Control
-                            name={"cost"}
+                            name={"price"}
                             type={"number"}
                             step={"0.01"}
-                            value={formData.cost}
-                            placeholder={"Enter Cost"}
+                            value={formData.price}
+                            placeholder={"Enter Price"}
                             onChange={handleInputChange}
                         />
                     </Form.Group>

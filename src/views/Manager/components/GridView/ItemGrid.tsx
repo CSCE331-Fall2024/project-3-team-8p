@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Pagination, Row } from "react-bootstrap";
-import CardItem from "../../../models/interfaces/CardItem";
+import CardItem from "../../../../models/interfaces/CardItem";
 import ItemCard from "./ItemCard";
-import "../css/ItemGrid.css"
+import "../../css/ItemGrid.css"
 
 interface ItemGridProps<T extends CardItem> {
     pageTitle: string;
@@ -25,7 +25,7 @@ function ItemGrid<T extends CardItem>({ pageTitle, items, onAddOrUpdateItem }: I
     }
 
     return (
-        <Container className={"item-grid px-0"}>
+        <Container className={"item-grid px-3 d-flex flex-column justify-content-between"}>
             <Row>
                 {currentPageItems.map((item: T) => (
                     <Col key={item.id} md={3} className={"mb-3"}>
@@ -34,7 +34,7 @@ function ItemGrid<T extends CardItem>({ pageTitle, items, onAddOrUpdateItem }: I
                 ))}
             </Row>
 
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center mb-2">
                 <Button onClick={() => onAddOrUpdateItem()}>
                     Add {pageTitle}
                 </Button>

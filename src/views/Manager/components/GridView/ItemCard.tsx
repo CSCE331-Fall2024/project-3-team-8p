@@ -1,6 +1,6 @@
 import React from 'react';
-import CardItem from "../../../models/interfaces/CardItem";
-import "../css/ItemCard.css"
+import CardItem from "../../../../models/interfaces/CardItem";
+import "../../css/ItemCard.css"
 
 interface ItemCardProps<T extends CardItem> {
     item: T;
