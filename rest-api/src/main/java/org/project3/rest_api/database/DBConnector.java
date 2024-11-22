@@ -165,6 +165,16 @@ public class DBConnector {
     }
 
     /**
+     * Deletes an employee with given UUID
+     * @param employeeId ID of menu item to be deleted
+     * */
+    public void deleteEmployee(UUID employeeId) {
+        executeUpdate(String.format(QueryTemplate.deleteEmployee,
+                employeeId
+        ));
+    }
+
+    /**
      * Selects the {@code mostRecent} most recent orders from the database
      *
      * @param mostRecent the number of most recent orders to select
@@ -182,6 +192,17 @@ public class DBConnector {
             e.printStackTrace();
         }
         return items;
+    }
+
+    /**
+     * Deletes an order from the database
+     *
+     * @param orderId ID of order to be deleted
+     * */
+    public void deleteOrder(UUID orderId) {
+        executeUpdate(String.format(QueryTemplate.deleteOrder,
+                orderId
+                ));
     }
 
     /**
@@ -275,6 +296,19 @@ public class DBConnector {
     }
 
     /**
+     *
+     * */
+    /**
+     * Deletes an employee with given UUID
+     * @param invItemId ID of menu item to be deleted
+     * */
+    public void deleteInventoryItem(UUID invItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteInventoryItem,
+                invItemId
+        ));
+    }
+
+    /**
      * Decreases quantity of inventory item
      *
      * @param inventoryItemId ID of inventory item to update
@@ -316,6 +350,17 @@ public class DBConnector {
         }
 
 
+    }
+
+    /**
+     * Deletes menu item with given UUID
+     *
+     * @param menuItemId ID of menu item to be deleted
+     * */
+    public void deleteMenuItem(UUID menuItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteMenuItem,
+                menuItemId
+                ));
     }
 
     /**
