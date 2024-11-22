@@ -35,14 +35,21 @@ public class SQLToJavaMapper {
      */
     public static MenuItem menuItemMapper(ResultSet rs) {
         try {
-            String nutritionInfoJson = rs.getString("nutritioninfo");
+            // Retrieve the nutritionInfo JSON string from the ResultSet
+            String nutritionJson = rs.getString("nutritionInfo");
             NutritionInfo nutritionInfo = null;
 
-            // Parse only if nutritioninfo is not null
-            if (nutritionInfoJson != null && !nutritionInfoJson.isEmpty()) {
+            // Parse the JSON string only if it's not null or empty
+            if (nutritionJson != null && !nutritionJson.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
-                nutritionInfo = objectMapper.readValue(nutritionInfoJson, NutritionInfo.class);
+                try {
+                    nutritionInfo = objectMapper.readValue(nutritionJson, NutritionInfo.class);
+                } catch (JsonMappingException e) {
+                    throw new RuntimeException("Error mapping JSON to NutritionInfo", e);
+                }
             }
+
+
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),
@@ -51,8 +58,6 @@ public class SQLToJavaMapper {
             );
         } catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

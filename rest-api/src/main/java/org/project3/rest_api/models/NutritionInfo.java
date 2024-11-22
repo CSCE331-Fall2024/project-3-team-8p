@@ -1,21 +1,15 @@
 package org.project3.rest_api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 import java.util.List;
 
 public class NutritionInfo {
-    @JsonProperty("allergens")
     public List<String> allergens;
-    @JsonProperty("calories")
     public int calories = 0;
-    @JsonProperty("fat")
     public int fat = 0;
-    @JsonProperty("protein")
     public int protein = 0;
-    @JsonProperty("sugar")
     public int sugar = 0;
-    @JsonProperty("carbohydrates")
     public int carbohydrates = 0;
     public boolean isPremium = false;
 

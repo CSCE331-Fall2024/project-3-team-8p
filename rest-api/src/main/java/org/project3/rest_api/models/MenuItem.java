@@ -16,6 +16,7 @@ public class MenuItem {
     /**
      * Unique identifier for the menu item
      */
+    @JsonProperty("menuItemId")
     public UUID menuItemId;
 
     /**
@@ -30,17 +31,13 @@ public class MenuItem {
     @JsonProperty("itemName")
     public String itemName;
 
-<<<<<<< HEAD
     /**
      * Nutrition and allergens information for the menu item
      */
     @JsonProperty("nutritionInfo")
     public NutritionInfo nutritionInfo;
 
-    public MenuItem() {}
 
-=======
->>>>>>> cb036214fe2978ec9cf0dc1779a6212b418292be
     /**
      * Constructor to create a MenuItem with a specified ID.
      *

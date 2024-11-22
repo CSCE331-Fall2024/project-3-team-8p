@@ -377,7 +377,7 @@ public class QueryTemplate {
                 WHERE menuItemId = '%s';
                 """;
     public static final String addNutritionInfo = """
-                INSERT INTO menuitem (menuItemId, itemname, price, nutrition_info)
+                INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
                 VALUES ('%s', '%s', %.2f, '{
                       "calories": %d,
                       "fat": %d,
