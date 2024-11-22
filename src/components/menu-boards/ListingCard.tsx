@@ -65,7 +65,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, calories, spe
                 <SpecialItems>
                     {specialItems.length > 0 ? (
                         specialItems.map((item, index) => (
-                            <img key={index} src={item} alt={`Special item ${index + 1}`} />
+                            <img key={index} src={item} alt={`Special item ${index + 1}`} className="smallImage"/>
                         ))
                     ) : (
                         <p>No special items available.</p>
