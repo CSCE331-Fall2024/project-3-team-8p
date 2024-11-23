@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Pagination, Row } from "react-bootstrap";
 import CardItem from "../../../models/interfaces/CardItem";
 import ItemCard from "./ItemCard";
@@ -23,6 +23,10 @@ function ItemGrid<T extends CardItem>({ pageTitle, items, onAddOrUpdateItem }: I
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     }
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [items])
 
     return (
         <Container className={"item-grid px-0"}>
