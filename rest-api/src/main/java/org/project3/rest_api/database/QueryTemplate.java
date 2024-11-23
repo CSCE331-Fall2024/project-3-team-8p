@@ -377,16 +377,16 @@ public class QueryTemplate {
                 WHERE menuItemId = '%s';
                 """;
     public static final String addNutritionInfo = """
-                INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
-    VALUES ('31cb6874-4ce5-45cc-ae70-798645c5115f', 'Dr. Pepper', 2.1, '{
-        "allergens": [],
-        "calories": 120,
-        "fat": 0,
-        "protein": 0,
-        "sugar": 15,
-        "carbohydrates": 10,
-        "isPremium": false,
-        "isSpicy": false
+    INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
+    VALUES ('%s', '%s', %.2f, '{
+        "allergens": ["%s"],
+        "calories": %d,
+        "fat": %d,
+        "protein": %d,
+        "sugar": %d,
+        "carbohydrates": %d,
+        "isPremium": %b,
+        "isSpicy": %b
     }')
     ON CONFLICT (menuItemId)
     DO UPDATE SET

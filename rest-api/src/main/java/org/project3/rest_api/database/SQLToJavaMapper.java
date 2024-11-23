@@ -2,7 +2,10 @@ package org.project3.rest_api.database;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.project3.rest_api.models.*;
 
 import java.sql.ResultSet;
@@ -38,10 +41,43 @@ public class SQLToJavaMapper {
             // Retrieve the nutritionInfo JSON string from the ResultSet
             String nutritionJson = rs.getString("nutritionInfo");
             NutritionInfo nutritionInfo = null;
+
             // Parse the JSON string only if it's not null or empty
             if (nutritionJson != null && !nutritionJson.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
-                nutritionInfo = objectMapper.readValue(nutritionJson, NutritionInfo.class);
+                JsonNode rootNode = objectMapper.readTree(nutritionJson);
+
+                // Log the raw JSON to see the structure
+                System.out.println("Raw nutritionJson: " + nutritionJson);
+
+                JsonNode allergensNode = rootNode.path("allergens");
+
+                // Check and clean allergens array if it exists
+                if (allergensNode.isArray()) {
+                    // Create a new array to store clean allergens
+                    ArrayNode cleanAllergens = objectMapper.createArrayNode();
+                    allergensNode.forEach(node -> {
+                        if (node.isTextual()) {
+                            String allergen = node.textValue().replace("[", "").replace("]", "").trim();
+                            // Only add to the array if it's not an empty string
+                            if (!allergen.isEmpty()) {
+                                cleanAllergens.add(allergen);
+                            }
+                        }
+                    });
+
+                    // Log the cleaned allergens to verify
+                    System.out.println("Cleaned allergens: " + cleanAllergens);
+
+                    // Set the cleaned allergens array to rootNode
+                    ((ObjectNode) rootNode).set("allergens", cleanAllergens);
+                }
+
+                // Log the final cleaned rootNode before returning
+                System.out.println("Final JSON after cleaning: " + objectMapper.writeValueAsString(rootNode));
+
+                // Convert JSON to NutritionInfo object
+                nutritionInfo = objectMapper.treeToValue(rootNode, NutritionInfo.class);
             }
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),

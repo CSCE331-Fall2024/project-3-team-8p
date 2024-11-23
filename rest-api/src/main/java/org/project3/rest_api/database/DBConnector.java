@@ -1,9 +1,6 @@
 package org.project3.rest_api.database;
 
-import org.project3.rest_api.models.MenuItem;
-import org.project3.rest_api.models.InventoryItem;
-import org.project3.rest_api.models.Employee;
-import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.*;
 import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -373,6 +370,21 @@ public class DBConnector {
                 updatedMenuItem.price,
                 updatedMenuItem.itemName,
                 updatedMenuItem.menuItemId
+        ));
+    }
+    public void insertNutritionInfo(NutritionInfo nutritionInfo, MenuItem newMenuItem) {
+        executeUpdate(String.format(QueryTemplate.addNutritionInfo,
+                newMenuItem.menuItemId,
+                newMenuItem.itemName,
+                newMenuItem.price,
+                nutritionInfo.allergens,
+                nutritionInfo.calories,
+                nutritionInfo.fat,
+                nutritionInfo.protein,
+                nutritionInfo.sugar,
+                nutritionInfo.carbohydrates,
+                nutritionInfo.isPremium,
+                nutritionInfo.isSpicy
         ));
     }
 
