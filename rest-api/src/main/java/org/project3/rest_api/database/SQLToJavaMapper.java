@@ -38,45 +38,38 @@ public class SQLToJavaMapper {
      */
     public static MenuItem menuItemMapper(ResultSet rs) {
         try {
-            // Retrieve the nutritionInfo JSON string from the ResultSet
             String nutritionJson = rs.getString("nutritionInfo");
             NutritionInfo nutritionInfo = null;
 
-            // Parse the JSON string only if it's not null or empty
             if (nutritionJson != null && !nutritionJson.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(nutritionJson);
 
-                // Log the raw JSON to see the structure
-                System.out.println("Raw nutritionJson: " + nutritionJson);
-
                 JsonNode allergensNode = rootNode.path("allergens");
 
-                // Check and clean allergens array if it exists
                 if (allergensNode.isArray()) {
-                    // Create a new array to store clean allergens
                     ArrayNode cleanAllergens = objectMapper.createArrayNode();
+
                     allergensNode.forEach(node -> {
                         if (node.isTextual()) {
-                            String allergen = node.textValue().replace("[", "").replace("]", "").trim();
-                            // Only add to the array if it's not an empty string
-                            if (!allergen.isEmpty()) {
-                                cleanAllergens.add(allergen);
+                            String allergenString = node.textValue().replaceAll("[\\[\\]]", "").trim();
+
+                            // Only add to the list if the allergen is not empty
+                            if (!allergenString.isEmpty()) {
+                                String[] allergensArray = allergenString.split(",");
+
+                                // Add each allergen separately
+                                for (String allergen : allergensArray) {
+                                    cleanAllergens.add(allergen.trim());  // trim to remove any leading/trailing spaces
+                                }
                             }
                         }
                     });
 
-                    // Log the cleaned allergens to verify
-                    System.out.println("Cleaned allergens: " + cleanAllergens);
-
-                    // Set the cleaned allergens array to rootNode
+                    // Set the cleaned allergens array to the rootNode
                     ((ObjectNode) rootNode).set("allergens", cleanAllergens);
                 }
 
-                // Log the final cleaned rootNode before returning
-                System.out.println("Final JSON after cleaning: " + objectMapper.writeValueAsString(rootNode));
-
-                // Convert JSON to NutritionInfo object
                 nutritionInfo = objectMapper.treeToValue(rootNode, NutritionInfo.class);
             }
             return new MenuItem(
