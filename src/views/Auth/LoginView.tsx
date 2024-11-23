@@ -3,7 +3,8 @@ import { useUser } from "../../contexts/UserContext";
 import { jwtDecode } from "jwt-decode";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Navigate } from "react-router-dom";
-import "./css/LoginView.css";
+
+// Remove the CSS import as we'll use Bootstrap classes
 
 interface GoogleUser {
     name: string;
@@ -21,28 +22,25 @@ function LoginView() {
         }
     }
 
-    // Redirect to home page if the user is already logged in
     if (user) {
         return <Navigate to="/" />;
     }
 
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <div className="login-content">
-                    {/* Header Section */}
-                    <div className="login-header">
+        <div className="container h-80vh d-flex align-items-center justify-content-center">
+            <div className="card shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+                <div className="card-body p-4">
+                    <div className="text-center mb-4">
                         <img
                             src="images/POS.png"
                             alt="POS Logo"
-                            className="login-logo"
+                            className="img-fluid mb-3"
+                            style={{ height: '64px', width: 'auto' }}
                         />
-                        <h1>Welcome Back</h1>
-                        <p>Sign in to access the POS system</p>
+                        <h1 className="h3 mb-2">Welcome Back</h1>
+                        <p className="text-muted">Sign in to access the POS system</p>
                     </div>
-
-                    {/* Google Login Button */}
-                    <div className="login-button-container">
+                    <div className="d-flex flex-column align-items-center">
                         <GoogleLogin
                             onSuccess={handleLogin}
                             onError={() => console.log("Login failed!")}

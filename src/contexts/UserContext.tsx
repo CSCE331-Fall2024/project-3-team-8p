@@ -1,4 +1,5 @@
 import React, { createContext, ReactElement, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
     name: string;
@@ -24,6 +25,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
     });
+    const navigate = useNavigate();
 
     const setUser = (user: User | null) => {
         setUserState(user);
@@ -31,6 +33,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             localStorage.setItem("user", JSON.stringify(user));
         } else {
             localStorage.removeItem("user");
+            navigate("/");
         }
     }
 

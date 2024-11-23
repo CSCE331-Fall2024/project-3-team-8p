@@ -1,33 +1,85 @@
 import React from 'react';
 import { useUser } from "../../contexts/UserContext";
-import { Container, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
+import { Container, Navbar, Nav, Image } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 import "./css/Header.css";
 
 function Header() {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
+    const location = useLocation();
+
+    const handleLogout = () => {
+        setUser(null);
+    };
 
     return (
-        <Navbar expand="lg" className="main-nav sticky top-0 py-3">
+        <Navbar bg="dark" variant="dark" expand="lg" className="sticky-top py-3 shadow">
             <Container>
-                <Navbar.Brand as={Link} to={"/"}>
-                    <img
-                        alt={"logo"}
-                        src={"/images/POS.png"}
+                <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-3">
+                    <Image
+                        alt="Panda Express POS Logo"
+                        src="/images/POS.png"
                         height={30}
-                        className="d-inline-block align-top"
+                        className="d-inline-block"
                     />
-                    &ensp;POS System
+                    POS System
                 </Navbar.Brand>
-                {/* Menu bar toggle button on smaller screens */}
+
                 <Navbar.Toggle aria-controls="panda-express-nav" />
+
                 <Navbar.Collapse id="panda-express-nav">
-                    <Nav className={"me-auto"}>
-                        <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
-                        <Nav.Link as={Link} to={"/manager"}>Manager</Nav.Link>
-                        <Nav.Link as={Link} to={"/customer"}>Customer</Nav.Link>
+                    <Nav className="me-auto">
+                        <Nav.Link
+                            as={Link}
+                            to="/"
+                            className={`rounded mx-1 ${location.pathname === "/" ? "active" : ""}`}
+                        >
+                            Home
+                        </Nav.Link>
+                        <Nav.Link
+                            as={Link}
+                            to="/manager"
+                            className={`rounded mx-1 ${location.pathname === "/manager" ? "active" : ""}`}
+                        >
+                            Manager
+                        </Nav.Link>
+                        <Nav.Link
+                            as={Link}
+                            to="/customer"
+                            className={`rounded mx-1 ${location.pathname === "/customer" ? "active" : ""}`}
+                        >
+                            Customer
+                        </Nav.Link>
                     </Nav>
+
+                    {user ? (
+                        <div className="d-flex align-items-center bg-secondary p-2 rounded">
+                            <Image
+                                src={user.picture}
+                                alt={user.name}
+                                roundedCircle
+                                width={32}
+                                height={32}
+                                className="border border-2 border-opacity-25"
+                            />
+                            <span className="text-light mx-3 fw-medium">
+                                {user.name}
+                            </span>
+                            <button
+                                className="btn btn-danger btn-sm fw-medium"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="btn btn-primary btn-sm fw-medium"
+                        >
+                            Login
+                        </Link>
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

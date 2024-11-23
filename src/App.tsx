@@ -16,8 +16,8 @@ import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
 function App() {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
-            <UserProvider>
-                <Router>
+            <Router>
+                <UserProvider>
                     <Routes>
                         <Route path="/" element={<RouteLayoutWrapper />}>
                             <Route index element={<Home />} />
@@ -37,8 +37,8 @@ function App() {
                             </Route>
                         </Route>
                     </Routes>
-                </Router>
-            </UserProvider>
+                </UserProvider>
+            </Router>
         </GoogleOAuthProvider>
     );
 }

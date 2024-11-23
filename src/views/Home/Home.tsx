@@ -1,32 +1,26 @@
 import React from 'react';
 import { useUser } from "../../contexts/UserContext";
-import { Container } from "react-bootstrap";
-import "./css/Home.css";
 
 function Home() {
-    const { user, setUser } = useUser();
+    const { user } = useUser();
 
-    const handleLogout = () => {
-        setUser(null);
-    };
-
-    if (user) {
-        return (
-            <Container className="home">
-                <div className={"d-flex justify-content-center align-items-center"}>
-                    <div className="home-card h-80vh">
-                        <h1 className={"display-3"}>POS System Dashboard</h1>
-                        <h1>Welcome, {user.name}!</h1>
-                        <img src={user.picture} alt={user.name} />
-                        <p>{user.email}</p>
-                        <button onClick={handleLogout}>Logout</button>
+    return (
+        <div className="container h-80vh d-flex align-items-center justify-content-center">
+            <div className="card" style={{ maxWidth: '800px', width: '100%' }}>
+                <div className="card-body p-4">
+                    <div className="text-center mb-4">
+                        <img
+                            src="images/POS.png"
+                            alt="POS Logo"
+                            className="img-fluid mb-3"
+                            style={{ height: '64px', width: 'auto' }}
+                        />
+                        <h1 className="mb-2 display-5">Panda Express POS System</h1>
                     </div>
                 </div>
-            </Container>
-        );
-    } else {
-        return <div>Hello World!</div>;
-    }
+            </div>
+        </div>
+    );
 }
 
 export default Home;

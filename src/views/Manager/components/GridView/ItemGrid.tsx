@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Pagination, Row } from "react-bootstrap";
 import CardItem from "../../../../models/interfaces/CardItem";
 import ItemCard from "./ItemCard";
-import "../../css/ItemGrid.css"
 
 interface ItemGridProps<T extends CardItem> {
     pageTitle: string;
