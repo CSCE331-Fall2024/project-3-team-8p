@@ -236,6 +236,33 @@ public class DBConnector {
     }
 
     /**
+     * Updates orderToMenuItem table
+     * @param orderId ID of order associated with menuItemsWithQties
+     * @param menuItemsWithQties List of menu items and quantities included in order
+     * */
+    public void mapOrderToMenu(UUID orderId,
+                               List<ItemWithQty> menuItemsWithQties) {
+
+        for (ItemWithQty menuItem : menuItemsWithQties) {
+            List<InventoryItem> invItems = selectMenuItemInventoryItems(menuItem.id);
+
+            List<ItemWithQty> invItemsWithQty = invItems.stream().map(inventoryItem -> {
+                // update stock of inventory item
+                decreaseInventoryItemQty(inventoryItem.inventoryItemId, menuItem.quantity);
+                // return an object associating each inventory item with its quantity in the order
+                return new ItemWithQty(inventoryItem.inventoryItemId, menuItem.quantity);
+            }).toList();
+
+            // insert each associated inventory item into orderToInventoryItem
+            insertOrderInventoryItems(orderId, invItemsWithQty);
+        }
+
+        // insert menu items into orderToMenuItem
+        insertOrderMenuItems(orderId, menuItemsWithQties);
+
+    }
+
+    /**
      * Maps order to inventory items
      *
      * @param orderId ID of the placed order
