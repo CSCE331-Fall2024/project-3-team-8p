@@ -12,11 +12,12 @@ public class NutritionInfo {
     public int sugar = 0;
     public int carbohydrates = 0;
     public boolean isPremium = false;
+    public boolean isSpicy = false;
 
     public NutritionInfo() {}
 
     // Constructor
-    public NutritionInfo(List<String> allergens, int calories, int fat, int protein, int sugar, int carbohydrates, boolean isPremium) {
+    public NutritionInfo(List<String> allergens, int calories, int fat, int protein, int sugar, int carbohydrates, boolean isPremium, boolean isSpicy) {
         this.allergens = allergens;
         this.calories = calories;
         this.fat = fat;
@@ -24,5 +25,6 @@ public class NutritionInfo {
         this.sugar = sugar;
         this.carbohydrates = carbohydrates;
         this.isPremium = isPremium;
+        this.isSpicy = isSpicy;
     }
 }

@@ -378,18 +378,20 @@ public class QueryTemplate {
                 """;
     public static final String addNutritionInfo = """
                 INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
-                VALUES ('%s', '%s', %.2f, '{
-                      "calories": %d,
-                      "fat": %d,
-                      "protein": %d,
-                      "sugar": %d,
-                      "carbohydrates": %d,
-                      "isPremium": %b,
-                      "allergens": [%s]
-                    }')
-                ON DUPLICATE KEY UPDATE
-                    itemname = VALUES(itemname),
-                    price = VALUES(price),
-                    nutrition_info = VALUES(nutrition_info);
-                """;
+    VALUES ('31cb6874-4ce5-45cc-ae70-798645c5115f', 'Dr. Pepper', 2.1, '{
+        "allergens": [],
+        "calories": 120,
+        "fat": 0,
+        "protein": 0,
+        "sugar": 15,
+        "carbohydrates": 10,
+        "isPremium": false,
+        "isSpicy": false
+    }')
+    ON CONFLICT (menuItemId)
+    DO UPDATE SET
+        itemname = EXCLUDED.itemname,
+        price = EXCLUDED.price,
+        nutritioninfo = EXCLUDED.nutritioninfo;
+    """;
 }

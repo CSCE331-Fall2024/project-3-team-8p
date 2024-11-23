@@ -38,18 +38,11 @@ public class SQLToJavaMapper {
             // Retrieve the nutritionInfo JSON string from the ResultSet
             String nutritionJson = rs.getString("nutritionInfo");
             NutritionInfo nutritionInfo = null;
-
             // Parse the JSON string only if it's not null or empty
             if (nutritionJson != null && !nutritionJson.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    nutritionInfo = objectMapper.readValue(nutritionJson, NutritionInfo.class);
-                } catch (JsonMappingException e) {
-                    throw new RuntimeException("Error mapping JSON to NutritionInfo", e);
-                }
+                nutritionInfo = objectMapper.readValue(nutritionJson, NutritionInfo.class);
             }
-
-
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),

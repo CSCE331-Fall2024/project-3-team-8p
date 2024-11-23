@@ -59,6 +59,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 15,
                 5,
                 30,
+                true,
                 true
         );
         MenuItem[] oldItemArray = getMenuItems();
@@ -101,6 +102,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 15,
                 5,
                 30,
+                true,
                 true
         );
         MenuItem[] oldItemArray = getMenuItems();
