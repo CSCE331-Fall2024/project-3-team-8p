@@ -15,7 +15,7 @@ function Home() {
                             className="img-fluid mb-3"
                             style={{ height: '64px', width: 'auto' }}
                         />
-                        <h1 className="mb-2 display-5">Panda Express POS System</h1>
+                        <h1 className="mb-2 display-6">Panda Express POS System</h1>
                     </div>
                 </div>
             </div>

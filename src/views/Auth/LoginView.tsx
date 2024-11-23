@@ -4,8 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Navigate } from "react-router-dom";
 
-// Remove the CSS import as we'll use Bootstrap classes
-
 interface GoogleUser {
     name: string;
     email: string;
