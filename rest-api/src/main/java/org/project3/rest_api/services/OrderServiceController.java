@@ -41,7 +41,7 @@ public class OrderServiceController extends BaseAPIController {
 
         dbConnector.insertOrder(newOrder);
     }
-    @GetMapping("/xz-report")
+    @GetMapping("/report")
     public Map<String, List<Double>> getXOrZReport(@RequestParam boolean wholeDay) {
         return dbConnector.fetchXOrZReport(wholeDay);
     }
