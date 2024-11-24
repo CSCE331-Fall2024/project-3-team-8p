@@ -559,7 +559,6 @@ public class DBConnector {
                 newMenuItem.itemName
         ));
         mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
-
     }
 
     /**
@@ -666,6 +665,15 @@ public class DBConnector {
                 updatedMenuItem.itemName,
                 updatedMenuItem.menuItemId
         ));
+
+        // delete old inventory item association
+        executeUpdate(String.format(QueryTemplate.deleteMenuItemToInventoryItem,
+                updatedMenuItem.menuItemId
+        ));
+
+        // add association
+        mapMenutoInventory(updatedMenuItem.menuItemId, updatedMenuItem.inventoryItems);
+
     }
 
 

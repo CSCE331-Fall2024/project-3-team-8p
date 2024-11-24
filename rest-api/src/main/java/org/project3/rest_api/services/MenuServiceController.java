@@ -50,7 +50,6 @@ public class MenuServiceController extends BaseAPIController {
     @PutMapping
     public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
 
-        //TODO: add validation for updatedMenuItem's item id
         dbConnector.updateMenuItem(updatedMenuItem);
     }
 
