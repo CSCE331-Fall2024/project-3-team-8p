@@ -4,6 +4,7 @@ import org.project3.rest_api.models.MenuItem;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -31,7 +32,6 @@ public class MenuServiceController extends BaseAPIController {
      * */
     @PostMapping
     public void addMenuItem(@RequestBody MenuItem newMenuItem) {
-
         // Create a menu item id if not provided by the user
         if (newMenuItem.menuItemId == null) {
             newMenuItem.menuItemId = UUID.randomUUID();
@@ -49,5 +49,15 @@ public class MenuServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedMenuItem's item id
         dbConnector.updateMenuItem(updatedMenuItem);
+    }
+
+    @GetMapping("/sales-report")
+    public Map<String, Integer> getSalesReport(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
     }
 }

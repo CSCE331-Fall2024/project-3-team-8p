@@ -11,7 +11,7 @@ enum RightPane {
     Employees
 }
 
-const useFetchCardItems = (
+const useGetRightPaneData = (
     menuItemApi: MenuItemApi,
     inventoryItemApi: InventoryItemApi,
     employeeApi: EmployeeApi,
@@ -21,7 +21,7 @@ const useFetchCardItems = (
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
-    const fetchItems = useCallback(async () => {
+    const refreshItems = useCallback(async() => {
         setLoading(true);
         try {
             let itemData: CardItem[];
@@ -39,7 +39,6 @@ const useFetchCardItems = (
                     itemData = [];
                     break;
             }
-
             setCardItems(itemData);
         } catch (e) {
             if (e instanceof Error) {
@@ -52,18 +51,18 @@ const useFetchCardItems = (
     }, [currRightPane, menuItemApi, inventoryItemApi, employeeApi]);
 
     useEffect(() => {
-        fetchItems();
-    }, [fetchItems]);
+        refreshItems();
+    }, [refreshItems]);
 
     return {
         cardItems,
+        refreshItems,
         loading,
         error,
         currRightPane,
-        setCurrRightPane,
-        fetchItems
+        setCurrRightPane
     };
 };
 
-export default useFetchCardItems;
+export default useGetRightPaneData;
 export { RightPane };
