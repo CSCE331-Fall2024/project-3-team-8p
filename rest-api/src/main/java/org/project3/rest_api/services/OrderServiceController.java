@@ -32,16 +32,16 @@ public class OrderServiceController extends BaseAPIController {
      * @param newOrder Order object to be created in database
      * */
     @PostMapping
-    public void addOrder(@RequestBody Order newOrder) {
+    public Order addOrder(@RequestBody Order newOrder) {
 
         // Create an order id if not provided by the user
         if (newOrder.orderId == null) {
             newOrder.orderId = UUID.randomUUID();
         }
-
         dbConnector.insertOrder(newOrder);
+        return newOrder;
     }
-    @GetMapping("/xz-report")
+    @GetMapping("/report")
     public Map<String, List<Double>> getXOrZReport(@RequestParam boolean wholeDay) {
         return dbConnector.fetchXOrZReport(wholeDay);
     }

@@ -8,14 +8,14 @@ export default class OrderApi extends BaseApi {
     }
 
     async getXReport(): Promise<XZReportData> {
-        const response = await this.apiClient.get<XZReportData>("xz-report", {
+        const response = await this.apiClient.get<XZReportData>("report", {
             params: { wholeDay: false }
         });
         return response.data;
     }
 
     async getZReport(): Promise<XZReportData> {
-        const response = await this.apiClient.get<XZReportData>("xz-report", {
+        const response = await this.apiClient.get<XZReportData>("report", {
             params: { wholeDay: true }
         })
         return response.data;

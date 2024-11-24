@@ -78,6 +78,30 @@ public class QueryTemplate {
                 """;
 
     /**
+     * SQL query to delete an order
+     * */
+    public static final String deleteOrder = """
+                DELETE FROM "order"
+                WHERE orderId = '%s';
+                """;
+    /**
+     * SQL query to delete order to menu item
+     * */
+    public static final String deleteOrderToMenuItem = """
+                DELETE FROM orderToMenuItem 
+                WHERE orderId='%s';
+                """;
+
+    /**
+     * SQL query to delete order to inventory item
+     * */
+    public static final String deleteOrderToInvItem = """
+                DELETE FROM orderToInventoryItem 
+                WHERE orderId='%s';
+                """;
+
+
+    /**
      * SQL query to insert an order to a menu item
      */
     public static final String insertOrderToMenuItem = """
@@ -142,6 +166,17 @@ public class QueryTemplate {
                 WHERE employeeId = '%s';
                 """;
 
+    /**
+     * SQL query to delete an existing employee
+     * */
+    /**
+     * SQL query to delete a menu item
+     */
+    public static final String deleteEmployee = """
+                DELETE FROM employee 
+                WHERE employeeid='%s'; 
+                """;
+
     // Inventory items
     /**
      * SQL query to select an inventory item by inventoryItemId
@@ -173,6 +208,14 @@ public class QueryTemplate {
     public static final String insertInventoryItem = """
                 INSERT INTO inventoryItem (inventoryItemId, cost, availableStock, itemName)
                 VALUES ('%s', %f, %d, '%s');
+                """;
+
+    /**
+     * SQL query to delete inventory items
+     * */
+    public static final String deleteInventoryItem = """
+                DELETE FROM inventoryItem
+                WHERE inventoryItemId='%s';
                 """;
 
     /**
@@ -275,6 +318,14 @@ public class QueryTemplate {
                 UPDATE menuItem
                 SET price = %f, itemName = '%s'
                 WHERE menuItemId = '%s';
+                """;
+
+    /**
+     * SQL query to delete a menu item
+     */
+    public static final String deleteMenuItem = """
+                DELETE FROM menuItem 
+                WHERE menuItemId='%s'; 
                 """;
 
     /**

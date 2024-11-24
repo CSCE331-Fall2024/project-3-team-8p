@@ -31,13 +31,15 @@ public class MenuServiceController extends BaseAPIController {
      * @param newMenuItem MenuItem object to be created in database
      * */
     @PostMapping
-    public void addMenuItem(@RequestBody MenuItem newMenuItem) {
+    public MenuItem addMenuItem(@RequestBody MenuItem newMenuItem) {
+
         // Create a menu item id if not provided by the user
         if (newMenuItem.menuItemId == null) {
             newMenuItem.menuItemId = UUID.randomUUID();
         }
 
         dbConnector.insertMenuItem(newMenuItem);
+        return newMenuItem;
     }
 
     /**

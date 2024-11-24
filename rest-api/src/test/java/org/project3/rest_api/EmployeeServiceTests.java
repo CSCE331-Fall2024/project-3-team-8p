@@ -35,7 +35,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
     @Test
     void getEmployeeReturnsCorrectCount() {
 
-        final int EXPECTED_EMPLOYEE_COUNT = 5;
+        final int EXPECTED_EMPLOYEE_COUNT = dbConnector.selectEmployees().size();
         assertThat(
                 getEmployees().length
         ).isGreaterThanOrEqualTo(EXPECTED_EMPLOYEE_COUNT);
@@ -53,12 +53,13 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
 
         final int EXPECTED_ITEM_COUNT = oldEmpArray.length + 1;
 
+        Employee newEmployee = new Employee(
+                false,
+                "Test Employee"
+        );
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
-                new Employee(
-                        false,
-                        "Test Employee"
-                ),
+                newEmployee,
                 Employee.class
         );
 
@@ -70,6 +71,9 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
 
         printResult(getRawJson(baseUrl), "Employees");
 
+        // remove the new employee from the database after testing
+        dbConnector.deleteEmployee(newEmployee.employeeId);
+
     }
 
     /**
@@ -80,42 +84,47 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
 
         Employee[] oldEmpArray = getEmployees();
         int randIdx = rand.nextInt(oldEmpArray.length);
+
         Employee originalEmployee = oldEmpArray[randIdx];
+        Employee newEmployee = new Employee(
+                originalEmployee.employeeId,
+                !originalEmployee.isManager,
+                originalEmployee.name + " Jr."
 
-        final String EXPECTED_EMPLOYEE_NAME = originalEmployee.name + " Jr.";
-        final Boolean EXPECTED_IS_MANAGER = !originalEmployee.isManager;
-
-        originalEmployee.name = EXPECTED_EMPLOYEE_NAME;
-        originalEmployee.isManager = EXPECTED_IS_MANAGER;
+        );
 
         // perform the put request
         this.restTemplate.put(baseUrl,
-                originalEmployee
+                newEmployee
         );
 
         // check if the new array contains the new name
         Employee[] newEmpArray = getEmployees();
-        Optional<Employee> newEmp = Arrays.stream(newEmpArray).filter(
+        Optional<Employee> findEmployee = Arrays.stream(newEmpArray).filter(
                 employee -> {
-                    return employee.employeeId.equals(originalEmployee.employeeId);
+                    return employee.employeeId.equals(newEmployee.employeeId);
                 }
         ).findFirst();
 
         // check if new employee is not null
-        assertThat(newEmp).isPresent();
+        assertThat(findEmployee).isPresent();
 
-        Employee safeEmp = newEmp.get();
+        Employee safeEmp = findEmployee.get();
 
         // check is PUT correctly updated fields
         assertThat(
                 safeEmp.name
-        ).isEqualTo(EXPECTED_EMPLOYEE_NAME);
+        ).isEqualTo(newEmployee.name);
         assertThat(
                 safeEmp.isManager
-        ).isEqualTo(EXPECTED_IS_MANAGER);
-
+        ).isEqualTo(newEmployee.isManager);
 
         printResult(getRawJson(baseUrl), "Employees");
+
+        // put the original employee back after testing
+        this.restTemplate.put(baseUrl,
+                originalEmployee
+        );
 
     }
 
