@@ -93,11 +93,17 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         double newPrice = Math.round((origMenuItem.price + 0.05)*100.0)/100.0;
         String newName = "Spicy " + origMenuItem.itemName;
 
+        List<InventoryItem> allInvItems = dbConnector.selectInventoryItems();
+        int startIdx = rand.nextInt(allInvItems.size());
+        int endIdx = rand.nextInt(startIdx, allInvItems.size());
+        List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);
+
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
                 newPrice,
                 newName
         );
+        newMenuItem.inventoryItems = randInvItems;
 
         // perform the PUT request
         restTemplate.put(baseUrl,
@@ -124,6 +130,10 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         assertThat(
                 safeItem.itemName
         ).isEqualTo(newName);
+
+        assertThat(
+                safeItem.inventoryItems.size()
+        ).isEqualTo(randInvItems.size());
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
