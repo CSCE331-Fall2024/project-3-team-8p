@@ -15,24 +15,39 @@ export default class BaseApi {
             },
         });
 
+        // Intercept and handle errors during API requests
+        this.apiClient.interceptors.request.use(
+            config => config,
+            error => {
+                console.log("API request error:", error);
+                throw new Error("API request error:", error);
+            }
+        )
+
         // Intercept and handle any errors from API responses
         this.apiClient.interceptors.response.use(
             response => response,
             error => {
                 // Log errors
-                console.error('API Error:', error);
+                console.error("API response error:", error);
 
                 // Handle specific status codes
+                let errorMessage;
                 switch (error.response?.status) {
                     case 401:
-                        throw new Error("Unauthorized.");
+                        errorMessage = "Unauthorized";
+                        break;
                     case 403:
-                        throw new Error("Forbidden.");
+                        errorMessage = "Forbidden";
+                        break;
                     case 404:
-                        throw new Error("Not Found.");
+                        errorMessage = "Not Found";
+                        break;
                     default:
-                        throw new Error("Resource request failed.");
+                        errorMessage = "Resource request failed";
+                        break;
                 }
+                throw new Error("API response error: " + errorMessage);
             }
         );
     }

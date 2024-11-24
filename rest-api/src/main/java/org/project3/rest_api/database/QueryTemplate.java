@@ -84,6 +84,22 @@ public class QueryTemplate {
                 DELETE FROM "order"
                 WHERE orderId = '%s';
                 """;
+    /**
+     * SQL query to delete order to menu item
+     * */
+    public static final String deleteOrderToMenuItem = """
+                DELETE FROM orderToMenuItem 
+                WHERE orderId='%s';
+                """;
+
+    /**
+     * SQL query to delete order to inventory item
+     * */
+    public static final String deleteOrderToInvItem = """
+                DELETE FROM orderToInventoryItem 
+                WHERE orderId='%s';
+                """;
+
 
     /**
      * SQL query to insert an order to a menu item
@@ -153,9 +169,6 @@ public class QueryTemplate {
     /**
      * SQL query to delete an existing employee
      * */
-    /**
-     * SQL query to delete a menu item
-     */
     public static final String deleteEmployee = """
                 DELETE FROM employee 
                 WHERE employeeid='%s'; 
