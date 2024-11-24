@@ -1,8 +1,6 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Order;
-import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +38,6 @@ public class OrderServiceController extends BaseAPIController {
             newOrder.orderId = UUID.randomUUID();
         }
         dbConnector.insertOrder(newOrder);
-        dbConnector.mapOrderToMenu(newOrder.orderId, newOrder.menuItemsWithQties);
         return newOrder;
     }
 

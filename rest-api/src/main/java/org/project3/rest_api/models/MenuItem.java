@@ -1,5 +1,6 @@
 package org.project3.rest_api.models;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -24,6 +25,11 @@ public class MenuItem {
      * Name of the menu item
      */
     public String itemName;
+
+    /**
+     * List of associated inventory items
+     * */
+    public List<InventoryItem> inventoryItems;
 
     /**
      * Constructor to create a MenuItem with a specified ID.

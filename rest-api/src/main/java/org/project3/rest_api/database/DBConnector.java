@@ -89,10 +89,41 @@ public class DBConnector {
                     String.format(QueryTemplate.selectAllMenuItems),
                     SQLToJavaMapper::menuItemMapper
             );
+
+            items.forEach(menuItem -> {
+                menuItem.inventoryItems = selectMenuItemInventoryItems(menuItem.menuItemId);
+            });
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return items;
+    }
+
+    /**
+     * Updates menuItemToInventoryItem table
+     * @param menuItemId ID of menu item associated with ItemWithQties
+     * @param inventoryItems List of inventory items and quantities included in menu item
+     * */
+    public void mapMenutoInventory(UUID menuItemId,
+                                   List<InventoryItem> inventoryItems) {
+
+        // create an item with quantities object
+        List<ItemWithQty> invItemsWithQty = new ArrayList<>();
+
+        inventoryItems.forEach(
+                inventoryItem -> {
+                    invItemsWithQty.add(
+                            new ItemWithQty(
+                                    inventoryItem.inventoryItemId,
+                                    1
+                            )
+                    );
+                }
+        );
+        // add a new entry for each inventory item
+        insertMenuItemInventoryItems(menuItemId, invItemsWithQty);
+
     }
 
     /**
@@ -233,6 +264,7 @@ public class DBConnector {
                 newOrder.hour,
                 newOrder.price
         ));
+        mapOrderToMenu(newOrder.orderId, newOrder.menuItemsWithQty);
     }
 
     /**
@@ -359,6 +391,8 @@ public class DBConnector {
                 newMenuItem.price,
                 newMenuItem.itemName
         ));
+        mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
+
     }
 
     /**

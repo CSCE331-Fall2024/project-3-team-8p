@@ -53,7 +53,7 @@ public class Order {
     /**
      * List of menu items & quantities associated with the order
      * */
-    public List<ItemWithQty> menuItemsWithQties;
+    public List<ItemWithQty> menuItemsWithQty;
 
     /**
      * Constructor to create an Order with an automatically generated order ID.

@@ -20,17 +20,13 @@ public class InventoryServiceController extends BaseAPIController {
 
     /**
      * Queries database for inventory items
-     * @param menuItemId menu item for which to grab inventory items; returns all items if not provided
      * @return list of InventoryItem
      */
     @GetMapping
-    public List<InventoryItem> getInventoryItems(@RequestParam Optional<UUID> menuItemId) {
-
-        if (menuItemId.isPresent()) {
-            return dbConnector.selectMenuItemInventoryItems(menuItemId.get());
-        }
+    public List<InventoryItem> getInventoryItems() {
 
         return dbConnector.selectInventoryItems();
+
     }
 
     /**

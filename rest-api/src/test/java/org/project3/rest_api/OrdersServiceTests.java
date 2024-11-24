@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.ItemWithQty;
 
 import java.util.*;
 
@@ -95,9 +96,14 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     @Test
     void postOrdersCorrectlyCreatesOrder() {
 
-        List<Employee> allEmployees = this.dbConnector.selectEmployees();
+        List<Employee> allEmployees = dbConnector.selectEmployees();
         int randIdx = rand.nextInt(allEmployees.size());
         Employee someEmployee = allEmployees.get(randIdx);
+
+        List<MenuItem> allItems = dbConnector.selectMenuItems();
+        int startInd = rand.nextInt(0, allItems.size());
+        int endInd = rand.nextInt(startInd, allItems.size());
+        List<MenuItem> randItems = allItems.subList(startInd, endInd);
 
         Order newOrder = new Order(
                 someEmployee.employeeId,
@@ -107,6 +113,11 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
                 currentHour,
                 10.59
         );
+
+        // add the menu items
+        newOrder.menuItemsWithQty = randItems.stream().map(menuItem -> {
+            return new ItemWithQty(menuItem.menuItemId, 2);
+        }).toList();
 
         // post the order
         this.restTemplate.postForObject(baseUrl,

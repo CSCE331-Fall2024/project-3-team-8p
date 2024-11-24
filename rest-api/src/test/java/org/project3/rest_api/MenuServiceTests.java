@@ -1,10 +1,10 @@
 package org.project3.rest_api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 
-
-import java.awt.*;
+import java.util.List;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -50,6 +50,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     void postMenuItemIncrementsCount() {
 
         MenuItem[] oldItemArray = getMenuItems();
+        List<InventoryItem> invItems = dbConnector.selectInventoryItems();
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
@@ -57,6 +58,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 12.99,
                 "Test Menu Item"
         );
+
+       newMenuItem.inventoryItems = invItems.subList(0,3);
 
         // perform the post request
         this.restTemplate.postForObject(baseUrl,
@@ -86,10 +89,13 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         int randIdx = rand.nextInt(oldItemArray.length);
 
         MenuItem origMenuItem = oldItemArray[randIdx];
+
+        double newPrice = Math.round((origMenuItem.price + 0.05)*100.0)/100.0;
+        String newName = "Spicy " + origMenuItem.itemName;
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
-                origMenuItem.price + 0.03,
-                "Spicy " + origMenuItem.itemName
+                newPrice,
+                newName
         );
 
         // perform the PUT request
@@ -112,11 +118,11 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         assertThat(
                 safeItem.price
-        ).isEqualTo(newMenuItem.price);
+        ).isEqualTo(newPrice);
 
         assertThat(
                 safeItem.itemName
-        ).isEqualTo(newMenuItem.itemName);
+        ).isEqualTo(newName);
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
