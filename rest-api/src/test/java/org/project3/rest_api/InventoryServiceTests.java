@@ -42,27 +42,6 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     }
 
     /**
-     * Checks if GET menu items' inventory items returns correctly
-     * */
-    @Test
-    void getMenuItemInventoryItemsReturnsCorrectCount() {
-        List<MenuItem> menuItems =  dbConnector.selectMenuItems();
-        int randIdx = rand.nextInt(menuItems.size());
-        MenuItem randItem = menuItems.get(randIdx);
-
-        final int EXPECTED_INV_COUNT = this.dbConnector.selectMenuItemInventoryItems(
-                randItem.menuItemId
-        ).size();
-
-        InventoryItem[] invItem = getInventoryItems(baseUrl+"?menuItemId="+randItem.menuItemId);
-
-        assertThat(
-                invItem.length
-        ).isEqualTo(EXPECTED_INV_COUNT);
-
-    }
-
-    /**
      * Checks if POST correctly increments inventory item count
      * */
     @Test

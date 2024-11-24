@@ -3,13 +3,14 @@
 }
 
 .nav-item {
-    background-color: rgb(135, 30, 45);
+    background-color: #D51A1F;
     border-radius: 4px;
     transition: background-color 0.2s ease-in-out;
 }
 
 .nav-link {
     color: white !important;
+
 }
 
 .nav-link.active {

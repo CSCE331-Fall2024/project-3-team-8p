@@ -1,25 +1,76 @@
-import React from 'react';
-import { Col, Container, Row } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Pagination, Row } from "react-bootstrap";
 import CardItem from "../../../models/interfaces/CardItem";
 import ItemCard from "./ItemCard";
 import "../css/ItemGrid.css"
 
 interface ItemGridProps<T extends CardItem> {
+    pageTitle: string;
     items: T[];
-    onItemClick: (item: T) => void;
+    onAddOrUpdateItem: (item?: T) => void;
 }
 
-function ItemGrid<T extends CardItem>({ items, onItemClick }: ItemGridProps<T>) {
+function ItemGrid<T extends CardItem>({ pageTitle, items, onAddOrUpdateItem }: ItemGridProps<T>) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
+
+    const lastItemIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastItemIndex - itemsPerPage;
+    const currentPageItems = items.slice(firstItemIndex, lastItemIndex);
+
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    }
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [items])
 
     return (
-        <Container className={"item-grid py-4"}>
+        <Container className={"item-grid px-0"}>
             <Row>
-                {items.map((item: T) => (
-                    <Col key={item.id} md={3} className={"mb-4"}>
-                        <ItemCard item={item} onClick={onItemClick} />
+                {currentPageItems.map((item: T) => (
+                    <Col key={item.id} md={3} className={"mb-3"}>
+                        <ItemCard item={item} onClick={onAddOrUpdateItem} />
                     </Col>
                 ))}
             </Row>
+
+            <div className="d-flex justify-content-between align-items-center">
+                <Button onClick={() => onAddOrUpdateItem()}>
+                    Add {pageTitle}
+                </Button>
+
+                <Pagination className={"justify-content-center mb-0"}>
+                    <Pagination.First
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(1)}
+                    />
+                    <Pagination.Prev
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <Pagination.Item
+                            key={index + 1}
+                            active={currentPage === index + 1}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </Pagination.Item>
+                    ))}
+                    <Pagination.Next
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    />
+                    <Pagination.Last
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(totalPages)}
+                    />
+                </Pagination>
+            </div>
         </Container>
     );
 }

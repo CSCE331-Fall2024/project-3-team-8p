@@ -4,22 +4,22 @@ import MenuItem from "../MenuItem";
 import InventoryItem from "../InventoryItem";
 
 export const MENU_ITEM_DATA = [
-    new MenuItem(uuidv4(), 50.00, "Orange Chicken"),
-    new MenuItem(uuidv4(), 45.00, "Kung Pao Chicken"),
-    new MenuItem(uuidv4(), 40.00, "Beef with Broccoli"),
-    new MenuItem(uuidv4(), 35.00, "Sweet and Sour Pork"),
-    new MenuItem(uuidv4(), 42.00, "Mongolian Beef"),
-    new MenuItem(uuidv4(), 38.00, "Sesame Chicken"),
-    new MenuItem(uuidv4(), 32.00, "Honey Walnut Shrimp"),
-    new MenuItem(uuidv4(), 30.00, "Vegetable Stir Fry"),
-    new MenuItem(uuidv4(), 25.00, "Egg Drop Soup"),
-    new MenuItem(uuidv4(), 28.00, "Wonton Soup"),
-    new MenuItem(uuidv4(), 22.00, "Spring Rolls"),
-    new MenuItem(uuidv4(), 26.00, "Fried Rice"),
-    new MenuItem(uuidv4(), 24.00, "Chow Mein"),
-    new MenuItem(uuidv4(), 36.00, "Spicy Tofu Stir Fry"),
-    new MenuItem(uuidv4(), 48.00, "Peking Duck"),
-    new MenuItem(uuidv4(), 34.00, "General Tso's Chicken"),
+    new MenuItem(uuidv4(), 50.00, "Orange Chicken", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 45.00, "Kung Pao Chicken", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 40.00, "Beef with Broccoli", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 35.00, "Sweet and Sour Pork", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 42.00, "Mongolian Beef", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 38.00, "Sesame Chicken", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 32.00, "Honey Walnut Shrimp", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 30.00, "Vegetable Stir Fry", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 25.00, "Egg Drop Soup", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 28.00, "Wonton Soup", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 22.00, "Spring Rolls", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 26.00, "Fried Rice", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 24.00, "Chow Mein", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 36.00, "Spicy Tofu Stir Fry", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 48.00, "Peking Duck", "https://via.placeholder.com/300", 0),
+    new MenuItem(uuidv4(), 34.00, "General Tso's Chicken", "https://via.placeholder.com/300", 0),
 ];
 
 export const INVENTORY_ITEM_DATA = [

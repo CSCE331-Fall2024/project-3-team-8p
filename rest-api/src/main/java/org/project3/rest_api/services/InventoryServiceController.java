@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -20,17 +20,13 @@ public class InventoryServiceController extends BaseAPIController {
 
     /**
      * Queries database for inventory items
-     * @param menuItemId menu item for which to grab inventory items; returns all items if not provided
      * @return list of InventoryItem
      */
     @GetMapping
-    public List<InventoryItem> getInventoryItems(@RequestParam Optional<UUID> menuItemId) {
-
-        if (menuItemId.isPresent()) {
-            return dbConnector.selectMenuItemInventoryItems(menuItemId.get());
-        }
+    public List<InventoryItem> getInventoryItems() {
 
         return dbConnector.selectInventoryItems();
+
     }
 
     /**
@@ -59,5 +55,15 @@ public class InventoryServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedInventoryItem's id
         dbConnector.updateInventoryItem(updatedInventoryItem);
+    }
+
+    @GetMapping("/product-usage")
+    public Map<String, Integer> getProductUsageReport(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }
