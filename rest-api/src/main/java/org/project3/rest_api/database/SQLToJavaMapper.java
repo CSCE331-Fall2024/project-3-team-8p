@@ -40,36 +40,22 @@ public class SQLToJavaMapper {
         try {
             String nutritionJson = rs.getString("nutritionInfo");
             NutritionInfo nutritionInfo = null;
-
             if (nutritionJson != null && !nutritionJson.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(nutritionJson);
-
                 JsonNode allergensNode = rootNode.path("allergens");
-
                 if (allergensNode.isArray()) {
                     ArrayNode cleanAllergens = objectMapper.createArrayNode();
-
                     allergensNode.forEach(node -> {
                         if (node.isTextual()) {
-                            String allergenString = node.textValue().replaceAll("[\\[\\]]", "").trim();
-
-                            // Only add to the list if the allergen is not empty
-                            if (!allergenString.isEmpty()) {
-                                String[] allergensArray = allergenString.split(",");
-
-                                // Add each allergen separately
-                                for (String allergen : allergensArray) {
-                                    cleanAllergens.add(allergen.trim());  // trim to remove any leading/trailing spaces
-                                }
+                            String allergen = node.textValue().replace("[", "").replace("]", "").trim();
+                            if (!allergen.isEmpty()) {
+                                cleanAllergens.add(allergen);
                             }
                         }
                     });
-
-                    // Set the cleaned allergens array to the rootNode
                     ((ObjectNode) rootNode).set("allergens", cleanAllergens);
                 }
-
                 nutritionInfo = objectMapper.treeToValue(rootNode, NutritionInfo.class);
             }
             return new MenuItem(

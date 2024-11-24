@@ -291,8 +291,22 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuItem (menuItemId, price, itemName)
-                VALUES ('%s', %f, '%s');
+                INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
+                    VALUES ('%s', '%s', %.2f, '{
+                        "allergens": ["%s"],
+                        "calories": %d,
+                        "fat": %d,
+                        "protein": %d,
+                        "sugar": %d,
+                        "carbohydrates": %d,
+                        "isPremium": %b,
+                        "isSpicy": %b
+                    }')
+                    ON CONFLICT (menuItemId)
+                    DO UPDATE SET
+                        itemname = EXCLUDED.itemname,
+                        price = EXCLUDED.price,
+                        nutritioninfo = EXCLUDED.nutritioninfo;
                 """;
 
     /**
@@ -371,27 +385,5 @@ public class QueryTemplate {
                     i.availableStock,
                     i.itemName;
                 """;
-    public static final String selectNutritionInfoByMenuItemId = """
-                SELECT nutrition_info
-                FROM menuitem
-                WHERE menuItemId = '%s';
-                """;
-    public static final String addNutritionInfo = """
-    INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
-    VALUES ('%s', '%s', %.2f, '{
-        "allergens": ["%s"],
-        "calories": %d,
-        "fat": %d,
-        "protein": %d,
-        "sugar": %d,
-        "carbohydrates": %d,
-        "isPremium": %b,
-        "isSpicy": %b
-    }')
-    ON CONFLICT (menuItemId)
-    DO UPDATE SET
-        itemname = EXCLUDED.itemname,
-        price = EXCLUDED.price,
-        nutritioninfo = EXCLUDED.nutritioninfo;
-    """;
+
 }

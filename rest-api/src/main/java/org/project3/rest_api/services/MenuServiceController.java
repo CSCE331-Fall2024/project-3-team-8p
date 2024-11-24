@@ -38,8 +38,7 @@ public class MenuServiceController extends BaseAPIController {
         if (newMenuItem.menuItemId == null) {
             newMenuItem.menuItemId = UUID.randomUUID();
         }
-        dbConnector.insertNutritionInfo(newMenuItem.nutritionInfo, newMenuItem);
-//        dbConnector.insertMenuItem(newMenuItem);
+        dbConnector.insertMenuItem(newMenuItem, newMenuItem.nutritionInfo);
         return newMenuItem;
     }
 

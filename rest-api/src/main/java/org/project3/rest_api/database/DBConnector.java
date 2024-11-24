@@ -323,11 +323,19 @@ public class DBConnector {
      *
      * @param newMenuItem the menu item to add
      */
-    public void insertMenuItem(MenuItem newMenuItem) {
+    public void insertMenuItem(MenuItem newMenuItem, NutritionInfo nutritionInfo) {
         executeUpdate(String.format(QueryTemplate.insertMenuItem,
                 newMenuItem.menuItemId,
+                newMenuItem.itemName,
                 newMenuItem.price,
-                newMenuItem.itemName
+                nutritionInfo.allergens,
+                nutritionInfo.calories,
+                nutritionInfo.fat,
+                nutritionInfo.protein,
+                nutritionInfo.sugar,
+                nutritionInfo.carbohydrates,
+                nutritionInfo.isPremium,
+                nutritionInfo.isSpicy
         ));
     }
 
@@ -372,21 +380,7 @@ public class DBConnector {
                 updatedMenuItem.menuItemId
         ));
     }
-    public void insertNutritionInfo(NutritionInfo nutritionInfo, MenuItem newMenuItem) {
-        executeUpdate(String.format(QueryTemplate.addNutritionInfo,
-                newMenuItem.menuItemId,
-                newMenuItem.itemName,
-                newMenuItem.price,
-                nutritionInfo.allergens,
-                nutritionInfo.calories,
-                nutritionInfo.fat,
-                nutritionInfo.protein,
-                nutritionInfo.sugar,
-                nutritionInfo.carbohydrates,
-                nutritionInfo.isPremium,
-                nutritionInfo.isSpicy
-        ));
-    }
+
 
 
 
