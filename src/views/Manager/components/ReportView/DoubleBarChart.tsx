@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import XZReportData from "../../../models/typedefs/XZReportData";
+import XZReportData from "../../../../models/typedefs/XZReportData";
 
 interface SingleBarChartProps {
     chartName: string;
@@ -39,8 +39,8 @@ function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
                 <div
                     className="overflow-y-auto"
                     style={{
-                        height: '500px',
-                        maxHeight: '500px'
+                        height: '560px',
+                        maxHeight: '560px'
                     }}
                 >
                     <div style={{ height: `${calculatedHeight}px`, minHeight: '100%' }}>
@@ -90,12 +90,12 @@ function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
                                 />
                                 <Bar
                                     dataKey="orders"
-                                    fill="#8884d8"
+                                    fill="#FF8F8F"
                                     name="Number of Orders"
                                 />
                                 <Bar
                                     dataKey="sales"
-                                    fill="#82ca9d"
+                                    fill="#4A90E2"
                                     name="Sales Amount"
                                 />
                             </BarChart>

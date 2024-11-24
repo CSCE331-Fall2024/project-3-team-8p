@@ -10,6 +10,19 @@ export default class EmployeeApi extends BaseApi {
         super("employee");
     }
 
+    async getEmployeeByName(name: string): Promise<Employee | null> {
+        const response = await this.apiClient.get(`/${name}`);
+        if (response.data) {
+            console.log(response.data);
+            return new Employee(
+                response.data.employeeId,
+                response.data.name,
+                response.data.isManager
+            );
+        }
+        return null;
+    }
+
     /*
     Gets all menu items
     */
