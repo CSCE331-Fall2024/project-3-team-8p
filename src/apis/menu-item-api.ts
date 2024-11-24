@@ -3,6 +3,7 @@ endpoints for menu item-related requests
 */
 import BaseApi from "./base-api";
 import MenuItem from "../models/MenuItem";
+import SalesReportData from "../models/typedefs/SalesReportData";
 
 export default class MenuItemApi extends BaseApi {
     constructor() {
@@ -16,53 +17,50 @@ export default class MenuItemApi extends BaseApi {
     async getMenuItems(): Promise<MenuItem[]> {
         const response = await this.apiClient.get("");
         return response.data
-            .sort((item1: any, item2: any) => item1.itemName.localeCompare(item2.itemName))
             .map((item: any) => (
                 new MenuItem(
                     item.menuItemId,
                     item.price,
                     item.itemName
                 )
-            ));
+            ))
+            .sort((a: MenuItem, b: MenuItem) => a.itemName.localeCompare(b.itemName));
     }
 
     async addMenuItem(item: MenuItem): Promise<void> {
-        try {
-            const menuItemData = {
-                menuItemId: item.menuItemId,
-                price: item.price,
-                itemName: item.itemName,
-            };
+        const menuItemData = {
+            menuItemId: item.menuItemId,
+            price: item.price,
+            itemName: item.itemName,
+        };
 
-            this.apiClient.post("", menuItemData)
-                .then(response => {
-                    console.log("Response: ", response.data)
-                })
-                .catch(error => {
-                    throw new Error("Error when adding menu item: " + error);
-                })
-        } catch (error) {
-            console.error(error);
-        }
+        await this.apiClient.post("", menuItemData);
     }
 
     async updateMenuItem(item: MenuItem): Promise<void> {
-        try {
-            const menuItemData = {
-                menuItemId: item.menuItemId,
-                price: item.price,
-                itemName: item.itemName,
-            };
+        const menuItemData = {
+            menuItemId: item.menuItemId,
+            price: item.price,
+            itemName: item.itemName,
+        };
 
-            this.apiClient.put("", menuItemData)
-                .then(response => {
-                    console.log("Response: ", response.data)
-                })
-                .catch(error => {
-                    throw new Error("Error when adding menu item: " + error);
-                })
-        } catch (error) {
-            console.error(error);
-        }
+        await this.apiClient.put("", menuItemData);
+    }
+
+    async getSalesReport(
+        startMonth: number,
+        endMonth: number,
+        startDay: number,
+        endDay: number): Promise<SalesReportData> {
+
+        const response = await this.apiClient.get<SalesReportData>("/sales-report", {
+            params: {
+                startMonth: startMonth,
+                endMonth: endMonth,
+                startDay: startDay,
+                endDay: endDay,
+            }
+        });
+        return response.data;
     }
 }

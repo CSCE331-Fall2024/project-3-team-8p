@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
-import org.project3.rest_api.models.wrappers.ItemWithQty;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.util.*;
 
@@ -116,7 +116,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
         // add the menu items
         newOrder.menuItemsWithQty = randItems.stream().map(menuItem -> {
-            return new ItemWithQty(menuItem.menuItemId, 2);
+            return new MenuItemWithQty(menuItem, 2);
         }).toList();
 
         // post the order

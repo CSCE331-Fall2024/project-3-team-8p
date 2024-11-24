@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -55,5 +55,15 @@ public class InventoryServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedInventoryItem's id
         dbConnector.updateInventoryItem(updatedInventoryItem);
+    }
+
+    @GetMapping("/product-usage")
+    public Map<String, Integer> getProductUsageReport(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }

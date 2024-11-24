@@ -1,12 +1,10 @@
 package org.project3.rest_api.services;
 
 import org.project3.rest_api.models.MenuItem;
-import org.project3.rest_api.models.wrappers.ItemWithQty;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -44,8 +42,6 @@ public class MenuServiceController extends BaseAPIController {
         return newMenuItem;
     }
 
-
-
     /**
      * Updates menu items in database
      * @param updatedMenuItem MenuItem object to be updated in database
@@ -55,5 +51,15 @@ public class MenuServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedMenuItem's item id
         dbConnector.updateMenuItem(updatedMenuItem);
+    }
+
+    @GetMapping("/sales-report")
+    public Map<String, Integer> getSalesReport(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
     }
 }
