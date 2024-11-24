@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUser } from "../../contexts/UserContext";
 import { jwtDecode } from "jwt-decode";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { Navigate } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 
 interface GoogleUser {
     name: string;
@@ -10,23 +10,25 @@ interface GoogleUser {
     picture: string;
 }
 
-function LoginView() {
-    const { user, setUser } = useUser();
+interface LoginModalProps {
+    show: boolean;
+    onHide: () => void;
+}
+
+function LoginModal({ show, onHide }: LoginModalProps) {
+    const { setUser } = useUser();
 
     const handleLogin = (credentialResponse: CredentialResponse) => {
         if (credentialResponse.credential) {
             const decodedUserData: GoogleUser = jwtDecode(credentialResponse.credential);
             setUser(decodedUserData);
         }
-    }
-
-    if (user) {
-        return <Navigate to="/" />;
+        onHide();
     }
 
     return (
-        <div className="container h-80vh d-flex align-items-center justify-content-center">
-            <div className="card shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+        <Modal show={show} onHide={onHide} centered>
+            <Modal.Body>
                 <div className="card-body p-4">
                     <div className="text-center mb-4">
                         <img
@@ -48,9 +50,9 @@ function LoginView() {
                         />
                     </div>
                 </div>
-            </div>
-        </div>
+            </Modal.Body>
+        </Modal>
     );
 }
 
-export default LoginView;
+export default LoginModal;

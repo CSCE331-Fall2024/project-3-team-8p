@@ -5,7 +5,7 @@ import CustomerView from "./views/Customer/CustomerView";
 import Checkout from "./views/Customer/components/Checkout";
 import './App.css';
 import { CartProvider } from './contexts/CartContext';
-import LoginView from "./views/Auth/LoginView";
+import LoginModal from "./views/Auth/LoginModal";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
@@ -21,7 +21,6 @@ function App() {
                     <Routes>
                         <Route path="/" element={<RouteLayoutWrapper />}>
                             <Route index element={<Home />} />
-                            <Route path="login" element={<LoginView />} />
                             <Route path="manager" element={
                                 <ManagerOnlyRoute>
                                     <ManagerView />

@@ -10,7 +10,7 @@ interface CartPopupProps {
 }
 
 const CartPopup = ({ cartItems, total, onClearCart }: CartPopupProps) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleCart = () => {
         setIsOpen(prev => !prev);
