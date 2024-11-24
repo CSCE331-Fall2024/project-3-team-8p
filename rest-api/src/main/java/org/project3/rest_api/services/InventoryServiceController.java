@@ -3,6 +3,7 @@ package org.project3.rest_api.services;
 import org.project3.rest_api.models.InventoryItem;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,12 +19,14 @@ import java.util.UUID;
 public class InventoryServiceController extends BaseAPIController {
 
     /**
-     * Queries all inventory items from database
+     * Queries database for inventory items
      * @return list of InventoryItem
      */
     @GetMapping
     public List<InventoryItem> getInventoryItems() {
+
         return dbConnector.selectInventoryItems();
+
     }
 
     /**
@@ -31,7 +34,7 @@ public class InventoryServiceController extends BaseAPIController {
      * @param newInventoryItem  InventoryItem object to be created in database
      * */
     @PostMapping
-    public void addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
+    public InventoryItem addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
 
         // Create an inventory item id if not provided by the user
         if (newInventoryItem.inventoryItemId == null) {
@@ -39,6 +42,8 @@ public class InventoryServiceController extends BaseAPIController {
         }
 
         dbConnector.insertInventoryItem(newInventoryItem);
+
+        return newInventoryItem;
     }
 
     /**

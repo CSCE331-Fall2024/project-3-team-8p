@@ -9,9 +9,6 @@ import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
@@ -88,6 +85,56 @@ public class DBConnector {
                     String.format(QueryTemplate.selectAllMenuItems),
                     SQLToJavaMapper::menuItemMapper
             );
+
+            items.forEach(menuItem -> {
+                menuItem.inventoryItems = selectMenuItemInventoryItems(menuItem.menuItemId);
+            });
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    /**
+     * Updates menuItemToInventoryItem table
+     * @param menuItemId ID of menu item associated with ItemWithQties
+     * @param inventoryItems List of inventory items and quantities included in menu item
+     * */
+    public void mapMenutoInventory(UUID menuItemId,
+                                   List<InventoryItem> inventoryItems) {
+
+        // create an item with quantities object
+        List<InventoryItemWithQty> invItemsWithQty = new ArrayList<>();
+
+        inventoryItems.forEach(
+                inventoryItem -> {
+                    invItemsWithQty.add(
+                            new InventoryItemWithQty(
+                                    inventoryItem,
+                                    1
+                            )
+                    );
+                }
+        );
+        // add a new entry for each inventory item
+        insertMenuItemInventoryItems(menuItemId, invItemsWithQty);
+
+    }
+
+    /**
+     * Selects all inventory items associated with a given menu item
+     *
+     * @param menuItemId the UUID of the menu item to select inventory items for
+     * @return a {@code List<InventoryItem>} of inventory items associated with the given menu item
+     */
+    public List<InventoryItem> selectMenuItemInventoryItems(UUID menuItemId) {
+        List<InventoryItem> items = null;
+        try {
+            items = executeQuery(
+                    String.format(QueryTemplate.selectMenuItemInventoryItem, menuItemId),
+                    SQLToJavaMapper::inventoryItemMapper
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,6 +188,16 @@ public class DBConnector {
                 updatedEmployee.isManager,
                 updatedEmployee.name,
                 updatedEmployee.employeeId
+        ));
+    }
+
+    /**
+     * Deletes an employee with given UUID
+     * @param employeeId ID of menu item to be deleted
+     * */
+    public void deleteEmployee(UUID employeeId) {
+        executeUpdate(String.format(QueryTemplate.deleteEmployee,
+                employeeId
         ));
     }
 
@@ -284,6 +341,30 @@ public class DBConnector {
 
 
     /**
+     * Deletes an order from the database
+     *
+     * @param orderId ID of order to be deleted
+     * */
+    public void deleteOrder(UUID orderId) {
+
+        // delete order to menu item
+        executeUpdate(String.format(QueryTemplate.deleteOrderToMenuItem,
+                orderId
+        ));
+
+        // delete order to inventory item
+        executeUpdate(String.format(QueryTemplate.deleteOrderToInvItem,
+                orderId
+        ));
+
+        // delete actual order
+        executeUpdate(String.format(QueryTemplate.deleteOrder,
+                orderId
+        ));
+    }
+
+
+    /**
      * Adds a new employee
      *
      * @param newEmployee the employee to add
@@ -311,6 +392,74 @@ public class DBConnector {
                 newOrder.hour,
                 newOrder.price
         ));
+        mapOrderToMenu(newOrder.orderId, newOrder.menuItemsWithQty);
+    }
+
+    /**
+     * Updates orderToMenuItem table
+     * @param orderId ID of order associated with menuItemsWithQties
+     * @param menuItemsWithQties List of menu items and quantities included in order
+     * */
+    public void mapOrderToMenu(UUID orderId,
+                               List<MenuItemWithQty> menuItemsWithQties) {
+
+        menuItemsWithQties.forEach(
+                menuItem -> {
+                    List<InventoryItem> invItems = selectMenuItemInventoryItems(menuItem.menuItem.menuItemId);
+
+                    List<InventoryItemWithQty> invItemsWithQty = invItems.stream().map(inventoryItem -> {
+                        // update stock of inventory item
+                        decreaseInventoryItemQty(inventoryItem.inventoryItemId, menuItem.quantity);
+                        // return an object associating each inventory item with its quantity in the order
+                        return new InventoryItemWithQty(inventoryItem, menuItem.quantity);
+                    }).toList();
+
+                    // insert each associated inventory item into orderToInventoryItem
+                    insertOrderInventoryItems(orderId, invItemsWithQty);
+                }
+        );
+
+
+
+        // insert menu items into orderToMenuItem
+        insertOrderMenuItems(orderId, menuItemsWithQties);
+
+    }
+
+    /**
+     * Maps order to inventory items
+     *
+     * @param orderId ID of the placed order
+     * @param invItemWithQty Inventory items and quantities associated with order
+     * */
+    public void insertOrderInventoryItems(UUID orderId, List<InventoryItemWithQty> invItemWithQty) {
+        invItemWithQty.forEach(
+                invItem -> {
+                    executeUpdate(String.format(QueryTemplate.insertOrderToInventoryItem,
+                            orderId,
+                            invItem.inventoryItem.inventoryItemId,
+                            invItem.quantity
+                    ));
+                }
+        );
+    }
+
+    /**
+     * Maps order to menu items
+     *
+     * @param orderId ID of placed order
+     * @param itemWithQties Menu Items and quantities associated with order
+     * */
+    public void insertOrderMenuItems(UUID orderId, List<MenuItemWithQty> itemWithQties) {
+        itemWithQties.forEach(
+               item -> {
+                   executeUpdate(String.format(QueryTemplate.insertOrderToMenuItem,
+                           orderId,
+                           item.menuItem.menuItemId,
+                           item.quantity
+                   ));
+               }
+        );
     }
 
     /**
@@ -355,6 +504,33 @@ public class DBConnector {
         return sales;
     }
 
+
+    /**
+     *
+     * */
+    /**
+     * Deletes an employee with given UUID
+     * @param invItemId ID of menu item to be deleted
+     * */
+    public void deleteInventoryItem(UUID invItemId) {
+        executeUpdate(String.format(QueryTemplate.deleteInventoryItem,
+                invItemId
+        ));
+    }
+
+    /**
+     * Decreases quantity of inventory item
+     *
+     * @param inventoryItemId ID of inventory item to update
+     * @param decreaseBy How much to subtract from inventory item stock
+     * */
+    public void decreaseInventoryItemQty(UUID inventoryItemId, int decreaseBy) {
+        executeUpdate(String.format(QueryTemplate.decreaseInventoryItemQty,
+                decreaseBy,
+                inventoryItemId
+        ));
+    }
+
     /**
      * Adds a new menu item
      *
@@ -365,6 +541,45 @@ public class DBConnector {
                 newMenuItem.menuItemId,
                 newMenuItem.price,
                 newMenuItem.itemName
+        ));
+        mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
+
+    }
+
+    /**
+     * Maps menu items to inventory items
+     *
+     * @param invItemsWithQty inventory items and quantities associated with menu items
+     * */
+    public void insertMenuItemInventoryItems(UUID menuItemId, List<InventoryItemWithQty> invItemsWithQty) {
+
+        invItemsWithQty.forEach(
+                invItem -> {
+                    executeUpdate(String.format(QueryTemplate.insertMenuItemToInventoryItem,
+                            menuItemId,
+                            invItem.inventoryItem.inventoryItemId,
+                            invItem.quantity
+                    ));
+                }
+        );
+
+    }
+
+    /**
+     * Deletes menu item with given UUID
+     *
+     * @param menuItemId ID of menu item to be deleted
+     * */
+    public void deleteMenuItem(UUID menuItemId) {
+
+        // delete inventory item association
+        executeUpdate(String.format(QueryTemplate.deleteMenuItemToInventoryItem,
+                menuItemId
+        ));
+
+        // delete actual menu item
+        executeUpdate(String.format(QueryTemplate.deleteMenuItem,
+                menuItemId
         ));
     }
     public Map<String, Integer> selectProductUsage(

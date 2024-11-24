@@ -2,7 +2,10 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.Employee;
+import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.util.*;
 
@@ -64,7 +67,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
         Order[] itemArray = getOrders(baseUrl);
 
-        final int DEFAULT_ORDER_COUNT = 50;
+        final int DEFAULT_ORDER_COUNT = this.dbConnector.selectOrders(50).size();
         assertThat(
                 itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
@@ -77,7 +80,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * */
     @Test
     void getOrderReturnsCorrectParamCount() {
-        int EXPECTED_ORDER_COUNT = 75;
+        int EXPECTED_ORDER_COUNT = this.dbConnector.selectOrders(75).size();
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
         Order[] rawArray = getOrders(url);
@@ -93,14 +96,28 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     @Test
     void postOrdersCorrectlyCreatesOrder() {
 
+        List<Employee> allEmployees = dbConnector.selectEmployees();
+        int randIdx = rand.nextInt(allEmployees.size());
+        Employee someEmployee = allEmployees.get(randIdx);
+
+        List<MenuItem> allItems = dbConnector.selectMenuItems();
+        int startInd = rand.nextInt(0, allItems.size());
+        int endInd = rand.nextInt(startInd, allItems.size());
+        List<MenuItem> randItems = allItems.subList(startInd, endInd);
+
         Order newOrder = new Order(
-                UUID.fromString("46ffb227-8283-43b5-97aa-0a519a62f721"),
+                someEmployee.employeeId,
                 currentMonth,
                 currentWeek,
                 currentDay,
                 currentHour,
                 10.59
         );
+
+        // add the menu items
+        newOrder.menuItemsWithQty = randItems.stream().map(menuItem -> {
+            return new MenuItemWithQty(menuItem, 2);
+        }).toList();
 
         // post the order
         this.restTemplate.postForObject(baseUrl,
@@ -119,7 +136,8 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         // check that the order exists
         assertThat(postedOrder).isPresent();
 
-        // no print because large query
+        // remove the order after testing is successful
+        this.dbConnector.deleteOrder(newOrder.orderId);
 
     }
 
