@@ -9,20 +9,8 @@ import CartPopup from './components/CartPopup';
 import { useCart } from './context/CartContext';
 import MenuItem from '../../models/MenuItem';
 import AccessibilityModal from './components/AccessibilityModal';
-import translate from "translate";
 
-translate.engine = "libre"
 
-async function translateText(text: string, fromLang = "en", toLang = "es"){
-    try {
-        const translatedText : string = await translate(text, { from: fromLang, to: toLang });
-        return translatedText; // Return the translated text
-    } catch (error) {
-        console.error('Error translating text:', error);
-        return null; // Handle the error by returning null or a fallback value
-    }
-
-}
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);

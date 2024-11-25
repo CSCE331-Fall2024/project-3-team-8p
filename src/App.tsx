@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import ManagerView from "./views/Manager/ManagerView";
 import { Container } from "react-bootstrap";
 import CustomerView from "./views/Customer/CustomerView";
+import CashierView from "./views/Cashier/CashierView";
 import Checkout from "./views/Customer/components/Checkout";
 import './App.css';
 import { CartProvider } from './views/Customer/context/CartContext';
@@ -14,11 +15,12 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={
-                            <div className={"home"}>
-                                {/*  To be replaced by a dedicated "home" or "login page" component  */}
-                                <Link to={"/"}>Home</Link>
-                                <Link to={"/Manager"}>Manager</Link>
-                                <Link to={"/Customer"}>Customer</Link>
+                            <div className="home">
+                                {/* Links to different views */}
+                                <Link to="/">Home</Link>
+                                <Link to="/manager">Manager</Link>
+                                <Link to="/customer">Customer</Link>
+                                <Link to="/cashier">Cashier</Link>
                             </div>
                         } />
                         <Route path="/manager" element={<ManagerView />} />
@@ -34,6 +36,9 @@ function App() {
                                 <Checkout />
                             </CartProvider>
                         } />
+
+                        {/* Route for CashierView */}
+                        <Route path="/cashier" element={<CashierView />} />
                     </Routes>
                 </BrowserRouter>
             </Container>
