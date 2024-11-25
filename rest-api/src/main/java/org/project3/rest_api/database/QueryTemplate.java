@@ -304,22 +304,8 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuitem (menuItemId, itemname, price, nutritioninfo)
-                    VALUES ('%s', '%s', %.2f, '{
-                        "allergens": ["%s"],
-                        "calories": %d,
-                        "fat": %d,
-                        "protein": %d,
-                        "sugar": %d,
-                        "carbohydrates": %d,
-                        "isPremium": %b,
-                        "isSpicy": %b
-                    }')
-                    ON CONFLICT (menuItemId)
-                    DO UPDATE SET
-                        itemname = EXCLUDED.itemname,
-                        price = EXCLUDED.price,
-                        nutritioninfo = EXCLUDED.nutritioninfo;
+                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo)
+                    VALUES ('%s', '%s', %.2f, '%s')
                 """;
 
     /**

@@ -1,5 +1,8 @@
 package org.project3.rest_api.database;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.project3.rest_api.models.*;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.project3.rest_api.models.wrappers.MenuItemWithQty;
@@ -27,6 +30,10 @@ public class DBConnector {
     @Autowired
     private DataSource dataSource;
 
+    /**
+     * Serializes JSON
+     * */
+    private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     /**
      * Executes all necessary SQL queries
@@ -563,18 +570,19 @@ public class DBConnector {
      * @param newMenuItem the menu item to add
      */
     public void insertMenuItem(MenuItem newMenuItem) {
+
+        String nutritionInfoJson = "";
+        try {
+           nutritionInfoJson = objectWriter.writeValueAsString(newMenuItem.nutritionInfo);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         executeUpdate(String.format(QueryTemplate.insertMenuItem,
                 newMenuItem.menuItemId,
                 newMenuItem.itemName,
                 newMenuItem.price,
-                newMenuItem.nutritionInfo.allergens,
-                newMenuItem.nutritionInfo.calories,
-                newMenuItem.nutritionInfo.fat,
-                newMenuItem.nutritionInfo.protein,
-                newMenuItem.nutritionInfo.sugar,
-                newMenuItem.nutritionInfo.carbohydrates,
-                newMenuItem.nutritionInfo.isPremium,
-                newMenuItem.nutritionInfo.isSpicy
+                nutritionInfoJson
         ));
         mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
     }
