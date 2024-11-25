@@ -3,7 +3,8 @@ endpoints for inventory-related requests
 */
 import BaseApi from "./base-api";
 import InventoryItem from "../models/InventoryItem";
-import ProductUsageData from "../models/typedefs/ProductUsageData";
+import ProductUsageDict from "../models/dict-types/ProductUsageDict";
+import InventoryItemDict from "../models/dict-types/InventoryItemDict";
 
 export default class InventoryItemApi extends BaseApi {
     constructor() {
@@ -15,48 +16,27 @@ export default class InventoryItemApi extends BaseApi {
     Gets all menu items
     */
     async getInventoryItems(): Promise<InventoryItem[]> {
-        const response = await this.apiClient.get("");
+        const response = await this.apiClient.get<InventoryItemDict[]>("");
         return response.data
-            .map((item: any) => (
-                new InventoryItem(
-                    item.inventoryItemId,
-                    item.cost,
-                    item.availableStock,
-                    item.itemName
-                )
-            ))
+            .map((item: InventoryItemDict) => InventoryItem.fromDict(item))
             .sort((a: InventoryItem, b: InventoryItem) => a.itemName.localeCompare(b.itemName));
     }
 
-    async addInventoryItem(inventoryItem: InventoryItem): Promise<void> {
-        const inventoryItemData = {
-            inventoryItemId: inventoryItem.inventoryItemId,
-            cost: inventoryItem.cost,
-            availableStock: inventoryItem.availableStock,
-            itemName: inventoryItem.itemName,
-        };
-
-        await this.apiClient.post("", inventoryItemData);
+    async addInventoryItem(item: InventoryItem): Promise<void> {
+        await this.apiClient.post("", item.toDict());
     }
 
-    async updateInventoryItem(inventoryItem: InventoryItem): Promise<void> {
-        const inventoryItemData = {
-            inventoryItemId: inventoryItem.inventoryItemId,
-            cost: inventoryItem.cost,
-            availableStock: inventoryItem.availableStock,
-            itemName: inventoryItem.itemName,
-        };
-
-        await this.apiClient.put("", inventoryItemData);
+    async updateInventoryItem(item: InventoryItem): Promise<void> {
+        await this.apiClient.put("", item.toDict());
     }
 
     async getProductUsageReport(
         startMonth: number,
         endMonth: number,
         startDay: number,
-        endDay: number): Promise<ProductUsageData> {
+        endDay: number): Promise<ProductUsageDict> {
 
-        const response = await this.apiClient.get<ProductUsageData>("/product-usage", {
+        const response = await this.apiClient.get<ProductUsageDict>("/product-usage", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,

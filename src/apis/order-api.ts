@@ -1,5 +1,5 @@
 import BaseApi from "./base-api";
-import XZReportData from "../models/typedefs/XZReportData";
+import XOrZReportDict from "../models/dict-types/XOrZReportDict";
 
 export default class OrderApi extends BaseApi {
     constructor() {
@@ -7,15 +7,15 @@ export default class OrderApi extends BaseApi {
         super("order");
     }
 
-    async getXReport(): Promise<XZReportData> {
-        const response = await this.apiClient.get<XZReportData>("report", {
+    async getXReport(): Promise<XOrZReportDict> {
+        const response = await this.apiClient.get<XOrZReportDict>("report", {
             params: { wholeDay: false }
         });
         return response.data;
     }
 
-    async getZReport(): Promise<XZReportData> {
-        const response = await this.apiClient.get<XZReportData>("report", {
+    async getZReport(): Promise<XOrZReportDict> {
+        const response = await this.apiClient.get<XOrZReportDict>("report", {
             params: { wholeDay: true }
         })
         return response.data;
