@@ -343,7 +343,7 @@ public class QueryTemplate {
      * SQL query to select menu item sales by time period
      */
     public static final String selectMenuItemSalesByTimePeriod = """
-                SELECT m.menuItemId, m.price, m.itemName, count(*)
+                SELECT m.menuItemId, m.price, m.itemName, count(*), m.nutritionInfo
                 FROM "order" o
                 JOIN orderToMenuItem otm ON o.orderId = otm.orderId
                 JOIN menuItem m ON otm.menuItemId = m.menuItemId

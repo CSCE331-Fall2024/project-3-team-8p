@@ -30,6 +30,10 @@ import java.util.UUID;
  */
 public class SQLToJavaMapper {
 
+    /**
+     * Deserializes JSON
+     * */
+    private final static ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Maps a ResultSet row to a MenuItem object.
@@ -40,36 +44,18 @@ public class SQLToJavaMapper {
      */
     public static MenuItem menuItemMapper(ResultSet rs) {
         try {
-            String nutritionJson = rs.getString("nutritionInfo");
-            NutritionInfo nutritionInfo = null;
-            if (nutritionJson != null && !nutritionJson.isEmpty()) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode rootNode = objectMapper.readTree(nutritionJson);
-                JsonNode allergensNode = rootNode.path("allergens");
-                if (allergensNode.isArray()) {
-                    ArrayNode cleanAllergens = objectMapper.createArrayNode();
-                    allergensNode.forEach(node -> {
-                        if (node.isTextual()) {
-                            String allergen = node.textValue().replace("[", "").replace("]", "").trim();
-                            if (!allergen.isEmpty()) {
-                                cleanAllergens.add(allergen);
-                            }
-                        }
-                    });
-                    ((ObjectNode) rootNode).set("allergens", cleanAllergens);
-                }
-                nutritionInfo = objectMapper.treeToValue(rootNode, NutritionInfo.class);
-            }
+            NutritionInfo nutritionInfo = mapper.readValue(
+                    rs.getString("nutritionInfo"),
+                    NutritionInfo.class);
+
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),
                     rs.getString("itemName"),
                     nutritionInfo
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -103,16 +89,20 @@ public class SQLToJavaMapper {
      */
     public static MenuItemWithQty menuItemWithQtyMapper(ResultSet rs) {
         try {
+            NutritionInfo nutritionInfo = mapper.readValue(
+                    rs.getString("nutritionInfo"),
+                    NutritionInfo.class
+            );
             return new MenuItemWithQty(
                     new MenuItem(
                             UUID.fromString(rs.getString("menuItemId")),
                             rs.getDouble("price"),
                             rs.getString("itemName"),
-                            rs.getObject("nutritionInfo", NutritionInfo.class)
+                            nutritionInfo
                     ),
                     rs.getInt("count")
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItemWithQty", e);
         }
     }
