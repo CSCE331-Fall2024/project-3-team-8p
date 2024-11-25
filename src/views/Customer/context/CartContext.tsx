@@ -43,7 +43,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 menuItemId: item.menuItemId,
                 price: item.price,
                 itemName: item.itemName,
-                imageUrl: item.imageUrl,
+                imageUrl: "images/"+item.itemName+".png",
                 quantityOrdered: 1,  // Initial quantity
             };
             setCartItems([...cartItems, cartItem]);  // Add the new CartItem

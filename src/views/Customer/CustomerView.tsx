@@ -59,7 +59,7 @@ function CustomerView() {
                             key={listing.menuItemId}
                             name={isSpanish ? listing.itemName : listing.itemName} // Use Spanish if toggled
                             price={listing.price}
-                            imageUrl={listing.imageUrl}
+                            imageUrl={"images/"+listing.itemName+".png"}
                             quantityOrdered={quantityOrdered}
                             onAddToCart={() => addToCart(listing)}
                         />

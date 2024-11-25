@@ -21,8 +21,7 @@ export default class MenuItemApi extends BaseApi {
                 new MenuItem(
                     item.menuItemId,
                     item.price,
-                    item.itemName,
-                    `images/${item.itemName}.png`
+                    item.itemName
                 )
             ));
     }

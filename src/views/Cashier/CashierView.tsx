@@ -111,7 +111,7 @@ function CashierView() {
                                 key={menuItem.menuItemId}
                                 name={menuItem.itemName}
                                 price={menuItem.price}
-                                imageUrl={menuItem.imageUrl}
+                                imageUrl={"images/"+menuItem.itemName+".png"}
                                 quantityOrdered={order[menuItem.menuItemId]?.quantity || 0} // Reflects updated quantity from order
                                 onAddToCart={() => handleAddToOrder(menuItem)}
                             />
