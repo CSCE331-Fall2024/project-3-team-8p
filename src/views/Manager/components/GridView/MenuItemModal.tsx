@@ -18,7 +18,7 @@ type FormData = {
     price: number
 };
 
-const getInitialFormData = (menuItem?: MenuItem) => ({
+const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
     itemName: menuItem?.itemName ?? "",
     price: menuItem?.price ?? 0.0,
