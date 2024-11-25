@@ -1,56 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import MenuItemApi from "../../../apis/menu-item-api";
-import MenuItem from "../../../models/MenuItem";
+import MenuItemApi from "../../../../apis/menu-item-api";
+import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
     showModal: boolean;
-    onClose: (didAddOrUpdate: boolean) => void;
-    menuItemApi: MenuItemApi;
+    onClose: (didUpdate: boolean) => void;
+    api: MenuItemApi;
 }
 
-function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalProps) {
-    const [formData, setFormData] = useState({
-        menuItemId: currMenuItem?.menuItemId ?? uuidv4(),
-        itemName: currMenuItem?.itemName ?? "",
-        price: currMenuItem?.price ?? 0.0,
-    });
+type FormData = {
+    menuItemId: string,
+    itemName: string,
+    price: number
+};
+
+const getInitialFormData = (menuItem?: MenuItem) => ({
+    menuItemId: menuItem?.menuItemId ?? uuidv4(),
+    itemName: menuItem?.itemName ?? "",
+    price: menuItem?.price ?? 0.0,
+});
+
+function MenuItemModal({ currMenuItem, showModal, onClose, api }: ModalProps) {
+    const [formData, setFormData] = useState<FormData>(getInitialFormData(currMenuItem));
 
     useEffect(() => {
-        if (showModal) {  // Only update when modal is shown
-            setFormData({
-                menuItemId: currMenuItem?.menuItemId ?? uuidv4(),
-                itemName: currMenuItem?.itemName ?? "",
-                price: currMenuItem?.price ?? 0.0,
-            });
+        // Update the form data whenever we close/reopen the modal
+        if (showModal) {
+            setFormData(getInitialFormData(currMenuItem));
         }
     }, [currMenuItem, showModal]);
 
-    const handleCancelChanges = () => onClose(false);
-
     const handleSaveChanges = async () => {
         try {
+            const itemToSave = new MenuItem(
+                formData.menuItemId,
+                formData.price,
+                formData.itemName
+            );
+
             if (currMenuItem) {
-                await menuItemApi.updateMenuItem(new MenuItem(
-                    formData.menuItemId,
-                    formData.price,
-                    formData.itemName
-                ));
+                await api.updateMenuItem(itemToSave);
             } else {
-                await menuItemApi.addMenuItem(new MenuItem(
-                    formData.menuItemId,
-                    formData.price,
-                    formData.itemName
-                ));
+                await api.addMenuItem(itemToSave)
             }
             onClose(true);
         } catch (e) {
             console.log(e);
         }
     };
+
+    const handleCancelChanges = () => onClose(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -64,7 +67,7 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
         <Modal show={showModal} onHide={handleCancelChanges}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {currMenuItem ? "Add" : "Edit"} Menu Item
+                    {currMenuItem ? "Edit" : "Add"} Menu Item
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

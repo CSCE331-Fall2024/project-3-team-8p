@@ -6,8 +6,9 @@ import ListingCard from './components/ListingCard';
 import ButtonContainer from './components/ButtonContainer';
 import { Tabs } from './TabsEnum';
 import CartPopup from './components/CartPopup';
-import { useCart } from './context/CartContext';
+import { useCart } from '../../contexts/CartContext';
 import MenuItem from '../../models/MenuItem';
+import { Container } from "react-bootstrap";
 import AccessibilityModal from './components/AccessibilityModal';
 
 
@@ -17,7 +18,7 @@ function CustomerView() {
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
     const [textSize, setTextSize] = useState<number>(16); // Default text size
     const [isSpanish, setIsSpanish] = useState<boolean>(false);
-    const { cartItems, total, addToCart, clearCart } = useCart();
+    const { cartItems, cartTotal, addToCart, clearCart } = useCart();
 
     const handleTabChange = (tab: Tabs) => {
         setActiveTab(tab);
@@ -69,7 +70,7 @@ function CustomerView() {
             <div className="padding">
                 <ButtonContainer onTabChange={handleTabChange} />
             </div>
-            <CartPopup cartItems={cartItems} total={total} onClearCart={clearCart} />
+            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart} />
 
             {showAccessibilityModal && (
                 <AccessibilityModal

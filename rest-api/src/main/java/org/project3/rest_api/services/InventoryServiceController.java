@@ -3,7 +3,9 @@ package org.project3.rest_api.services;
 import org.project3.rest_api.models.InventoryItem;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,7 +24,9 @@ public class InventoryServiceController extends BaseAPIController {
      */
     @GetMapping
     public List<InventoryItem> getInventoryItems() {
+
         return dbConnector.selectInventoryItems();
+
     }
 
     /**
@@ -30,7 +34,7 @@ public class InventoryServiceController extends BaseAPIController {
      * @param newInventoryItem  InventoryItem object to be created in database
      * */
     @PostMapping
-    public void addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
+    public InventoryItem addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
 
         // Create an inventory item id if not provided by the user
         if (newInventoryItem.inventoryItemId == null) {
@@ -38,6 +42,8 @@ public class InventoryServiceController extends BaseAPIController {
         }
 
         dbConnector.insertInventoryItem(newInventoryItem);
+
+        return newInventoryItem;
     }
 
     /**
@@ -49,5 +55,15 @@ public class InventoryServiceController extends BaseAPIController {
 
         //TODO: add validation for updatedInventoryItem's id
         dbConnector.updateInventoryItem(updatedInventoryItem);
+    }
+
+    @GetMapping("/product-usage")
+    public Map<String, Integer> getProductUsageReport(
+            @RequestParam Integer startMonth,
+            @RequestParam Integer endMonth,
+            @RequestParam Integer startDay,
+            @RequestParam Integer endDay
+    ) {
+        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }

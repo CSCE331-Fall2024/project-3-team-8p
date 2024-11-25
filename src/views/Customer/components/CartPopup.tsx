@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/CartPopup.css';
-import { CartItem } from "../context/CartContext";
+import CartItem from "../../../models/interfaces/CartItem";
 
 // Define the props type for CartPopup
 interface CartPopupProps {
@@ -9,8 +9,8 @@ interface CartPopupProps {
     onClearCart: () => void;
 }
 
-const CartPopup: React.FC<CartPopupProps> = ({ cartItems, total, onClearCart }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const CartPopup = ({ cartItems, total, onClearCart }: CartPopupProps) => {
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleCart = () => {
         setIsOpen(prev => !prev);
