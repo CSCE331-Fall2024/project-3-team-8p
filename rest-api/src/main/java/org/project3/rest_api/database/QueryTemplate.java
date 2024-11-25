@@ -305,7 +305,7 @@ public class QueryTemplate {
      */
     public static final String insertMenuItem = """
                 INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo)
-                    VALUES ('%s', '%s', %.2f, '%s')
+                VALUES ('%s', '%s', %.2f, '%s');
                 """;
 
     /**
