@@ -499,8 +499,8 @@ public class DBConnector {
             List<MenuItemWithQty> itemsWithQty = executeQuery(
                     String.format(QueryTemplate.selectMenuItemSalesByTimePeriod,
                             startMonth,
-                            endMonth,
                             startDay,
+                            endMonth,
                             endDay,
                             startMonth,
                             endMonth
