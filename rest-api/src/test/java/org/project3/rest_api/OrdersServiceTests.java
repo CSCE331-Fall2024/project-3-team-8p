@@ -2,10 +2,14 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.database.DBEmployeeService;
+import org.project3.rest_api.database.DBMenuService;
+import org.project3.rest_api.database.DBOrderService;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
 import org.project3.rest_api.models.wrappers.MenuItemWithQty;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -15,6 +19,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 * Tests endpoints related to order service
 * */
 public class OrdersServiceTests extends RestAPIApplicationTests{
+
+
+    /**
+     * Database order connector instance
+     * */
+    @Autowired
+    DBOrderService dbOrderService;
+
+    /**
+     * Database employee connector instance
+    * */
+    @Autowired
+    DBEmployeeService dbEmployeeService;
+
+    /**
+     * Database menu connector instance
+     * */
+    @Autowired
+    DBMenuService dbMenuService;
+
 
     /**
      * Calendar info for order tests
@@ -67,7 +91,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
         Order[] itemArray = getOrders(baseUrl);
 
-        final int DEFAULT_ORDER_COUNT = dbConnector.selectOrders(50).size();
+        final int DEFAULT_ORDER_COUNT = dbOrderService.selectOrders(50).size();
         assertThat(
                 itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
@@ -80,7 +104,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * */
     @Test
     void getOrderReturnsCorrectParamCount() {
-        int EXPECTED_ORDER_COUNT = dbConnector.selectOrders(75).size();
+        int EXPECTED_ORDER_COUNT = dbOrderService.selectOrders(75).size();
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
         Order[] rawArray = getOrders(url);
@@ -96,11 +120,11 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     @Test
     void postOrdersCorrectlyCreatesOrder() {
 
-        List<Employee> allEmployees = dbConnector.selectEmployees();
+        List<Employee> allEmployees = dbEmployeeService.selectEmployees();
         int randIdx = rand.nextInt(allEmployees.size());
         Employee someEmployee = allEmployees.get(randIdx);
 
-        List<MenuItem> allItems = dbConnector.selectMenuItems();
+        List<MenuItem> allItems = dbMenuService.selectMenuItems();
         int startInd = rand.nextInt(0, allItems.size());
         int endInd = rand.nextInt(startInd, allItems.size());
         List<MenuItem> randItems = allItems.subList(startInd, endInd);
@@ -137,7 +161,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         assertThat(postedOrder).isPresent();
 
         // remove the order after testing is successful
-        dbConnector.deleteOrder(newOrder.orderId);
+        dbOrderService.deleteOrder(newOrder.orderId);
 
     }
 

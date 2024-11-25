@@ -1,9 +1,12 @@
 package org.project3.rest_api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.database.DBInventoryService;
+import org.project3.rest_api.database.DBMenuService;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.NutritionInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -17,7 +20,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class MenuServiceTests extends RestAPIApplicationTests {
 
+    /**
+     * Database menu connector instance
+     * */
+    @Autowired
+    DBMenuService dbMenuService;
 
+    /**
+     * Database inventory connector instance
+     * */
+    @Autowired
+    DBInventoryService dbInventoryService;
+
+
+    /**
+     * Reused nutrition info dummy data
+     * */
     private final NutritionInfo nutritionInfo = new NutritionInfo(
             List.of("Peanuts", "Soy"),
             300,
@@ -49,7 +67,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         MenuItem[] itemArray = getMenuItems();
 
-        final int EXPECTED_ITEM_COUNT = dbConnector.selectMenuItems().size();
+        final int EXPECTED_ITEM_COUNT = dbMenuService.selectMenuItems().size();
         assertThat(
                 itemArray.length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
@@ -64,7 +82,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     void postMenuItemIncrementsCount() {
 
         MenuItem[] oldItemArray = getMenuItems();
-        List<InventoryItem> invItems = dbConnector.selectInventoryItems();
+        List<InventoryItem> invItems = dbInventoryService.selectInventoryItems();
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
@@ -91,7 +109,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         printResult(getRawJson(baseUrl), "Menu Items");
 
         // remove the menu item after testing is succesful
-        dbConnector.deleteMenuItem(newMenuItem.menuItemId);
+        dbMenuService.deleteMenuItem(newMenuItem.menuItemId);
     }
 
     /**
@@ -108,7 +126,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         double newPrice = Math.round((origMenuItem.price + 0.05)*100.0)/100.0;
         String newName = "Spicy " + origMenuItem.itemName;
 
-        List<InventoryItem> allInvItems = dbConnector.selectInventoryItems();
+        List<InventoryItem> allInvItems = dbInventoryService.selectInventoryItems();
         int startIdx = rand.nextInt(allInvItems.size());
         int endIdx = rand.nextInt(startIdx, allInvItems.size());
         List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);

@@ -313,7 +313,7 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s'
                 WHERE menuItemId = '%s';
                 """;
 

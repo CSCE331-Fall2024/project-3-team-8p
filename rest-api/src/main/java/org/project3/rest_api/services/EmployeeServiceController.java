@@ -1,6 +1,9 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.database.DBEmployeeService;
+import org.project3.rest_api.database.DBMenuService;
 import org.project3.rest_api.models.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +17,17 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/employee")
 @CrossOrigin
-public class EmployeeServiceController extends BaseAPIController {
+public class EmployeeServiceController {
+
+    /**
+     * Database connector instance
+     * */
+    @Autowired
+    DBEmployeeService dbEmployeeService;
 
     @GetMapping("/{name}")
     public Employee getEmployee(@PathVariable String name) {
-        return dbConnector.selectEmployee(name);
+        return dbEmployeeService.selectEmployee(name);
     }
 
     /**
@@ -27,7 +36,7 @@ public class EmployeeServiceController extends BaseAPIController {
      * */
     @GetMapping
     public List<Employee> getEmployees() {
-        return dbConnector.selectEmployees();
+        return dbEmployeeService.selectEmployees();
     }
 
     /**
@@ -40,7 +49,7 @@ public class EmployeeServiceController extends BaseAPIController {
         if (newEmployee.employeeId == null) {
             newEmployee.employeeId = UUID.randomUUID();
         }
-        dbConnector.insertEmployee(newEmployee);
+        dbEmployeeService.insertEmployee(newEmployee);
     }
 
     /**
@@ -50,7 +59,7 @@ public class EmployeeServiceController extends BaseAPIController {
     @PutMapping
     public void updateEmployee(@RequestBody Employee updatedEmployee) {
         //TODO: add validation for updatedEmployee's id
-        dbConnector.updateEmployee(updatedEmployee);
+        dbEmployeeService.updateEmployee(updatedEmployee);
     }
 
 }
