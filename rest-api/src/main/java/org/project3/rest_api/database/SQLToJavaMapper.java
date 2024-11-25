@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.project3.rest_api.models.*;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,14 +71,6 @@ public class SQLToJavaMapper {
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     * Maps a ResultSet row to an InventoryItem object.
-     *
-     * @param rs the ResultSet containing the inventory item data
-     * @return an InventoryItem object mapped from the ResultSet
-     * @throws RuntimeException if an SQLException occurs during mapping
-     */
     public static InventoryItem inventoryItemMapper(ResultSet rs) {
         try {
             return new InventoryItem(
@@ -91,14 +84,6 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
         }
     }
-
-    /**
-     * Maps a ResultSet row to an Employee object.
-     *
-     * @param rs the ResultSet containing the employee data
-     * @return an Employee object mapped from the ResultSet
-     * @throws RuntimeException if an SQLException occurs during mapping
-     */
     public static Employee employeeMapper(ResultSet rs){
         try {
             return new Employee(
@@ -111,14 +96,28 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to InventoryItem", e);
         }
     }
-
     /**
-     * Maps a ResultSet row to an Order object.
+     * Maps a ResultSet row to an InventoryItemWithQty object.
      *
-     * @param rs the ResultSet containing the order data
-     * @return an Order object mapped from the ResultSet
+     * @param rs the ResultSet containing the inventory item and quantity data
+     * @return an InventoryItemWithQty object mapped from the ResultSet
      * @throws RuntimeException if an SQLException occurs during mapping
      */
+    public static InventoryItemWithQty inventoryItemWithQtyMapper(ResultSet rs) {
+        try {
+            return new InventoryItemWithQty(
+                    new InventoryItem(
+                            UUID.fromString(rs.getString("inventoryItemId")),
+                            rs.getDouble("cost"),
+                            rs.getInt("availableStock"),
+                            rs.getString("itemName")
+                    ),
+                    rs.getInt("itemsUsed")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to InventoryItemWithQty", e);
+        }
+    }
     public static Order orderMapper(ResultSet rs){
         try {
             return new Order(

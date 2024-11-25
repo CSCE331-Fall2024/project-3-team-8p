@@ -322,8 +322,8 @@ public class QueryTemplate {
      * SQL query to delete a menu item
      */
     public static final String deleteMenuItem = """
-                DELETE FROM menuItem 
-                WHERE menuItemId='%s'; 
+                DELETE FROM menuItem
+                WHERE menuItemId='%s';
                 """;
 
     /**

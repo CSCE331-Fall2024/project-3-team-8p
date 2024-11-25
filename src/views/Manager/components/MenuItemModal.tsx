@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import MenuItemApi from "../../../apis/menu-item-api";
+import { MenuItemApi } from "../../../apis/menu-item-api";
 import MenuItem from "../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
     showModal: boolean;
-    onClose: (didAddOrUpdate: boolean) => void;
+    onClose: () => void;
     menuItemApi: MenuItemApi;
 }
 
@@ -29,24 +29,14 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
         }
     }, [currMenuItem, showModal]);
 
-    const handleCancelChanges = () => onClose(false);
-
     const handleSaveChanges = async () => {
         try {
-            if (currMenuItem) {
-                await menuItemApi.updateMenuItem(new MenuItem(
-                    formData.menuItemId,
-                    formData.price,
-                    formData.itemName
-                ));
-            } else {
-                await menuItemApi.addMenuItem(new MenuItem(
-                    formData.menuItemId,
-                    formData.price,
-                    formData.itemName
-                ));
-            }
-            onClose(true);
+            await menuItemApi.addMenuItem(new MenuItem(
+                formData.menuItemId,
+                formData.price,
+                formData.itemName
+            ))
+            onClose();
         } catch (e) {
             console.log(e);
         }
@@ -61,7 +51,7 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
     }
 
     return (
-        <Modal show={showModal} onHide={handleCancelChanges}>
+        <Modal show={showModal} onHide={onClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {currMenuItem ? "Add" : "Edit"} Menu Item
@@ -94,7 +84,7 @@ function MenuItemModal({ currMenuItem, showModal, onClose, menuItemApi }: ModalP
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"secondary"} onClick={handleCancelChanges}>
+                <Button variant={"secondary"} onClick={onClose}>
                     Close
                 </Button>
                 <Button variant={"primary"} onClick={handleSaveChanges}>

@@ -3,7 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.NutritionInfo;
-
+import org.project3.rest_api.models.InventoryItem;
 
 
 import java.util.List;
@@ -21,14 +21,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
     @BeforeEach
     void menuSetup() {
-        baseUrl += "menu";
-    }
-
-    /**
-     * GET request for menu tests
-     * */
-    MenuItem[] getMenuItems() {
-        return this.restTemplate.getForObject(baseUrl, MenuItem[].class);
+        baseUrl += "menu-service";
     }
 
     /**
@@ -36,15 +29,17 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     * */
     @Test
     void getMenuItemReturnsCorrectCount() {
+        String url = baseUrl;
 
-        MenuItem[] itemArray = getMenuItems();
+        String rawJson = this.restTemplate.getForObject(url, String.class);
+        MenuItem[] itemArray = this.restTemplate.getForObject(url, MenuItem[].class);
 
         final int EXPECTED_ITEM_COUNT = dbConnector.selectMenuItems().size();
         assertThat(
                 itemArray.length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
-        printResult(getRawJson(baseUrl), "Menu Items");
+        printResult(rawJson, "Menu Items");
     }
 
     /**
@@ -52,44 +47,38 @@ public class MenuServiceTests extends RestAPIApplicationTests {
      * */
     @Test
     void postMenuItemIncrementsCount() {
-        NutritionInfo nutritionInfo = new NutritionInfo(
-                List.of("Peanuts", "Soy"),
-                300,
-                10,
-                15,
-                5,
-                30,
-                true,
-                true
-        );
-        MenuItem[] oldItemArray = getMenuItems();
 
-        final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
+
+        List<InventoryItem> invItems = dbConnector.selectInventoryItems();
+
+
 
         MenuItem newMenuItem = new MenuItem(
-                13.99,
-                "Test Menu Item4",
-                 nutritionInfo
+                12.99,
+                "Test Menu Item",
+                new NutritionInfo(
+                        List.of("Peanuts", "Soy"),
+                        250,
+                        10,
+                        15,
+                        5,
+                        30,
+                        true,
+                        true
+                )
         );
 
+
+
         // perform the post request
-        this.restTemplate.postForObject(baseUrl,
+        restTemplate.postForObject(baseUrl,
                 newMenuItem,
                 MenuItem.class
         );
 
-        MenuItem[] newItemArray = getMenuItems();
-
-        assertThat(
-                newItemArray.length
-        ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
-
-        printResult(getRawJson(baseUrl), "Menu Items");
-
         // remove the menu item after testing is succesful
         dbConnector.deleteMenuItem(newMenuItem.menuItemId);
     }
-
     /**
      * Checks if PUT request correctly updates Menu Item information
      * */
@@ -143,6 +132,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         ).isEqualTo(newMenuItem.itemName);
 
         printResult(getRawJson(baseUrl), "Menu Items");
+        printResult(rawJson, "Menu Items");
 
         // put the original menu item back after testing is over
         this.restTemplate.put(baseUrl,

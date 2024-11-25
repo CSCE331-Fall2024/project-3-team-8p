@@ -31,6 +31,8 @@ public class MenuItem {
     @JsonProperty("itemName")
     public String itemName;
 
+    public MenuItem() {}
+
     /**
      * Nutrition and allergens information for the menu item
      */
@@ -62,10 +64,5 @@ public class MenuItem {
     public MenuItem(Double price, String itemName, NutritionInfo nutritionInfo) {
         this(UUID.randomUUID(), price, itemName, nutritionInfo);
     }
-
-    /**
-     * No-arg default constructor for MenuItem
-     * */
-    public MenuItem() {}
 
 }

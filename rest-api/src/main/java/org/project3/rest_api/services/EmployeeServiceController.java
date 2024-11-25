@@ -39,15 +39,4 @@ public class EmployeeServiceController extends BaseAPIController {
 
         dbConnector.insertEmployee(newEmployee);
     }
-
-    /**
-     * Updates employees in database
-     * @param updatedEmployee Employee object to be updated in database
-     * */
-    @PutMapping
-    public void updateEmployee(@RequestBody Employee updatedEmployee) {
-        //TODO: add validation for updatedEmployee's id
-        dbConnector.updateEmployee(updatedEmployee);
-    }
-
 }

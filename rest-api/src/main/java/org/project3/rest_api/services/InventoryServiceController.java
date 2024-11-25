@@ -49,15 +49,4 @@ public class InventoryServiceController extends BaseAPIController {
 
         return newInventoryItem;
     }
-
-    /**
-     * Updates inventory items in database
-     * @param updatedInventoryItem InventoryItem object to be updated in database
-     * */
-    @PutMapping
-    public void updateInventoryItem(@RequestBody InventoryItem updatedInventoryItem) {
-
-        //TODO: add validation for updatedInventoryItem's id
-        dbConnector.updateInventoryItem(updatedInventoryItem);
-    }
 }

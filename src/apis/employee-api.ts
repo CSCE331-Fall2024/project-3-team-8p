@@ -4,7 +4,7 @@ endpoints for employee-related requests
 import BaseApi from "./base-api";
 import Employee from "../models/Employee";
 
-export default class EmployeeApi extends BaseApi {
+export class EmployeeApi extends BaseApi {
     constructor() {
         // Set the base menu item endpoint
         super("employee");
