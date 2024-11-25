@@ -19,7 +19,7 @@ import java.util.UUID;
 public class InventoryServiceController extends BaseAPIController {
 
     /**
-     * Queries database for inventory items
+     * Queries all inventory items from database
      * @return list of InventoryItem
      */
     @GetMapping
