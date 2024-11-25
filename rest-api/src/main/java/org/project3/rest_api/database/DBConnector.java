@@ -377,6 +377,8 @@ public class DBConnector {
     }
 
 
+
+
     /**
      * Adds a new employee
      *
@@ -519,6 +521,20 @@ public class DBConnector {
 
 
     /**
+     * Updates an existing inventory item
+     *
+     * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
+     */
+    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
+        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
+                updatedInventoryItem.cost,
+                updatedInventoryItem.availableStock,
+                updatedInventoryItem.itemName,
+                updatedInventoryItem.inventoryItemId
+        ));
+    }
+
+    /**
      *
      * */
     /**
@@ -556,7 +572,6 @@ public class DBConnector {
                 newMenuItem.itemName
         ));
         mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
-
     }
 
     /**
@@ -651,6 +666,7 @@ public class DBConnector {
     }
 
 
+
     /**
      * Updates an existing menu item
      *
@@ -662,21 +678,16 @@ public class DBConnector {
                 updatedMenuItem.itemName,
                 updatedMenuItem.menuItemId
         ));
-    }
 
-
-    /**
-     * Updates an existing inventory item
-     *
-     * @param updatedInventoryItem an {@code InventoryItem} object containing an inventory item's updated information
-     */
-    public void updateInventoryItem(InventoryItem updatedInventoryItem) {
-        executeUpdate(String.format(QueryTemplate.updateInventoryItem,
-                updatedInventoryItem.cost,
-                updatedInventoryItem.availableStock,
-                updatedInventoryItem.itemName,
-                updatedInventoryItem.inventoryItemId
+        // delete old inventory item association
+        executeUpdate(String.format(QueryTemplate.deleteMenuItemToInventoryItem,
+                updatedMenuItem.menuItemId
         ));
+
+        // add association
+        mapMenutoInventory(updatedMenuItem.menuItemId, updatedMenuItem.inventoryItems);
+
     }
+
 
 }

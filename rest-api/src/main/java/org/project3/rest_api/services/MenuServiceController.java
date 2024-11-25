@@ -1,5 +1,6 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,6 @@ public class MenuServiceController extends BaseAPIController {
     @PutMapping
     public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
 
-        //TODO: add validation for updatedMenuItem's item id
         dbConnector.updateMenuItem(updatedMenuItem);
     }
 

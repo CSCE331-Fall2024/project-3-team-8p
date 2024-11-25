@@ -23,7 +23,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
      * GET request for inventory tests
      * */
     InventoryItem[] getInventoryItems(String url) {
-        return this.restTemplate.getForObject(url, InventoryItem[].class);
+        return restTemplate.getForObject(url, InventoryItem[].class);
     }
 
     /**
@@ -58,7 +58,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         );
 
         // perform the post request
-        this.restTemplate.postForObject(baseUrl,
+        restTemplate.postForObject(baseUrl,
                 newInvItem,
                 InventoryItem.class
         );
@@ -73,7 +73,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         printResult(getRawJson(baseUrl), "Inventory Items");
 
         // remove the inventory item after testing is successful
-        this.dbConnector.deleteInventoryItem(newInvItem.inventoryItemId);
+        dbConnector.deleteInventoryItem(newInvItem.inventoryItemId);
 
     }
 
@@ -99,7 +99,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         );
 
         // perform the PUT request
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 newInvItem
         );
 
@@ -131,7 +131,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         printResult(getRawJson(baseUrl), "Inventory Items");
 
         // put back he original item after tests have succeeded
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 origInvItem
         );
 

@@ -169,9 +169,6 @@ public class QueryTemplate {
     /**
      * SQL query to delete an existing employee
      * */
-    /**
-     * SQL query to delete a menu item
-     */
     public static final String deleteEmployee = """
                 DELETE FROM employee 
                 WHERE employeeid='%s'; 
