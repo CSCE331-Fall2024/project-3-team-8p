@@ -1,10 +1,4 @@
 package org.project3.rest_api.models;
-
-
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Collections;
 import java.util.List;
 
 public class NutritionInfo {
