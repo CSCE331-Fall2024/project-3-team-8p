@@ -2,9 +2,8 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.project3.rest_api.database.DBInventoryService;
+import org.project3.rest_api.database.services.DBInventoryService;
 import org.project3.rest_api.models.InventoryItem;
-import org.project3.rest_api.models.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;

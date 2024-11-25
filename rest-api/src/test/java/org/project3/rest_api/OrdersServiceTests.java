@@ -2,9 +2,9 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.project3.rest_api.database.DBEmployeeService;
-import org.project3.rest_api.database.DBMenuService;
-import org.project3.rest_api.database.DBOrderService;
+import org.project3.rest_api.database.services.DBEmployeeService;
+import org.project3.rest_api.database.services.DBMenuService;
+import org.project3.rest_api.database.services.DBOrderService;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;

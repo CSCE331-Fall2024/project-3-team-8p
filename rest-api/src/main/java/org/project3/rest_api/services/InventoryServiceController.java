@@ -1,11 +1,10 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.database.DBInventoryService;
+import org.project3.rest_api.database.services.DBInventoryService;
 import org.project3.rest_api.models.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;

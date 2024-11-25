@@ -2,14 +2,12 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.project3.rest_api.database.DBEmployeeService;
+import org.project3.rest_api.database.services.DBEmployeeService;
 import org.project3.rest_api.models.Employee;
-import org.project3.rest_api.models.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

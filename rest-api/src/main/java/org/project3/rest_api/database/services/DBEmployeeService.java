@@ -1,5 +1,8 @@
-package org.project3.rest_api.database;
+package org.project3.rest_api.database.services;
 
+import org.project3.rest_api.database.DBConnector;
+import org.project3.rest_api.database.QueryTemplate;
+import org.project3.rest_api.database.SQLToJavaMapper;
 import org.project3.rest_api.models.Employee;
 import org.springframework.stereotype.Repository;
 

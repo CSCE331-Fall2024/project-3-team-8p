@@ -1,7 +1,6 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.database.DBEmployeeService;
-import org.project3.rest_api.database.DBMenuService;
+import org.project3.rest_api.database.services.DBEmployeeService;
 import org.project3.rest_api.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

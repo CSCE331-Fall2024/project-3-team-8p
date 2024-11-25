@@ -1,5 +1,8 @@
-package org.project3.rest_api.database;
+package org.project3.rest_api.database.services;
 
+import org.project3.rest_api.database.DBConnector;
+import org.project3.rest_api.database.QueryTemplate;
+import org.project3.rest_api.database.SQLToJavaMapper;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.Order;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
@@ -15,7 +18,7 @@ import java.util.*;
  * */
 
 @Repository
-public class DBOrderService extends DBConnector{
+public class DBOrderService extends DBConnector {
     /**
      * Interacts with DBMenuservice
      * */

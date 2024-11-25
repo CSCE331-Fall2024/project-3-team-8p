@@ -1,7 +1,6 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.database.DBOrderService;
-import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.database.services.DBOrderService;
 import org.project3.rest_api.models.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

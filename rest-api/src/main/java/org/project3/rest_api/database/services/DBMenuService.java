@@ -1,6 +1,9 @@
-package org.project3.rest_api.database;
+package org.project3.rest_api.database.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.project3.rest_api.database.DBConnector;
+import org.project3.rest_api.database.QueryTemplate;
+import org.project3.rest_api.database.SQLToJavaMapper;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
@@ -15,7 +18,7 @@ import java.util.*;
 * */
 
 @Repository
-public class DBMenuService extends DBConnector{
+public class DBMenuService extends DBConnector {
 
     /**
      * Selects all menu items
