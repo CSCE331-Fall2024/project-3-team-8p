@@ -25,7 +25,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
      * GET request for employee tests
      * */
     Employee[] getEmployees() {
-       return this.restTemplate.getForObject(baseUrl, Employee[].class);
+       return restTemplate.getForObject(baseUrl, Employee[].class);
     }
 
 
@@ -58,7 +58,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
                 "Test Employee"
         );
         // perform the post request
-        this.restTemplate.postForObject(baseUrl,
+        restTemplate.postForObject(baseUrl,
                 newEmployee,
                 Employee.class
         );
@@ -94,7 +94,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
         );
 
         // perform the put request
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 newEmployee
         );
 
@@ -122,7 +122,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
         printResult(getRawJson(baseUrl), "Employees");
 
         // put the original employee back after testing
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 originalEmployee
         );
 

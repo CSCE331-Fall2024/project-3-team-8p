@@ -1,14 +1,12 @@
 package org.project3.rest_api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.NutritionInfo;
 
 
-
 import java.util.List;
-
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -19,6 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class MenuServiceTests extends RestAPIApplicationTests {
 
+
+    private final NutritionInfo nutritionInfo = new NutritionInfo(
+            List.of("Peanuts", "Soy"),
+            300,
+            10,
+            15,
+            5,
+            30,
+            true,
+            true
+    );
+
     @BeforeEach
     void menuSetup() {
         baseUrl += "menu";
@@ -28,7 +38,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
      * GET request for menu tests
      * */
     MenuItem[] getMenuItems() {
-        return this.restTemplate.getForObject(baseUrl, MenuItem[].class);
+        return restTemplate.getForObject(baseUrl, MenuItem[].class);
     }
 
     /**
@@ -52,28 +62,22 @@ public class MenuServiceTests extends RestAPIApplicationTests {
      * */
     @Test
     void postMenuItemIncrementsCount() {
-        NutritionInfo nutritionInfo = new NutritionInfo(
-                List.of("Peanuts", "Soy"),
-                300,
-                10,
-                15,
-                5,
-                30,
-                true,
-                true
-        );
+
         MenuItem[] oldItemArray = getMenuItems();
+        List<InventoryItem> invItems = dbConnector.selectInventoryItems();
 
         final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
 
         MenuItem newMenuItem = new MenuItem(
-                13.99,
-                "Test Menu Item4",
-                 nutritionInfo
+                12.99,
+                "Test Menu Item",
+                nutritionInfo
         );
 
+       newMenuItem.inventoryItems = invItems.subList(0,3);
+
         // perform the post request
-        this.restTemplate.postForObject(baseUrl,
+        restTemplate.postForObject(baseUrl,
                 newMenuItem,
                 MenuItem.class
         );
@@ -95,29 +99,30 @@ public class MenuServiceTests extends RestAPIApplicationTests {
      * */
     @Test
     void putMenuItemCorrectlyCorrectlyUpdatesInfo() {
-        NutritionInfo nutritionInfo = new NutritionInfo(
-                List.of("Peanuts", "Soy"),
-                250,
-                10,
-                15,
-                5,
-                30,
-                true,
-                true
-        );
+
         MenuItem[] oldItemArray = getMenuItems();
         int randIdx = rand.nextInt(oldItemArray.length);
 
         MenuItem origMenuItem = oldItemArray[randIdx];
+
+        double newPrice = Math.round((origMenuItem.price + 0.05)*100.0)/100.0;
+        String newName = "Spicy " + origMenuItem.itemName;
+
+        List<InventoryItem> allInvItems = dbConnector.selectInventoryItems();
+        int startIdx = rand.nextInt(allInvItems.size());
+        int endIdx = rand.nextInt(startIdx, allInvItems.size());
+        List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);
+
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
-                origMenuItem.price + 0.03,
-                "Spicy " + origMenuItem.itemName,
+                newPrice,
+                newName,
                 nutritionInfo
         );
+        newMenuItem.inventoryItems = randInvItems;
 
         // perform the PUT request
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 newMenuItem
         );
 
@@ -136,16 +141,20 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         assertThat(
                 safeItem.price
-        ).isEqualTo(newMenuItem.price);
+        ).isEqualTo(newPrice);
 
         assertThat(
                 safeItem.itemName
-        ).isEqualTo(newMenuItem.itemName);
+        ).isEqualTo(newName);
+
+        assertThat(
+                safeItem.inventoryItems.size()
+        ).isEqualTo(randInvItems.size());
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
         // put the original menu item back after testing is over
-        this.restTemplate.put(baseUrl,
+        restTemplate.put(baseUrl,
                 origMenuItem);
     }
 

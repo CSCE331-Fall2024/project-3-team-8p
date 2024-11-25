@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.project3.rest_api.models.Employee;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.util.*;
 
@@ -55,7 +56,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
      * GET request for orders
      */
     Order[] getOrders(String url) {
-        return this.restTemplate.getForObject(url, Order[].class);
+        return restTemplate.getForObject(url, Order[].class);
     }
 
     /**
@@ -66,7 +67,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
         Order[] itemArray = getOrders(baseUrl);
 
-        final int DEFAULT_ORDER_COUNT = this.dbConnector.selectOrders(50).size();
+        final int DEFAULT_ORDER_COUNT = dbConnector.selectOrders(50).size();
         assertThat(
                 itemArray.length
         ).isEqualTo(DEFAULT_ORDER_COUNT);
@@ -79,7 +80,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     * */
     @Test
     void getOrderReturnsCorrectParamCount() {
-        int EXPECTED_ORDER_COUNT = this.dbConnector.selectOrders(75).size();
+        int EXPECTED_ORDER_COUNT = dbConnector.selectOrders(75).size();
         String url = baseUrl+"?mostRecent="+EXPECTED_ORDER_COUNT;
 
         Order[] rawArray = getOrders(url);
@@ -95,9 +96,14 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
     @Test
     void postOrdersCorrectlyCreatesOrder() {
 
-        List<Employee> allEmployees = this.dbConnector.selectEmployees();
+        List<Employee> allEmployees = dbConnector.selectEmployees();
         int randIdx = rand.nextInt(allEmployees.size());
         Employee someEmployee = allEmployees.get(randIdx);
+
+        List<MenuItem> allItems = dbConnector.selectMenuItems();
+        int startInd = rand.nextInt(0, allItems.size());
+        int endInd = rand.nextInt(startInd, allItems.size());
+        List<MenuItem> randItems = allItems.subList(startInd, endInd);
 
         Order newOrder = new Order(
                 someEmployee.employeeId,
@@ -108,8 +114,13 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
                 10.59
         );
 
+        // add the menu items
+        newOrder.menuItemsWithQty = randItems.stream().map(menuItem -> {
+            return new MenuItemWithQty(menuItem, 2);
+        }).toList();
+
         // post the order
-        this.restTemplate.postForObject(baseUrl,
+        restTemplate.postForObject(baseUrl,
                 newOrder,
                 Order.class
         );
@@ -126,7 +137,7 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
         assertThat(postedOrder).isPresent();
 
         // remove the order after testing is successful
-        this.dbConnector.deleteOrder(newOrder.orderId);
+        dbConnector.deleteOrder(newOrder.orderId);
 
     }
 

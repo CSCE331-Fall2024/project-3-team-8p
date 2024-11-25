@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.project3.rest_api.models.*;
+import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
+import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,12 +95,80 @@ public class SQLToJavaMapper {
     }
 
     /**
-     * Maps a ResultSet row to an Employee object.
+     * Maps a ResultSet row to a MenuItemWithQty object.
      *
-     * @param rs the ResultSet containing the employee data
-     * @return an Employee object mapped from the ResultSet
+     * @param rs the ResultSet containing the menu item and quantity data
+     * @return a MenuItemWithQty object mapped from the ResultSet
      * @throws RuntimeException if an SQLException occurs during mapping
      */
+    public static MenuItemWithQty menuItemWithQtyMapper(ResultSet rs) {
+        try {
+            return new MenuItemWithQty(
+                    new MenuItem(
+                            UUID.fromString(rs.getString("menuItemId")),
+                            rs.getDouble("price"),
+                            rs.getString("itemName"),
+                            rs.getObject("nutritionInfo", NutritionInfo.class)
+                    ),
+                    rs.getInt("count")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to MenuItemWithQty", e);
+        }
+    }
+
+    /**
+     * Maps a ResultSet row to an InventoryItemWithQty object.
+     *
+     * @param rs the ResultSet containing the inventory item and quantity data
+     * @return an InventoryItemWithQty object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static InventoryItemWithQty inventoryItemWithQtyMapper(ResultSet rs) {
+        try {
+            return new InventoryItemWithQty(
+                    new InventoryItem(
+                            UUID.fromString(rs.getString("inventoryItemId")),
+                            rs.getDouble("cost"),
+                            rs.getInt("availableStock"),
+                            rs.getString("itemName")
+                    ),
+                    rs.getInt("itemsUsed")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to InventoryItemWithQty", e);
+        }
+    }
+    /**
+     * Maps a ResultSet row to a Double representing the order sum.
+     *
+     * @param rs the ResultSet containing the order sum data
+     * @return a Double value representing the order sum
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static Double orderSumMapper(ResultSet rs) {
+        try {
+            double orderSum = rs.getDouble("sum");
+            return Math.round(orderSum * 100.0) / 100.0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to Double", e);
+        }
+    }
+
+    /**
+     * Maps a ResultSet row to a Double representing the total count of orders.
+     *
+     * @param rs the ResultSet containing the total count data
+     * @return a Double value representing the total count
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
+    public static Double orderTotalMapper(ResultSet rs) {
+        try {
+            return (double) rs.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to Integer", e);
+        }
+    }
     public static Employee employeeMapper(ResultSet rs){
         try {
             return new Employee(

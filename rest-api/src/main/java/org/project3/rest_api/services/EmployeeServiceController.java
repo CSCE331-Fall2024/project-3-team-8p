@@ -16,6 +16,11 @@ import java.util.UUID;
 @CrossOrigin
 public class EmployeeServiceController extends BaseAPIController {
 
+    @GetMapping("/{name}")
+    public Employee getEmployee(@PathVariable String name) {
+        return dbConnector.selectEmployee(name);
+    }
+
     /**
      * Queries employees from database
      * @return list of employee
@@ -31,12 +36,10 @@ public class EmployeeServiceController extends BaseAPIController {
      */
     @PostMapping
     public void addEmployee(@RequestBody Employee newEmployee) {
-
         // Create an employee id if not provided by the user
         if (newEmployee.employeeId == null) {
             newEmployee.employeeId = UUID.randomUUID();
         }
-
         dbConnector.insertEmployee(newEmployee);
     }
 

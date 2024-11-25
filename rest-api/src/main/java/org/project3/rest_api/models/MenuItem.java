@@ -1,7 +1,5 @@
 package org.project3.rest_api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -16,27 +14,28 @@ public class MenuItem {
     /**
      * Unique identifier for the menu item
      */
-    @JsonProperty("menuItemId")
     public UUID menuItemId;
 
     /**
      * Price of the menu item
      */
-    @JsonProperty("price")
     public Double price;
 
     /**
      * Name of the menu item
      */
-    @JsonProperty("itemName")
     public String itemName;
 
     /**
      * Nutrition and allergens information for the menu item
      */
-    @JsonProperty("nutritionInfo")
     public NutritionInfo nutritionInfo;
 
+
+    /**
+     * List of associated inventory items
+     * */
+    public List<InventoryItem> inventoryItems;
 
     /**
      * Constructor to create a MenuItem with a specified ID.
