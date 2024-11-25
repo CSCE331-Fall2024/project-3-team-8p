@@ -33,7 +33,13 @@ function MenuBoardView() {
                         name={listing.name}
                         calories={listing.calories}
                         imageUrl={listing.imageUrl}
-                        specialItems={listing.specialItems}
+                        allergens={listing.allergens}
+                        fat={listing.fat}
+                        protein={listing.protein}
+                        sugar={listing.sugar}
+                        carbohydrates={listing.carbohydrates}
+                        isPremium={listing.isPremium}
+                        isSpicy={listing.isSpicy}
                     />
                 ))}
 

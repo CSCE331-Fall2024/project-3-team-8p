@@ -4,8 +4,14 @@ import styled from 'styled-components';
 interface ListingCardProps {
     name: string;
     imageUrl: string;
+    allergens?: string[];
     calories: number;
-    specialItems?: string[]; // Optional property
+    fat: number;
+    protein: number;
+    sugar: number;
+    carbohydrates: number;
+    isPremium: boolean;
+    isSpicy: boolean;
 }
 
 
@@ -42,7 +48,42 @@ const Name = styled.h3`
   justify-content: center;
 `;
 
+const Allergens = styled.h3`
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+    justify-content: center;
+`;
+
 const Calories = styled.h3`
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+    justify-content: center;
+`;
+
+const Fat = styled.h3`
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+    justify-content: center;
+`;
+
+const Protein = styled.h3`
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+    justify-content: center;
+`;
+
+const Sugar = styled.h3`
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+    justify-content: center;
+`;
+
+const Carbohydrates = styled.h3`
     font-size: 1.2em;
     margin: 0;
     color: #333;
@@ -55,22 +96,27 @@ const SpecialItems = styled.div`
     object-fit: contain;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, calories, specialItems = [] }) => {
+const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
     return (
         <CardContainer>
             <Image src={imageUrl} alt={name} />
             <CardContent>
                 <Name>{name}</Name>
                 <Calories>{calories} cal</Calories>
-                <SpecialItems>
-                    {specialItems.length > 0 ? (
-                        specialItems.map((item, index) => (
-                            <img key={index} src={item} alt={`Special item ${index + 1}`} className="smallImage"/>
+                <Allergens> contains:
+                    {allergens.length > 0 ? (
+                        allergens.map((item, index) => (
+                            <div key={index}> {item}</div>
                         ))
                     ) : (
-                        <p>No special items available.</p>
+                        <p>No allergens</p>
                     )}
-                </SpecialItems>
+                </Allergens>
+                <Fat>{fat} g</Fat>
+                <Protein>{protein} g</Protein>
+                <Sugar>{sugar} g</Sugar>
+                <Carbohydrates>{carbohydrates} g</Carbohydrates>
+
             </CardContent>
         </CardContainer>
     );

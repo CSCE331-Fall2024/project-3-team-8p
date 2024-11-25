@@ -26,37 +26,43 @@ import {
 interface Listing {
     name: string;
     imageUrl: string;
+    allergens: string[];
     calories: number;
-    specialItems: string[];
+    fat: number;
+    protein: number;
+    sugar: number;
+    carbohydrates: number;
+    isPremium: boolean;
+    isSpicy: boolean;
 }
 
 const listings: Record<Tabs, Listing[]> = {
     [Tabs.Entrees]: [
-        { name: 'Beijing Beef', imageUrl: BeijingBeef, calories: 400, specialItems: [spicy, wok]},
-        { name: 'The Original Orange Chicken', imageUrl: OrangeChicken, calories: 400, specialItems: []},
-        { name: 'Kung Pao Chicken', imageUrl: KungPao, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Hot Ones Blazing Bourbon Chicken', imageUrl: HotOnes, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Honey Walnut Shrimp', imageUrl: HoneyWalnut, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Honey Sesame Chicken Breast', imageUrl: HoneySesame, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Grilled Teriyaki', imageUrl: GrilledTeriyaki, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Black Pepper Sirloin Steak', imageUrl: BlackPepperSteak, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Black Pepper Chicken', imageUrl: BlackPepperChicken, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Broccoli Beef', imageUrl: BroccoliBeef, calories: 400, specialItems: [spicy, wok] },
+        { name: 'Beijing Beef', imageUrl: BeijingBeef, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'The Original Orange Chicken', imageUrl: OrangeChicken, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Kung Pao Chicken', imageUrl: KungPao, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Hot Ones Blazing Bourbon Chicken', imageUrl: HotOnes, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Honey Walnut Shrimp', imageUrl: HoneyWalnut, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Honey Sesame Chicken Breast', imageUrl: HoneySesame, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Grilled Teriyaki', imageUrl: GrilledTeriyaki, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Black Pepper Sirloin Steak', imageUrl: BlackPepperSteak, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Black Pepper Chicken', imageUrl: BlackPepperChicken, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Broccoli Beef', imageUrl: BroccoliBeef, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
     ],
     [Tabs.Sides]: [
-        { name: 'White Rice', imageUrl: WhiteRice, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Fried Rice', imageUrl: FriedRice, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Chow Mein', imageUrl: ChowMein, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Super Greens', imageUrl: SuperGreens, calories: 400, specialItems: [spicy, wok] },
+        { name: 'White Rice', imageUrl: WhiteRice, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Fried Rice', imageUrl: FriedRice, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Chow Mein', imageUrl: ChowMein, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Super Greens', imageUrl: SuperGreens, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
     ],
     [Tabs.Drinks]: [
-        { name: 'Dr. Pepper', imageUrl: DrPepper, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Pepsi', imageUrl: Pepsi, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Aquafina', imageUrl: Aquafina, calories: 400, specialItems: [spicy, wok] },
-        { name: 'Sweet Tea', imageUrl: SweetTea, calories: 400, specialItems: [spicy, wok] },
+        { name: 'Dr. Pepper', imageUrl: DrPepper, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Pepsi', imageUrl: Pepsi, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Aquafina', imageUrl: Aquafina, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Sweet Tea', imageUrl: SweetTea, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
     ],
     [Tabs.Desserts]: [
-        { name: 'Mochi', imageUrl: 'https://via.placeholder.com/300', calories: 10, specialItems: [] },
+        { name: 'Mochi', imageUrl: 'https://via.placeholder.com/300', allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
     ],
 };
 
