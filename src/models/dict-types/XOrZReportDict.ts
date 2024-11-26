@@ -1,6 +1,6 @@
-type XZReportData = {
+type XOrZReportDict = {
     ordersByHour: number[],
     salesByHour: number[]
 };
 
-export default XZReportData;
+export default XOrZReportDict;

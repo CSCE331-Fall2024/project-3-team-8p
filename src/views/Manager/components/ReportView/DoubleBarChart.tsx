@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import XZReportData from "../../../../models/typedefs/XZReportData";
+import XOrZReportDict from "../../../../models/dict-types/XOrZReportDict";
 
 interface SingleBarChartProps {
     chartName: string;
-    dataProvider: () => Promise<XZReportData>;
+    dataProvider: () => Promise<XOrZReportDict>;
 }
 
 type ChartData = {
@@ -17,7 +17,7 @@ function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
     const [chartData, setChartData] = useState<ChartData[]>([]);
 
     const getReportData = useCallback(async () => {
-        const reportData: XZReportData = await dataProvider();
+        const reportData: XOrZReportDict = await dataProvider();
         setChartData(reportData.ordersByHour.map((currHourOrders, index) => ({
             hour: index + 1,
             orders: currHourOrders,

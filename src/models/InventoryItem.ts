@@ -1,10 +1,20 @@
 import CardItem from "./interfaces/CardItem";
+import InventoryItemDict from "./dict-types/InventoryItemDict";
 
 export default class InventoryItem implements CardItem {
     private readonly _inventoryItemId: string;
     private readonly _cost: number;
     private readonly _availableStock: number;
     private readonly _itemName: string;
+
+    static fromDict(dict: InventoryItemDict): InventoryItem {
+        return new InventoryItem(
+            dict.inventoryItemId,
+            dict.cost,
+            dict.availableStock,
+            dict.itemName
+        );
+    }
 
     constructor(
         inventoryItemId: string,
@@ -18,23 +28,32 @@ export default class InventoryItem implements CardItem {
         this._itemName = itemName;
     }
 
-    get id() {
+    get id(): string {
         return this._inventoryItemId;
     }
 
-    get itemName() {
+    get itemName(): string {
         return this._itemName;
     }
 
-    get inventoryItemId() {
+    get inventoryItemId(): string {
         return this._inventoryItemId;
     }
 
-    get cost() {
+    get cost(): number {
         return this._cost;
     }
 
-    get availableStock() {
+    get availableStock(): number {
         return this._availableStock;
+    }
+
+    toDict(): InventoryItemDict {
+        return {
+            inventoryItemId: this._inventoryItemId,
+            cost: this._cost,
+            availableStock: this._availableStock,
+            itemName: this._itemName,
+        };
     }
 }

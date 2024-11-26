@@ -51,7 +51,7 @@ function ReportView() {
                     <Nav.Link eventKey={ReportViewTab.ZReport}>Z-report</Nav.Link>
                 </Nav.Item>
             </Nav>
-            {/* Left pane */}
+
             {(currReportViewTab === ReportViewTab.UsageChart || currReportViewTab === ReportViewTab.SalesReport) && (
                 <div className={"chart-container"}>
                     <SingleBarChart
@@ -62,6 +62,7 @@ function ReportView() {
                     />
                 </div>
             )}
+
             {(currReportViewTab === ReportViewTab.XReport || currReportViewTab === ReportViewTab.ZReport) && (
                 <div className="chart-container">
                     <DoubleBarComponent

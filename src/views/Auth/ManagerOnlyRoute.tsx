@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useUser } from "../../contexts/UserContext";
 import EmployeeApi from "../../apis/employee-api";
 import Unauthorized from "./Unauthorized";
+import LoadingView from "../shared/LoadingView";
 
 interface EmployeeOnlyRouteProps {
     children: ReactElement;
@@ -15,7 +16,7 @@ function EmployeeOnlyRoute({ children }: EmployeeOnlyRouteProps) : ReactElement 
     const [isManager, setIsManager] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
-        const checkEmployee = async () => {
+        const checkManagerAccess = async () => {
             if (user) {
                 const existingEmployee = await employeeApi.getEmployeeByName(user.name);
                 if (existingEmployee !== null) {
@@ -25,12 +26,12 @@ function EmployeeOnlyRoute({ children }: EmployeeOnlyRouteProps) : ReactElement 
             }
             setIsManager(false);
         }
-        checkEmployee();
+        checkManagerAccess();
     }, [user])
 
     // Show a loading state while the check is being performed
     if (isManager === undefined) {
-        return <div>Loading...</div>;
+        return <LoadingView color={"white"} />;
     }
 
     return isManager ? <>{children}</> : <Unauthorized />;
