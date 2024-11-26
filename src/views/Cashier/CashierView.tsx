@@ -5,7 +5,15 @@ import MenuItem from '../../models/MenuItem';
 import './css/CashierView.css';
 
 function CashierView() {
-    const [order, setOrder] = useState<{ [key: string]: { name: string; price: number; quantity: number } }>({});
+    interface OrderItem {
+        name: string;
+        price: number;
+        quantity: number;
+    }
+    interface Order {
+        [key: string]: OrderItem;
+    }
+    const [order, setOrder] = useState<Order>({});
 
     const handleAddToOrder = (menuItem: MenuItem) => {
         setOrder((prevOrder) => {

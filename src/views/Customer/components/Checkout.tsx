@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
 import '../css/Checkout.css';
 import { WeatherApi, WeatherData } from '../../../apis/weather-api'
@@ -34,10 +34,6 @@ const Checkout: React.FC = () => {
 
         fetchWeatherData();
     }, []);
-
-    const handleOrderMore = () => {
-        navigate('/customer');
-    };
 
     const handlePlaceOrder = () => {
         alert('Order placed!');
@@ -85,9 +81,9 @@ const Checkout: React.FC = () => {
                 <div className="total-container">
                     <h3 className="total-text">Total: ${cartTotal.toFixed(2)}</h3>
                     <div className="buttons-container">
-                        <button className="button" onClick={handleOrderMore}>
+                        <Link to='/customer' className="button">
                             Order More
-                        </button>
+                        </Link>
                         <button className="button" onClick={handlePlaceOrder}>
                             Place Order
                         </button>
