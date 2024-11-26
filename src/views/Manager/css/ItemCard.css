@@ -1,0 +1,18 @@
+.item-card {
+    color: white;
+}
+
+.item-card img {
+    background-color: whitesmoke;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.two-line-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3em;
+    max-height: 3em;
+}

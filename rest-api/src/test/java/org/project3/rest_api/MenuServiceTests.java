@@ -1,31 +1,145 @@
 package org.project3.rest_api;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.MenuItem;
 
+import java.util.List;
+import java.util.Arrays;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/*
+/**
 * Tests endpoints related to menu service
 * */
 public class MenuServiceTests extends RestAPIApplicationTests {
 
+    @BeforeEach
+    void menuSetup() {
+        baseUrl += "menu";
+    }
 
-    /*
-    * Checks if expected count of menu items is returned
+    /**
+     * GET request for menu tests
+     * */
+    MenuItem[] getMenuItems() {
+        return restTemplate.getForObject(baseUrl, MenuItem[].class);
+    }
+
+    /**
+    * Checks if GET returns expected menu item count
     * */
     @Test
-    void getMenuItemsReturnsCorrectCount() {
-        String url = baseUrl+"menuitems";
+    void getMenuItemReturnsCorrectCount() {
 
-        String rawJson = this.restTemplate.getForObject(url, String.class);
-        Object[] rawArray = this.restTemplate.getForObject(url, Object[].class);
+        MenuItem[] itemArray = getMenuItems();
 
-        final int EXPECTED_ITEM_COUNT = 10;
+        final int EXPECTED_ITEM_COUNT = dbConnector.selectMenuItems().size();
         assertThat(
-                rawArray.length
+                itemArray.length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
 
-        printResult(rawJson, "Menu Items");
+        printResult(getRawJson(baseUrl), "Menu Items");
+    }
+
+    /**
+     * Checks if POST correctly increments menu item count
+     * */
+    @Test
+    void postMenuItemIncrementsCount() {
+
+        MenuItem[] oldItemArray = getMenuItems();
+        List<InventoryItem> invItems = dbConnector.selectInventoryItems();
+
+        final int EXPECTED_ITEM_COUNT = oldItemArray.length + 1;
+
+        MenuItem newMenuItem = new MenuItem(
+                12.99,
+                "Test Menu Item"
+        );
+
+       newMenuItem.inventoryItems = invItems.subList(0,3);
+
+        // perform the post request
+        restTemplate.postForObject(baseUrl,
+                newMenuItem,
+                MenuItem.class
+        );
+
+        MenuItem[] newItemArray = getMenuItems();
+
+        assertThat(
+                newItemArray.length
+        ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
+
+        printResult(getRawJson(baseUrl), "Menu Items");
+
+        // remove the menu item after testing is succesful
+        dbConnector.deleteMenuItem(newMenuItem.menuItemId);
+    }
+
+    /**
+     * Checks if PUT request correctly updates Menu Item information
+     * */
+    @Test
+    void putMenuItemCorrectlyCorrectlyUpdatesInfo() {
+
+        MenuItem[] oldItemArray = getMenuItems();
+        int randIdx = rand.nextInt(oldItemArray.length);
+
+        MenuItem origMenuItem = oldItemArray[randIdx];
+
+        double newPrice = Math.round((origMenuItem.price + 0.05)*100.0)/100.0;
+        String newName = "Spicy " + origMenuItem.itemName;
+
+        List<InventoryItem> allInvItems = dbConnector.selectInventoryItems();
+        int startIdx = rand.nextInt(allInvItems.size());
+        int endIdx = rand.nextInt(startIdx, allInvItems.size());
+        List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);
+
+        MenuItem newMenuItem = new MenuItem(
+                origMenuItem.menuItemId,
+                newPrice,
+                newName
+        );
+        newMenuItem.inventoryItems = randInvItems;
+
+        // perform the PUT request
+        restTemplate.put(baseUrl,
+                newMenuItem
+        );
+
+        MenuItem[] newItemArray = getMenuItems();
+        Optional<MenuItem> newItem = Arrays.stream(newItemArray).filter(
+                menuItem -> {
+                    return menuItem.menuItemId.equals(newMenuItem.menuItemId);
+                }
+        ).findFirst();
+
+        // check that new item is not null
+        assertThat(newItem).isPresent();
+
+        // check if PUT correctly updated fields
+        MenuItem safeItem = newItem.get();
+
+        assertThat(
+                safeItem.price
+        ).isEqualTo(newPrice);
+
+        assertThat(
+                safeItem.itemName
+        ).isEqualTo(newName);
+
+        assertThat(
+                safeItem.inventoryItems.size()
+        ).isEqualTo(randInvItems.size());
+
+        printResult(getRawJson(baseUrl), "Menu Items");
+
+        // put the original menu item back after testing is over
+        restTemplate.put(baseUrl,
+                origMenuItem);
     }
 
 

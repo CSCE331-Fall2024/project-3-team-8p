@@ -1,7 +1,6 @@
 package org.project3.rest_api.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,9 +27,9 @@ public class MenuItem {
     public String itemName;
 
     /**
-     * A map to store inventory items required to create the menu item and their quantities
-     */
-//    public Map<InventoryItem, Integer> inventoryItems = new HashMap<>();
+     * List of associated inventory items
+     * */
+    public List<InventoryItem> inventoryItems;
 
     /**
      * Constructor to create a MenuItem with a specified ID.
@@ -56,25 +55,8 @@ public class MenuItem {
     }
 
     /**
-     * Adds or updates the quantity of an InventoryItem required for this menu item.
-     *
-     * @param item     the inventory item to be added or updated
-     * @param quantity the quantity of the inventory item required for the menu item
-     */
-//    public void addOrUpdateInventoryItem(InventoryItem item, Integer quantity) {
-//        inventoryItems.put(item, quantity);
-//    }
+     * No-arg default constructor for MenuItem
+     * */
+    public MenuItem() {}
 
-    /**
-     * Checks if the menu item is available based on the availability of its required inventory items.
-     *
-     * @return true if all inventory items required for the menu item are available, false otherwise
-     */
-//    public Boolean isAvailable() {
-//        for (InventoryItem item : inventoryItems.keySet()) {
-//            if (item.availableStock <= 0)
-//                return false;
-//        }
-//        return true;
-//    }
 }

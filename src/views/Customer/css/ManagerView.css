@@ -1,0 +1,23 @@
+.nav-pills {
+    gap: 1rem;
+}
+
+.nav-item {
+    background-color: #D51A1F;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-link {
+    color: white !important;
+
+}
+
+.nav-link.active {
+    color: white;
+    background-color: black !important;
+}
+
+.nav-item:hover {
+    background-color: rgb(157, 38, 54);
+}

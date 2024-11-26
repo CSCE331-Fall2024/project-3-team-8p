@@ -1,0 +1,64 @@
+.manager-view {
+    background-color: var(--primary-red);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+/* Navigation Pills Styling */
+.manager-view .nav-pills {
+    gap: 1rem;
+}
+
+.manager-view .nav-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px var(--pill-shadow);
+}
+
+.manager-view .nav-link {
+    color: var(--neutral-light) !important;
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+}
+
+.manager-view .nav-link.active {
+    background-color: var(--neutral-light) !important;
+    color: var(--neutral-dark) !important;
+    box-shadow: 0 2px 8px var(--pill-shadow);
+}
+
+.manager-view .nav-item:hover:not(.nav-link.active) {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Content Areas */
+.manager-view .chart-container {
+    background-color: var(--neutral-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px var(--pill-shadow);
+}
+
+/* Grid Items */
+.manager-view .item-grid {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+/* Add Button */
+.manager-view .add-button {
+    background-color: var(--neutral-light);
+    color: var(--neutral-dark);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.manager-view .add-button:hover {
+    background-color: var(--neutral-dark);
+    color: var(--neutral-light);
+}
