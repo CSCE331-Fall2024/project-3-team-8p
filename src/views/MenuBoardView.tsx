@@ -16,18 +16,16 @@ function MenuBoardView() {
 
     return (
         <div className="MenuBoardView">
-            <div className="button-container">
-                <button className="black-button">Accessibility</button>
+            <div className="subHeader">
                 {/*</!*<img src={banner} alt="Centered Top Image" className="BannerImage"/>*!/>*/}
-                <h1> {activeTab} </h1>
-
-                <button className="black-button">Checkout</button>
+                {activeTab}
             </div>
             <div className="subHeader">
                 <p> ${Prices[activeTab].toFixed(2)} ea.</p>
             </div>
             <div className="cardSection">
                 {listings[activeTab].map((listing, index) => (
+
                     <ListingCard
                         key={index}
                         name={listing.name}

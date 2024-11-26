@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+    wok,
+    spicy
+} from '../images';
 
 interface ListingCardProps {
     name: string;
@@ -90,9 +94,15 @@ const Carbohydrates = styled.h3`
     justify-content: center;
 `;
 
-const SpecialItems = styled.div`
+const PremiumImage = styled.img`
     width: 100%;
-    max-height: 200px;
+    max-height: 50px;
+    object-fit: contain;
+`;
+
+const SpicyImage = styled.img`
+    width: 100%;
+    max-height: 50px;
     object-fit: contain;
 `;
 
@@ -116,6 +126,15 @@ const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, allergens = [
                 <Protein>{protein} g</Protein>
                 <Sugar>{sugar} g</Sugar>
                 <Carbohydrates>{carbohydrates} g</Carbohydrates>
+                <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+                    {isPremium && (
+                        <PremiumImage src={wok} alt={name}/>
+                    )}
+                    {isSpicy && (
+                        <SpicyImage src={spicy} alt={name}/>
+                    )}
+                </div>
+
 
             </CardContent>
         </CardContainer>

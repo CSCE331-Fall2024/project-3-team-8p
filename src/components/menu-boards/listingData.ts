@@ -62,7 +62,7 @@ const listings: Record<Tabs, Listing[]> = {
         { name: 'Sweet Tea', imageUrl: SweetTea, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
     ],
     [Tabs.Desserts]: [
-        { name: 'Mochi', imageUrl: 'https://via.placeholder.com/300', allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Mochi', imageUrl: 'https://via.placeholder.com/300', allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: false, isSpicy: true},
     ],
 };
 
