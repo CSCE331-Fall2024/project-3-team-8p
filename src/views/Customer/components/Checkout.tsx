@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
 import '../css/Checkout.css';
-import { WeatherService, WeatherData } from '../../../apis/WeatherService'
+import { WeatherApi, WeatherData } from '../../../apis/weather-api'
 
 
 const Checkout: React.FC = () => {
@@ -27,7 +27,7 @@ const Checkout: React.FC = () => {
     useEffect(() => {
         const fetchWeatherData = async () => {
             setLoadingWeather(true);
-            const data = await WeatherService.fetchWeather();
+            const data = await WeatherApi.fetchWeather();
             setWeatherData(data);
             setLoadingWeather(false);
         };

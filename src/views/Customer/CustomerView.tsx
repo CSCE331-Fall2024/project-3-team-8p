@@ -47,7 +47,7 @@ function CustomerView() {
                     Accessibility
                 </button>
                 <img src={"images/POS.png"} alt={"Logo"} className="BannerImage" />
-                <Link to="/checkout">
+                <Link to="/customer/checkout">
                     <button className="black-button">Checkout</button>
                 </Link>
             </div>

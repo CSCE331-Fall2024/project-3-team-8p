@@ -35,7 +35,7 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
-                            {/*<Route path="cashier" element={<CashierView />} />*/}
+                            <Route path="cashier" element={<CashierView />} />
                         </Route>
                     </Routes>
                 </UserProvider>
