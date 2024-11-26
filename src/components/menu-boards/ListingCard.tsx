@@ -122,10 +122,10 @@ const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, allergens = [
                         <p>No allergens</p>
                     )}
                 </Allergens>
-                <Fat>{fat} g</Fat>
-                <Protein>{protein} g</Protein>
-                <Sugar>{sugar} g</Sugar>
-                <Carbohydrates>{carbohydrates} g</Carbohydrates>
+                <Fat>Fat: {fat} g</Fat>
+                <Protein>Protein: {protein} g</Protein>
+                <Sugar>Sugar: {sugar} g</Sugar>
+                <Carbohydrates>Carbohydrates: {carbohydrates} g</Carbohydrates>
                 <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
                     {isPremium && (
                         <PremiumImage src={wok} alt={name}/>
