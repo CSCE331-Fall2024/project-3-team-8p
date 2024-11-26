@@ -54,10 +54,14 @@
     height: auto;
     margin: 0 20px; /* Optional margin for spacing around the logo */
 }
-.padding{
-    margin-top: 40px;
-    background-color: #D51A1F;
+
+.padding {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;    /* Optional: centers vertically */
+    margin-top: 16px;       /* Optional: spacing above the tabs */
 }
+
 
 .smallImage{
     width: 50px;
