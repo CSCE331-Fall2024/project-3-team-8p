@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 Sends GET, POST, PUT, and DELETE requests to server
 */
 export default class BaseApi {
-    private readonly _baseUrl: string = "http://localhost:8080/api";
+    private readonly _baseUrl: string = process.env.REACT_APP_BACKEND_PRODUCTION_API_URL as string;
     protected apiClient: AxiosInstance;
 
     constructor(endpoint: string) {
