@@ -35,11 +35,11 @@ public class MenuServiceController {
     public static final double DISCOUNT_RATE = 0.85;
 
     /**
-     * Discount period start time: every day at 4:00 PM
+     * Discount period start time (CRON syntax): every day at 4:00 PM
      * */
     private final String startTime = "0 0 16 * * *";
     /**
-     * Discount period end time: every ay at 7:59 PM
+     * Discount period end time (CRON syntax): every ay at 7:59 PM
      * */
     private final static String endTime = "0 59 19 * * *";
 
