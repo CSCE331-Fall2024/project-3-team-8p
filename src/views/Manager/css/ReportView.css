@@ -1,3 +1,4 @@
 .report-view .chart-container {
-    height: 75vh;
+    /*height: 75vh;*/
+    min-height: 75vh;
 }

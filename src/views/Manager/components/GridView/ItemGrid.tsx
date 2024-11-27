@@ -30,7 +30,7 @@ function ItemGrid<T extends CardItem>({ pageTitle, loading, items, onAddOrUpdate
     }, [items])
 
     return (
-        <Container className={"item-grid px-3 d-flex flex-column justify-content-between"}>
+        <Container className={"item-grid px-3 d-flex flex-column justify-content-between h-100"}>
             {loading && (
                 <div className="d-flex flex-column justify-content-center flex-grow-1">
                     <LoadingView color="white" />

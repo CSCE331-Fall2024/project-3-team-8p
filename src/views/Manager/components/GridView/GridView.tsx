@@ -57,7 +57,7 @@ function GridView() {
     };
 
     return (
-        <div className={"grid-view h-50"}>
+        <div className={"grid-view h-100 d-flex flex-column"}>
             <Nav
                 variant={"pills"}
                 activeKey={currGridPane}
@@ -103,12 +103,14 @@ function GridView() {
                 />
             )}
 
-            <ItemGrid
-                pageTitle={getGridViewTitle(currGridPane)}
-                loading={loading}
-                items={gridItems}
-                onAddOrUpdateItem={handleShowModal}
-            />
+            <div className={"flex-grow-1"}>
+                <ItemGrid
+                    pageTitle={getGridViewTitle(currGridPane)}
+                    loading={loading}
+                    items={gridItems}
+                    onAddOrUpdateItem={handleShowModal}
+                />
+            </div>
         </div>
     );
 }
