@@ -6,14 +6,17 @@ import org.project3.rest_api.database.services.DBMenuService;
 import org.project3.rest_api.models.InventoryItem;
 import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.NutritionInfo;
+import org.project3.rest_api.services.MenuServiceController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.awt.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 /**
 * Tests endpoints related to menu service
@@ -31,6 +34,12 @@ public class MenuServiceTests extends RestAPIApplicationTests {
      * */
     @Autowired
     DBInventoryService dbInventoryService;
+
+    /**
+     * Service controller instance
+     * */
+    @Autowired
+    MenuServiceController menuServiceController;
 
 
     /**
@@ -174,6 +183,42 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         // put the original menu item back after testing is over
         restTemplate.put(baseUrl,
                 origMenuItem);
+    }
+
+    /**
+     * Checks that decrease price functionality works as expected
+     * */
+    @Test
+    void priceDoesDecreaseCorrectly() {
+
+        List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
+
+        menuServiceController.decreaseItemPrice();
+
+        List<MenuItem> newItems = Arrays.stream(getMenuItems()).toList();
+
+        newItems.forEach(newItem -> {
+            Optional<MenuItem> oldItem = oldItems.stream().filter(findItem -> {
+                return findItem.menuItemId.equals(newItem.menuItemId);
+            }).findFirst();
+
+            assertThat(oldItem).isPresent();
+
+            MenuItem safeOldItem = oldItem.get();
+
+            final double EXPECTED_PRICE = Math.round(
+                    newItem.price * (1/MenuServiceController.DISCOUNT_RATE) * 100.0
+            )/100.0;
+
+            assertThat(safeOldItem.price).isEqualTo(
+                    EXPECTED_PRICE
+            );
+
+        });
+
+        // undo changes
+        menuServiceController.increaseItemPrice();
+
     }
 
 
