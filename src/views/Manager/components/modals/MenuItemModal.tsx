@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import MenuItemApi from "../../../../../apis/menu-item-api";
-import MenuItem from "../../../../../models/MenuItem";
+import MenuItemApi from "../../../../apis/menu-item-api";
+import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
-import InventoryItem from "../../../../../models/InventoryItem";
-import "../../../css/MenuItemModal.css";
+import InventoryItem from "../../../../models/InventoryItem";
+import "../../css/MenuItemModal.css";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -74,7 +74,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
         const { name, value } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: name === "price" ? parseFloat(value) || 0 : value
+            [name]: value
         }));
     }
 
@@ -108,7 +108,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         <Form.Control
                             name={"price"}
                             type={"number"}
-                            step={"0.01"}
                             value={formData.price}
                             placeholder={"Enter Price"}
                             onChange={handleInputChange}

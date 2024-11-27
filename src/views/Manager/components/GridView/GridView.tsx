@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Nav from "react-bootstrap/Nav";
 import useGridData from "./useGridData";
-import MenuItemModal from "./modals/MenuItemModal";
+import MenuItemModal from "../modals/MenuItemModal";
 import MenuItem from "../../../../models/MenuItem";
-import InventoryItemModal from "./modals/InventoryItemModal";
+import InventoryItemModal from "../modals/InventoryItemModal";
 import InventoryItem from "../../../../models/InventoryItem";
-import EmployeeModal from "./modals/EmployeeModal";
+import EmployeeModal from "../modals/EmployeeModal";
 import Employee from "../../../../models/Employee";
 import ItemGrid from "./ItemGrid";
 import CardItem from "../../../../models/interfaces/CardItem";

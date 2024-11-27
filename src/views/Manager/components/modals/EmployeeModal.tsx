@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import EmployeeApi from "../../../../../apis/employee-api";
-import Employee from "../../../../../models/Employee";
+import EmployeeApi from "../../../../apis/employee-api";
+import Employee from "../../../../models/Employee";
 import { v4 as uuidv4 } from "uuid";
 
 
