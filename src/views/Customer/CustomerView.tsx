@@ -29,7 +29,7 @@ function CustomerView() {
     };
 
     const increaseTextSize = () => {
-        setTextSize((prev) => Math.min(prev + 2, 24)); // Limit max size
+        setTextSize((prev) => Math.min(prev + 2, 20)); // Limit max size
     };
 
     const decreaseTextSize = () => {
