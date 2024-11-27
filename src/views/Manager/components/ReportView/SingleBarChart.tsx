@@ -99,83 +99,81 @@ function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
     const calculatedHeight = chartData.length * 55 + 100;
 
     return (
-        <div className={"chart-data h-100"}>
-            <div className={"d-flex flex-column justify-content-between h-100"}>
-                {loading && (
-                    <div className="d-flex flex-column justify-content-center flex-grow-1">
-                        <LoadingView color="black" />
-                    </div>
-                )}
+        <div className={"chart-container d-flex flex-column justify-content-between"}>
+            {loading && (
+                <div className="d-flex flex-column justify-content-center flex-grow-1">
+                    <LoadingView color="black" />
+                </div>
+            )}
 
-                {!loading && (
-                    <div className="bg-white mb-3">
-                        <h5 className="px-4 py-3">{chartName}</h5>
-                        <div
-                            className="overflow-y-auto"
-                            style={{
-                                height: '490px',
-                                maxHeight: '490px'
-                            }}
-                        >
-                            <div style={{ height: `${calculatedHeight}px`, minHeight: '100%' }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart
-                                        data={chartData}
-                                        layout="vertical"
-                                        margin={{
-                                            top: 0,
-                                            right: 60,
-                                            left: 30,
-                                            bottom: 20
-                                        }}
-                                    >
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis
-                                            type="number"
-                                            orientation="top"
-                                        />
-                                        <YAxis
-                                            dataKey="itemName"
-                                            type="category"
-                                            width={90}
-                                            tick={{ fontSize: 12 }}
-                                        />
-                                        <Tooltip />
-                                        <Legend
-                                            verticalAlign="top"
-                                            align="left"
-                                            height={36}
-                                        />
-                                        <Bar dataKey="amount" name={getChartUnits(chartName)} fill="#FF8F8F" />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </div>
+            {!loading && (
+                <div className="bg-white mb-3">
+                    <h5 className="px-4 py-3">{chartName}</h5>
+                    <div
+                        className="overflow-y-auto"
+                        style={{
+                            height: '490px',
+                            maxHeight: '490px'
+                        }}
+                    >
+                        <div style={{ height: `${calculatedHeight}px`, minHeight: '100%' }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    data={chartData}
+                                    layout="vertical"
+                                    margin={{
+                                        top: 0,
+                                        right: 60,
+                                        left: 30,
+                                        bottom: 20
+                                    }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis
+                                        type="number"
+                                        orientation="top"
+                                    />
+                                    <YAxis
+                                        dataKey="itemName"
+                                        type="category"
+                                        width={90}
+                                        tick={{ fontSize: 12 }}
+                                    />
+                                    <Tooltip />
+                                    <Legend
+                                        verticalAlign="top"
+                                        align="left"
+                                        height={36}
+                                    />
+                                    <Bar dataKey="amount" name={getChartUnits(chartName)} fill="#FF8F8F" />
+                                </BarChart>
+                            </ResponsiveContainer>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
-                <Form className="text-black d-flex justify-content-between gap-4">
-                    <Form.Group className={"flex-grow-1"} controlId={"startDate"}>
-                        <Form.Label>Start Date</Form.Label>
-                        <Form.Control
-                            name={"startDate"}
-                            type={"date"}
-                            value={formData.startDate}
-                            onChange={handleDateChange}
-                        />
-                    </Form.Group>
+            <Form className="text-black d-flex justify-content-between gap-4">
+                <Form.Group className={"flex-grow-1"} controlId={"startDate"}>
+                    <Form.Label>Start Date</Form.Label>
+                    <Form.Control
+                        name={"startDate"}
+                        type={"date"}
+                        value={formData.startDate}
+                        onChange={handleDateChange}
+                    />
+                </Form.Group>
 
-                    <Form.Group className={"flex-grow-1"} controlId={"endDate"}>
-                        <Form.Label>End Date</Form.Label>
-                        <Form.Control
-                            name={"endDate"}
-                            type={"date"}
-                            value={formData.endDate}
-                            onChange={handleDateChange}
-                        />
-                    </Form.Group>
-                </Form>
-            </div>
+                <Form.Group className={"flex-grow-1"} controlId={"endDate"}>
+                    <Form.Label>End Date</Form.Label>
+                    <Form.Control
+                        name={"endDate"}
+                        type={"date"}
+                        value={formData.endDate}
+                        onChange={handleDateChange}
+                    />
+                </Form.Group>
+            </Form>
         </div>
     );
 }

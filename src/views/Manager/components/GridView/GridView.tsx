@@ -13,7 +13,6 @@ import MenuItemApi from "../../../../apis/menu-item-api";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import EmployeeApi from "../../../../apis/employee-api";
 import GridViewTab from "./GridViewTab";
-import "../../css/GridView.css"
 
 const menuItemApi = new MenuItemApi();
 const inventoryItemApi = new InventoryItemApi();

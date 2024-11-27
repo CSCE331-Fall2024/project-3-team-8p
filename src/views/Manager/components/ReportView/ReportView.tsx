@@ -6,7 +6,6 @@ import ReportViewTab from "./ReportViewTab";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import OrderApi from "../../../../apis/order-api";
-import "../../css/ReportView.css"
 
 const menuItemApi = new MenuItemApi();
 const inventoryItemApi = new InventoryItemApi();
@@ -53,26 +52,22 @@ function ReportView() {
             </Nav>
 
             {(currReportViewTab === ReportViewTab.UsageChart || currReportViewTab === ReportViewTab.SalesReport) && (
-                <div className={"chart-container"}>
-                    <SingleBarChart
-                        chartName={getReportViewTabTitle(currReportViewTab)}
-                        dataProvider={currReportViewTab === ReportViewTab.UsageChart
-                            ? inventoryItemApi.getProductUsageReport.bind(inventoryItemApi)
-                            : menuItemApi.getSalesReport.bind(menuItemApi)}
-                    />
-                </div>
+                <SingleBarChart
+                    chartName={getReportViewTabTitle(currReportViewTab)}
+                    dataProvider={currReportViewTab === ReportViewTab.UsageChart
+                        ? inventoryItemApi.getProductUsageReport.bind(inventoryItemApi)
+                        : menuItemApi.getSalesReport.bind(menuItemApi)}
+                />
             )}
 
             {(currReportViewTab === ReportViewTab.XReport || currReportViewTab === ReportViewTab.ZReport) && (
-                <div className="chart-container">
-                    <DoubleBarComponent
-                        chartName={getReportViewTabTitle(currReportViewTab)}
-                        dataProvider={currReportViewTab === ReportViewTab.XReport
-                            ? orderApi.getXReport.bind(orderApi)
-                            : orderApi.getZReport.bind(orderApi)
-                        }
-                    />
-                </div>
+                <DoubleBarComponent
+                    chartName={getReportViewTabTitle(currReportViewTab)}
+                    dataProvider={currReportViewTab === ReportViewTab.XReport
+                        ? orderApi.getXReport.bind(orderApi)
+                        : orderApi.getZReport.bind(orderApi)
+                    }
+                />
             )}
         </div>
     );

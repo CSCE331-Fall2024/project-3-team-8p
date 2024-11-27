@@ -37,7 +37,7 @@ function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
     const calculatedHeight = chartData.length * 55 + 100;
 
     return (
-        <div className={"chart-data h-100 d-flex flex-column justify-content-center"}>
+        <div className={"chart-container chart-data h-100 d-flex flex-column justify-content-center"}>
 
             {loading && (
                 <div className="d-flex flex-column justify-content-center flex-grow-1">
