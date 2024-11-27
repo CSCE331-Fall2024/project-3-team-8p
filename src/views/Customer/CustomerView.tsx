@@ -8,16 +8,14 @@ import { Tabs } from './TabsEnum';
 import CartPopup from './components/CartPopup';
 import { useCart } from '../../contexts/CartContext';
 import MenuItem from '../../models/MenuItem';
-import { Container } from "react-bootstrap";
 import AccessibilityModal from './components/AccessibilityModal';
-
-
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
     const [textSize, setTextSize] = useState<number>(16); // Default text size
     const [isSpanish, setIsSpanish] = useState<boolean>(false);
+    const [isHighContrast, setIsHighContrast] = useState<boolean>(false); // High contrast state
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
 
     const handleTabChange = (tab: Tabs) => {
@@ -40,8 +38,15 @@ function CustomerView() {
         setIsSpanish((prev) => !prev);
     };
 
+    const toggleHighContrast = () => {
+        setIsHighContrast((prev) => !prev); // Toggle high contrast mode
+    };
+
     return (
-        <div className="CustomerView" style={{ fontSize: `${textSize}px` }}>
+        <div
+            className={`CustomerView ${isHighContrast ? 'high-contrast' : ''}`}
+            style={{ fontSize: `${textSize}px` }}
+        >
             <div className="button-container">
                 <button className="black-button" onClick={toggleAccessibilityModal}>
                     Accessibility
@@ -53,7 +58,9 @@ function CustomerView() {
             </div>
             <div className="cardSection">
                 {listings[activeTab].map((listing: MenuItem) => {
-                    const cartItem = cartItems.find(item => item.menuItemId === listing.menuItemId);
+                    const cartItem = cartItems.find(
+                        (item) => item.menuItemId === listing.menuItemId
+                    );
                     const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
                     return (
                         <ListingCard
@@ -68,9 +75,9 @@ function CustomerView() {
                 })}
             </div>
             <div className="padding">
-                <ButtonContainer onTabChange={handleTabChange}/>
+                <ButtonContainer onTabChange={handleTabChange} />
             </div>
-            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart}/>
+            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart} />
 
             {showAccessibilityModal && (
                 <AccessibilityModal
@@ -78,7 +85,9 @@ function CustomerView() {
                     onIncreaseTextSize={increaseTextSize}
                     onDecreaseTextSize={decreaseTextSize}
                     onToggleLanguage={toggleLanguage}
+                    onToggleHighContrast={toggleHighContrast} // Pass toggle handler
                     isSpanish={isSpanish}
+                    isHighContrast={isHighContrast} // Optional for UI display
                 />
             )}
         </div>

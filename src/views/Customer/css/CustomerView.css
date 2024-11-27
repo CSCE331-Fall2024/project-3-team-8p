@@ -1,9 +1,40 @@
+/* Default styles for CustomerView */
 .CustomerView {
   background-color: #D51A1F; /* Panda Express red */
   min-height: 100vh;
+  color: white; /* Default text color */
 }
 
-.cardSection{
+/* High-contrast mode styles */
+.high-contrast {
+  background-color: black;  /* Dark background for high contrast */
+}
+
+.high-contrast .black-button {
+  background-color: white;  /* White buttons */
+  color: black;  /* Black text for better contrast */
+  border: 2px solid black;  /* Dark border for better visibility */
+}
+
+.high-contrast .black-button:hover {
+  background-color: #333; /* Darker background for hover effect */
+  color: white; /* Ensures hover text is white */
+}
+
+.high-contrast .button-container {
+  color: white;  /* Ensure buttons/text in the container are still visible */
+}
+
+.high-contrast .logo {
+  filter: invert(1); /* Invert logo colors for high contrast */
+}
+
+/* Ensure text in other sections is not overridden */
+.CustomerView, .cardSection {
+  color: white; /* Default text color */
+}
+
+.cardSection {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,6 +71,7 @@
   height: auto;
   margin: 0 20px; /* Optional margin for spacing around the logo */
 }
+
 .padding {
   margin-top: 20px; /* Reduced margin to avoid excessive space */
   padding: 0px; /* Optional padding if you need inner space */
