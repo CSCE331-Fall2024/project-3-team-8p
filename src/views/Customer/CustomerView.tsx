@@ -60,7 +60,7 @@ function CustomerView() {
                             key={listing.menuItemId}
                             name={isSpanish ? listing.itemName : listing.itemName} // Use Spanish if toggled
                             price={listing.price}
-                            imageUrl={"images/"+listing.itemName+".png"}
+                            imageUrl={`/images/${listing.itemName}.png`} // Adjusted path for public folder
                             quantityOrdered={quantityOrdered}
                             onAddToCart={() => addToCart(listing)}
                         />
@@ -68,9 +68,9 @@ function CustomerView() {
                 })}
             </div>
             <div className="padding">
-                <ButtonContainer onTabChange={handleTabChange} />
+                <ButtonContainer onTabChange={handleTabChange}/>
             </div>
-            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart} />
+            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart}/>
 
             {showAccessibilityModal && (
                 <AccessibilityModal
