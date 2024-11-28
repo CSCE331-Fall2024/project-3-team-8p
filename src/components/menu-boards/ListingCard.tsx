@@ -27,11 +27,6 @@ const CardContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   background-color: #fff;
-  //transition: transform 0.2s ease-in-out;
-  //
-  //&:hover {
-  //  transform: scale(1.02);
-  //}
 `;
 
 const Image = styled.img`
@@ -106,9 +101,19 @@ const SpicyImage = styled.img`
     object-fit: contain;
 `;
 
+const NutritionImage = styled.img`
+    width: auto;
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: contain;
+    float: left;
+`;
+
+
 const ListingCard: React.FC<ListingCardProps> = ({ name, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
     return (
         <CardContainer>
+            <NutritionImage src={spicy} />
             <Image src={imageUrl} alt={name} />
             <CardContent>
                 <Name>{name}</Name>

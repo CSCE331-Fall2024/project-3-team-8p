@@ -5,46 +5,40 @@ import ListingCard from '../components/menu-boards/ListingCard';
 import ButtonContainer from '../components/menu-boards/ButtonContainer';
 import { Tabs } from '../components/menu-boards/TabsEnum';
 import { Prices } from '../components/menu-boards/TabsEnum';
-// import {banner} from "../components/images";
 
 function MenuBoardView() {
-    const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
-
-    const handleTabChange = (tab: Tabs) => {
-        setActiveTab(tab);
-    };
 
     return (
         <div className="MenuBoardView">
-            <div className="subHeader">
-                {/*</!*<img src={banner} alt="Centered Top Image" className="BannerImage"/>*!/>*/}
-                {activeTab}
-            </div>
-            <div className="subHeader">
-                <p> ${Prices[activeTab].toFixed(2)} ea.</p>
-            </div>
-            <div className="cardSection">
-                {listings[activeTab].map((listing, index) => (
+            {Object.values(Tabs).map((tab) => (
+                <div>
+                    <div className="subHeader">
+                        {tab}
+                    </div>
+                    <div className="subHeader">
+                        <p> ${Prices[tab].toFixed(2)} ea.</p>
+                    </div>
 
-                    <ListingCard
-                        key={index}
-                        name={listing.name}
-                        calories={listing.calories}
-                        imageUrl={listing.imageUrl}
-                        allergens={listing.allergens}
-                        fat={listing.fat}
-                        protein={listing.protein}
-                        sugar={listing.sugar}
-                        carbohydrates={listing.carbohydrates}
-                        isPremium={listing.isPremium}
-                        isSpicy={listing.isSpicy}
-                    />
-                ))}
+                    <div className="cardSection">
+                        {listings[tab].map((listing, index) => (
+                            <ListingCard
+                                key={index}
+                                name={listing.name}
+                                calories={listing.calories}
+                                imageUrl={listing.imageUrl}
+                                allergens={listing.allergens}
+                                fat={listing.fat}
+                                protein={listing.protein}
+                                sugar={listing.sugar}
+                                carbohydrates={listing.carbohydrates}
+                                isPremium={listing.isPremium}
+                                isSpicy={listing.isSpicy}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ))}
 
-            </div>
-            <div className="padding">
-                <ButtonContainer onTabChange={handleTabChange} />
-            </div>
         </div>
     );
 }
