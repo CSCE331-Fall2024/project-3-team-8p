@@ -4,10 +4,8 @@ import org.project3.rest_api.database.services.DBMenuService;
 import org.project3.rest_api.models.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
