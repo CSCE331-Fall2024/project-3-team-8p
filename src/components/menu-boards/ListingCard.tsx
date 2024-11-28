@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { wok, spicy, information } from '../images';
+import { spicy, information, premium } from '../images';
 
 interface ListingCardProps {
     name: string;
@@ -33,7 +33,29 @@ const Image = styled.img`
 const CardContent = styled.div`
     padding: 16px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 `;
+
+const PremiumContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 16px;
+    position: relative;
+`;
+
+const SpicyContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 16px 0;
+`;
+
+
 
 const Name = styled.h3`
     font-size: 1.2em;
@@ -43,10 +65,26 @@ const Name = styled.h3`
 
 const NutritionImage = styled.img`
     width: auto;
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 25px;
+    max-height: 25px;
     object-fit: contain;
-    cursor: pointer; /* Makes it clickable */
+    cursor: pointer;
+`;
+
+const Premium = styled.img`
+    width: 100px;
+    height: auto;
+    max-height: 30px;
+    object-fit: contain;
+    float: left;
+`;
+
+const Spicy = styled.img`
+    width: 75px;
+    height: auto;
+    object-fit: contain;
+    padding: 10px;
+    
 `;
 
 const PopupContainer = styled.div`
@@ -84,26 +122,15 @@ const PopupOverlay = styled.div`
     z-index: 999;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({
-                                                     name,
-                                                     imageUrl,
-                                                     allergens = [],
-                                                     calories,
-                                                     fat,
-                                                     protein,
-                                                     sugar,
-                                                     carbohydrates,
-                                                     isPremium,
-                                                     isSpicy
-                                                 }) => {
-    const [showPopup, setShowPopup] = useState(false); // State to toggle popup visibility
+const ListingCard: React.FC<ListingCardProps> = ({name, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleNutritionClick = () => {
-        setShowPopup(true); // Show popup when NutritionImage is clicked
+        setShowPopup(true);
     };
 
     const handleClosePopup = () => {
-        setShowPopup(false); // Close the popup when the close button is clicked
+        setShowPopup(false);
     };
 
     return (
@@ -114,13 +141,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <CardContent>
                 <Name>{name}</Name>
                 <div>Calories: {calories} cal</div>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    {isPremium && <img src={wok} alt="Premium" />}
-                    {isSpicy && <img src={spicy} alt="Spicy" />}
-                </div>
+                <PremiumContainer>
+                    {isPremium && <Premium src={premium} alt="Premium" />}
+
+                </PremiumContainer>
+                <SpicyContainer>
+                    {isSpicy && <Spicy src={spicy} alt="Spicy" />}
+                </SpicyContainer>
             </CardContent>
 
-            {/* Popup Display */}
+
             {showPopup && (
                 <>
                     <PopupOverlay onClick={handleClosePopup} />

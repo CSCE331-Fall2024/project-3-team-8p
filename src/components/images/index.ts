@@ -21,6 +21,7 @@ import SweetTea from './Sweet Tea.png';
 import spicy from './spicy.png';
 import wok from './wok.png';
 import information from './information.png';
+import premium from './premium.png';
 
 // Export all images together
 export {
@@ -45,5 +46,6 @@ export {
     SweetTea,
     spicy,
     wok,
-    information
+    information,
+    premium
 };

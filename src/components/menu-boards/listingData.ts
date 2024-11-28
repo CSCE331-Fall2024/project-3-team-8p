@@ -38,7 +38,7 @@ interface Listing {
 
 const listings: Record<Tabs, Listing[]> = {
     [Tabs.Entrees]: [
-        { name: 'Beijing Beef', imageUrl: BeijingBeef, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        { name: 'Beijing Beef', imageUrl: BeijingBeef, allergens: [], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
         { name: 'The Original Orange Chicken', imageUrl: OrangeChicken, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
         { name: 'Kung Pao Chicken', imageUrl: KungPao, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
         { name: 'Hot Ones Blazing Bourbon Chicken', imageUrl: HotOnes, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},

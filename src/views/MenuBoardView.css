@@ -1,7 +1,13 @@
 .MenuBoardView {
-    background-color: white; /* Panda Express red */
+    background-color: white;
     min-height: 100vh;
 }
+
+.spicy-icon {
+    width: 50px;
+    height: 50px;
+}
+
 
 .cardSection{
     display: flex;
@@ -23,6 +29,34 @@
     font-size: 40px;
 }
 
+.subSubHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-weight: bold;
+}
+
+.legend-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
 .black-button {
     padding: 30px 100px;
     background-color: black;
@@ -32,34 +66,34 @@
     cursor: pointer;
     font-size: 18px;
     transition: background-color 0.3s;
-    margin: 0 10px; /* Space between buttons */
+    margin: 0 10px;
 }
 
 .black-button:hover {
-    background-color: #333; /* Darker black for hover effect */
+    background-color: #333;
 }
 
 .button-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distributes space between items */
-    padding: 0 50px; /* Optional padding for the container */
+    justify-content: space-between;
+    padding: 0 50px;
 }
 .button-container h1 {
     font-weight: bold;
 }
 
 .logo {
-    max-width: 150px; /* Adjust the size of the logo */
+    max-width: 150px;
     height: auto;
-    margin: 0 20px; /* Optional margin for spacing around the logo */
+    margin: 0 20px;
 }
 
 .padding {
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center;    /* Optional: centers vertically */
-    margin-top: 16px;       /* Optional: spacing above the tabs */
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
 }
 
 .nutrition {

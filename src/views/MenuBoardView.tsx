@@ -5,6 +5,7 @@ import ListingCard from '../components/menu-boards/ListingCard';
 import ButtonContainer from '../components/menu-boards/ButtonContainer';
 import { Tabs } from '../components/menu-boards/TabsEnum';
 import { Prices } from '../components/menu-boards/TabsEnum';
+import { premium, spicy } from '../components/images';
 
 function MenuBoardView() {
 
@@ -16,8 +17,23 @@ function MenuBoardView() {
                         {tab}
                     </div>
                     <div className="subHeader">
-                        <p> ${Prices[tab].toFixed(2)} ea.</p>
+                        <p> ${Prices[tab].toFixed(2)} ea.*</p>
                     </div>
+                    <div className="subSubHeader">
+                        <p>* = Premium items have an additional $1.50 charge</p>
+                    </div>
+
+                    <div className="legend">
+                        <div className="legend-item">
+                            <img src={premium} alt="Premium icon"/>
+                            <span> = Premium item, + $1.50 to total</span>
+                        </div>
+                        <div className="legend-content">
+                            <img src={spicy} alt="Spicy icon" className="spicy-icon"/>
+                            <span> = Spicy item</span>
+                        </div>
+                    </div>
+
 
                     <div className="cardSection">
                         {listings[tab].map((listing, index) => (
