@@ -20,6 +20,7 @@ import Aquafina from './Aquafina.png';
 import SweetTea from './Sweet Tea.png';
 import spicy from './spicy.png';
 import wok from './wok.png';
+import information from './information.png';
 
 // Export all images together
 export {
@@ -43,5 +44,6 @@ export {
     Aquafina,
     SweetTea,
     spicy,
-    wok
+    wok,
+    information
 };
