@@ -14,7 +14,7 @@
 
 /* Modal Content */
 .modal-content {
-    background: white;
+    background: black !important;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     width: 90%;
@@ -29,7 +29,6 @@
     font-weight: bold;
     margin-bottom: 20px;
     color: white;
-    background-color: grey;
 }
 
 /* Buttons */

@@ -48,7 +48,7 @@
   background-color: black;
   color: white;
   border: none;
-  border-radius: 200px;
+  border-radius: 0px;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s;

@@ -1,5 +1,3 @@
-/* CartPopup.css */
-
 .popup-container {
     position: fixed;
     top: 50%;
@@ -13,13 +11,23 @@
     padding: 10px;
     z-index: 1000;
     transition: max-height 0.3s ease-in-out;
+    color: black;
     overflow: hidden;
-    color:black
+}
+
+.popup-container.open {
+    max-height: 400px;
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds the max height */
+}
+
+.popup-container.closed {
+    max-height: 80px; /* Minimized state */
 }
 
 .item {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 5px;
 }
 
 .clear-button,

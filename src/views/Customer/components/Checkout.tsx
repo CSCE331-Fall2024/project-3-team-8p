@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
 import '../css/Checkout.css';
 import { WeatherApi, WeatherData } from '../../../apis/weather-api'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Checkout: React.FC = () => {
     const { cartItems, cartTotal, clearCart } = useCart();
@@ -44,6 +44,7 @@ const Checkout: React.FC = () => {
     return (
         <div className="checkout-container">
             <h2>Checkout</h2>
+
             <div>
                 {cartItems.length === 0 ? (
                     <p>Your cart is empty.</p>
@@ -81,10 +82,10 @@ const Checkout: React.FC = () => {
                 <div className="total-container">
                     <h3 className="total-text">Total: ${cartTotal.toFixed(2)}</h3>
                     <div className="buttons-container">
-                        <Link to='/customer' className="button">
+                        <Link to='/customer' className="button btn btn-outline-primary">
                             Order More
                         </Link>
-                        <button className="button" onClick={handlePlaceOrder}>
+                        <button className="button btn btn-danger" onClick={handlePlaceOrder}>
                             Place Order
                         </button>
                     </div>

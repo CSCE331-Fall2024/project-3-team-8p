@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../css/CartPopup.css';
 import CartItem from "../../../models/interfaces/CartItem";
 
-// Define the props type for CartPopup
 interface CartPopupProps {
     cartItems: CartItem[];
     total: number;
@@ -17,7 +16,7 @@ const CartPopup = ({ cartItems, total, onClearCart }: CartPopupProps) => {
     };
 
     return (
-        <div className="popup-container" style={{ maxHeight: isOpen ? '400px' : '80px' }}>
+        <div className={`popup-container ${isOpen ? "open" : "closed"}`}>
             <div className="d-flex justify-content-between">
                 <button className="toggle-button" onClick={toggleCart}>
                     {isOpen ? 'Hide Cart' : 'Show Cart'}
@@ -26,7 +25,7 @@ const CartPopup = ({ cartItems, total, onClearCart }: CartPopupProps) => {
             </div>
             {isOpen && (
                 <>
-                    <h3 className={"mt-3"}>Cart</h3>
+                    <h3 className="mt-3">Cart</h3>
                     {cartItems.length === 0 ? (
                         <div>Your cart is empty.</div>
                     ) : (

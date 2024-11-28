@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
