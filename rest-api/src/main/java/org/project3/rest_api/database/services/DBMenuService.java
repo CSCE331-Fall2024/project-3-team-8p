@@ -61,7 +61,8 @@ public class DBMenuService extends DBConnector {
                 newMenuItem.menuItemId,
                 newMenuItem.itemName,
                 newMenuItem.price,
-                nutritionInfoJson
+                nutritionInfoJson,
+                newMenuItem.category
         ));
         mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
     }
@@ -131,6 +132,7 @@ public class DBMenuService extends DBConnector {
                 updatedMenuItem.price,
                 updatedMenuItem.itemName,
                 nutritionInfoJson,
+                updatedMenuItem.category,
                 updatedMenuItem.menuItemId
 
         ));

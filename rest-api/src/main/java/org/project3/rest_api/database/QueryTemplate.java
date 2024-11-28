@@ -64,16 +64,16 @@ public class QueryTemplate {
      * SQL query to insert a new order
      */
     public static final String insertOrder = """
-                INSERT INTO "order" (orderId, cashierId, month, week, day, hour, price)
-                VALUES ('%s', '%s', %d, %d, %d, %d, %f);
+                INSERT INTO "order" (orderId, cashierId, month, week, day, hour, price, status)
+                VALUES ('%s', '%s', %d, %d, %d, %d, %f, '%s');
                 """;
 
     /**
-     * SQL query to update an existing order
+     * SQL query to update an existing order's status
      */
-    public static final String updateOrder = """
+    public static final String updateOrderStatus = """
                 UPDATE "order"
-                SET month = %d, week = '%s', day = %d, hour = %d, price = %f
+                SET status  = '%s'
                 WHERE orderId = '%s';
                 """;
 
@@ -304,8 +304,8 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo)
-                VALUES ('%s', '%s', %.2f, '%s');
+                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo, category)
+                VALUES ('%s', '%s', %.2f, '%s', '%s');
                 """;
 
     /**
@@ -313,7 +313,7 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s', nutritionInfo = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s', category = '%s'
                 WHERE menuItemId = '%s';
                 """;
 

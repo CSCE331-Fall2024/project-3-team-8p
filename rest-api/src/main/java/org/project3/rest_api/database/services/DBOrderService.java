@@ -64,7 +64,8 @@ public class DBOrderService extends DBConnector {
                 newOrder.week,
                 newOrder.day,
                 newOrder.hour,
-                newOrder.price
+                newOrder.price,
+                newOrder.status
         ));
         affectOrderQuantities(newOrder.orderId, newOrder.menuItemsWithQty);
     }
@@ -134,6 +135,18 @@ public class DBOrderService extends DBConnector {
                     ));
                 }
         );
+    }
+
+    /**
+     * Updates orders' kitchen status
+     * @param orderId order's UUID
+     * @param newStatus order's new status
+     * */
+    public void updateOrderStatus(UUID orderId, String newStatus) {
+        executeUpdate(String.format(QueryTemplate.updateOrderStatus,
+                newStatus,
+                orderId
+        ));
     }
 
     /**

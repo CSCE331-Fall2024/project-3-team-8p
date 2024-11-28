@@ -49,6 +49,17 @@ public class OrderServiceController {
     }
 
     /**
+     * Updates order status in database
+     * @param orderId ID of order to be updated
+     * @param newStatus order's new status
+     * */
+    @PutMapping("{orderId}/updateStatus")
+    public void updateOrderStatus(@PathVariable UUID orderId,
+                                  @RequestParam String newStatus) {
+        dbOrderService.updateOrderStatus(orderId, newStatus);
+    }
+
+    /**
      * Queries X and Z reports from database
      * @param wholeDay Boolean used to determine X or Z report
      * */

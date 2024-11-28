@@ -89,7 +89,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         MenuItem newMenuItem = new MenuItem(
                 12.99,
                 "Test Menu Item",
-                nutritionInfo
+                nutritionInfo,
+                "appetizer"
         );
 
        newMenuItem.inventoryItems = invItems.subList(0,3);
@@ -135,7 +136,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 origMenuItem.menuItemId,
                 newPrice,
                 newName,
-                nutritionInfo
+                nutritionInfo,
+                "drink"
         );
         newMenuItem.inventoryItems = randInvItems;
 

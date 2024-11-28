@@ -2,6 +2,7 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Or;
 import org.project3.rest_api.database.services.DBEmployeeService;
 import org.project3.rest_api.database.services.DBMenuService;
 import org.project3.rest_api.database.services.DBOrderService;
@@ -38,6 +39,16 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
      * */
     @Autowired
     DBMenuService dbMenuService;
+
+    /**
+     * Possible order statuses
+     * */
+    private static final List<String> statuses = Arrays.asList(
+            "placed",
+            "in progress",
+            "ready",
+            "delivered"
+    );
 
 
     /**
@@ -135,7 +146,8 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
                 currentWeek,
                 currentDay,
                 currentHour,
-                10.59
+                10.59,
+                "delivered"
         );
 
         // add the menu items
@@ -165,5 +177,61 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
     }
 
+    /**
+     * Checks if PUT order status functions correctly
+     */
+    @Test
+    void putOrderStatusCorrectlyUpdatesStatus() {
+
+
+        Order[] allOrders = getOrders(baseUrl);
+
+        int randIdx = rand.nextInt(allOrders.length);
+
+        Order randomOrder = allOrders[randIdx];
+
+        String oldStatus = randomOrder.status;
+
+        randIdx = rand.nextInt(statuses.size());
+
+        String newStatus = statuses.get(randIdx);
+
+        String putUrl ="%s/%s/updateStatus?newStatus=%s";
+
+        this.restTemplate.put(
+                String.format(putUrl,
+                        baseUrl,
+                        randomOrder.orderId,
+                        newStatus),
+                null
+        );
+
+        allOrders = getOrders(baseUrl+"?mostRecent="+70000);
+
+        Optional<Order> updatedOrder = Arrays.stream(allOrders).filter(
+                order -> {
+                    return  order.orderId.equals(randomOrder.orderId);
+                }
+        ).findFirst();
+
+        assertThat(updatedOrder).isPresent();
+
+        Order safeUpdatedOrder = updatedOrder.get();
+
+        assertThat(safeUpdatedOrder.status).isEqualTo(
+                newStatus
+        );
+
+        // undo changes
+        this.restTemplate.put(
+                String.format(putUrl,
+                        baseUrl,
+                        randomOrder.orderId,
+                        oldStatus),
+                null
+        );
+
+
+    }
 
 }
