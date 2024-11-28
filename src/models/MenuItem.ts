@@ -1,21 +1,43 @@
 import InventoryItem from "./InventoryItem";
 import CardItem from "./interfaces/CardItem";
+import MenuItemDict from "./dict-types/MenuItemDict";
+import InventoryItemDict from "./dict-types/InventoryItemDict";
 
 export default class MenuItem implements CardItem {
     private readonly _menuItemId: string;
     private readonly _price: number;
     private readonly _itemName: string;
+    private readonly _imageUrl: string;
     private readonly _inventoryItems: InventoryItem[];
-    private readonly _imageUrl: string;  // Add imageUrl property
-    private _quantityOrdered: number;   // Add quantityOrdered property
 
-    constructor(menuItemId: string, price: number, itemName: string, imageUrl?: string, quantityOrdered: number = 0) {
+    static fromDict(dict: MenuItemDict): MenuItem {
+        const menuItem = new MenuItem(
+            dict.menuItemId,
+            dict.price,
+            dict.itemName
+        );
+        dict.inventoryItems
+            .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
+            .forEach((item: InventoryItemDict) => {
+                menuItem.addInventoryItem(InventoryItem.fromDict(item));
+            });
+        return menuItem;
+    }
+
+    // FIXME: remove imageUrl and quantityOrdered attributes
+    // FIXME: make imageUrl a computed property
+    constructor(
+        menuItemId: string,
+        price: number,
+        itemName: string,
+        imageUrl?: string,
+        quantityOrdered: number = 0
+    ) {
         this._menuItemId = menuItemId;
         this._price = price;
         this._itemName = itemName;
-        this._imageUrl = imageUrl ?? "";  // Initialize imageUrl
+        this._imageUrl = imageUrl ?? "";
         this._inventoryItems = [];
-        this._quantityOrdered = quantityOrdered;  // Initialize quantityOrdered (default to 0)
     }
 
     get id(): string {
@@ -38,21 +60,25 @@ export default class MenuItem implements CardItem {
         return this._inventoryItems;
     }
 
-    get imageUrl(): string {  // Getter for imageUrl
+    addInventoryItem(inventoryItem: InventoryItem): void {
+        this._inventoryItems.push(inventoryItem);
+    }
+
+    get imageUrl(): string {
         return this._imageUrl;
     }
 
-    get quantityOrdered(): number {  // Getter for quantityOrdered
-        return this._quantityOrdered;
-    }
-
-    set quantityOrdered(quantity: number) {  // Setter for quantityOrdered
-        if (quantity >= 0) {
-            this._quantityOrdered = quantity;
-        }
-    }
-
-    addInventoryItem(inventoryItem: InventoryItem): void {
-        this._inventoryItems.push(inventoryItem);
+    toDict(): MenuItemDict {
+        return {
+            menuItemId: this._menuItemId,
+            price: this._price,
+            itemName: this._itemName,
+            inventoryItems: this._inventoryItems.map((item: InventoryItem) => ({
+                inventoryItemId: item.inventoryItemId,
+                cost: item.cost,
+                availableStock: item.availableStock,
+                itemName: item.itemName,
+            }))
+        };
     }
 }

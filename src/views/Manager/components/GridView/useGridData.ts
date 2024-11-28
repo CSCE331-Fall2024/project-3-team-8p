@@ -4,6 +4,7 @@ import InventoryItemApi from "../../../../apis/inventory-item-api";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import EmployeeApi from "../../../../apis/employee-api";
 import GridViewTab from "./GridViewTab";
+import InventoryItem from "../../../../models/InventoryItem";
 
 
 const useGridData = (
@@ -13,6 +14,7 @@ const useGridData = (
 ) => {
     const [currGridPane, setCurrGridPane] = useState<GridViewTab>(GridViewTab.MenuItems);
     const [gridItems, setGridItems] = useState<CardItem[]>([]);
+    const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -35,6 +37,9 @@ const useGridData = (
                     break;
             }
             setGridItems(itemData);
+
+            const inventoryData = await inventoryItemApi.getInventoryItems();
+            setInventoryItems(inventoryData);
         } catch (e) {
             if (e instanceof Error) {
                 setError(e.message);
@@ -51,6 +56,7 @@ const useGridData = (
 
     return {
         gridItems,
+        inventoryItems,
         refreshItems,
         loading,
         error,

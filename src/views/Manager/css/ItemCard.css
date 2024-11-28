@@ -16,3 +16,7 @@
     min-height: 3em;
     max-height: 3em;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

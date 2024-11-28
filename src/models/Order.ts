@@ -1,6 +1,7 @@
 import BaseItem from "./interfaces/BaseItem";
 import MenuItem from "./MenuItem";
 import InventoryItem from "./InventoryItem";
+import OrderDict from "./dict-types/OrderDict";
 
 export default class Order implements BaseItem {
     private readonly _orderId: string;
@@ -11,8 +12,19 @@ export default class Order implements BaseItem {
     private readonly _hour: number;
     private readonly _menuItems: Map<MenuItem, number>;
     private readonly _inventoryItems: InventoryItem[];
-
     private _price: number;
+
+    static fromDict(dict: OrderDict): Order {
+        return new Order(
+            dict.orderId,
+            dict.cashierId,
+            dict.month,
+            dict.week,
+            dict.day,
+            dict.hour,
+            dict.price
+        );
+    }
 
     constructor(
         orderId: string,
@@ -83,5 +95,17 @@ export default class Order implements BaseItem {
 
     addInventoryItem(inventoryItem: InventoryItem) {
         this._inventoryItems.push(inventoryItem);
+    }
+    
+    toDict(): OrderDict {
+        return {
+            orderId: this._orderId,
+            cashierId: this._cashierId,
+            month: this._month,
+            week: this._week,
+            day: this._day,
+            hour: this._hour,
+            price: this._price
+        };
     }
 }

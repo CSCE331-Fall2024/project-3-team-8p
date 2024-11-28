@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Form } from "react-bootstrap";
-import ProductUsageData from "../../../../models/typedefs/ProductUsageData";
-import SalesReportData from "../../../../models/typedefs/SalesReportData";
+import ProductUsageDict from "../../../../models/dict-types/ProductUsageDict";
+import SalesReportDict from "../../../../models/dict-types/SalesReportDict";
+import LoadingView from "../../../shared/LoadingView";
 
 interface SingleBarChartProps {
     chartName: string;
@@ -11,7 +12,7 @@ interface SingleBarChartProps {
         endMonth: number,
         startDay: number,
         endDay: number
-    ) => Promise<ProductUsageData | SalesReportData>;
+    ) => Promise<ProductUsageDict | SalesReportDict>;
 }
 
 type ChartData = {
@@ -50,6 +51,7 @@ function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
         endDate: getFormattedDate(),
     });
     const [chartData, setChartData] = useState<ChartData[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const getReportData = useCallback(async (
         startMonth: number,
@@ -57,12 +59,14 @@ function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
         startDay: number,
         endDay: number
     ) => {
-        const reportData: SalesReportData | ProductUsageData = await dataProvider(startMonth, endMonth, startDay, endDay);
+        setLoading(true);
+        const reportData: SalesReportDict | ProductUsageDict = await dataProvider(startMonth, endMonth, startDay, endDay);
         setChartData(Object.entries(reportData).map(
             ([itemName, usage]: [string, number]) => ({
                 itemName: itemName,
                 amount: usage
             })));
+        setLoading(false);
     }, [dataProvider]);
 
     const parseDateInfo = useCallback(() => {
@@ -95,8 +99,14 @@ function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
     const calculatedHeight = chartData.length * 55 + 100;
 
     return (
-        <div className={"chart-data"}>
-            <div className={"d-flex flex-column justify-content-between"}>
+        <div className={"chart-container d-flex flex-column justify-content-between"}>
+            {loading && (
+                <div className="d-flex flex-column justify-content-center flex-grow-1">
+                    <LoadingView color="black" />
+                </div>
+            )}
+
+            {!loading && (
                 <div className="bg-white mb-3">
                     <h5 className="px-4 py-3">{chartName}</h5>
                     <div
@@ -141,29 +151,29 @@ function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
                         </div>
                     </div>
                 </div>
+            )}
 
-                <Form className="text-black d-flex justify-content-between gap-4">
-                    <Form.Group className={"flex-grow-1"} controlId={"startDate"}>
-                        <Form.Label>Start Date</Form.Label>
-                        <Form.Control
-                            name={"startDate"}
-                            type={"date"}
-                            value={formData.startDate}
-                            onChange={handleDateChange}
-                        />
-                    </Form.Group>
+            <Form className="text-black d-flex justify-content-between gap-4">
+                <Form.Group className={"flex-grow-1"} controlId={"startDate"}>
+                    <Form.Label>Start Date</Form.Label>
+                    <Form.Control
+                        name={"startDate"}
+                        type={"date"}
+                        value={formData.startDate}
+                        onChange={handleDateChange}
+                    />
+                </Form.Group>
 
-                    <Form.Group className={"flex-grow-1"} controlId={"endDate"}>
-                        <Form.Label>End Date</Form.Label>
-                        <Form.Control
-                            name={"endDate"}
-                            type={"date"}
-                            value={formData.endDate}
-                            onChange={handleDateChange}
-                        />
-                    </Form.Group>
-                </Form>
-            </div>
+                <Form.Group className={"flex-grow-1"} controlId={"endDate"}>
+                    <Form.Label>End Date</Form.Label>
+                    <Form.Control
+                        name={"endDate"}
+                        type={"date"}
+                        value={formData.endDate}
+                        onChange={handleDateChange}
+                    />
+                </Form.Group>
+            </Form>
         </div>
     );
 }

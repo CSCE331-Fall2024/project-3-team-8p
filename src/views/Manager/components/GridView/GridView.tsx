@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Nav from "react-bootstrap/Nav";
 import useGridData from "./useGridData";
-import MenuItemModal from "./MenuItemModal";
+import MenuItemModal from "../modals/MenuItemModal";
 import MenuItem from "../../../../models/MenuItem";
-import InventoryItemModal from "./InventoryItemModal";
+import InventoryItemModal from "../modals/InventoryItemModal";
 import InventoryItem from "../../../../models/InventoryItem";
-import EmployeeModal from "./EmployeeModal";
+import EmployeeModal from "../modals/EmployeeModal";
 import Employee from "../../../../models/Employee";
 import ItemGrid from "./ItemGrid";
 import CardItem from "../../../../models/interfaces/CardItem";
@@ -13,7 +13,6 @@ import MenuItemApi from "../../../../apis/menu-item-api";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import EmployeeApi from "../../../../apis/employee-api";
 import GridViewTab from "./GridViewTab";
-import "../../css/GridView.css"
 
 const menuItemApi = new MenuItemApi();
 const inventoryItemApi = new InventoryItemApi();
@@ -35,9 +34,9 @@ const getGridViewTitle = (currGridView: GridViewTab) => {
 function GridView() {
     const {
         gridItems,
+        inventoryItems,
         refreshItems,
         loading,
-        error,
         currGridPane,
         setCurrGridPane,
     } = useGridData(menuItemApi, inventoryItemApi, employeeApi);
@@ -57,7 +56,7 @@ function GridView() {
     };
 
     return (
-        <div className={"grid-view"}>
+        <div className={"grid-view h-100 d-flex flex-column"}>
             <Nav
                 variant={"pills"}
                 activeKey={currGridPane}
@@ -78,6 +77,7 @@ function GridView() {
             {currGridPane === GridViewTab.MenuItems && (
                 <MenuItemModal
                     currMenuItem={currItem as MenuItem}
+                    allInventoryItems={inventoryItems}
                     showModal={showModal}
                     onClose={handleCloseModal}
                     api={menuItemApi}
@@ -102,11 +102,14 @@ function GridView() {
                 />
             )}
 
-            <ItemGrid
-                pageTitle={getGridViewTitle(currGridPane)}
-                items={gridItems}
-                onAddOrUpdateItem={handleShowModal}
-            />
+            <div className={"flex-grow-1"}>
+                <ItemGrid
+                    pageTitle={getGridViewTitle(currGridPane)}
+                    loading={loading}
+                    items={gridItems}
+                    onAddOrUpdateItem={handleShowModal}
+                />
+            </div>
         </div>
     );
 }

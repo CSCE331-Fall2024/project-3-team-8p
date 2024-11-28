@@ -5,7 +5,6 @@ import CustomerView from "./views/Customer/CustomerView";
 import Checkout from "./views/Customer/components/Checkout";
 import './App.css';
 import { CartProvider } from './contexts/CartContext';
-import LoginModal from "./views/Auth/LoginModal";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
