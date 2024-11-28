@@ -16,9 +16,11 @@ export default class MenuItem implements CardItem {
             dict.price,
             dict.itemName
         );
-        dict.inventoryItems.forEach((item: InventoryItemDict) => {
-            menuItem.addInventoryItem(InventoryItem.fromDict(item));
-        });
+        dict.inventoryItems
+            .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
+            .forEach((item: InventoryItemDict) => {
+                menuItem.addInventoryItem(InventoryItem.fromDict(item));
+            });
         return menuItem;
     }
 

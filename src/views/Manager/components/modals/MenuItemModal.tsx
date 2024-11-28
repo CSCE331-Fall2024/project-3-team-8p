@@ -6,6 +6,7 @@ import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
 import InventoryItem from "../../../../models/InventoryItem";
 import "../../css/MenuItemModal.css";
+import { SearchableMultiSelect } from "./SearchableMultiSelect";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -33,10 +34,11 @@ const getInitialInventoryItems = (menuItem?: MenuItem): string[] => (
 
 function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, api }: ModalProps) {
     const [formData, setFormData] = useState<FormData>(getInitialFormData(currMenuItem));
-    const [selectedInventoryItems, setSelectedInventoryItems] = useState<string[]>(getInitialInventoryItems(currMenuItem));
+    const [selectedInventoryItems, setSelectedInventoryItems] = useState<string[]>(
+        getInitialInventoryItems(currMenuItem)
+    );
 
     useEffect(() => {
-        // Update the form data whenever we close/reopen the modal
         if (showModal) {
             setFormData(getInitialFormData(currMenuItem));
             setSelectedInventoryItems(getInitialInventoryItems(currMenuItem));
@@ -51,24 +53,22 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 formData.itemName
             );
             selectedInventoryItems.forEach((itemName: string) => {
-                const inventoryItem: InventoryItem = allInventoryItems.find(
-                    (inventoryItem: InventoryItem) => inventoryItem.itemName === itemName
+                const inventoryItem = allInventoryItems.find(
+                    (item) => item.itemName === itemName
                 )!;
                 itemToSave.addInventoryItem(inventoryItem);
-            })
+            });
 
             if (currMenuItem) {
                 await api.updateMenuItem(itemToSave);
             } else {
-                await api.addMenuItem(itemToSave)
+                await api.addMenuItem(itemToSave);
             }
             onClose(true);
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     };
-
-    const handleCancelChanges = () => onClose(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -76,15 +76,10 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
             ...prevFormData,
             [name]: value
         }));
-    }
-
-    const handleInventoryItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedItems: string[] = Array.from(event.target.selectedOptions).map(option => option.value);
-        setSelectedInventoryItems(selectedItems);
-    }
+    };
 
     return (
-        <Modal show={showModal} onHide={handleCancelChanges}>
+        <Modal show={showModal} onHide={() => onClose(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {currMenuItem ? "Edit" : "Add"} Menu Item
@@ -92,55 +87,45 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className={"mb-3"} controlId={"formName"}>
+                    <Form.Group className="mb-3" controlId="formName">
                         <Form.Label>Item Name</Form.Label>
                         <Form.Control
-                            name={"itemName"}
-                            type={"text"}
+                            name="itemName"
+                            type="text"
                             value={formData.itemName}
-                            placeholder={"Enter item name"}
+                            placeholder="Enter item name"
                             onChange={handleInputChange}
                         />
                     </Form.Group>
 
-                    <Form.Group className={"mb-3"} controlId={"formPrice"}>
+                    <Form.Group className="mb-3" controlId="formPrice">
                         <Form.Label>Price</Form.Label>
                         <Form.Control
-                            name={"price"}
-                            type={"number"}
+                            name="price"
+                            type="number"
                             value={formData.price}
-                            placeholder={"Enter Price"}
+                            placeholder="Enter Price"
                             onChange={handleInputChange}
                         />
                     </Form.Group>
 
-                    <Form.Group className={"mb-3 text-sm"} controlId={"inventoryItems"}>
-                        <Form.Label>
-                            Select Inventory Items{" "}
-                            <span className={"small text-secondary"}>
-                                (hold Ctrl/Cmd to select multiple)
-                            </span>
-                        </Form.Label>
-                        <Form.Select
-                            multiple
-                            value={selectedInventoryItems}
-                            onChange={handleInventoryItemChange}
-                            className="h-300px"
-                        >
-                            {allInventoryItems.map((item: InventoryItem) => (
-                                <option key={item.itemName} value={item.itemName}>
-                                    {item.itemName}
-                                </option>
-                            ))}
-                        </Form.Select>
+                    <Form.Group className="mb-3" controlId="inventoryItems">
+                        <Form.Label>Associated Inventory Items</Form.Label>
+                        <SearchableMultiSelect
+                            items={allInventoryItems}
+                            selectedValues={selectedInventoryItems}
+                            getItemValue={(item: InventoryItem): string => item.itemName}
+                            onChange={setSelectedInventoryItems}
+                            placeholder="Select inventory items..."
+                        />
                     </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"secondary"} onClick={handleCancelChanges}>
+                <Button variant="secondary" onClick={() => onClose(false)}>
                     Close
                 </Button>
-                <Button variant={"primary"} onClick={handleSaveChanges}>
+                <Button variant="primary" onClick={handleSaveChanges}>
                     Save Changes
                 </Button>
             </Modal.Footer>
