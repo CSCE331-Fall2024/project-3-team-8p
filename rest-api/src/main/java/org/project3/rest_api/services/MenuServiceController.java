@@ -3,7 +3,6 @@ package org.project3.rest_api.services;
 import org.project3.rest_api.database.services.DBMenuService;
 import org.project3.rest_api.models.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/menu")
 @CrossOrigin
-@EnableScheduling
 public class MenuServiceController {
 
     /**

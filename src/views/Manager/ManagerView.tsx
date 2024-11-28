@@ -8,7 +8,7 @@ import ReportView from "./components/ReportView/ReportView";
 function ManagerView() {
     return (
         <Container>
-            <div className={"manager-view"}>
+            <div className={"manager-view align-items-stretch"}>
                 <Row>
                     <Col className={"px-4"}>
                         <ReportView />

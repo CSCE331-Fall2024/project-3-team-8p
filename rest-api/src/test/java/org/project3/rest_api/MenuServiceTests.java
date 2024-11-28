@@ -10,13 +10,11 @@ import org.project3.rest_api.services.MenuServiceController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import java.awt.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 /**
 * Tests endpoints related to menu service

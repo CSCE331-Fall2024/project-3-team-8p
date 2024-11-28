@@ -3,7 +3,8 @@ endpoints for menu item-related requests
 */
 import BaseApi from "./base-api";
 import MenuItem from "../models/MenuItem";
-import SalesReportData from "../models/typedefs/SalesReportData";
+import SalesReportDict from "../models/dict-types/SalesReportDict";
+import MenuItemDict from "../models/dict-types/MenuItemDict";
 
 export default class MenuItemApi extends BaseApi {
     constructor() {
@@ -15,45 +16,27 @@ export default class MenuItemApi extends BaseApi {
     Gets all menu items
     */
     async getMenuItems(): Promise<MenuItem[]> {
-        const response = await this.apiClient.get("");
+        const response = await this.apiClient.get<MenuItemDict[]>("");
         return response.data
-            .map((item: any) => (
-                new MenuItem(
-                    item.menuItemId,
-                    item.price,
-                    item.itemName
-                )
-            ))
+            .map((item: MenuItemDict) => MenuItem.fromDict(item))
             .sort((a: MenuItem, b: MenuItem) => a.itemName.localeCompare(b.itemName));
     }
 
     async addMenuItem(item: MenuItem): Promise<void> {
-        const menuItemData = {
-            menuItemId: item.menuItemId,
-            price: item.price,
-            itemName: item.itemName,
-        };
-
-        await this.apiClient.post("", menuItemData);
+        await this.apiClient.post("", item.toDict());
     }
 
     async updateMenuItem(item: MenuItem): Promise<void> {
-        const menuItemData = {
-            menuItemId: item.menuItemId,
-            price: item.price,
-            itemName: item.itemName,
-        };
-
-        await this.apiClient.put("", menuItemData);
+        await this.apiClient.put("", item.toDict());
     }
 
     async getSalesReport(
         startMonth: number,
         endMonth: number,
         startDay: number,
-        endDay: number): Promise<SalesReportData> {
+        endDay: number): Promise<SalesReportDict> {
 
-        const response = await this.apiClient.get<SalesReportData>("/sales-report", {
+        const response = await this.apiClient.get<SalesReportDict>("/sales-report", {
             params: {
                 startMonth: startMonth,
                 endMonth: endMonth,

@@ -3,6 +3,7 @@ endpoints for employee-related requests
 */
 import BaseApi from "./base-api";
 import Employee from "../models/Employee";
+import EmployeeDict from "../models/dict-types/EmployeeDict";
 
 export default class EmployeeApi extends BaseApi {
     constructor() {
@@ -11,51 +12,25 @@ export default class EmployeeApi extends BaseApi {
     }
 
     async getEmployeeByName(name: string): Promise<Employee | null> {
-        const response = await this.apiClient.get(`/${name}`);
-        if (response.data) {
-            console.log(response.data);
-            return new Employee(
-                response.data.employeeId,
-                response.data.name,
-                response.data.isManager
-            );
-        }
-        return null;
+        const response = await this.apiClient.get<EmployeeDict>(`/${name}`);
+        return response.data ? Employee.fromDict(response.data) : null;
     }
 
     /*
     Gets all menu items
     */
     async getEmployees(): Promise<Employee[]> {
-        const response = await this.apiClient.get("");
+        const response = await this.apiClient.get<EmployeeDict[]>("");
         return response.data
-            .map((item: any) => (
-                new Employee(
-                    item.employeeId,
-                    item.name,
-                    item.isManager
-                )
-            ))
+            .map((item: EmployeeDict) => Employee.fromDict(item))
             .sort((a: Employee, b: Employee) => a.name.localeCompare(b.name));
     }
 
     async addEmployee(employee: Employee): Promise<void> {
-        const employeeData = {
-            employeeId: employee.id,
-            isManager: employee.isManager,
-            name: employee.name,
-        };
-
-        await this.apiClient.post("", employeeData);
+        await this.apiClient.post("", employee.toDict());
     }
 
     async updateEmployee(employee: Employee): Promise<void> {
-        const employeeData = {
-            employeeId: employee.id,
-            isManager: employee.isManager,
-            name: employee.name,
-        };
-
-        await this.apiClient.put("", employeeData);
+        await this.apiClient.put("", employee.toDict());
     }
 }
