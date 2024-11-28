@@ -27,6 +27,12 @@ public class MenuItem {
     public String itemName;
 
     /**
+     * Nutrition and allergens information for the menu item
+     */
+    public NutritionInfo nutritionInfo;
+
+
+    /**
      * List of associated inventory items
      * */
     public List<InventoryItem> inventoryItems;
@@ -37,11 +43,13 @@ public class MenuItem {
      * @param menuItemId the unique ID of the menu item
      * @param price      the price of the menu item
      * @param itemName   the name of the menu item
+     * @param nutritionInfo the nutrition and allergen information
      */
-    public MenuItem(UUID menuItemId, Double price, String itemName) {
+    public MenuItem(UUID menuItemId, Double price, String itemName, NutritionInfo nutritionInfo) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
+        this.nutritionInfo = nutritionInfo;
     }
 
     /**
@@ -50,8 +58,8 @@ public class MenuItem {
      * @param price    the price of the menu item
      * @param itemName the name of the menu item
      */
-    public MenuItem(Double price, String itemName) {
-        this(UUID.randomUUID(), price, itemName);
+    public MenuItem(Double price, String itemName, NutritionInfo nutritionInfo) {
+        this(UUID.randomUUID(), price, itemName, nutritionInfo);
     }
 
     /**

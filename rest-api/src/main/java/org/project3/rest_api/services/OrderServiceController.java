@@ -1,7 +1,8 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.database.services.DBOrderService;
 import org.project3.rest_api.models.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/order")
 @CrossOrigin
-public class OrderServiceController extends BaseAPIController {
+public class OrderServiceController {
+
+
+    @Autowired
+    DBOrderService dbOrderService;
 
     /**
      * Queries provided number of orders from database
@@ -25,7 +30,7 @@ public class OrderServiceController extends BaseAPIController {
      * */
     @GetMapping
     public List<Order> getOrders(@RequestParam(defaultValue = "50") Integer mostRecent) {
-        return dbConnector.selectOrders(mostRecent);
+        return dbOrderService.selectOrders(mostRecent);
     }
 
     /**
@@ -39,7 +44,7 @@ public class OrderServiceController extends BaseAPIController {
         if (newOrder.orderId == null) {
             newOrder.orderId = UUID.randomUUID();
         }
-        dbConnector.insertOrder(newOrder);
+        dbOrderService.insertOrder(newOrder);
         return newOrder;
     }
 
@@ -49,6 +54,6 @@ public class OrderServiceController extends BaseAPIController {
      * */
     @GetMapping("/report")
     public Map<String, List<Double>> getXOrZReport(@RequestParam boolean wholeDay) {
-        return dbConnector.fetchXOrZReport(wholeDay);
+        return dbOrderService.fetchXOrZReport(wholeDay);
     }
 }

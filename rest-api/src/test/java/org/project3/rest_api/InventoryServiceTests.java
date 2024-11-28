@@ -2,8 +2,9 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.database.services.DBInventoryService;
 import org.project3.rest_api.models.InventoryItem;
-import org.project3.rest_api.models.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -13,6 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 * Tests endpoints related to inventory service
 * */
 public class InventoryServiceTests extends RestAPIApplicationTests{
+
+
+    /**
+     * Database connector instance
+     * */
+    @Autowired
+    DBInventoryService dbInventoryService;
 
     @BeforeEach
     void inventorySetup() {
@@ -32,7 +40,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
     @Test
     void getInventoryItemReturnsCorrectCount() {
 
-        final int EXPECTED_ITEM_COUNT = dbConnector.selectInventoryItems().size();
+        final int EXPECTED_ITEM_COUNT = dbInventoryService.selectInventoryItems().size();
         assertThat(
                 getInventoryItems(baseUrl).length
         ).isGreaterThanOrEqualTo(EXPECTED_ITEM_COUNT);
@@ -73,7 +81,7 @@ public class InventoryServiceTests extends RestAPIApplicationTests{
         printResult(getRawJson(baseUrl), "Inventory Items");
 
         // remove the inventory item after testing is successful
-        dbConnector.deleteInventoryItem(newInvItem.inventoryItemId);
+        dbInventoryService.deleteInventoryItem(newInvItem.inventoryItemId);
 
     }
 

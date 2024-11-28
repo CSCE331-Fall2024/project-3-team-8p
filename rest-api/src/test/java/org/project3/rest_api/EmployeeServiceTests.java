@@ -2,12 +2,12 @@ package org.project3.rest_api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.project3.rest_api.database.services.DBEmployeeService;
 import org.project3.rest_api.models.Employee;
-import org.project3.rest_api.models.InventoryItem;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,6 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 * Tests endpoints related to employee service
 * */
 public class EmployeeServiceTests extends RestAPIApplicationTests{
+
+    /**
+     * Database connector instance
+     * */
+    @Autowired
+    DBEmployeeService dbEmployeeService;
 
     @BeforeEach
     void employeeSetup() {
@@ -35,7 +41,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
     @Test
     void getEmployeeReturnsCorrectCount() {
 
-        final int EXPECTED_EMPLOYEE_COUNT = dbConnector.selectEmployees().size();
+        final int EXPECTED_EMPLOYEE_COUNT = dbEmployeeService.selectEmployees().size();
         assertThat(
                 getEmployees().length
         ).isGreaterThanOrEqualTo(EXPECTED_EMPLOYEE_COUNT);
@@ -72,7 +78,7 @@ public class EmployeeServiceTests extends RestAPIApplicationTests{
         printResult(getRawJson(baseUrl), "Employees");
 
         // remove the new employee from the database after testing
-        dbConnector.deleteEmployee(newEmployee.employeeId);
+        dbEmployeeService.deleteEmployee(newEmployee.employeeId);
 
     }
 

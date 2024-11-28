@@ -1,9 +1,10 @@
 package org.project3.rest_api.services;
 
+import org.project3.rest_api.database.services.DBInventoryService;
 import org.project3.rest_api.models.InventoryItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +17,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/inventory")
 @CrossOrigin
-public class InventoryServiceController extends BaseAPIController {
+public class InventoryServiceController {
+
+    /**
+     * Database connector instance
+     * */
+    @Autowired
+    DBInventoryService dbInventoryService;
 
     /**
      * Queries all inventory items from database
@@ -25,7 +32,7 @@ public class InventoryServiceController extends BaseAPIController {
     @GetMapping
     public List<InventoryItem> getInventoryItems() {
 
-        return dbConnector.selectInventoryItems();
+        return dbInventoryService.selectInventoryItems();
 
     }
 
@@ -41,7 +48,7 @@ public class InventoryServiceController extends BaseAPIController {
             newInventoryItem.inventoryItemId = UUID.randomUUID();
         }
 
-        dbConnector.insertInventoryItem(newInventoryItem);
+        dbInventoryService.insertInventoryItem(newInventoryItem);
 
         return newInventoryItem;
     }
@@ -54,7 +61,7 @@ public class InventoryServiceController extends BaseAPIController {
     public void updateInventoryItem(@RequestBody InventoryItem updatedInventoryItem) {
 
         //TODO: add validation for updatedInventoryItem's id
-        dbConnector.updateInventoryItem(updatedInventoryItem);
+        dbInventoryService.updateInventoryItem(updatedInventoryItem);
     }
 
     @GetMapping("/product-usage")
@@ -64,6 +71,6 @@ public class InventoryServiceController extends BaseAPIController {
             @RequestParam Integer startDay,
             @RequestParam Integer endDay
     ) {
-        return dbConnector.selectProductUsage(startMonth, endMonth, startDay, endDay);
+        return dbInventoryService.selectProductUsage(startMonth, endMonth, startDay, endDay);
     }
 }

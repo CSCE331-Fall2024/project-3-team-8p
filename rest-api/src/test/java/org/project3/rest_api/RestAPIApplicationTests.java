@@ -30,12 +30,6 @@ class RestAPIApplicationTests {
 	protected TestRestTemplate restTemplate;
 
 	/**
-	 * DBConnector instance used for endpoint testing
-	 * */
-	@Autowired
-	protected DBConnector dbConnector;
-
-	/**
 	* Base url for endpoints
 	* */
 	protected String baseUrl;
