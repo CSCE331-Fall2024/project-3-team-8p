@@ -35,15 +35,6 @@ public class MenuServiceController {
     public static final double DISCOUNT_RATE = 0.85;
 
     /**
-     * Discount period start time (CRON syntax): every day at 4:00 PM
-     * */
-    private final String startTime = "0 0 16 * * *";
-    /**
-     * Discount period end time (CRON syntax): every ay at 7:59 PM
-     * */
-    private final static String endTime = "0 59 19 * * *";
-
-    /**
      * Queries all menu items from database
      * @return list of MenuItem
      */
@@ -89,46 +80,15 @@ public class MenuServiceController {
     }
 
     /**
-     * Decreases menu item price during happy hour start
+     * Toggles menu item discount
      * */
-    @Scheduled(cron = startTime)
-    public void decreaseItemPrice() {
-
-        List<MenuItem> allMenuItem = dbMenuService.selectMenuItems();
-
-        allMenuItem.forEach(menuItem -> {
-            double newPrice = Math.round(
-                    (menuItem.price) * DISCOUNT_RATE * 100
-            )/100.0;
-
-            menuItem.price = newPrice;
-
-            dbMenuService.updateMenuItem(
-                    menuItem
-            );
-
-        });
+    @PutMapping("/discount")
+    public void toggleDiscount(@RequestParam Boolean lowerPrice) {
+        if (lowerPrice) {
+            dbMenuService.updateAllPrices(DISCOUNT_RATE);
+        } else {
+            dbMenuService.updateAllPrices((1/DISCOUNT_RATE));
+        }
     }
 
-    /**
-     * Increases menu item price during happy hour end
-     * */
-    @Scheduled(cron = endTime)
-    public void increaseItemPrice() {
-
-        List<MenuItem> allMenuItem = dbMenuService.selectMenuItems();
-
-        allMenuItem.forEach(menuItem -> {
-            double newPrice = Math.round(
-                    (menuItem.price) * (1/DISCOUNT_RATE) * 100
-            )/100.0;
-
-            menuItem.price = newPrice;
-
-            dbMenuService.updateMenuItem(
-                    menuItem
-            );
-        });
-
-    }
 }

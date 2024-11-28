@@ -35,12 +35,6 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     @Autowired
     DBInventoryService dbInventoryService;
 
-    /**
-     * Service controller instance
-     * */
-    @Autowired
-    MenuServiceController menuServiceController;
-
 
     /**
      * Reused nutrition info dummy data
@@ -193,31 +187,42 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
 
-        menuServiceController.decreaseItemPrice();
+        String url = baseUrl+"/discount?lowerPrice=true";
+
+        this.restTemplate.put(
+                url,
+                null
+        );
 
         List<MenuItem> newItems = Arrays.stream(getMenuItems()).toList();
 
-        newItems.forEach(newItem -> {
-            Optional<MenuItem> oldItem = oldItems.stream().filter(findItem -> {
-                return findItem.menuItemId.equals(newItem.menuItemId);
-            }).findFirst();
+        oldItems.forEach(oldItem -> {
 
-            assertThat(oldItem).isPresent();
+            Optional<MenuItem> newItem = newItems.stream().filter(
+                    findItem -> {
+                        return findItem.menuItemId.equals(oldItem.menuItemId);
+                    }
+            ).findFirst();
 
-            MenuItem safeOldItem = oldItem.get();
+            assertThat(newItem).isPresent();
+
+            MenuItem safeNewItem = newItem.get();
 
             final double EXPECTED_PRICE = Math.round(
-                    newItem.price * (1/MenuServiceController.DISCOUNT_RATE) * 100.0
-            )/100.0;
+                    oldItem.price * MenuServiceController.DISCOUNT_RATE * 100.0)/100.0;
 
-            assertThat(safeOldItem.price).isEqualTo(
+            assertThat(safeNewItem.price).isEqualTo(
                     EXPECTED_PRICE
             );
 
         });
 
         // undo changes
-        menuServiceController.increaseItemPrice();
+        url = baseUrl+"/discount?lowerPrice=false";
+        this.restTemplate.put(
+                url,
+                null
+        );
 
     }
 

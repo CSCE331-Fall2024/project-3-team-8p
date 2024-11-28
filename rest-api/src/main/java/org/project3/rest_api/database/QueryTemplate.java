@@ -244,6 +244,14 @@ public class QueryTemplate {
 
     // Menu items
     /**
+     * SQL query to update price of all menu items
+     * */
+    public static final String updateAllMenuItemPrice = """
+            UPDATE menuitem 
+            SET price = ROUND(CAST(price * %f as numeric), 2);
+            """;
+
+    /**
      * SQL query to select a menu item by menuItemId
      */
     public static final String selectMenuItem = """

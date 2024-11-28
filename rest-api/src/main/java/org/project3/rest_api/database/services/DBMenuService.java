@@ -146,6 +146,17 @@ public class DBMenuService extends DBConnector {
     }
 
     /**
+     * Updates all menu items' price
+     *
+     * @param discount discount rate
+     * */
+    public void updateAllPrices(double discount) {
+        executeUpdate(String.format(QueryTemplate.updateAllMenuItemPrice,
+                discount
+        ));
+    }
+
+    /**
      * Deletes menu item with given UUID
      *
      * @param menuItemId ID of menu item to be deleted
