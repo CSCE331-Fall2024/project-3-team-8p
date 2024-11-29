@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
-import { Button, Form } from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
@@ -87,27 +87,32 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className="mb-3" controlId="formName">
-                        <Form.Label>Item Name</Form.Label>
-                        <Form.Control
-                            name="itemName"
-                            type="text"
-                            value={formData.itemName}
-                            placeholder="Enter item name"
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formPrice">
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                            name="price"
-                            type="number"
-                            value={formData.price}
-                            placeholder="Enter Price"
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formName">
+                                <Form.Label>Item Name</Form.Label>
+                                <Form.Control
+                                    name="itemName"
+                                    type="text"
+                                    value={formData.itemName}
+                                    placeholder="Enter item name"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formPrice">
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control
+                                    name="price"
+                                    type="number"
+                                    value={formData.price}
+                                    placeholder="Enter Price"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Form.Group className="mb-3" controlId="inventoryItems">
                         <Form.Label>Associated Inventory Items</Form.Label>
@@ -119,6 +124,113 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                             placeholder="Select inventory items..."
                         />
                     </Form.Group>
+
+                    <h5>Nutrition Info</h5>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formAllergens">
+                                <Form.Label>Allergens</Form.Label>
+                                <Form.Control
+                                    name="allergens"
+                                    type="text"
+                                    value={formData.allergens}
+                                    placeholder="Enter allergens, separated by commas"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formCalories">
+                                <Form.Label>Calories</Form.Label>
+                                <Form.Control
+                                    name="calories"
+                                    type="number"
+                                    value={formData.calories}
+                                    placeholder="Enter calories"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formFat">
+                                <Form.Label>Fat</Form.Label>
+                                <Form.Control
+                                    name="fat"
+                                    type="number"
+                                    value={formData.fat}
+                                    placeholder="Enter fat"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formProtein">
+                                <Form.Label>Protein</Form.Label>
+                                <Form.Control
+                                    name="protein"
+                                    type="number"
+                                    value={formData.protein}
+                                    placeholder="Enter protein"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formSugar">
+                                <Form.Label>Sugar</Form.Label>
+                                <Form.Control
+                                    name="sugar"
+                                    type="number"
+                                    value={formData.sugar}
+                                    placeholder="Enter sugar"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formCarbohydrates">
+                                <Form.Label>Carbohydrates</Form.Label>
+                                <Form.Control
+                                    name="carbohydrates"
+                                    type="number"
+                                    value={formData.carbohydrates}
+                                    placeholder="Enter carbohydrates"
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formIsPremium">
+                                <Form.Check
+                                    name="isPremium"
+                                    type="checkbox"
+                                    label="Is Premium"
+                                    checked={formData.isPremium}
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formIsSpicy">
+                                <Form.Check
+                                    name="isSpicy"
+                                    type="checkbox"
+                                    label="Is Spicy"
+                                    checked={formData.isSpicy}
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
