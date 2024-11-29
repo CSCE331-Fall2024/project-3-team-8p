@@ -20,6 +20,14 @@ type FormData = {
     menuItemId: string,
     itemName: string,
     price: number
+    allergens?: string,
+    calories?: number,
+    fat?: number,
+    protein?: number,
+    sugar?: number,
+    carbohydrates?: number,
+    isPremium?: boolean,
+    isSpicy?: boolean,
 };
 
 const getInitialFormData = (menuItem?: MenuItem): FormData => ({
