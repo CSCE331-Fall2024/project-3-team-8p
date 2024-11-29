@@ -2,6 +2,7 @@ import BaseItem from "./interfaces/BaseItem";
 import MenuItem from "./MenuItem";
 import InventoryItem from "./InventoryItem";
 import OrderDict from "./dict-types/OrderDict";
+import OrderStatus from "./enums/OrderStatus";
 
 export default class Order implements BaseItem {
     private readonly _orderId: string;
@@ -13,6 +14,7 @@ export default class Order implements BaseItem {
     private readonly _menuItems: Map<MenuItem, number>;
     private readonly _inventoryItems: InventoryItem[];
     private _price: number;
+    private _status: OrderStatus;
 
     static fromDict(dict: OrderDict): Order {
         return new Order(
@@ -22,7 +24,8 @@ export default class Order implements BaseItem {
             dict.week,
             dict.day,
             dict.hour,
-            dict.price
+            dict.price,
+            dict.status
         );
     }
 
@@ -34,6 +37,7 @@ export default class Order implements BaseItem {
         day: number,
         hour: number,
         price: number,
+        status: OrderStatus,
     ) {
         this._orderId = orderId;
         this._cashierId = cashierId;
@@ -43,43 +47,52 @@ export default class Order implements BaseItem {
         this._day = day;
         this._hour = hour;
         this._price = price;
+        this._status = status;
         this._menuItems = new Map<MenuItem, number>();
         this._inventoryItems = [];
     }
 
-    get id() {
+    get id(): string {
         return this._orderId;
     }
 
-    get cashierId() {
+    get cashierId(): string {
         return this._cashierId;
     }
 
-    get month() {
+    get month(): number {
         return this._month;
     }
 
-    get week() {
+    get week(): number {
         return this._week;
     }
 
-    get day() {
+    get day(): number {
         return this._day;
     }
 
-    get hour() {
+    get hour(): number {
         return this._hour;
     }
 
-    get price() {
+    get price(): number {
         return this._price;
     }
 
-    get menuItems() {
+    get status(): OrderStatus {
+        return this._status;
+    }
+
+    set status(value: OrderStatus) {
+        this._status = value;
+    }
+
+    get menuItems(): Map<MenuItem, number> {
         return this._menuItems;
     }
 
-    addOrUpdateMenuItem(menuItem: MenuItem, qty: number = 1) {
+    addOrUpdateMenuItem(menuItem: MenuItem, qty: number = 1): void {
         // Update the order price
         // by determining the difference in qty for the menu item
         const oldQty: number = this.menuItems.get(menuItem) ?? 0;
@@ -89,11 +102,11 @@ export default class Order implements BaseItem {
         this._menuItems.set(menuItem, qty);
     }
 
-    get inventoryItems() {
+    get inventoryItems(): InventoryItem[] {
         return this._inventoryItems;
     }
 
-    addInventoryItem(inventoryItem: InventoryItem) {
+    addInventoryItem(inventoryItem: InventoryItem): void {
         this._inventoryItems.push(inventoryItem);
     }
     
@@ -105,7 +118,8 @@ export default class Order implements BaseItem {
             week: this._week,
             day: this._day,
             hour: this._hour,
-            price: this._price
+            price: this._price,
+            status: this._status,
         };
     }
 }

@@ -1,7 +1,6 @@
 .manager-view {
     background-color: var(--primary-red);
     min-height: 100vh;
-    padding: 2rem 0;
 }
 
 /* Navigation Pills Styling */

@@ -10,6 +10,8 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
+import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
+import KitchenView from "./views/Kitchen/KitchenView";
 
 
 function App() {
@@ -33,6 +35,11 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
+                            <Route path="kitchen" element={
+                                <EmployeeOnlyRoute>
+                                    <KitchenView />
+                                </EmployeeOnlyRoute>
+                            } />
                         </Route>
                     </Routes>
                 </UserProvider>

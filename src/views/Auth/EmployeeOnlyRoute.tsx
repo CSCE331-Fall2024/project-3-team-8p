@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useUser } from "../../contexts/UserContext";
 import EmployeeApi from "../../apis/employee-api";
 import Unauthorized from "./Unauthorized";
+import LoadingView from "../shared/LoadingView";
 
 interface EmployeeOnlyRouteProps {
     children: ReactElement;
@@ -30,7 +31,7 @@ function EmployeeOnlyRoute({ children }: EmployeeOnlyRouteProps) : ReactElement 
 
     // Show a loading state while the check is being performed
     if (isEmployee === undefined) {
-        return <div>Loading...</div>;
+        return <LoadingView color={"white"} />;
     }
 
     return isEmployee ? <>{children}</> : <Unauthorized />;
