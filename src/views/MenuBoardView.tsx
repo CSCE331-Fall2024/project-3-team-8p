@@ -16,17 +16,10 @@ function MenuBoardView() {
                     <div className="subHeader">
                         {tab}
                     </div>
-                    <div className="subHeader">
-                        <p> ${Prices[tab].toFixed(2)} ea.*</p>
-                    </div>
-                    <div className="subSubHeader">
-                        <p>* = Premium items have an additional $1.50 charge</p>
-                    </div>
-
                     <div className="legend">
                         <div className="legend-item">
                             <img src={premium} alt="Premium icon"/>
-                            <span> = Premium item, + $1.50 to total</span>
+                            <span> = Premium item</span>
                         </div>
                         <div className="legend-content">
                             <img src={spicy} alt="Spicy icon" className="spicy-icon"/>
@@ -40,6 +33,7 @@ function MenuBoardView() {
                             <ListingCard
                                 key={index}
                                 name={listing.name}
+                                price={listing.price}
                                 calories={listing.calories}
                                 imageUrl={listing.imageUrl}
                                 allergens={listing.allergens}

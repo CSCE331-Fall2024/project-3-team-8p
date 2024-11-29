@@ -4,6 +4,7 @@ import { spicy, information, premium } from '../images';
 
 interface ListingCardProps {
     name: string;
+    price: number;
     imageUrl: string;
     allergens?: string[];
     calories: number;
@@ -122,7 +123,7 @@ const PopupOverlay = styled.div`
     z-index: 999;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({name, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
+const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleNutritionClick = () => {
@@ -140,13 +141,14 @@ const ListingCard: React.FC<ListingCardProps> = ({name, imageUrl, allergens = []
             <Image src={imageUrl} alt={name} />
             <CardContent>
                 <Name>{name}</Name>
+                <p> ${price.toFixed(2)} </p>
                 <div>Calories: {calories} cal</div>
                 <PremiumContainer>
-                    {isPremium && <Premium src={premium} alt="Premium" />}
+                    {isPremium && <Premium src={premium} alt="Premium"/>}
 
                 </PremiumContainer>
                 <SpicyContainer>
-                    {isSpicy && <Spicy src={spicy} alt="Spicy" />}
+                    {isSpicy && <Spicy src={spicy} alt="Spicy"/>}
                 </SpicyContainer>
             </CardContent>
 
