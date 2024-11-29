@@ -2,6 +2,7 @@ import InventoryItem from "./InventoryItem";
 import CardItem from "./interfaces/CardItem";
 import MenuItemDict from "./dict-types/MenuItemDict";
 import InventoryItemDict from "./dict-types/InventoryItemDict";
+import NutritionInfo from "./dict-types/NutritionInfoDict";
 
 export default class MenuItem implements CardItem {
     private readonly _menuItemId: string;
@@ -9,18 +10,29 @@ export default class MenuItem implements CardItem {
     private readonly _itemName: string;
     private readonly _imageUrl: string;
     private readonly _inventoryItems: InventoryItem[];
+    private _nutritionInfo: NutritionInfo[];
 
     static fromDict(dict: MenuItemDict): MenuItem {
         const menuItem = new MenuItem(
             dict.menuItemId,
             dict.price,
-            dict.itemName
+            dict.itemName,
         );
         dict.inventoryItems
             .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
             .forEach((item: InventoryItemDict) => {
                 menuItem.addInventoryItem(InventoryItem.fromDict(item));
             });
+        menuItem._nutritionInfo = dict.nutritionInfo.map((item: NutritionInfo) => ({
+            allergens: item.allergens,
+            calories: item.calories,
+            fat: item.fat,
+            carbs: item.carbs,
+            protein: item.protein,
+            isPremium: item.isPremium,
+            isSpicy: item.isSpicy,
+        }));
+
         return menuItem;
     }
 
@@ -38,6 +50,7 @@ export default class MenuItem implements CardItem {
         this._itemName = itemName;
         this._imageUrl = imageUrl ?? "";
         this._inventoryItems = [];
+        this._nutritionInfo = [];
     }
 
     get id(): string {
@@ -78,7 +91,16 @@ export default class MenuItem implements CardItem {
                 cost: item.cost,
                 availableStock: item.availableStock,
                 itemName: item.itemName,
-            }))
+            })),
+            nutritionInfo: this._nutritionInfo.map((item: NutritionInfo) => ({
+                allergens: item.allergens,
+                calories: item.calories,
+                fat: item.fat,
+                carbs: item.carbs,
+                protein: item.protein,
+                isPremium: item.isPremium,
+                isSpicy: item.isSpicy,
+            })),
         };
     }
 }

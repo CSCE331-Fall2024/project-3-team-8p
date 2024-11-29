@@ -34,6 +34,8 @@ const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
     itemName: menuItem?.itemName ?? "",
     price: menuItem?.price ?? 0.0,
+
+
 });
 
 const getInitialInventoryItems = (menuItem?: MenuItem): string[] => (
