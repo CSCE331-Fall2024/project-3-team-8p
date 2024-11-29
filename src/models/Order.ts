@@ -11,7 +11,6 @@ export default class Order implements BaseItem {
     private readonly _hour: number;
     private readonly _menuItems: Map<MenuItem, number>;
     private readonly _inventoryItems: InventoryItem[];
-
     private _price: number;
 
     constructor(
@@ -36,6 +35,10 @@ export default class Order implements BaseItem {
     }
 
     get id() {
+        return this._orderId;
+    }
+
+    get orderId(): string {
         return this._orderId;
     }
 

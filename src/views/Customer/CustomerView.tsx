@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import listings from '../../models/dummy-data/listingData';
 import './css/CustomerView.css';
 import ListingCard from './components/ListingCard';
 import ButtonContainer from './components/ButtonContainer';
@@ -9,14 +8,32 @@ import CartPopup from './components/CartPopup';
 import { useCart } from '../../contexts/CartContext';
 import MenuItem from '../../models/MenuItem';
 import AccessibilityModal from './components/AccessibilityModal';
+import MenuItemApi from '../../apis/menu-item-api';
+import OrderApi from "../../apis/order-api";
+import { v4 as uuidv4 } from "uuid";
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
     const [textSize, setTextSize] = useState<number>(16); // Default text size
     const [isSpanish, setIsSpanish] = useState<boolean>(false);
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [isHighContrast, setIsHighContrast] = useState<boolean>(false); // High contrast state
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
+    const menuItemApi = new MenuItemApi();
+
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                const items = await menuItemApi.getMenuItems();
+                setMenuItems(items);
+            } catch (err) {
+                console.log("Error in menu item retrival")
+            }
+        };
+
+        fetchMenuItems();
+    }, []);
 
     const handleTabChange = (tab: Tabs) => {
         setActiveTab(tab);
@@ -57,7 +74,7 @@ function CustomerView() {
                 </Link>
             </div>
             <div className="cardSection">
-                {listings[activeTab].map((listing: MenuItem) => {
+                {menuItems.map((listing: MenuItem) => {
                     const cartItem = cartItems.find(
                         (item) => item.menuItemId === listing.menuItemId
                     );
