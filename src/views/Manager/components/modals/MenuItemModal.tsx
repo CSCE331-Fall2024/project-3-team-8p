@@ -136,19 +136,18 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                     </Form.Group>
 
                     <h5>Nutrition Info</h5>
+                    <Form.Group className="mb-3" controlId="formAllergens">
+                        <Form.Label>Allergens</Form.Label>
+                        <Form.Control
+                            name="allergens"
+                            type="text"
+                            value={formData.allergens}
+                            placeholder="Enter allergens, separated by commas"
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+
                     <Row>
-                        <Col>
-                            <Form.Group className="mb-3" controlId="formAllergens">
-                                <Form.Label>Allergens</Form.Label>
-                                <Form.Control
-                                    name="allergens"
-                                    type="text"
-                                    value={formData.allergens}
-                                    placeholder="Enter allergens, separated by commas"
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                        </Col>
                         <Col>
                             <Form.Group className="mb-3" controlId="formCalories">
                                 <Form.Label>Calories</Form.Label>
@@ -161,9 +160,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
-                    </Row>
-
-                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formFat">
                                 <Form.Label>Fat</Form.Label>
@@ -176,6 +172,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
+                    </Row>
+
+                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formProtein">
                                 <Form.Label>Protein</Form.Label>
@@ -188,9 +187,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
-                    </Row>
-
-                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formSugar">
                                 <Form.Label>Sugar</Form.Label>
@@ -203,6 +199,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
+                    </Row>
+
+                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formCarbohydrates">
                                 <Form.Label>Carbohydrates</Form.Label>
@@ -215,9 +214,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
-                    </Row>
-
-                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formIsPremium">
                                 <Form.Check
@@ -229,6 +225,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 />
                             </Form.Group>
                         </Col>
+                    </Row>
+
+                    <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formIsSpicy">
                                 <Form.Check

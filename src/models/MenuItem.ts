@@ -10,7 +10,7 @@ export default class MenuItem implements CardItem {
     private readonly _itemName: string;
     private readonly _imageUrl: string;
     private readonly _inventoryItems: InventoryItem[];
-    private _nutritionInfo: NutritionInfo[];
+    // private _nutritionInfo: NutritionInfo[];
 
     static fromDict(dict: MenuItemDict): MenuItem {
         const menuItem = new MenuItem(
@@ -23,15 +23,15 @@ export default class MenuItem implements CardItem {
             .forEach((item: InventoryItemDict) => {
                 menuItem.addInventoryItem(InventoryItem.fromDict(item));
             });
-        menuItem._nutritionInfo = dict.nutritionInfo.map((item: NutritionInfo) => ({
-            allergens: item.allergens,
-            calories: item.calories,
-            fat: item.fat,
-            carbs: item.carbs,
-            protein: item.protein,
-            isPremium: item.isPremium,
-            isSpicy: item.isSpicy,
-        }));
+        // menuItem._nutritionInfo = dict.nutritionInfo.map((item: NutritionInfo) => ({
+        //     allergens: item.allergens,
+        //     calories: item.calories,
+        //     fat: item.fat,
+        //     carbs: item.carbs,
+        //     protein: item.protein,
+        //     isPremium: item.isPremium,
+        //     isSpicy: item.isSpicy,
+        // }));
 
         return menuItem;
     }
@@ -50,7 +50,7 @@ export default class MenuItem implements CardItem {
         this._itemName = itemName;
         this._imageUrl = imageUrl ?? "";
         this._inventoryItems = [];
-        this._nutritionInfo = [];
+        // this._nutritionInfo = [];
     }
 
     get id(): string {
@@ -92,15 +92,15 @@ export default class MenuItem implements CardItem {
                 availableStock: item.availableStock,
                 itemName: item.itemName,
             })),
-            nutritionInfo: this._nutritionInfo.map((item: NutritionInfo) => ({
-                allergens: item.allergens,
-                calories: item.calories,
-                fat: item.fat,
-                carbs: item.carbs,
-                protein: item.protein,
-                isPremium: item.isPremium,
-                isSpicy: item.isSpicy,
-            })),
+            // nutritionInfo: this._nutritionInfo.map((item: NutritionInfo) => ({
+            //     allergens: item.allergens,
+            //     calories: item.calories,
+            //     fat: item.fat,
+            //     carbs: item.carbs,
+            //     protein: item.protein,
+            //     isPremium: item.isPremium,
+            //     isSpicy: item.isSpicy,
+            // })),
         };
     }
 }
