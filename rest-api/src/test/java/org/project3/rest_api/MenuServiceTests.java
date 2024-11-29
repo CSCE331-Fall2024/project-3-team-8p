@@ -36,7 +36,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     /**
      * Reused nutrition info dummy data
      * */
-    private final NutritionInfo nutritionInfo = new NutritionInfo(
+    private final static NutritionInfo nutritionInfo = new NutritionInfo(
             List.of("Peanuts", "Soy"),
             300,
             10,
@@ -45,6 +45,16 @@ public class MenuServiceTests extends RestAPIApplicationTests {
             30,
             true,
             true
+    );
+
+    /**
+     * List of all item categories
+    * */
+    private final static List<String> allCategories = List.of(
+            "entree",
+            "appetizer",
+            "side",
+            "drink"
     );
 
     @BeforeEach
@@ -109,7 +119,7 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
-        // remove the menu item after testing is succesful
+        // remove the menu item after testing is successful
         dbMenuService.deleteMenuItem(newMenuItem.menuItemId);
     }
 
@@ -132,12 +142,15 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         int endIdx = rand.nextInt(startIdx, allInvItems.size());
         List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);
 
+        randIdx = rand.nextInt(allCategories.size());
+        String newCategory = allCategories.get(randIdx);
+
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
                 newPrice,
                 newName,
                 nutritionInfo,
-                "drink"
+                newCategory
         );
         newMenuItem.inventoryItems = randInvItems;
 
@@ -170,6 +183,10 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         assertThat(
                 safeItem.inventoryItems.size()
         ).isEqualTo(randInvItems.size());
+
+        assertThat(
+                safeItem.category
+        ).isEqualTo(newCategory);
 
         printResult(getRawJson(baseUrl), "Menu Items");
 
