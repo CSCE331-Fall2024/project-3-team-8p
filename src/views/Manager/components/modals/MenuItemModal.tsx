@@ -49,6 +49,7 @@ const getInitialFormData = (menuItem?: MenuItem): FormData => ({
         isSpicy: menuItem?._nutritionInfo?.isSpicy ?? false,
     }
 
+
 });
 
 const getInitialInventoryItems = (menuItem?: MenuItem): string[] => (
@@ -97,11 +98,34 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: value
-        }));
+        const { name, value, type, checked } = event.target;
+        const newValue = type === 'checkbox' ? checked : value;
+
+        if (name === "allergens") {
+            // Special handling for allergens (convert string to array)
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                nutritionInfo: {
+                    ...prevFormData.nutritionInfo,
+                    allergens: value.split(",").map(allergen => allergen.trim())
+                }
+            }));
+        } else if (name in formData.nutritionInfo) {
+            // General case for nutritionInfo properties
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                nutritionInfo: {
+                    ...prevFormData.nutritionInfo,
+                    [name]: type === "number" ? parseFloat(value) : newValue
+                }
+            }));
+        } else {
+            // General case for other form fields
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [name]: type === 'number' ? parseFloat(value) : newValue
+            }));
+        }
     };
 
     return (
@@ -157,7 +181,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         <Form.Control
                             name="allergens"
                             type="text"
-                            value={formData.nutritionInfo.allergens?.join(", ") || ''}
+                            value={formData.nutritionInfo.allergens}
                             placeholder="Enter allergens, separated by commas"
                             onChange={handleInputChange}
                         />
