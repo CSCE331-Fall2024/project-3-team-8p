@@ -193,9 +193,9 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
 
-        final boolean EXPECTED_IS_DISCOUNTED = !oldItems.getFirst().isDiscounted;
+        final boolean EXPECTED_IS_DISCOUNTED = !(oldItems.getFirst().isDiscounted);
 
-        String url = baseUrl+"/update-discount?discount="+EXPECTED_IS_DISCOUNTED;
+        String url = baseUrl+"/update-discount?isDiscounted="+EXPECTED_IS_DISCOUNTED;
 
         this.restTemplate.put(
                 url,
