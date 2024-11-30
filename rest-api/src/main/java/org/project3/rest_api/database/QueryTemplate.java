@@ -252,6 +252,13 @@ public class QueryTemplate {
             """;
 
     /**
+     * SQL query to update discount status
+     * */
+    public static final String toggleDiscountStatus = """
+            UPDATE menuitem 
+            SET isdiscounted = NOT isdiscounted;
+            """;
+    /**
      * SQL query to select a menu item by menuItemId
      */
     public static final String selectMenuItem = """
@@ -321,7 +328,7 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s', nutritionInfo = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s', isDiscounted = '%s'
                 WHERE menuItemId = '%s';
                 """;
 

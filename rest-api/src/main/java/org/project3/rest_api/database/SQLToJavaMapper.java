@@ -52,7 +52,8 @@ public class SQLToJavaMapper {
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),
                     rs.getString("itemName"),
-                    nutritionInfo
+                    nutritionInfo,
+                    rs.getBoolean("isDiscounted")
             );
         } catch (Exception e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
@@ -98,7 +99,8 @@ public class SQLToJavaMapper {
                             UUID.fromString(rs.getString("menuItemId")),
                             rs.getDouble("price"),
                             rs.getString("itemName"),
-                            nutritionInfo
+                            nutritionInfo,
+                            rs.getBoolean("isDiscounted")
                     ),
                     rs.getInt("count")
             );

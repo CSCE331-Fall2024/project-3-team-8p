@@ -131,6 +131,7 @@ public class DBMenuService extends DBConnector {
                 updatedMenuItem.price,
                 updatedMenuItem.itemName,
                 nutritionInfoJson,
+                updatedMenuItem.isDiscounted,
                 updatedMenuItem.menuItemId
 
         ));
@@ -146,14 +147,10 @@ public class DBMenuService extends DBConnector {
     }
 
     /**
-     * Updates all menu items' price
-     *
-     * @param discount discount rate
+     * Updates all menu items' discount status
      * */
-    public void updateAllPrices(double discount) {
-        executeUpdate(String.format(QueryTemplate.updateAllMenuItemPrice,
-                discount
-        ));
+    public void toggleDiscount() {
+        executeUpdate(QueryTemplate.toggleDiscountStatus);
     }
 
     /**

@@ -78,13 +78,9 @@ public class MenuServiceController {
     /**
      * Toggles menu item discount
      * */
-    @PutMapping("/discount")
-    public void toggleDiscount(@RequestParam Boolean lowerPrice) {
-        if (lowerPrice) {
-            dbMenuService.updateAllPrices(DISCOUNT_RATE);
-        } else {
-            dbMenuService.updateAllPrices((1/DISCOUNT_RATE));
-        }
+    @PutMapping("/toggle-discount")
+    public void toggleDiscount() {
+        dbMenuService.toggleDiscount();
     }
 
 }

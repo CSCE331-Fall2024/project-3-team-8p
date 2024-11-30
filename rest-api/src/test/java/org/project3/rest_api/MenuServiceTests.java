@@ -90,7 +90,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         MenuItem newMenuItem = new MenuItem(
                 12.99,
                 "Test Menu Item",
-                nutritionInfo
+                nutritionInfo,
+                false
         );
 
        newMenuItem.inventoryItems = invItems.subList(0,3);
@@ -132,11 +133,14 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         int endIdx = rand.nextInt(startIdx, allInvItems.size());
         List<InventoryItem> randInvItems = allInvItems.subList(startIdx, endIdx);
 
+        boolean newDiscount = !origMenuItem.isDiscounted;
+
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
                 newPrice,
                 newName,
-                nutritionInfo
+                nutritionInfo,
+                newDiscount
         );
         newMenuItem.inventoryItems = randInvItems;
 
@@ -170,6 +174,10 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 safeItem.inventoryItems.size()
         ).isEqualTo(randInvItems.size());
 
+        assertThat(
+                safeItem.isDiscounted
+        ).isEqualTo(newDiscount);
+
         printResult(getRawJson(baseUrl), "Menu Items");
 
         // put the original menu item back after testing is over
@@ -178,14 +186,14 @@ public class MenuServiceTests extends RestAPIApplicationTests {
     }
 
     /**
-     * Checks that decrease price functionality works as expected
+     * Checks that toggle functionality works
      * */
     @Test
     void priceDoesDecreaseCorrectly() {
 
         List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
 
-        String url = baseUrl+"/discount?lowerPrice=true";
+        String url = baseUrl+"/toggle-discount";
 
         this.restTemplate.put(
                 url,
@@ -206,17 +214,15 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
             MenuItem safeNewItem = newItem.get();
 
-            final double EXPECTED_PRICE = Math.round(
-                    oldItem.price * MenuServiceController.DISCOUNT_RATE * 100.0)/100.0;
+            final boolean EXPECTED_IS_DISCOUNTED = !oldItem.isDiscounted;
 
-            assertThat(safeNewItem.price).isEqualTo(
-                    EXPECTED_PRICE
+            assertThat(safeNewItem.isDiscounted).isEqualTo(
+                    EXPECTED_IS_DISCOUNTED
             );
 
         });
 
         // undo changes
-        url = baseUrl+"/discount?lowerPrice=false";
         this.restTemplate.put(
                 url,
                 null
