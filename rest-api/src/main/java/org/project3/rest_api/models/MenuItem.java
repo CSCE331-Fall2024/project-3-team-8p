@@ -31,6 +31,11 @@ public class MenuItem {
      */
     public NutritionInfo nutritionInfo;
 
+    /**
+     * Discount status of menu item
+     * */
+    public Boolean isDiscounted;
+
 
     /**
      * List of associated inventory items
@@ -45,11 +50,17 @@ public class MenuItem {
      * @param itemName   the name of the menu item
      * @param nutritionInfo the nutrition and allergen information
      */
-    public MenuItem(UUID menuItemId, Double price, String itemName, NutritionInfo nutritionInfo) {
+    public MenuItem(UUID menuItemId,
+                    Double price,
+                    String itemName,
+                    NutritionInfo nutritionInfo,
+                    Boolean isDiscounted
+                    ) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
         this.nutritionInfo = nutritionInfo;
+        this.isDiscounted = isDiscounted;
     }
 
     /**
@@ -58,8 +69,11 @@ public class MenuItem {
      * @param price    the price of the menu item
      * @param itemName the name of the menu item
      */
-    public MenuItem(Double price, String itemName, NutritionInfo nutritionInfo) {
-        this(UUID.randomUUID(), price, itemName, nutritionInfo);
+    public MenuItem(Double price,
+                    String itemName,
+                    NutritionInfo nutritionInfo,
+                    Boolean isDiscounted) {
+        this(UUID.randomUUID(), price, itemName, nutritionInfo, isDiscounted);
     }
 
     /**
