@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Navbar, Image } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
 import { Tabs } from './TabsEnum';
@@ -10,8 +10,10 @@ import ButtonContainer from './components/ButtonContainer';
 import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
+import TranslateApi from "../../apis/translate-api";
 
 const menuItemApi = new MenuItemApi();
+const translateApi = new TranslateApi();
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
@@ -23,27 +25,37 @@ function CustomerView() {
     const [loading, setLoading] = useState<boolean>(false);
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
 
-    useEffect(() => {
-        const fetchMenuItems = async () => {
-            try {
-                setLoading(true);
-                const items = await menuItemApi.getMenuItems();
-                setMenuItems(items);
-            } catch (err) {
-                console.log("Error in menu item retrieval");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchMenuItems = useCallback(async (includeTranslation: boolean) => {
+        try {
+            setLoading(true);
+            const items = await menuItemApi.getMenuItems(includeTranslation);
+            setMenuItems(items);
+        } catch (err) {
+            console.log("Error in menu item retrieval");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
-        fetchMenuItems();
-    }, [menuItemApi]);
+    const location = useLocation();
+    useEffect(() => {
+        // If we're navigating back from the checkout page, we want to save the language preference
+        if (location.state?.isSpanish) {
+            setIsSpanish(location.state.isSpanish);
+            fetchMenuItems(true);
+        } else {
+            fetchMenuItems(false);
+        }
+    }, [location.state, fetchMenuItems])
 
     const handleTabChange = (tab: Tabs) => setActiveTab(tab);
     const toggleAccessibilityModal = () => setShowAccessibilityModal(!showAccessibilityModal);
     const increaseTextSize = () => setTextSize((prev) => Math.min(prev + 2, 20));
     const decreaseTextSize = () => setTextSize((prev) => Math.max(prev - 2, 12));
-    const toggleLanguage = () => setIsSpanish((prev) => !prev);
+    const toggleLanguage = () => {
+        setIsSpanish((prev) => !prev);
+        fetchMenuItems(true);
+    }
     const toggleHighContrast = () => setIsHighContrast((prev) => !prev);
 
     const bgClass = isHighContrast ? 'bg-dark' : 'bg-danger';
@@ -60,7 +72,7 @@ function CustomerView() {
                         className="px-4 py-2"
                         onClick={toggleAccessibilityModal}
                     >
-                        Accessibility
+                        {isSpanish ? "Accesibilidad" : "Accessibility"}
                     </Button>
 
                     <Image
@@ -70,13 +82,13 @@ function CustomerView() {
                         style={{ maxHeight: '80px' }}
                     />
 
-                    <Link to="checkout">
+                    <Link to="checkout" state={{ isSpanish: isSpanish }}>
                         <Button
                             variant={isHighContrast ? 'light' : 'dark'}
                             size="lg"
                             className="px-4 py-2"
                         >
-                            Checkout
+                            {isSpanish ? "Verificar" : "Checkout"}
                         </Button>
                     </Link>
                 </Container>
@@ -100,7 +112,7 @@ function CustomerView() {
                             return (
                                 <Col key={listing.menuItemId}>
                                     <ListingCard
-                                        name={isSpanish ? listing.itemName : listing.itemName}
+                                        name={isSpanish ? listing.translatedItemName : listing.itemName}
                                         price={listing.price}
                                         imageUrl={`/images/${listing.itemName}.png`}
                                         quantityOrdered={quantityOrdered}
@@ -120,6 +132,7 @@ function CustomerView() {
                     onTabChange={handleTabChange}
                     isHighContrast={isHighContrast}
                     activeTab={activeTab}
+                    isSpanish={isSpanish}
                 />
             </Container>
 
@@ -128,6 +141,7 @@ function CustomerView() {
                 cartItems={cartItems}
                 total={cartTotal}
                 onClearCart={clearCart}
+                isSpanish={isSpanish}
                 isHighContrast={isHighContrast}
             />
 

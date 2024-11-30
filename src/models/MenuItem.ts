@@ -9,6 +9,8 @@ export default class MenuItem implements CardItem {
     private readonly _itemName: string;
     private readonly _inventoryItems: InventoryItem[];
 
+    private _translatedItemName: string = "";
+
     static fromDict(dict: MenuItemDict): MenuItem {
         const menuItem = new MenuItem(
             dict.menuItemId,
@@ -44,6 +46,14 @@ export default class MenuItem implements CardItem {
 
     get itemName(): string {
         return this._itemName;
+    }
+
+    get translatedItemName(): string {
+        return this._translatedItemName;
+    }
+
+    set translatedItemName(value: string) {
+        this._translatedItemName = value;
     }
 
     get inventoryItems(): InventoryItem[] {

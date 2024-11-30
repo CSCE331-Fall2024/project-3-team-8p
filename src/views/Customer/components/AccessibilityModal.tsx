@@ -28,7 +28,9 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
             backdrop={true}
         >
             <Modal.Header className="border-0 justify-content-center">
-                <Modal.Title className="h4">Accessibility Options</Modal.Title>
+                <Modal.Title className="h4">
+                    {isSpanish ? "Opciones de Accesibilidad" : "Accessibility Options"}
+                </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -38,7 +40,7 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                         onClick={onIncreaseTextSize}
                         className="w-100 shadow-sm"
                     >
-                        Increase Text Size
+                        {isSpanish ? "Aumentar el Tamaño del Texto" : "Increase Text Size"}
                     </Button>
 
                     <Button
@@ -46,7 +48,7 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                         onClick={onDecreaseTextSize}
                         className="w-100 shadow-sm"
                     >
-                        Decrease Text Size
+                        {isSpanish ? "Disminuir el Tamaño del Texto" : "Decrease Text Size"}
                     </Button>
 
                     <Button
@@ -54,7 +56,7 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                         onClick={onToggleLanguage}
                         className="w-100 shadow-sm"
                     >
-                        {isSpanish ? 'Switch to English' : 'Switch to Spanish'}
+                        {isSpanish ? "Cambiar a Inglés" : "Switch to Spanish"}
                     </Button>
 
                     <Button
@@ -62,7 +64,9 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                         onClick={onToggleHighContrast}
                         className="w-100 shadow-sm"
                     >
-                        {isHighContrast ? 'Disable High Contrast' : 'Enable High Contrast'}
+                        {isHighContrast
+                            ? (isSpanish ? "Desactivar el Alto Contraste" : "Disable High Contrast")
+                            : (isSpanish ? "Habilitar Alto Contraste" : "Enable High Contrast")}
                     </Button>
                 </Container>
             </Modal.Body>
@@ -73,7 +77,7 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                     onClick={onClose}
                     className="w-100 shadow-sm"
                 >
-                    Close
+                    {isSpanish ? "Cerca" : "Close"}
                 </Button>
             </Modal.Footer>
         </Modal>

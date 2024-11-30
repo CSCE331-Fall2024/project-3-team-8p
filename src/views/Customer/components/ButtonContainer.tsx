@@ -6,14 +6,29 @@ interface ButtonContainerProps {
     onTabChange: (tab: Tabs) => void;
     isHighContrast?: boolean;
     activeTab: Tabs;
+    isSpanish: boolean;
 }
+
+const getSpanishLabel = (label: Tabs) => {
+    switch (label) {
+        case Tabs.Entrees:
+            return "Entradas";
+        case Tabs.Sides:
+            return "Lados";
+        case Tabs.Drinks:
+            return "Bebidas";
+        case Tabs.Appetizers:
+            return "Aperitivos";
+    }
+};
 
 const ButtonContainer: React.FC<ButtonContainerProps> = ({
                                                              onTabChange,
                                                              isHighContrast = false,
-                                                             activeTab
+                                                             activeTab,
+                                                             isSpanish
                                                          }) => {
-    const buttonLabels: Tabs[] = [Tabs.Entrees, Tabs.Sides, Tabs.Drinks, Tabs.Desserts];
+    const buttonLabels: Tabs[] = [Tabs.Entrees, Tabs.Sides, Tabs.Drinks, Tabs.Appetizers];
 
     return (
         <Container fluid className="fixed-bottom p-0">
@@ -41,7 +56,7 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
                                 transform: activeTab === label ? 'scale(1.05)' : 'scale(1)'
                             }}
                         >
-                            {label}
+                            {isSpanish ? getSpanishLabel(label) : label}
                         </Nav.Link>
                     </Nav.Item>
                 ))}

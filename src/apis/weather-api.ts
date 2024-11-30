@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API_KEY = '99469efe4065076d644eb0ef7a745882';
-const CITY = 'College Station';
+const CITY = "College Station";
 
 export interface WeatherData {
     weather: string;

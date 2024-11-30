@@ -7,6 +7,7 @@ interface CartPopupProps {
     cartItems: CartItem[];
     total: number;
     onClearCart: () => void;
+    isSpanish: boolean;
     isHighContrast?: boolean;
 }
 
@@ -14,6 +15,7 @@ const CartPopup = ({
                        cartItems,
                        total,
                        onClearCart,
+                       isSpanish,
                        isHighContrast = false
                    }: CartPopupProps) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -34,7 +36,9 @@ const CartPopup = ({
                 isHighContrast ? 'bg-dark border-light' : 'bg-white'
             }`}>
                 <div className="d-flex align-items-center gap-2">
-                    <span className="fw-semibold">Cart</span>
+                    <span className="fw-semibold">
+                        {isSpanish ? "Carro" : "Cart"}
+                    </span>
                     {totalItems > 0 && (
                         <Badge bg={isHighContrast ? "light" : "danger"}
                                text={isHighContrast ? "dark" : "white"}>
@@ -50,7 +54,7 @@ const CartPopup = ({
                             onClick={onClearCart}
                             className="d-flex align-items-center gap-1"
                         >
-                            Clear
+                            {isSpanish ? "Claro" : "Clear"}
                         </Button>
                     )}
                     <Button
@@ -70,7 +74,7 @@ const CartPopup = ({
                     <Card.Body className="p-0">
                         {cartItems.length === 0 ? (
                             <div className="p-3 text-center text-muted">
-                                Your cart is empty
+                                {isSpanish ? "Tu carrito esta vacío" : "Your cart is empty"}
                             </div>
                         ) : (
                             <ListGroup variant="flush">
@@ -115,7 +119,7 @@ const CartPopup = ({
                                     variant={isHighContrast ? "light" : "danger"}
                                     className="w-100 mt-2"
                                 >
-                                    Proceed to Checkout
+                                    {isSpanish ? "Pasar por la caja" : "Proceed to Checkout"}
                                 </Button>
                             </Link>
                         </Card.Footer>
