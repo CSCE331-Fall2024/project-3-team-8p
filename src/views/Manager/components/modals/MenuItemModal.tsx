@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import MenuItem from "../../../../models/MenuItem";
 import { v4 as uuidv4 } from "uuid";
@@ -20,35 +20,26 @@ interface ModalProps {
 type FormData = {
     menuItemId: string,
     itemName: string,
-    price: number
-    // nutritionInfo: NutritionInfoDict
-    nutritionInfo: {
-        allergens: string[],
-        calories: number,
-        fat: number,
-        protein: number,
-        sugar: number,
-        carbohydrate: number,
-        isPremium: boolean,
-        isSpicy: boolean
-    }
+    price: number,
+    nutritionInfo: NutritionInfoDict
 };
 
 const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
     itemName: menuItem?.itemName ?? "",
     price: menuItem?.price ?? 0.0,
-    nutritionInfo: {
-        allergens: menuItem?._nutritionInfo?.allergens ?? [],
-        calories: menuItem?._nutritionInfo?.calories ?? 0,
-        fat: menuItem?._nutritionInfo?.fat ?? 0,
-        protein: menuItem?._nutritionInfo?.protein ?? 0,
-        sugar: menuItem?._nutritionInfo?.sugar ?? 0,
-        carbohydrate: menuItem?._nutritionInfo?.carbohydrate ?? 0,
-        isPremium: menuItem?._nutritionInfo?.isPremium ?? false,
-        isSpicy: menuItem?._nutritionInfo?.isSpicy ?? false,
-    }
-
+    nutritionInfo:
+        menuItem?.nutritionInfo ??
+        {
+            allergens: [],
+            calories: 0,
+            fat: 0,
+            protein: 0,
+            sugar: 0,
+            carbohydrates: 0,
+            isPremium: false,
+            isSpicy: false
+        }
 });
 
 const getInitialInventoryItems = (menuItem?: MenuItem): string[] => (
@@ -75,7 +66,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 formData.price,
                 formData.itemName,
                 formData.nutritionInfo
-
             );
             selectedInventoryItems.forEach((itemName: string) => {
                 const inventoryItem = allInventoryItems.find(
@@ -224,7 +214,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="carbohydrates"
                                     type="number"
-                                    value={formData.nutritionInfo.carbohydrate}
+                                    value={formData.nutritionInfo.carbohydrates}
                                     placeholder="Enter carbohydrates"
                                     onChange={handleInputChange}
                                 />

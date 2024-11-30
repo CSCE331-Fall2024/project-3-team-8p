@@ -13,16 +13,12 @@ export default class MenuItem implements CardItem {
     public readonly _nutritionInfo: NutritionInfoDict;
 
     static fromDict(dict: MenuItemDict): MenuItem {
-        const menuItem = new MenuItem(dict.menuItemId, dict.price, dict.itemName, dict.nutritionInfo[0]);
+        const menuItem = new MenuItem(dict.menuItemId, dict.price, dict.itemName, dict.nutritionInfo);
         dict.inventoryItems
             .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
             .forEach((item: InventoryItemDict) => {
                 menuItem.addInventoryItem(InventoryItem.fromDict(item));
             });
-
-
-
-
 
         return menuItem;
     }
@@ -35,9 +31,7 @@ export default class MenuItem implements CardItem {
         itemName: string,
         nutritionInfo: NutritionInfoDict,
         imageUrl?: string
-
-    )
-    {
+    ) {
         this._menuItemId = menuItemId;
         this._price = price;
         this._itemName = itemName;
@@ -70,48 +64,26 @@ export default class MenuItem implements CardItem {
         this._inventoryItems.push(inventoryItem);
     }
 
+    get nutritionInfo(): NutritionInfoDict {
+        return this._nutritionInfo;
+    }
+
     get imageUrl(): string {
         return this._imageUrl;
     }
 
-    toDict(): {
-        itemName: string;
-        nutritionInfo: {
-            carbohydrate: number;
-            protein: number;
-            fat: number;
-            isSpicy: boolean;
-            calories: number;
-            isPremium: boolean;
-            sugar: number;
-            allergens: string[]
-        };
-        inventoryItems: { inventoryItemId: string; itemName: string; cost: number; availableStock: number }[];
-        price: number;
-        menuItemId: string
-    } {
+    toDict(): MenuItemDict {
         return {
             menuItemId: this._menuItemId,
             price: this._price,
             itemName: this._itemName,
-            inventoryItems: this._inventoryItems.map((item: InventoryItem) => ({
+            inventoryItems: this._inventoryItems.map((item: InventoryItem): InventoryItemDict => ({
                 inventoryItemId: item.inventoryItemId,
                 cost: item.cost,
                 availableStock: item.availableStock,
                 itemName: item.itemName,
             })),
-            nutritionInfo: {
-                allergens: this._nutritionInfo.allergens,
-                calories: this._nutritionInfo.calories,
-                fat: this._nutritionInfo.fat,
-                carbohydrate: this._nutritionInfo.carbohydrate,
-                protein: this._nutritionInfo.protein,
-                sugar: this._nutritionInfo.sugar,
-                isPremium: this._nutritionInfo.isPremium,
-                isSpicy: this._nutritionInfo.isSpicy,
-            },
-
-
+            nutritionInfo: this._nutritionInfo
         };
     }
 }
