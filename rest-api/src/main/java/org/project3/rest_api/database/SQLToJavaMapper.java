@@ -1,19 +1,11 @@
 package org.project3.rest_api.database;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.project3.rest_api.models.*;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -53,6 +45,7 @@ public class SQLToJavaMapper {
                     rs.getDouble("price"),
                     rs.getString("itemName"),
                     nutritionInfo,
+                    rs.getString("category"),
                     rs.getBoolean("isDiscounted")
             );
         } catch (Exception e) {
@@ -100,6 +93,7 @@ public class SQLToJavaMapper {
                             rs.getDouble("price"),
                             rs.getString("itemName"),
                             nutritionInfo,
+                            rs.getString("category"),
                             rs.getBoolean("isDiscounted")
                     ),
                     rs.getInt("count")
@@ -190,7 +184,8 @@ public class SQLToJavaMapper {
                     rs.getInt("week"),
                     rs.getInt("day"),
                     rs.getInt("hour"),
-                    rs.getDouble("price")
+                    rs.getDouble("price"),
+                    rs.getString("status")
             );
         }
         catch (SQLException e) {

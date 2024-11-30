@@ -34,6 +34,14 @@ public class OrderServiceController {
     }
 
     /**
+     * Queries database for all undelivered orders
+     * */
+    @GetMapping("/undelivered")
+    public List<Order> getUndeliveredOrders() {
+        return dbOrderService.selectUndeliveredOrders();
+    }
+
+    /**
      * Creates new orders in database
      * @param newOrder Order object to be created in database
      * */
@@ -46,6 +54,17 @@ public class OrderServiceController {
         }
         dbOrderService.insertOrder(newOrder);
         return newOrder;
+    }
+
+    /**
+     * Updates order status in database
+     * @param orderId ID of order to be updated
+     * @param newStatus order's new status
+     * */
+    @PutMapping("{orderId}/updateStatus")
+    public void updateOrderStatus(@PathVariable UUID orderId,
+                                  @RequestParam String newStatus) {
+        dbOrderService.updateOrderStatus(orderId, newStatus);
     }
 
     /**
