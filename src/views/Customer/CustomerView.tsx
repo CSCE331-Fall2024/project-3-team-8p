@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Navbar, Image } from 'react-bootstrap';
+import MenuItemApi from '../../apis/menu-item-api';
+import { Tabs } from './TabsEnum';
+import MenuItem from '../../models/MenuItem';
+import { useCart } from '../../contexts/CartContext';
 import ListingCard from './components/ListingCard';
 import ButtonContainer from './components/ButtonContainer';
-import { Tabs } from './TabsEnum';
 import CartPopup from './components/CartPopup';
-import { useCart } from '../../contexts/CartContext';
-import MenuItem from '../../models/MenuItem';
 import AccessibilityModal from './components/AccessibilityModal';
-import MenuItemApi from '../../apis/menu-item-api';
+
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
