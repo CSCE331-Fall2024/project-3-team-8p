@@ -74,8 +74,8 @@ public class MenuServiceController {
      * Updates menu item discount
      * */
     @PutMapping("/update-discount")
-    public void updateDiscount(@RequestParam Boolean discount) {
-        dbMenuService.updateDiscountStatus(discount);
+    public void updateDiscount(@RequestParam Boolean isDiscounted) {
+        dbMenuService.updateDiscountStatus(isDiscounted);
     }
 
 }

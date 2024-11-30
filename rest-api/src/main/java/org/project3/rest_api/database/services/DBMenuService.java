@@ -149,9 +149,9 @@ public class DBMenuService extends DBConnector {
     /**
      * Updates all menu items' discount status
      * */
-    public void updateDiscountStatus(Boolean discount) {
+    public void updateDiscountStatus(Boolean isDiscounted) {
         executeUpdate(String.format(QueryTemplate.updateDiscountStatus,
-                discount
+                isDiscounted
         ));
     }
 
