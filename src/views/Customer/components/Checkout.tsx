@@ -1,8 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from "uuid";
 import { useCart } from '../../../contexts/CartContext';
 import { WeatherApi, WeatherData } from '../../../apis/weather-api';
-import { Container, Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
+import OrderApi from "../../../apis/order-api";
+import Order from "../../../models/Order";
+import EmployeeApi from "../../../apis/employee-api";
+import CartItem from "../../../models/interfaces/CartItem";
+import MenuItem from "../../../models/MenuItem";
+import MenuItemCategory from "../../../models/enums/MenuItemCategory";
+import OrderStatus from "../../../models/enums/OrderStatus";
+
+const orderApi = new OrderApi();
+const employeeApi = new EmployeeApi();
+
+const getTimeComponents = () => {
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)) + 1;
+    return {
+        month: now.getMonth() + 1,
+        week: Math.ceil(dayOfYear / 7),
+        day: now.getDate(),
+        hour: now.getHours(),
+    };
+}
 
 const Checkout: React.FC = () => {
     const location = useLocation();
@@ -45,8 +68,43 @@ const Checkout: React.FC = () => {
         fetchWeatherData();
     }, []);
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
         alert(isSpanish ? "¡Pedido realizado!" : "Order placed!");
+
+        // Get the "Customer" employee ID:
+        const customerId: string = (await employeeApi.getEmployeeByName("Customer"))!.employeeId
+        const { month, week, day, hour } = getTimeComponents();
+
+        // Construct the order object
+        const newOrder: Order = new Order(
+            uuidv4(),
+            customerId,
+            month,
+            week,
+            day,
+            hour,
+            cartTotal,
+            OrderStatus.PLACED,
+        );
+        cartItems.forEach((item: CartItem) => {
+            newOrder.addMenuItem(new MenuItem(
+                item.menuItemId,
+                item.price,
+                item.itemName,
+                item.category as MenuItemCategory,
+                item.isDiscounted,
+                item.nutritionInfo
+            ));
+        });
+
+        console.log(newOrder.orderId);
+
+        try {
+            await orderApi.addOrder(newOrder);
+        } catch (error) {
+            console.log(error);
+        }
+
         clearCart();
         navigate('/customer');
     };

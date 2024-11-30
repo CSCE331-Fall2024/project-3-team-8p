@@ -1,4 +1,5 @@
 import MenuItemWithQtyDict from "./MenuItemWithQtyDict";
+import OrderStatus from "../enums/OrderStatus";
 
 export default interface OrderDict {
     orderId: string;
@@ -9,4 +10,5 @@ export default interface OrderDict {
     hour: number;
     price: number;
     menuItemsWithQty: MenuItemWithQtyDict[];
+    status: OrderStatus;
 }

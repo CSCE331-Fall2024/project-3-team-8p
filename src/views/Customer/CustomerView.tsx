@@ -10,10 +10,8 @@ import ButtonContainer from './components/ButtonContainer';
 import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
-import TranslateApi from "../../apis/translate-api";
 
 const menuItemApi = new MenuItemApi();
-const translateApi = new TranslateApi();
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);

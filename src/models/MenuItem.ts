@@ -17,6 +17,7 @@ export default class MenuItem implements CardItem {
     private _translatedItemName: string = "";
 
     static fromDict(dict: MenuItemDict): MenuItem {
+        console.log(dict.category);
         const menuItem = new MenuItem(
             dict.menuItemId,
             dict.price,
