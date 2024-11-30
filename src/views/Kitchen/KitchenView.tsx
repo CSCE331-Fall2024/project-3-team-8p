@@ -11,6 +11,7 @@ function KitchenView() {
     const [placedOrders, setPlacedOrders] = useState<Order[]>([]);
     const [inProgressOrders, setInProgressOrders] = useState<Order[]>([]);
     const [completedOrders, setCompletedOrders] = useState<Order[]>([]);
+    const [deliveredOrders, setDeliveredOrders] = useState<Order[]>([]);
 
     const handleDragEnd = (result: DropResult) => {
         const { source, destination, draggableId } = result;
@@ -27,22 +28,14 @@ function KitchenView() {
         }
 
         // Find the dragged order
-        const draggedOrder = [...placedOrders, ...inProgressOrders, ...completedOrders]
+        const draggedOrder = [...placedOrders, ...inProgressOrders, ...completedOrders, ...deliveredOrders]
             .find(order => order.id === draggableId);
         if (!draggedOrder) return;
 
-        const addOrderToList = (list: Order[], index: number, order: Order) => {
-            const updatedList = [...list];
-            updatedList.splice(index, 0, order);
-            return updatedList;
-        };
-
-        // Update the relevant lists
-        let newPlacedOrders = placedOrders;
-        let newInProgressOrders = inProgressOrders;
-        let newCompletedOrders = completedOrders;
-
-        console.log(source.droppableId);
+        let newPlacedOrders: Order[] = placedOrders;
+        let newInProgressOrders: Order[] = inProgressOrders;
+        let newCompletedOrders: Order[] = completedOrders;
+        let newDeliveredOrders: Order[] = deliveredOrders;
 
         switch (source.droppableId) {
             case OrderStatus.PLACED:
@@ -51,8 +44,11 @@ function KitchenView() {
             case OrderStatus.IN_PROGRESS:
                 newInProgressOrders = inProgressOrders.filter(order => order.id !== draggedOrder.id)
                 break;
-            case OrderStatus.COMPLETED:
+            case OrderStatus.READY_FOR_DELIVERY:
                 newCompletedOrders = completedOrders.filter(order => order.id !== draggedOrder.id)
+                break;
+            case OrderStatus.DELIVERED:
+                newDeliveredOrders = deliveredOrders.filter(order => order.id !== draggedOrder.id)
                 break;
         }
 
@@ -61,29 +57,29 @@ function KitchenView() {
 
         switch (destination.droppableId) {
             case OrderStatus.PLACED:
-                newPlacedOrders = addOrderToList(newPlacedOrders, destination.index, draggedOrder);
+                newPlacedOrders.splice(destination.index, 0, draggedOrder);
                 break;
             case OrderStatus.IN_PROGRESS:
-                newInProgressOrders = addOrderToList(newInProgressOrders, destination.index, draggedOrder);
+                newInProgressOrders.splice(destination.index, 0, draggedOrder);
                 break;
-            case OrderStatus.COMPLETED:
-                newCompletedOrders = addOrderToList(newCompletedOrders, destination.index, draggedOrder);
+            case OrderStatus.READY_FOR_DELIVERY:
+                newCompletedOrders.splice(destination.index, 0, draggedOrder);
+                break;
+            case OrderStatus.DELIVERED:
+                newDeliveredOrders.splice(destination.index, 0, draggedOrder);
                 break;
         }
 
-        console.log(newPlacedOrders);
-
-        // Update state
         setPlacedOrders(newPlacedOrders);
         setInProgressOrders(newInProgressOrders);
         setCompletedOrders(newCompletedOrders);
+        setDeliveredOrders(newDeliveredOrders);
     };
-
 
     useEffect(() => {
         setPlacedOrders(ORDER_DATA.filter(order => order.status === OrderStatus.PLACED));
         setInProgressOrders(ORDER_DATA.filter(order => order.status === OrderStatus.IN_PROGRESS));
-        setCompletedOrders(ORDER_DATA.filter(order => order.status === OrderStatus.COMPLETED));
+        setCompletedOrders(ORDER_DATA.filter(order => order.status === OrderStatus.READY_FOR_DELIVERY));
     }, []);
 
     return (
@@ -97,13 +93,18 @@ function KitchenView() {
                     />
                     <OrderColumn
                         title="In Progress"
-                        columnId={"inProgress"}
+                        columnId={"in progress"}
                         orders={inProgressOrders}
                     />
                     <OrderColumn
-                        title="Completed"
-                        columnId={"completed"}
+                        title="Ready for Delivery"
+                        columnId={"ready"}
                         orders={completedOrders}
+                    />
+                    <OrderColumn
+                        title="Delivered"
+                        columnId={"delivered"}
+                        orders={deliveredOrders}
                     />
                 </Row>
             </Container>

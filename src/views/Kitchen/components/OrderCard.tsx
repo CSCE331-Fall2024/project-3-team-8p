@@ -12,8 +12,9 @@ interface OrderCardProps {
 function OrderCard({ order, column, index }: OrderCardProps) {
     const statusStyles: Record<string, string> = {
         placed: "danger",
-        inProgress: "warning",
-        completed: "success"
+        "in progress": "warning",
+        ready: "info",
+        delivered: "success"
     };
 
     return (

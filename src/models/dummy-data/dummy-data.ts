@@ -55,5 +55,5 @@ export const ORDER_DATA: Order[] = [
     new Order(uuidv4(), uuidv4(), 11, 48, 20, 10, 50.00, OrderStatus.PLACED),
     new Order(uuidv4(), uuidv4(), 11, 48, 20, 10, 28.00, OrderStatus.IN_PROGRESS),
     new Order(uuidv4(), uuidv4(), 11, 48, 20, 10, 31.00, OrderStatus.IN_PROGRESS),
-    new Order(uuidv4(), uuidv4(), 11, 48, 20, 10, 14.00, OrderStatus.COMPLETED),
+    new Order(uuidv4(), uuidv4(), 11, 48, 20, 10, 14.00, OrderStatus.READY_FOR_DELIVERY),
 ]
