@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/AccessibilityModal.css';
+import { Modal, Button, Container } from 'react-bootstrap';
 
 interface AccessibilityModalProps {
     onClose: () => void;
@@ -18,29 +18,65 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                                                                    onToggleLanguage,
                                                                    onToggleHighContrast,
                                                                    isSpanish,
-                                                                   isHighContrast,
+                                                                   isHighContrast
                                                                }) => {
     return (
-        <div className="accessibility-modal">
-            <div className="modal-content">
-                <h3>Accessibility Options</h3>
-                <button className="modal-button" onClick={onIncreaseTextSize}>
-                    Increase Text Size
-                </button>
-                <button className="modal-button" onClick={onDecreaseTextSize}>
-                    Decrease Text Size
-                </button>
-                <button className="modal-button" onClick={onToggleLanguage}>
-                    {isSpanish ? 'Switch to English' : 'Switch to Spanish'}
-                </button>
-                <button className="modal-button" onClick={onToggleHighContrast}>
-                    {isHighContrast ? 'Disable High Contrast' : 'Enable High Contrast'}
-                </button>
-                <button className="modal-close-button" onClick={onClose}>
+        <Modal
+            show={true}
+            onHide={onClose}
+            centered
+            backdrop={true}
+        >
+            <Modal.Header className="border-0 justify-content-center">
+                <Modal.Title className="h4">Accessibility Options</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <Container className="d-flex flex-column gap-2">
+                    <Button
+                        variant="primary"
+                        onClick={onIncreaseTextSize}
+                        className="w-100 shadow-sm"
+                    >
+                        Increase Text Size
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={onDecreaseTextSize}
+                        className="w-100 shadow-sm"
+                    >
+                        Decrease Text Size
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={onToggleLanguage}
+                        className="w-100 shadow-sm"
+                    >
+                        {isSpanish ? 'Switch to English' : 'Switch to Spanish'}
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={onToggleHighContrast}
+                        className="w-100 shadow-sm"
+                    >
+                        {isHighContrast ? 'Disable High Contrast' : 'Enable High Contrast'}
+                    </Button>
+                </Container>
+            </Modal.Body>
+
+            <Modal.Footer className="border-0 justify-content-center">
+                <Button
+                    variant="danger"
+                    onClick={onClose}
+                    className="w-100 shadow-sm"
+                >
                     Close
-                </button>
-            </div>
-        </div>
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 

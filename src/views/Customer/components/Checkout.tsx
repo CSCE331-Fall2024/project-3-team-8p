@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
-import '../css/Checkout.css';
-import { WeatherApi, WeatherData } from '../../../apis/weather-api'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { WeatherApi, WeatherData } from '../../../apis/weather-api';
+import { Container, Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
 
 const Checkout: React.FC = () => {
     const { cartItems, cartTotal, clearCart } = useCart();
@@ -42,56 +41,75 @@ const Checkout: React.FC = () => {
     };
 
     return (
-        <div className="checkout-container">
-            <h2>Checkout</h2>
+        <Container fluid className="py-3" style={{ minHeight: '90vh', background: '#dc3545' }}>
+            <Row className="justify-content-center">
+                <Col xs={12} md={8} lg={6}>
+                    <Card className="shadow-sm border-0">
+                        <Card.Header className="bg-dark text-white text-center py-3">
+                            <h2 className="h4 mb-0">Checkout</h2>
+                        </Card.Header>
+                        <Card.Body className="bg-white">
+                            {cartItems.length === 0 ? (
+                                <Alert variant="info" className="mb-4 text-center">
+                                    Your cart is empty
+                                </Alert>
+                            ) : (
+                                <div className="mb-4">
+                                    {cartItems.map((item) => (
+                                        <div key={item.menuItemId} className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                            <span>
+                                                {item.itemName} x {item.quantityOrdered}
+                                            </span>
+                                            <span className="fw-bold">${(item.price * item.quantityOrdered).toFixed(2)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
-            <div>
-                {cartItems.length === 0 ? (
-                    <p>Your cart is empty.</p>
-                ) : (
-                    cartItems.map((item) => (
-                        <div className="cart-item" key={item.menuItemId}>
-                            <span>
-                                {item.itemName} x {item.quantityOrdered}
-                            </span>
-                            <span>${(item.price * item.quantityOrdered).toFixed(2)}</span>
-                        </div>
-                    ))
-                )}
-            </div>
+                            <div className="bg-light p-4 rounded mb-4">
+                                <h3 className="h5 text-primary text-center mb-3">Weather Update</h3>
+                                {loadingWeather ? (
+                                    <div className="text-center">
+                                        <Spinner animation="border" variant="danger" role="status">
+                                            <span className="visually-hidden">Loading weather...</span>
+                                        </Spinner>
+                                    </div>
+                                ) : weatherData ? (
+                                    <>
+                                        <p className="mb-2 fs-5 text-center">
+                                            {weatherData.weather.charAt(0).toUpperCase() + weatherData.weather.slice(1)} | {weatherData.temperature}°F
+                                        </p>
+                                        <p className="text-muted fst-italic text-center mb-0">
+                                            {getWeatherRecommendation(weatherData.weather, weatherData.temperature)}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <Alert variant="warning" className="mb-0">Unable to fetch weather data.</Alert>
+                                )}
+                            </div>
 
-            <div className="weather-container">
-                <h3>Current Weather</h3>
-                {loadingWeather ? (
-                    <p>Loading weather...</p>
-                ) : weatherData ? (
-                    <>
-                        <p>
-                            {weatherData.weather.charAt(0).toUpperCase() + weatherData.weather.slice(1)} | {weatherData.temperature}°F
-                        </p>
-                        <p className="recommendation">
-                            {getWeatherRecommendation(weatherData.weather, weatherData.temperature)}
-                        </p>
-                    </>
-                ) : (
-                    <p>Unable to fetch weather data.</p>
-                )}
-            </div>
-
-            {cartItems.length > 0 && (
-                <div className="total-container">
-                    <h3 className="total-text">Total: ${cartTotal.toFixed(2)}</h3>
-                    <div className="buttons-container">
-                        <Link to='/customer' className="button btn btn-outline-primary">
-                            Order More
-                        </Link>
-                        <button className="button btn btn-danger" onClick={handlePlaceOrder}>
-                            Place Order
-                        </button>
-                    </div>
-                </div>
-            )}
-        </div>
+                            <div className="pt-3">
+                                <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                                    <h3 className="h4 mb-0">Total: ${cartTotal.toFixed(2)}</h3>
+                                    <div className="d-flex gap-2">
+                                        <Link to="/customer" className="btn btn-outline-danger">
+                                            Order More
+                                        </Link>
+                                        <Button
+                                            variant="danger"
+                                            onClick={handlePlaceOrder}
+                                            disabled={cartItems.length === 0}
+                                        >
+                                            Place Order
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

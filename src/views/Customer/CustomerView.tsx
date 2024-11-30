@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './css/CustomerView.css';
+import { Container, Row, Col, Button, Navbar, Image } from 'react-bootstrap';
 import ListingCard from './components/ListingCard';
 import ButtonContainer from './components/ButtonContainer';
 import { Tabs } from './TabsEnum';
@@ -9,16 +9,14 @@ import { useCart } from '../../contexts/CartContext';
 import MenuItem from '../../models/MenuItem';
 import AccessibilityModal from './components/AccessibilityModal';
 import MenuItemApi from '../../apis/menu-item-api';
-import OrderApi from "../../apis/order-api";
-import { v4 as uuidv4 } from "uuid";
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
-    const [textSize, setTextSize] = useState<number>(16); // Default text size
+    const [textSize, setTextSize] = useState<number>(16);
     const [isSpanish, setIsSpanish] = useState<boolean>(false);
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-    const [isHighContrast, setIsHighContrast] = useState<boolean>(false); // High contrast state
+    const [isHighContrast, setIsHighContrast] = useState<boolean>(false);
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
     const menuItemApi = new MenuItemApi();
 
@@ -28,83 +26,107 @@ function CustomerView() {
                 const items = await menuItemApi.getMenuItems();
                 setMenuItems(items);
             } catch (err) {
-                console.log("Error in menu item retrival")
+                console.log("Error in menu item retrieval");
             }
         };
 
         fetchMenuItems();
     }, []);
 
-    const handleTabChange = (tab: Tabs) => {
-        setActiveTab(tab);
-    };
+    const handleTabChange = (tab: Tabs) => setActiveTab(tab);
+    const toggleAccessibilityModal = () => setShowAccessibilityModal(!showAccessibilityModal);
+    const increaseTextSize = () => setTextSize((prev) => Math.min(prev + 2, 20));
+    const decreaseTextSize = () => setTextSize((prev) => Math.max(prev - 2, 12));
+    const toggleLanguage = () => setIsSpanish((prev) => !prev);
+    const toggleHighContrast = () => setIsHighContrast((prev) => !prev);
 
-    const toggleAccessibilityModal = () => {
-        setShowAccessibilityModal(!showAccessibilityModal);
-    };
-
-    const increaseTextSize = () => {
-        setTextSize((prev) => Math.min(prev + 2, 20)); // Limit max size
-    };
-
-    const decreaseTextSize = () => {
-        setTextSize((prev) => Math.max(prev - 2, 12)); // Limit min size
-    };
-
-    const toggleLanguage = () => {
-        setIsSpanish((prev) => !prev);
-    };
-
-    const toggleHighContrast = () => {
-        setIsHighContrast((prev) => !prev); // Toggle high contrast mode
-    };
+    const bgClass = isHighContrast ? 'bg-dark' : 'bg-danger';
+    const textClass = isHighContrast ? 'text-white' : 'text-white';
 
     return (
-        <div
-            className={`CustomerView ${isHighContrast ? 'high-contrast' : ''}`}
-            style={{ fontSize: `${textSize}px` }}
-        >
-            <div className="button-container">
-                <button className="black-button" onClick={toggleAccessibilityModal}>
-                    Accessibility
-                </button>
-                <img src={"images/POS.png"} alt={"Logo"} className="BannerImage" />
-                <Link to="/customer/checkout">
-                    <button className="black-button">Checkout</button>
-                </Link>
-            </div>
-            <div className="cardSection">
-                {menuItems.map((listing: MenuItem) => {
-                    const cartItem = cartItems.find(
-                        (item) => item.menuItemId === listing.menuItemId
-                    );
-                    const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
-                    return (
-                        <ListingCard
-                            key={listing.menuItemId}
-                            name={isSpanish ? listing.itemName : listing.itemName} // Use Spanish if toggled
-                            price={listing.price}
-                            imageUrl={`/images/${listing.itemName}.png`} // Adjusted path for public folder
-                            quantityOrdered={quantityOrdered}
-                            onAddToCart={() => addToCart(listing)}
-                        />
-                    );
-                })}
-            </div>
-            <div className="padding">
-                <ButtonContainer onTabChange={handleTabChange} />
-            </div>
-            <CartPopup cartItems={cartItems} total={cartTotal} onClearCart={clearCart} />
+        <div className={`min-vh-100 ${bgClass} ${textClass}`} style={{ fontSize: `${textSize}px` }}>
+            {/* Header */}
+            <Navbar className="py-3 px-4 shadow-sm">
+                <Container fluid className="d-flex justify-content-between align-items-center">
+                    <Button
+                        variant={isHighContrast ? 'light' : 'dark'}
+                        size="lg"
+                        className="px-4 py-2"
+                        onClick={toggleAccessibilityModal}
+                    >
+                        Accessibility
+                    </Button>
 
+                    <Image
+                        src="/images/POS.png"
+                        alt="Panda Express Logo"
+                        className={`mx-auto ${isHighContrast ? 'filter-invert' : ''}`}
+                        style={{ maxHeight: '80px' }}
+                    />
+
+                    <Link to="/customer/checkout">
+                        <Button
+                            variant={isHighContrast ? 'light' : 'dark'}
+                            size="lg"
+                            className="px-4 py-2"
+                        >
+                            Checkout
+                        </Button>
+                    </Link>
+                </Container>
+            </Navbar>
+
+            {/* Menu Items Grid */}
+            <Container fluid className="py-4">
+                <Row xs={2} sm={3} md={4} lg={5} className="g-4">
+                    {menuItems.map((listing: MenuItem) => {
+                        const cartItem = cartItems.find(
+                            (item) => item.menuItemId === listing.menuItemId
+                        );
+                        const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
+                        return (
+                            <Col key={listing.menuItemId}>
+                                <ListingCard
+                                    name={isSpanish ? listing.itemName : listing.itemName}
+                                    price={listing.price}
+                                    imageUrl={`/images/${listing.itemName}.png`}
+                                    quantityOrdered={quantityOrdered}
+                                    onAddToCart={() => addToCart(listing)}
+                                    isHighContrast={isHighContrast}
+                                />
+                            </Col>
+                        );
+                    })}
+                </Row>
+            </Container>
+
+            {/* Navigation Tabs */}
+            <Container fluid className="mt-3">
+                <ButtonContainer
+                    onTabChange={handleTabChange}
+                    isHighContrast={isHighContrast}
+                    activeTab={activeTab}
+                />
+            </Container>
+
+            {/* Cart Popup */}
+            <CartPopup
+                cartItems={cartItems}
+                total={cartTotal}
+                onClearCart={clearCart}
+                isHighContrast={isHighContrast}
+            />
+
+            {/* Accessibility Modal */}
             {showAccessibilityModal && (
                 <AccessibilityModal
                     onClose={toggleAccessibilityModal}
                     onIncreaseTextSize={increaseTextSize}
                     onDecreaseTextSize={decreaseTextSize}
                     onToggleLanguage={toggleLanguage}
-                    onToggleHighContrast={toggleHighContrast} // Pass toggle handler
+                    onToggleHighContrast={toggleHighContrast}
                     isSpanish={isSpanish}
-                    isHighContrast={isHighContrast} // Optional for UI display
+                    isHighContrast={isHighContrast}
                 />
             )}
         </div>

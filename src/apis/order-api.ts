@@ -23,16 +23,16 @@ export default class OrderApi extends BaseApi {
     }
 
     async addOrder(order: Order): Promise<void> {
-            const OrderData = {
-                orderId: order.orderId,
-                cashierId: order.cashierId,
-                month: order.month,
-                week: order.week,
-                day: order.day,
-                hour: order.hour,
-                price: order.price,
-            };
-            await this.apiClient.post("", OrderData);
+        const OrderData = {
+            orderId: order.orderId,
+            cashierId: order.cashierId,
+            month: order.month,
+            week: order.week,
+            day: order.day,
+            hour: order.hour,
+            price: order.price,
+        };
+        await this.apiClient.post("", OrderData);
     }
 
 }
