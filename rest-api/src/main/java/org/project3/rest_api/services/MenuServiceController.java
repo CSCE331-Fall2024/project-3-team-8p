@@ -19,6 +19,9 @@ import java.util.UUID;
 @CrossOrigin
 public class MenuServiceController {
 
+    /**
+     * Database connector instance
+     * */
     @Autowired
     DBMenuService dbMenuService;
 
@@ -66,4 +69,13 @@ public class MenuServiceController {
     ) {
         return dbMenuService.selectSales(startMonth, endMonth, startDay, endDay);
     }
+
+    /**
+     * Updates menu item discount
+     * */
+    @PutMapping("/update-discount")
+    public void updateDiscount(@RequestParam Boolean isDiscounted) {
+        dbMenuService.updateDiscountStatus(isDiscounted);
+    }
+
 }
