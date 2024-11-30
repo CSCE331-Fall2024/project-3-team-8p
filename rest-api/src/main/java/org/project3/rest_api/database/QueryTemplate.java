@@ -31,6 +31,24 @@ public class QueryTemplate {
                 """;
 
     /**
+     * Select menu items associated with an order
+     * */
+    public static final String selectOrderMenuItems = """
+                SELECT
+                    m.menuItemId,
+                    m.price,
+                    m.itemName,
+                    m.category,
+                    m.nutritionInfo,
+                    m.isDiscounted,
+                    om.quantity AS itemsUsed
+                FROM "order" o
+                JOIN orderToMenuItem om ON o.orderId = om.orderId
+                JOIN menuItem m ON m.menuItemId = om.menuItemId
+                WHERE o.orderId = '%s';
+            """;
+
+    /**
      * SQL query to select recent orders by month and limit
      */
     public static final String selectRecentOrders = """

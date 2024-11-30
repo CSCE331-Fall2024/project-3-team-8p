@@ -138,6 +138,12 @@ public class DBOrderService extends DBConnector {
     }
 
     /**
+     * SQL query to select orders' menu items
+     *
+     *
+     * */
+
+    /**
      * Updates orders' kitchen status
      * @param orderId order's UUID
      * @param newStatus order's new status
