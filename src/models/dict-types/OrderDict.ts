@@ -1,3 +1,5 @@
+import MenuItemWithQtyDict from "./MenuItemWithQtyDict";
+
 export default interface OrderDict {
     orderId: string;
     cashierId: string;
@@ -6,4 +8,5 @@ export default interface OrderDict {
     day: number;
     hour: number;
     price: number;
+    menuItemsWithQty: MenuItemWithQtyDict[];
 }
