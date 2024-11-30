@@ -193,7 +193,9 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
         List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
 
-        String url = baseUrl+"/toggle-discount";
+        final boolean EXPECTED_IS_DISCOUNTED = !oldItems.getFirst().isDiscounted;
+
+        String url = baseUrl+"/update-discount?discount="+EXPECTED_IS_DISCOUNTED;
 
         this.restTemplate.put(
                 url,
@@ -214,8 +216,6 @@ public class MenuServiceTests extends RestAPIApplicationTests {
 
             MenuItem safeNewItem = newItem.get();
 
-            final boolean EXPECTED_IS_DISCOUNTED = !oldItem.isDiscounted;
-
             assertThat(safeNewItem.isDiscounted).isEqualTo(
                     EXPECTED_IS_DISCOUNTED
             );
@@ -223,9 +223,13 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         });
 
         // undo changes
-        this.restTemplate.put(
-                url,
-                null
+        oldItems.forEach(
+                oldItem -> {
+                    this.restTemplate.put(
+                            baseUrl,
+                            oldItem
+                    );
+                }
         );
 
     }

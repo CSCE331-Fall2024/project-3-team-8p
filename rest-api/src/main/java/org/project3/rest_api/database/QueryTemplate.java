@@ -246,9 +246,9 @@ public class QueryTemplate {
     /**
      * SQL query to update discount status
      * */
-    public static final String toggleDiscountStatus = """
+    public static final String updateDiscountStatus = """
             UPDATE menuitem 
-            SET isdiscounted = NOT isdiscounted;
+            SET isdiscounted = %b;
             """;
     /**
      * SQL query to select a menu item by menuItemId

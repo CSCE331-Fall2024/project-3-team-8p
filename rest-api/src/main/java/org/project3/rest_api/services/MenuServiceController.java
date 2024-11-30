@@ -76,11 +76,11 @@ public class MenuServiceController {
     }
 
     /**
-     * Toggles menu item discount
+     * Updates menu item discount
      * */
-    @PutMapping("/toggle-discount")
-    public void toggleDiscount() {
-        dbMenuService.toggleDiscount();
+    @PutMapping("/update-discount")
+    public void updateDiscount(@RequestParam Boolean discount) {
+        dbMenuService.updateDiscountStatus(discount);
     }
 
 }
