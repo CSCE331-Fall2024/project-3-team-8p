@@ -87,17 +87,20 @@ const Checkout: React.FC = () => {
             OrderStatus.PLACED,
         );
         cartItems.forEach((item: CartItem) => {
-            newOrder.addMenuItem(new MenuItem(
-                item.menuItemId,
-                item.price,
-                item.itemName,
-                item.category as MenuItemCategory,
-                item.isDiscounted,
-                item.nutritionInfo
-            ));
+            newOrder.addMenuItem(
+                new MenuItem(
+                    item.menuItemId,
+                    item.price,
+                    item.itemName,
+                    item.category as MenuItemCategory,
+                    item.isDiscounted,
+                    item.nutritionInfo
+                ),
+                item.quantityOrdered
+            );
         });
 
-        console.log(newOrder.orderId);
+        console.log("ORDER ID:", newOrder.orderId);
 
         try {
             await orderApi.addOrder(newOrder);
