@@ -244,14 +244,6 @@ public class QueryTemplate {
 
     // Menu items
     /**
-     * SQL query to update price of all menu items
-     * */
-    public static final String updateAllMenuItemPrice = """
-            UPDATE menuitem 
-            SET price = ROUND(CAST(price * %f as numeric), 2);
-            """;
-
-    /**
      * SQL query to update discount status
      * */
     public static final String toggleDiscountStatus = """
