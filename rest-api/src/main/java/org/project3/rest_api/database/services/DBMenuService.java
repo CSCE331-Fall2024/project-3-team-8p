@@ -131,6 +131,7 @@ public class DBMenuService extends DBConnector {
                 updatedMenuItem.price,
                 updatedMenuItem.itemName,
                 nutritionInfoJson,
+                updatedMenuItem.isDiscounted,
                 updatedMenuItem.menuItemId
 
         ));
@@ -143,6 +144,15 @@ public class DBMenuService extends DBConnector {
         // add association
         mapMenutoInventory(updatedMenuItem.menuItemId, updatedMenuItem.inventoryItems);
 
+    }
+
+    /**
+     * Updates all menu items' discount status
+     * */
+    public void updateDiscountStatus(Boolean isDiscounted) {
+        executeUpdate(String.format(QueryTemplate.updateDiscountStatus,
+                isDiscounted
+        ));
     }
 
     /**
