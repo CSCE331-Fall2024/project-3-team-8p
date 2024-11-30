@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import InventoryItem from "../../../../models/InventoryItem";
 import { v4 as uuidv4 } from "uuid";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface ModalProps {
     currItem: InventoryItem | undefined;
@@ -23,7 +24,7 @@ const getInitialFormData = (currItem?: InventoryItem) => ({
     inventoryItemId: currItem?.inventoryItemId ?? uuidv4(),
     availableStock: currItem?.availableStock ?? 0,
     cost: currItem?.cost ?? 0.0,
-    itemName: currItem?.itemName ?? "",
+    itemName: currItem?.itemName ?? ""
 });
 
 function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
@@ -63,7 +64,7 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
         const { name, value } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: name === "cost" ? parseFloat(value) || 0 : value
+            [name]: value
         }));
     }
 
@@ -92,7 +93,6 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
                         <Form.Control
                             name={"availableStock"}
                             type={"number"}
-                            step={"0.01"}
                             value={formData.availableStock}
                             placeholder={"Enter Available Stock"}
                             onChange={handleInputChange}
@@ -100,11 +100,10 @@ function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
                     </Form.Group>
 
                     <Form.Group className={"mb-3"} controlId={"formCost"}>
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Price ($)</Form.Label>
                         <Form.Control
                             name={"cost"}
                             type={"number"}
-                            step={"0.01"}
                             value={formData.cost}
                             placeholder={"Enter Cost"}
                             onChange={handleInputChange}

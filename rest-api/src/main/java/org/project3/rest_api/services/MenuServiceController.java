@@ -1,7 +1,8 @@
 package org.project3.rest_api.services;
 
-import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.database.services.DBMenuService;
 import org.project3.rest_api.models.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/menu")
 @CrossOrigin
-public class MenuServiceController extends BaseAPIController {
+public class MenuServiceController {
+
+    @Autowired
+    DBMenuService dbMenuService;
 
     /**
      * Queries all menu items from database
@@ -24,7 +28,7 @@ public class MenuServiceController extends BaseAPIController {
      */
     @GetMapping
     public List<MenuItem> getMenuItems() {
-        return dbConnector.selectMenuItems();
+        return dbMenuService.selectMenuItems();
     }
 
     /**
@@ -39,7 +43,7 @@ public class MenuServiceController extends BaseAPIController {
             newMenuItem.menuItemId = UUID.randomUUID();
         }
 
-        dbConnector.insertMenuItem(newMenuItem);
+        dbMenuService.insertMenuItem(newMenuItem);
         return newMenuItem;
     }
 
@@ -50,7 +54,7 @@ public class MenuServiceController extends BaseAPIController {
     @PutMapping
     public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
 
-        dbConnector.updateMenuItem(updatedMenuItem);
+        dbMenuService.updateMenuItem(updatedMenuItem);
     }
 
     @GetMapping("/sales-report")
@@ -60,6 +64,6 @@ public class MenuServiceController extends BaseAPIController {
             @RequestParam Integer startDay,
             @RequestParam Integer endDay
     ) {
-        return dbConnector.selectSales(startMonth, endMonth, startDay, endDay);
+        return dbMenuService.selectSales(startMonth, endMonth, startDay, endDay);
     }
 }

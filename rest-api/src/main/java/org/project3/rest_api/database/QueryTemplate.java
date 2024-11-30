@@ -304,8 +304,8 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuItem (menuItemId, price, itemName)
-                VALUES ('%s', %f, '%s');
+                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo)
+                VALUES ('%s', '%s', %.2f, '%s');
                 """;
 
     /**
@@ -313,7 +313,7 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s'
                 WHERE menuItemId = '%s';
                 """;
 
@@ -329,7 +329,7 @@ public class QueryTemplate {
      * SQL query to select menu item sales by time period
      */
     public static final String selectMenuItemSalesByTimePeriod = """
-                SELECT m.menuItemId, m.price, m.itemName, count(*)
+                SELECT m.menuItemId, m.price, m.itemName, count(*), m.nutritionInfo
                 FROM "order" o
                 JOIN orderToMenuItem otm ON o.orderId = otm.orderId
                 JOIN menuItem m ON otm.menuItemId = m.menuItemId
@@ -384,4 +384,5 @@ public class QueryTemplate {
                     i.availableStock,
                     i.itemName;
                 """;
+
 }

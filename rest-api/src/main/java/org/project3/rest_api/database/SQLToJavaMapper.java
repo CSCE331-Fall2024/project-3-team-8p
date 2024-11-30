@@ -1,11 +1,19 @@
 package org.project3.rest_api.database;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.project3.rest_api.models.*;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.project3.rest_api.models.wrappers.MenuItemWithQty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,6 +30,10 @@ import java.util.UUID;
  */
 public class SQLToJavaMapper {
 
+    /**
+     * Deserializes JSON
+     * */
+    private final static ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Maps a ResultSet row to a MenuItem object.
@@ -32,12 +44,17 @@ public class SQLToJavaMapper {
      */
     public static MenuItem menuItemMapper(ResultSet rs) {
         try {
+            NutritionInfo nutritionInfo = mapper.readValue(
+                    rs.getString("nutritionInfo"),
+                    NutritionInfo.class);
+
             return new MenuItem(
                     UUID.fromString(rs.getString("menuItemId")),
                     rs.getDouble("price"),
-                    rs.getString("itemName")
+                    rs.getString("itemName"),
+                    nutritionInfo
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItem", e);
         }
     }
@@ -72,15 +89,20 @@ public class SQLToJavaMapper {
      */
     public static MenuItemWithQty menuItemWithQtyMapper(ResultSet rs) {
         try {
+            NutritionInfo nutritionInfo = mapper.readValue(
+                    rs.getString("nutritionInfo"),
+                    NutritionInfo.class
+            );
             return new MenuItemWithQty(
                     new MenuItem(
                             UUID.fromString(rs.getString("menuItemId")),
                             rs.getDouble("price"),
-                            rs.getString("itemName")
+                            rs.getString("itemName"),
+                            nutritionInfo
                     ),
                     rs.getInt("count")
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error mapping ResultSet to MenuItemWithQty", e);
         }
     }
