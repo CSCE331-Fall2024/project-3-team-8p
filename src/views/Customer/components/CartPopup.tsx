@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, ListGroup, Badge, Collapse } from 'react-bootstrap';
 import CartItem from "../../../models/interfaces/CartItem";
+import { Link } from "react-router-dom";
 
 interface CartPopupProps {
     cartItems: CartItem[];
@@ -109,12 +110,14 @@ const CartPopup = ({
                                     ${total.toFixed(2)}
                                 </span>
                             </div>
-                            <Button
-                                variant={isHighContrast ? "light" : "danger"}
-                                className="w-100 mt-2"
-                            >
-                                Proceed to Checkout
-                            </Button>
+                            <Link to="checkout">
+                                <Button
+                                    variant={isHighContrast ? "light" : "danger"}
+                                    className="w-100 mt-2"
+                                >
+                                    Proceed to Checkout
+                                </Button>
+                            </Link>
                         </Card.Footer>
                     )}
                 </div>

@@ -9,7 +9,9 @@ import ListingCard from './components/ListingCard';
 import ButtonContainer from './components/ButtonContainer';
 import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
+import LoadingView from "../shared/LoadingView";
 
+const menuItemApi = new MenuItemApi();
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
@@ -18,21 +20,24 @@ function CustomerView() {
     const [isSpanish, setIsSpanish] = useState<boolean>(false);
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [isHighContrast, setIsHighContrast] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
-    const menuItemApi = new MenuItemApi();
 
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
+                setLoading(true);
                 const items = await menuItemApi.getMenuItems();
                 setMenuItems(items);
             } catch (err) {
                 console.log("Error in menu item retrieval");
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchMenuItems();
-    }, []);
+    }, [menuItemApi]);
 
     const handleTabChange = (tab: Tabs) => setActiveTab(tab);
     const toggleAccessibilityModal = () => setShowAccessibilityModal(!showAccessibilityModal);
@@ -65,7 +70,7 @@ function CustomerView() {
                         style={{ maxHeight: '80px' }}
                     />
 
-                    <Link to="/customer/checkout">
+                    <Link to="checkout">
                         <Button
                             variant={isHighContrast ? 'light' : 'dark'}
                             size="lg"
@@ -78,27 +83,35 @@ function CustomerView() {
             </Navbar>
 
             {/* Menu Items Grid */}
-            <Container fluid className="py-4">
-                <Row xs={2} sm={3} md={4} lg={5} className="g-4">
-                    {menuItems.map((listing: MenuItem) => {
-                        const cartItem = cartItems.find(
-                            (item) => item.menuItemId === listing.menuItemId
-                        );
-                        const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
-                        return (
-                            <Col key={listing.menuItemId}>
-                                <ListingCard
-                                    name={isSpanish ? listing.itemName : listing.itemName}
-                                    price={listing.price}
-                                    imageUrl={`/images/${listing.itemName}.png`}
-                                    quantityOrdered={quantityOrdered}
-                                    onAddToCart={() => addToCart(listing)}
-                                    isHighContrast={isHighContrast}
-                                />
-                            </Col>
-                        );
-                    })}
-                </Row>
+            <Container fluid className="p-4">
+                {loading && (
+                    <div className="h-60-vh">
+                        <LoadingView color="white" />
+                    </div>
+                )}
+
+                {!loading && (
+                    <Row xs={2} sm={3} md={4} lg={5} className="g-4">
+                        {menuItems.map((listing: MenuItem) => {
+                            const cartItem = cartItems.find(
+                                (item) => item.menuItemId === listing.menuItemId
+                            );
+                            const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
+                            return (
+                                <Col key={listing.menuItemId}>
+                                    <ListingCard
+                                        name={isSpanish ? listing.itemName : listing.itemName}
+                                        price={listing.price}
+                                        imageUrl={`/images/${listing.itemName}.png`}
+                                        quantityOrdered={quantityOrdered}
+                                        onAddToCart={() => addToCart(listing)}
+                                        isHighContrast={isHighContrast}
+                                    />
+                                </Col>
+                            );
+                        })}
+                    </Row>
+                )}
             </Container>
 
             {/* Navigation Tabs */}

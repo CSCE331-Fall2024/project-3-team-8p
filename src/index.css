@@ -24,6 +24,10 @@ code {
     monospace;
 }
 
-.h-80vh {
+.h-80-vh {
     height: 80vh;
+}
+
+.h-60-vh {
+    height: 60vh;
 }
