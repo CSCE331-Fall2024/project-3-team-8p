@@ -26,11 +26,6 @@ public class MenuServiceController {
     DBMenuService dbMenuService;
 
     /**
-     * Discount hour discount rate
-     * */
-    public static final double DISCOUNT_RATE = 0.85;
-
-    /**
      * Queries all menu items from database
      * @return list of MenuItem
      */
