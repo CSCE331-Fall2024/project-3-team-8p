@@ -2,7 +2,7 @@ import InventoryItem from "./InventoryItem";
 import CardItem from "./interfaces/CardItem";
 import MenuItemDict from "./dict-types/MenuItemDict";
 import InventoryItemDict from "./dict-types/InventoryItemDict";
-import NutritionInfo from "./dict-types/NutritionInfoDict";
+import NutritionInfoDict from "./dict-types/NutritionInfoDict";
 
 export default class MenuItem implements CardItem {
     private readonly _menuItemId: string;
@@ -10,28 +10,19 @@ export default class MenuItem implements CardItem {
     private readonly _itemName: string;
     private readonly _imageUrl: string;
     private readonly _inventoryItems: InventoryItem[];
-    // private _nutritionInfo: NutritionInfo[];
+    public readonly _nutritionInfo: NutritionInfoDict;
 
     static fromDict(dict: MenuItemDict): MenuItem {
-        const menuItem = new MenuItem(
-            dict.menuItemId,
-            dict.price,
-            dict.itemName,
-        );
+        const menuItem = new MenuItem(dict.menuItemId, dict.price, dict.itemName, dict.nutritionInfo[0]);
         dict.inventoryItems
             .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
             .forEach((item: InventoryItemDict) => {
                 menuItem.addInventoryItem(InventoryItem.fromDict(item));
             });
-        // menuItem._nutritionInfo = dict.nutritionInfo.map((item: NutritionInfo) => ({
-        //     allergens: item.allergens,
-        //     calories: item.calories,
-        //     fat: item.fat,
-        //     carbs: item.carbs,
-        //     protein: item.protein,
-        //     isPremium: item.isPremium,
-        //     isSpicy: item.isSpicy,
-        // }));
+
+
+
+
 
         return menuItem;
     }
@@ -42,15 +33,17 @@ export default class MenuItem implements CardItem {
         menuItemId: string,
         price: number,
         itemName: string,
-        imageUrl?: string,
-        quantityOrdered: number = 0
-    ) {
+        nutritionInfo: NutritionInfoDict,
+        imageUrl?: string
+
+    )
+    {
         this._menuItemId = menuItemId;
         this._price = price;
         this._itemName = itemName;
         this._imageUrl = imageUrl ?? "";
         this._inventoryItems = [];
-        // this._nutritionInfo = [];
+        this._nutritionInfo = nutritionInfo;
     }
 
     get id(): string {
@@ -81,7 +74,22 @@ export default class MenuItem implements CardItem {
         return this._imageUrl;
     }
 
-    toDict(): MenuItemDict {
+    toDict(): {
+        itemName: string;
+        nutritionInfo: {
+            carbohydrate: number;
+            protein: number;
+            fat: number;
+            isSpicy: boolean;
+            calories: number;
+            isPremium: boolean;
+            sugar: number;
+            allergens: string[]
+        };
+        inventoryItems: { inventoryItemId: string; itemName: string; cost: number; availableStock: number }[];
+        price: number;
+        menuItemId: string
+    } {
         return {
             menuItemId: this._menuItemId,
             price: this._price,
@@ -92,15 +100,18 @@ export default class MenuItem implements CardItem {
                 availableStock: item.availableStock,
                 itemName: item.itemName,
             })),
-            // nutritionInfo: this._nutritionInfo.map((item: NutritionInfo) => ({
-            //     allergens: item.allergens,
-            //     calories: item.calories,
-            //     fat: item.fat,
-            //     carbs: item.carbs,
-            //     protein: item.protein,
-            //     isPremium: item.isPremium,
-            //     isSpicy: item.isSpicy,
-            // })),
+            nutritionInfo: {
+                allergens: this._nutritionInfo.allergens,
+                calories: this._nutritionInfo.calories,
+                fat: this._nutritionInfo.fat,
+                carbohydrate: this._nutritionInfo.carbohydrate,
+                protein: this._nutritionInfo.protein,
+                sugar: this._nutritionInfo.sugar,
+                isPremium: this._nutritionInfo.isPremium,
+                isSpicy: this._nutritionInfo.isSpicy,
+            },
+
+
         };
     }
 }

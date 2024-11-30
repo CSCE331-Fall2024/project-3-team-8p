@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import InventoryItem from "../../../../models/InventoryItem";
 import "../../css/MenuItemModal.css";
 import { SearchableMultiSelect } from "./SearchableMultiSelect";
+import NutritionInfoDict from "../../../../models/dict-types/NutritionInfoDict";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -20,21 +21,33 @@ type FormData = {
     menuItemId: string,
     itemName: string,
     price: number
-    allergens?: string,
-    calories?: number,
-    fat?: number,
-    protein?: number,
-    sugar?: number,
-    carbohydrates?: number,
-    isPremium?: boolean,
-    isSpicy?: boolean,
+    // nutritionInfo: NutritionInfoDict
+    nutritionInfo: {
+        allergens: string[],
+        calories: number,
+        fat: number,
+        protein: number,
+        sugar: number,
+        carbohydrate: number,
+        isPremium: boolean,
+        isSpicy: boolean
+    }
 };
 
 const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
     itemName: menuItem?.itemName ?? "",
     price: menuItem?.price ?? 0.0,
-
+    nutritionInfo: {
+        allergens: menuItem?._nutritionInfo?.allergens ?? [],
+        calories: menuItem?._nutritionInfo?.calories ?? 0,
+        fat: menuItem?._nutritionInfo?.fat ?? 0,
+        protein: menuItem?._nutritionInfo?.protein ?? 0,
+        sugar: menuItem?._nutritionInfo?.sugar ?? 0,
+        carbohydrate: menuItem?._nutritionInfo?.carbohydrate ?? 0,
+        isPremium: menuItem?._nutritionInfo?.isPremium ?? false,
+        isSpicy: menuItem?._nutritionInfo?.isSpicy ?? false,
+    }
 
 });
 
@@ -60,7 +73,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
             const itemToSave = new MenuItem(
                 formData.menuItemId,
                 formData.price,
-                formData.itemName
+                formData.itemName,
+                formData.nutritionInfo
+
             );
             selectedInventoryItems.forEach((itemName: string) => {
                 const inventoryItem = allInventoryItems.find(
@@ -68,6 +83,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 )!;
                 itemToSave.addInventoryItem(inventoryItem);
             });
+
 
             if (currMenuItem) {
                 await api.updateMenuItem(itemToSave);
@@ -141,7 +157,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         <Form.Control
                             name="allergens"
                             type="text"
-                            value={formData.allergens}
+                            value={formData.nutritionInfo.allergens?.join(", ") || ''}
                             placeholder="Enter allergens, separated by commas"
                             onChange={handleInputChange}
                         />
@@ -154,7 +170,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="calories"
                                     type="number"
-                                    value={formData.calories}
+                                    value={formData.nutritionInfo.calories}
                                     placeholder="Enter calories"
                                     onChange={handleInputChange}
                                 />
@@ -166,7 +182,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="fat"
                                     type="number"
-                                    value={formData.fat}
+                                    value={formData.nutritionInfo.fat}
                                     placeholder="Enter fat"
                                     onChange={handleInputChange}
                                 />
@@ -181,7 +197,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="protein"
                                     type="number"
-                                    value={formData.protein}
+                                    value={formData.nutritionInfo.protein}
                                     placeholder="Enter protein"
                                     onChange={handleInputChange}
                                 />
@@ -193,7 +209,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="sugar"
                                     type="number"
-                                    value={formData.sugar}
+                                    value={formData.nutritionInfo.sugar}
                                     placeholder="Enter sugar"
                                     onChange={handleInputChange}
                                 />
@@ -208,7 +224,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                 <Form.Control
                                     name="carbohydrates"
                                     type="number"
-                                    value={formData.carbohydrates}
+                                    value={formData.nutritionInfo.carbohydrate}
                                     placeholder="Enter carbohydrates"
                                     onChange={handleInputChange}
                                 />
@@ -220,7 +236,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                     name="isPremium"
                                     type="checkbox"
                                     label="Is Premium"
-                                    checked={formData.isPremium}
+                                    checked={formData.nutritionInfo.isPremium}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>
@@ -234,7 +250,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                                     name="isSpicy"
                                     type="checkbox"
                                     label="Is Spicy"
-                                    checked={formData.isSpicy}
+                                    checked={formData.nutritionInfo.isSpicy}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>
