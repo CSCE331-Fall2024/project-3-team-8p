@@ -34,6 +34,14 @@ public class OrderServiceController {
     }
 
     /**
+     * Queries database for all undelivered orders
+     * */
+    @GetMapping("/undelivered")
+    public List<Order> getUndeliveredOrders() {
+        return dbOrderService.selectUndeliveredOrders();
+    }
+
+    /**
      * Creates new orders in database
      * @param newOrder Order object to be created in database
      * */

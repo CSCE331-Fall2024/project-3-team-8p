@@ -234,4 +234,20 @@ public class OrdersServiceTests extends RestAPIApplicationTests{
 
     }
 
+    @Test
+    void getUndeliveredOrdersReturnsCorrectCount () {
+
+        String url = baseUrl+"/undelivered";
+
+        List<Order> undeliveredOrders = dbOrderService.selectUndeliveredOrders();
+
+        Order[] getOrders = getOrders(url);
+
+        assertThat(
+                getOrders.length
+        ).isEqualTo(undeliveredOrders.size());
+
+
+    }
+
 }

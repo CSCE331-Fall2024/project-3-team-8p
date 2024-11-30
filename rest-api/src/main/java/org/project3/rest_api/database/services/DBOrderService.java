@@ -47,13 +47,6 @@ public class DBOrderService extends DBConnector {
                     SQLToJavaMapper::orderMapper
             );
 
-            // add each order's menu items
-            orders.forEach(
-                    order -> {
-                        order.menuItemsWithQty = selectOrderMenuItems(order.orderId);
-                    }
-            );
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,6 +158,32 @@ public class DBOrderService extends DBConnector {
         }
 
         return menuItemWithQties;
+    }
+
+    /**
+     * SQL query to select all undelivered orders
+     *
+     * */
+    public List<Order> selectUndeliveredOrders() {
+        List<Order> undeliveredOrders = Collections.emptyList();
+
+        try {
+            undeliveredOrders = executeQuery(QueryTemplate.selectAllUndeliveredOrders,
+                    SQLToJavaMapper::orderMapper
+            );
+
+            // map each order to its menu item
+            undeliveredOrders.forEach(
+                    order -> {
+                        order.menuItemsWithQty = selectOrderMenuItems(order.orderId);
+                    }
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return undeliveredOrders;
     }
 
     /**

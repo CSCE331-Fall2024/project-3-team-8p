@@ -31,7 +31,7 @@ public class QueryTemplate {
                 """;
 
     /**
-     * Select menu items associated with an order
+     * SQL query to select menu items associated with an order
      * */
     public static final String selectOrderMenuItems = """
                 SELECT
@@ -46,6 +46,14 @@ public class QueryTemplate {
                 JOIN orderToMenuItem om ON o.orderId = om.orderId
                 JOIN menuItem m ON m.menuItemId = om.menuItemId
                 WHERE o.orderId = '%s';
+            """;
+
+    /**
+     * SQL query to select all undelivered orders
+     * */
+    public static final String selectAllUndeliveredOrders = """
+            SELECT * FROM "order"
+            WHERE NOT(status = 'delivered')
             """;
 
     /**
