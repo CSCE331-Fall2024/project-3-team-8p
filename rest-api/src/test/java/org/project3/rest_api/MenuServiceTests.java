@@ -100,7 +100,8 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 12.99,
                 "Test Menu Item",
                 nutritionInfo,
-                "appetizer"
+                "appetizer",
+                false
         );
 
        newMenuItem.inventoryItems = invItems.subList(0,3);
@@ -145,12 +146,15 @@ public class MenuServiceTests extends RestAPIApplicationTests {
         randIdx = rand.nextInt(allCategories.size());
         String newCategory = allCategories.get(randIdx);
 
+        boolean newDiscount = !origMenuItem.isDiscounted;
+
         MenuItem newMenuItem = new MenuItem(
                 origMenuItem.menuItemId,
                 newPrice,
                 newName,
                 nutritionInfo,
-                newCategory
+                newCategory,
+                newDiscount
         );
         newMenuItem.inventoryItems = randInvItems;
 
@@ -188,11 +192,64 @@ public class MenuServiceTests extends RestAPIApplicationTests {
                 safeItem.category
         ).isEqualTo(newCategory);
 
+        assertThat(
+                safeItem.isDiscounted
+        ).isEqualTo(newDiscount);
+
         printResult(getRawJson(baseUrl), "Menu Items");
 
         // put the original menu item back after testing is over
         restTemplate.put(baseUrl,
                 origMenuItem);
+    }
+
+    /**
+     * Checks that toggle functionality works
+     * */
+    @Test
+    void priceDoesDecreaseCorrectly() {
+
+        List<MenuItem> oldItems = Arrays.stream(getMenuItems()).toList();
+
+        final boolean EXPECTED_IS_DISCOUNTED = !(oldItems.getFirst().isDiscounted);
+
+        String url = baseUrl+"/update-discount?isDiscounted="+EXPECTED_IS_DISCOUNTED;
+
+        this.restTemplate.put(
+                url,
+                null
+        );
+
+        List<MenuItem> newItems = Arrays.stream(getMenuItems()).toList();
+
+        oldItems.forEach(oldItem -> {
+
+            Optional<MenuItem> newItem = newItems.stream().filter(
+                    findItem -> {
+                        return findItem.menuItemId.equals(oldItem.menuItemId);
+                    }
+            ).findFirst();
+
+            assertThat(newItem).isPresent();
+
+            MenuItem safeNewItem = newItem.get();
+
+            assertThat(safeNewItem.isDiscounted).isEqualTo(
+                    EXPECTED_IS_DISCOUNTED
+            );
+
+        });
+
+        // undo changes
+        oldItems.forEach(
+                oldItem -> {
+                    this.restTemplate.put(
+                            baseUrl,
+                            oldItem
+                    );
+                }
+        );
+
     }
 
 

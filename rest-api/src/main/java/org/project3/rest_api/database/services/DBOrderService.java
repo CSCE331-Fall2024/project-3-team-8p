@@ -4,6 +4,7 @@ import org.project3.rest_api.database.DBConnector;
 import org.project3.rest_api.database.QueryTemplate;
 import org.project3.rest_api.database.SQLToJavaMapper;
 import org.project3.rest_api.models.InventoryItem;
+import org.project3.rest_api.models.MenuItem;
 import org.project3.rest_api.models.Order;
 import org.project3.rest_api.models.wrappers.InventoryItemWithQty;
 import org.project3.rest_api.models.wrappers.MenuItemWithQty;
@@ -38,17 +39,25 @@ public class DBOrderService extends DBConnector {
      * @return a {@code List<Order>} of most recent orders
      */
     public List<Order> selectOrders(Integer mostRecent) {
-        List<Order> items = null;
+        List<Order> orders = null;
         try {
             int currentMonth = calendar.get(Calendar.MONTH) + 1;
-            items = executeQuery(
+            orders = executeQuery(
                     String.format(QueryTemplate.selectRecentOrders, currentMonth, mostRecent),
                     SQLToJavaMapper::orderMapper
             );
+
+            // add each order's menu items
+            orders.forEach(
+                    order -> {
+                        order.menuItemsWithQty = selectOrderMenuItems(order.orderId);
+                    }
+            );
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return items;
+        return orders;
     }
 
     /**
@@ -140,8 +149,23 @@ public class DBOrderService extends DBConnector {
     /**
      * SQL query to select orders' menu items
      *
-     *
+     * @param orderId ID of order to select menu items for
      * */
+    public List<MenuItemWithQty> selectOrderMenuItems(UUID orderId) {
+
+        List<MenuItemWithQty> menuItemWithQties = null;
+
+        try {
+            menuItemWithQties = executeQuery(String.format(QueryTemplate.selectOrderMenuItems,
+                    orderId
+            ), SQLToJavaMapper::menuItemWithQtyMapper);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return menuItemWithQties;
+    }
 
     /**
      * Updates orders' kitchen status

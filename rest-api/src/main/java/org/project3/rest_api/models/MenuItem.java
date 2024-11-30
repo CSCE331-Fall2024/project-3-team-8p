@@ -37,6 +37,12 @@ public class MenuItem {
     public String category;
 
     /**
+     * Discount status of menu item
+     * */
+    public Boolean isDiscounted;
+
+
+    /**
      * List of associated inventory items
      * */
     public List<InventoryItem> inventoryItems;
@@ -53,12 +59,14 @@ public class MenuItem {
                     Double price,
                     String itemName,
                     NutritionInfo nutritionInfo,
-                    String category) {
+                    String category,
+                    Boolean isDiscounted) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
         this.nutritionInfo = nutritionInfo;
         this.category = category;
+        this.isDiscounted = isDiscounted;
     }
 
     /**
@@ -70,8 +78,9 @@ public class MenuItem {
     public MenuItem(Double price,
                     String itemName,
                     NutritionInfo nutritionInfo,
-                    String category) {
-        this(UUID.randomUUID(), price, itemName, nutritionInfo, category);
+                    String category,
+                    Boolean isDiscounted) {
+        this(UUID.randomUUID(), price, itemName, nutritionInfo, category, isDiscounted);
     }
 
     /**

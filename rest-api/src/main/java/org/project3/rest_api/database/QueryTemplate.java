@@ -41,7 +41,7 @@ public class QueryTemplate {
                     m.category,
                     m.nutritionInfo,
                     m.isDiscounted,
-                    om.quantity AS itemsUsed
+                    om.quantity AS count
                 FROM "order" o
                 JOIN orderToMenuItem om ON o.orderId = om.orderId
                 JOIN menuItem m ON m.menuItemId = om.menuItemId
@@ -262,6 +262,13 @@ public class QueryTemplate {
 
     // Menu items
     /**
+     * SQL query to update discount status
+     * */
+    public static final String updateDiscountStatus = """
+            UPDATE menuItem 
+            SET isDiscounted = %b;
+            """;
+    /**
      * SQL query to select a menu item by menuItemId
      */
     public static final String selectMenuItem = """
@@ -322,7 +329,7 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo, category)
+                INSERT INTO menuItem (menuItemId, itemName, price, nutritionInfo, category)
                 VALUES ('%s', '%s', %.2f, '%s', '%s');
                 """;
 
@@ -331,7 +338,8 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s', nutritionInfo = '%s', category = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s',
+                category = '%s', isDiscounted = %b
                 WHERE menuItemId = '%s';
                 """;
 
