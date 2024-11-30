@@ -1,69 +1,35 @@
-// listingData.ts
 import { Tabs } from './TabsEnum';
-import {
-    BeijingBeef,
-    BlackPepperChicken,
-    BlackPepperSteak,
-    OrangeChicken,
-    KungPao,
-    HotOnes,
-    HoneyWalnut,
-    HoneySesame,
-    GrilledTeriyaki,
-    BroccoliBeef,
-    WhiteRice,
-    FriedRice,
-    SuperGreens,
-    ChowMein,
-    Pepsi,
-    DrPepper,
-    Aquafina,
-    SweetTea,
-    spicy,
-    wok
-} from '../images';
 
-interface Listing {
-    name: string;
-    price: number;
-    imageUrl: string;
-    allergens: string[];
-    calories: number;
-    fat: number;
-    protein: number;
-    sugar: number;
-    carbohydrates: number;
-    isPremium: boolean;
-    isSpicy: boolean;
-}
 
-const listings: Record<Tabs, Listing[]> = {
+// import MenuItem from '../MenuItem';
+
+const listings: Record<Tabs, MenuItem[]> = {
     [Tabs.Entrees]: [
-        { name: 'Beijing Beef', price: 4.40, imageUrl: BeijingBeef, allergens: [], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'The Original Orange Chicken', price: 4.40, imageUrl: OrangeChicken, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Kung Pao Chicken', price: 4.40, imageUrl: KungPao, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Hot Ones Blazing Bourbon Chicken', price: 4.40, imageUrl: HotOnes, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Honey Walnut Shrimp', price: 4.40, imageUrl: HoneyWalnut, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Honey Sesame Chicken Breast', price: 4.40, imageUrl: HoneySesame, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Grilled Teriyaki', price: 4.40, imageUrl: GrilledTeriyaki, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Black Pepper Sirloin Steak', price: 4.40, imageUrl: BlackPepperSteak, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Black Pepper Chicken', price: 4.40, imageUrl: BlackPepperChicken, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Broccoli Beef', price: 4.40, imageUrl: BroccoliBeef, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        new MenuItem("1", 4.40, "Beijing Beef", "images/Beijing Beef.png"),
+        new MenuItem("2", 4.40, "The Original Orange Chicken", "images/The Original Orange Chicken.png"),
+        new MenuItem("3", 4.40, "Kung Pao Chicken", "images/Kung Pao Chicken.png"),
+        new MenuItem("4", 4.40, "Hot Ones Blazing Bourbon Chicken", "images/Hot Ones Blazing Bourbon Chicken.png"),
+        new MenuItem("5", 4.40, "Honey Walnut Shrimp", "images/Honey Walnut Shrimp.png"),
+        new MenuItem("6", 4.40, "Honey Sesame Chicken Breast", "images/Honey Sesame Chicken Breast.png"),
+        new MenuItem("7", 4.40, "Grilled Teriyaki", "images/Grilled Teriyaki Chicken.png"),
+        new MenuItem("8", 4.40, "Black Pepper Sirloin Steak", "images/Black Pepper Sirloin Steak.png"),
+        new MenuItem("9", 4.40, "Black Pepper Chicken", "images/Black Pepper Chicken.png"),
+        new MenuItem("10", 4.40, "Broccoli Beef", "images/Broccoli Beef.png"),
     ],
     [Tabs.Sides]: [
-        { name: 'White Rice', price: 4.40, imageUrl: WhiteRice, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Fried Rice', price: 4.40, imageUrl: FriedRice, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Chow Mein', price: 4.40, imageUrl: ChowMein, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Super Greens', price: 4.40, imageUrl: SuperGreens, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        new MenuItem("11", 4.40, "White Rice", "images/White Steamed Rice.png"),
+        new MenuItem("12", 4.40, "Fried Rice", "images/Fried Rice.png"),
+        new MenuItem("13", 4.40, "Chow Mein", "images/Chow Mein.png"),
+        new MenuItem("14", 4.40, "Super Greens", "images/Super Greens.png"),
     ],
     [Tabs.Drinks]: [
-        { name: 'Dr. Pepper', price: 4.40, imageUrl: DrPepper, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Pepsi', price: 4.40, imageUrl: Pepsi, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Aquafina', price: 4.40, imageUrl: Aquafina, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
-        { name: 'Sweet Tea', price: 4.40, imageUrl: SweetTea, allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: true, isSpicy: true},
+        new MenuItem("15", 4.40, "Dr. Pepper", "images/Dr. Pepper.png"),
+        new MenuItem("16", 4.40, "Pepsi", "images/Pepsi.png"),
+        new MenuItem("17", 4.40, "Aquafina", "images/Aquafina.png"),
+        new MenuItem("18", 4.40, "Sweet Tea", "images/Sweet Tea.png"),
     ],
     [Tabs.Desserts]: [
-        { name: 'Mochi', price: 4.40, imageUrl: 'https://via.placeholder.com/300', allergens: ['soy'], calories: 400, fat: 18, protein: 25, sugar: 12, carbohydrates: 30, isPremium: false, isSpicy: true},
+        new MenuItem("19", 4.99, "Mochi", "https://via.placeholder.com/300"),
     ],
 };
 

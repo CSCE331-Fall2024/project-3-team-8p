@@ -18,10 +18,10 @@ import Pepsi from './Pepsi.png';
 import DrPepper from './Dr. Pepper.png';
 import Aquafina from './Aquafina.png';
 import SweetTea from './Sweet Tea.png';
-import spicy from './spicy.png';
+import spicyIcon from './spicy.png';
 import wok from './wok.png';
 import information from './information.png';
-import premium from './premium.png';
+import premiumIcon from './premium.png';
 
 // Export all images together
 export {
@@ -44,8 +44,8 @@ export {
     DrPepper,
     Aquafina,
     SweetTea,
-    spicy,
+    spicyIcon,
     wok,
     information,
-    premium
+    premiumIcon
 };

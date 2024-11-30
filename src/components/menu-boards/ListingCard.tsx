@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { spicy, information, premium } from '../images';
+import { spicyIcon, information, premiumIcon } from '../images';
 
 interface ListingCardProps {
     name: string;
@@ -144,11 +144,11 @@ const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allerge
                 <p> ${price.toFixed(2)} </p>
                 <div>Calories: {calories} cal</div>
                 <PremiumContainer>
-                    {isPremium && <Premium src={premium} alt="Premium"/>}
+                    {isPremium && <Premium src={premiumIcon} alt="Premium"/>}
 
                 </PremiumContainer>
                 <SpicyContainer>
-                    {isSpicy && <Spicy src={spicy} alt="Spicy"/>}
+                    {isSpicy && <Spicy src={spicyIcon} alt="Spicy"/>}
                 </SpicyContainer>
             </CardContent>
 
