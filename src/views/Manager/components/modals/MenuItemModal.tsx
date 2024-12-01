@@ -31,8 +31,8 @@ const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
     price: menuItem?.price ?? 0.0,
     itemName: menuItem?.itemName ?? "",
-    category: MenuItemCategory.Entree,
-    isDiscounted: false,
+    category: menuItem?.category ?? MenuItemCategory.Entree,
+    isDiscounted: menuItem?.isDiscounted ?? false,
     nutritionInfo:
         menuItem?.nutritionInfo ??
         {
@@ -70,8 +70,8 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 formData.menuItemId,
                 formData.price,
                 formData.itemName,
-                MenuItemCategory.Entree,
-                false,
+                formData.category,
+                formData.isDiscounted,
                 formData.nutritionInfo,
             );
             selectedInventoryItems.forEach((itemName: string) => {
@@ -94,7 +94,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = event.target;
-        const newValue = type === 'checkbox' ? checked : value;
+        const newValue: string | boolean = type === 'checkbox' ? checked : value;
+
+        console.log(name, newValue);
 
         if (name === "allergens") {
             setFormData(prevFormData => ({
@@ -106,21 +108,28 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         : value.split(",").map(allergen => allergen.trim())
                 }
             }));
-
         } else if (name in formData.nutritionInfo) {
             setFormData(prevFormData => ({
                 ...prevFormData,
                 nutritionInfo: {
                     ...prevFormData.nutritionInfo,
-                    [name]: type === "number" ? parseFloat(value) : newValue
+                    [name]: newValue
                 }
             }));
         } else {
             setFormData(prevFormData => ({
                 ...prevFormData,
-                [name]: type === 'number' ? parseFloat(value) : newValue
+                [name]: newValue
             }));
         }
+    };
+
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const { value } = event.target;
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            category: value as MenuItemCategory,
+        }));
     };
 
     return (
@@ -159,7 +168,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         </Col>
                     </Row>
 
-                    <Form.Group className="mb-3" controlId="inventoryItems">
+                    <Form.Group className="mb-3" controlId="formInventoryItems">
                         <Form.Label>Associated Inventory Items</Form.Label>
                         <SearchableMultiSelect
                             items={allInventoryItems}
@@ -168,6 +177,19 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                             onChange={setSelectedInventoryItems}
                             placeholder="Select inventory items..."
                         />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formCategory">
+                        <Form.Label>Category</Form.Label>
+                        <Form.Select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleSelectChange}
+                        >
+                            {Object.entries(MenuItemCategory).map(([key, value]) => (
+                                <option key={value} value={value}>{key}</option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formIsDiscounted">
