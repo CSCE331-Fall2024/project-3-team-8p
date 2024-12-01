@@ -49,7 +49,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
 };
 
-export const useUser = () => {
+export const useUser = (): UserContextType => {
     const context = useContext(UserContext);
     if (context === undefined) {
         throw new Error("UserContext must be used within a UserProvider");

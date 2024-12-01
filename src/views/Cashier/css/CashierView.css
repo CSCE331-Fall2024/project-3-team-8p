@@ -1,0 +1,85 @@
+.cashier-view {
+    display: flex;
+    height: 100vh;
+    background-color: #D51A1F;
+    color: white;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* Left container (now holds only the order table) */
+.left-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-right: 2px solid white;
+    padding-right: 16px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Add scroll if needed */
+}
+
+/* Order table and buttons */
+.order-table {
+    width: 100%; /* Take full width of the container */
+    padding: 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 8px;
+}
+
+.order-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table table th,
+.order-table table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.order-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.order-actions button {
+    background-color: #333;
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.order-actions button:hover {
+    background-color: #555;
+}
+
+/* Right container (holds the listing cards) */
+.right-container {
+    flex: 2;
+    padding-left: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.card-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px 5px;
+}
+
+.card-section > div {
+    width: 150px;
+    height: auto;
+    padding: 8px;
+    box-sizing: border-box; /* Ensure padding doesn’t increase card size */
+}
+
+h2{
+    text-align: center;
+}

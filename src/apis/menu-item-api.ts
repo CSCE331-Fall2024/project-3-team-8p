@@ -5,21 +5,35 @@ import BaseApi from "./base-api";
 import MenuItem from "../models/MenuItem";
 import SalesReportDict from "../models/dict-types/SalesReportDict";
 import MenuItemDict from "../models/dict-types/MenuItemDict";
+import TranslateApi from "./translate-api";
 
 export default class MenuItemApi extends BaseApi {
+    private readonly _translateApi: TranslateApi;
+
     constructor() {
         // Set the base menu item endpoint
         super("menu");
+        this._translateApi = new TranslateApi();
     }
 
     /*
     Gets all menu items
     */
-    async getMenuItems(): Promise<MenuItem[]> {
+    async getMenuItems(includeTranslation: boolean = false): Promise<MenuItem[]> {
         const response = await this.apiClient.get<MenuItemDict[]>("");
-        return response.data
+        const items: MenuItem[] = response.data
             .map((item: MenuItemDict) => MenuItem.fromDict(item))
             .sort((a: MenuItem, b: MenuItem) => a.itemName.localeCompare(b.itemName));
+
+        if (includeTranslation) {
+            await Promise.all(
+                items.map(async (item: MenuItem) => {
+                    item.translatedItemName = await this._translateApi.translate(item.itemName, "es")
+                })
+            );
+        }
+
+        return items;
     }
 
     async addMenuItem(item: MenuItem): Promise<void> {
