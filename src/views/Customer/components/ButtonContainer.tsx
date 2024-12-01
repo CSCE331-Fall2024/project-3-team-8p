@@ -29,12 +29,6 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
                                                              activeTab,
                                                          }) => {
     const { isSpanish, textSize } = usePreferences();
-    const buttonLabels: MenuItemCategory[] = [
-        MenuItemCategory.Entree,
-        MenuItemCategory.Side,
-        MenuItemCategory.Drink,
-        MenuItemCategory.Appetizer
-    ];
 
     return (
         <Container fluid className="fixed-bottom p-0">
@@ -43,7 +37,7 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
                 variant={isHighContrast ? "pills" : "tabs"}
                 style={{ backgroundColor: '#212529' }}
             >
-                {buttonLabels.map((label) => (
+                {Object.entries(MenuItemCategory).map(([_, label]) => (
                     <Nav.Item key={label} className="flex-fill position-relative">
                         <Nav.Link
                             onClick={() => onTabChange(label)}

@@ -20,15 +20,19 @@ interface ModalProps {
 
 type FormData = {
     menuItemId: string,
-    itemName: string,
     price: number,
+    itemName: string,
+    category: MenuItemCategory,
+    isDiscounted: boolean,
     nutritionInfo: NutritionInfoDict
 };
 
 const getInitialFormData = (menuItem?: MenuItem): FormData => ({
     menuItemId: menuItem?.menuItemId ?? uuidv4(),
-    itemName: menuItem?.itemName ?? "",
     price: menuItem?.price ?? 0.0,
+    itemName: menuItem?.itemName ?? "",
+    category: MenuItemCategory.Entree,
+    isDiscounted: false,
     nutritionInfo:
         menuItem?.nutritionInfo ??
         {
@@ -38,8 +42,8 @@ const getInitialFormData = (menuItem?: MenuItem): FormData => ({
             protein: 0,
             sugar: 0,
             carbohydrates: 0,
-            isPremium: true,
-            isSpicy: true
+            isPremium: false,
+            isSpicy: false
         }
 });
 
@@ -166,6 +170,16 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         />
                     </Form.Group>
 
+                    <Form.Group className="mb-3" controlId="formIsDiscounted">
+                        <Form.Check
+                            name="isDiscounted"
+                            type="checkbox"
+                            label="Is Discounted"
+                            checked={formData.isDiscounted}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+
                     <h5>Nutrition Info</h5>
                     <Form.Group className="mb-3" controlId="formAllergens">
                         <Form.Label>Allergens</Form.Label>
@@ -232,45 +246,36 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col>
-                            <Form.Group className="mb-3" controlId="formCarbohydrates">
-                                <Form.Label>Carbohydrates</Form.Label>
-                                <Form.Control
-                                    name="carbohydrates"
-                                    type="number"
-                                    value={formData.nutritionInfo.carbohydrates}
-                                    placeholder="Enter carbohydrates"
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group className="mb-3" controlId="formIsPremium">
-                                <Form.Check
-                                    name="isPremium"
-                                    type="checkbox"
-                                    label="Is Premium"
-                                    checked={formData.nutritionInfo.isPremium}
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    <Form.Group className="mb-3" controlId="formCarbohydrates">
+                        <Form.Label>Carbohydrates</Form.Label>
+                        <Form.Control
+                            name="carbohydrates"
+                            type="number"
+                            value={formData.nutritionInfo.carbohydrates}
+                            placeholder="Enter carbohydrates"
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
 
-                    <Row>
-                        <Col>
-                            <Form.Group className="mb-3" controlId="formIsSpicy">
-                                <Form.Check
-                                    name="isSpicy"
-                                    type="checkbox"
-                                    label="Is Spicy"
-                                    checked={formData.nutritionInfo.isSpicy}
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    <Form.Group className="mb-3" controlId="formIsPremium">
+                        <Form.Check
+                            name="isPremium"
+                            type="checkbox"
+                            label="Is Premium"
+                            checked={formData.nutritionInfo.isPremium}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formIsSpicy">
+                        <Form.Check
+                            name="isSpicy"
+                            type="checkbox"
+                            label="Is Spicy"
+                            checked={formData.nutritionInfo.isSpicy}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
