@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import { Button, Card, ListGroup, Badge, Collapse } from 'react-bootstrap';
 import CartItem from "../../../models/interfaces/CartItem";
 import { Link } from "react-router-dom";
+import { usePreferences } from "../../../contexts/PreferencesContext";
 
 interface CartPopupProps {
     cartItems: CartItem[];
     total: number;
     onClearCart: () => void;
-    isSpanish: boolean;
-    isHighContrast?: boolean;
 }
 
 const CartPopup = ({
                        cartItems,
                        total,
                        onClearCart,
-                       isSpanish,
-                       isHighContrast = false
                    }: CartPopupProps) => {
+    const { isSpanish, isHighContrast, textSize } = usePreferences();
     const [isOpen, setIsOpen] = useState(true);
 
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantityOrdered, 0);
@@ -25,7 +23,7 @@ const CartPopup = ({
     return (
         <Card
             className={`position-fixed top-50 translate-middle-y end-0 me-3 shadow-lg border-0 ${
-                isHighContrast ? 'bg-dark text-white' : 'bg-white'
+                isHighContrast ? 'bg-black text-white' : 'bg-white'
             }`}
             style={{
                 width: '320px',
@@ -33,7 +31,7 @@ const CartPopup = ({
             }}
         >
             <Card.Header className={`d-flex justify-content-between align-items-center py-3 ${
-                isHighContrast ? 'bg-dark border-light' : 'bg-white'
+                isHighContrast ? 'bg-black border-light' : 'bg-white'
             }`}>
                 <div className="d-flex align-items-center gap-2">
                     <span className="fw-semibold">
@@ -41,7 +39,7 @@ const CartPopup = ({
                     </span>
                     {totalItems > 0 && (
                         <Badge bg={isHighContrast ? "light" : "danger"}
-                               text={isHighContrast ? "dark" : "white"}>
+                               text={isHighContrast ? "black" : "white"}>
                             {totalItems}
                         </Badge>
                     )}
@@ -53,6 +51,7 @@ const CartPopup = ({
                             size="sm"
                             onClick={onClearCart}
                             className="d-flex align-items-center gap-1"
+                            style={{ fontSize: `${textSize}px` }}
                         >
                             {isSpanish ? "Claro" : "Clear"}
                         </Button>
@@ -73,7 +72,7 @@ const CartPopup = ({
                 <div id="cart-content">
                     <Card.Body className="p-0">
                         {cartItems.length === 0 ? (
-                            <div className="p-3 text-center text-muted">
+                            <div className={`p-3 text-center ${isHighContrast ? "text-white" : "text-muted"}`}>
                                 {isSpanish ? "Tu carrito esta vacío" : "Your cart is empty"}
                             </div>
                         ) : (
@@ -82,7 +81,7 @@ const CartPopup = ({
                                     <ListGroup.Item
                                         key={item.menuItemId}
                                         className={`d-flex justify-content-between align-items-center px-3 py-2 ${
-                                            isHighContrast ? 'bg-dark text-white border-light' : ''
+                                            isHighContrast ? 'bg-black text-white border-light' : ''
                                         }`}
                                     >
                                         <div>
@@ -104,7 +103,7 @@ const CartPopup = ({
 
                     {cartItems.length > 0 && (
                         <Card.Footer className={`px-3 py-3 ${
-                            isHighContrast ? 'bg-dark border-light' : 'bg-light'
+                            isHighContrast ? 'bg-black border-light' : 'bg-light'
                         }`}>
                             <div className="d-flex justify-content-between align-items-center">
                                 <span className="fw-semibold">Total</span>
@@ -118,6 +117,7 @@ const CartPopup = ({
                                 <Button
                                     variant={isHighContrast ? "light" : "danger"}
                                     className="w-100 mt-2"
+                                    style={{ fontSize: `${textSize}px` }}
                                 >
                                     {isSpanish ? "Pasar por la caja" : "Proceed to Checkout"}
                                 </Button>

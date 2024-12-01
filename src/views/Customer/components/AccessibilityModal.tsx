@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Container } from 'react-bootstrap';
+import { usePreferences } from "../../../contexts/PreferencesContext";
 
 interface AccessibilityModalProps {
     onClose: () => void;
@@ -7,8 +8,6 @@ interface AccessibilityModalProps {
     onDecreaseTextSize: () => void;
     onToggleLanguage: () => void;
     onToggleHighContrast: () => void;
-    isSpanish: boolean;
-    isHighContrast: boolean;
 }
 
 const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
@@ -17,9 +16,9 @@ const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                                                                    onDecreaseTextSize,
                                                                    onToggleLanguage,
                                                                    onToggleHighContrast,
-                                                                   isSpanish,
-                                                                   isHighContrast
                                                                }) => {
+    const { isSpanish, isHighContrast } = usePreferences();
+
     return (
         <Modal
             show={true}

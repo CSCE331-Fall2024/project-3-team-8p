@@ -11,12 +11,13 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
+import { LanguageProvider } from "./contexts/PreferencesContext";
 
 
 function App() {
     return (
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
-            <Router>
+        <Router>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
                 <UserProvider>
                     <Routes>
                         <Route path="/" element={<RouteLayoutWrapper />}>
@@ -27,9 +28,11 @@ function App() {
                                 </ManagerOnlyRoute>
                             } />
                             <Route path={"customer"} element={
-                                <CartProvider>
-                                    <Outlet />
-                                </CartProvider>
+                                <LanguageProvider>
+                                    <CartProvider>
+                                        <Outlet />
+                                    </CartProvider>
+                                </LanguageProvider>
                             }>
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
@@ -38,8 +41,8 @@ function App() {
                         </Route>
                     </Routes>
                 </UserProvider>
-            </Router>
-        </GoogleOAuthProvider>
+            </GoogleOAuthProvider>
+        </Router>
     );
 }
 

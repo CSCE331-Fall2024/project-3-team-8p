@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from "uuid";
 import { useCart } from '../../../contexts/CartContext';
 import { WeatherApi, WeatherData } from '../../../apis/weather-api';
@@ -11,9 +11,13 @@ import CartItem from "../../../models/interfaces/CartItem";
 import MenuItem from "../../../models/MenuItem";
 import MenuItemCategory from "../../../models/enums/MenuItemCategory";
 import OrderStatus from "../../../models/enums/OrderStatus";
+import { usePreferences } from "../../../contexts/PreferencesContext";
+import TranslateApi from "../../../apis/translate-api";
+import LoadingView from "../../shared/LoadingView";
 
 const orderApi = new OrderApi();
 const employeeApi = new EmployeeApi();
+const translateApi = new TranslateApi();
 
 const getTimeComponents = () => {
     const now = new Date();
@@ -28,17 +32,17 @@ const getTimeComponents = () => {
 }
 
 const Checkout: React.FC = () => {
-    const location = useLocation();
-    const isSpanish = location.state?.isSpanish || false;
+    const { isSpanish, isHighContrast, textSize } = usePreferences();
 
     const { cartItems, cartTotal, clearCart } = useCart();
     const navigate = useNavigate();
 
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
+    const [loadingPlaceOrder, setLoadingPlaceOrder] = useState<boolean>(false);
 
     const getWeatherRecommendation = (weather: string, temperature: number): string => {
-        if (weather.includes('rain')) {
+        if (weather.includes("rain")) {
             return isSpanish
                 ? "¡Parece que está lloviendo! Considere agregar un acompañamiento extra para mantenerse seco."
                 : "Looks like it's rainy! Consider adding an extra side to help you stay dry.";
@@ -59,18 +63,26 @@ const Checkout: React.FC = () => {
 
     useEffect(() => {
         const fetchWeatherData = async () => {
-            setLoadingWeather(true);
-            const data = await WeatherApi.fetchWeather();
-            setWeatherData(data);
-            setLoadingWeather(false);
+            try {
+                setLoadingWeather(true);
+                const data: WeatherData | null = await WeatherApi.fetchWeather();
+
+                if (isSpanish && data?.weather) {
+                    data.weather = await translateApi.translate(data.weather, "es");
+                }
+
+                setWeatherData(data);
+            } catch (error) {
+                console.log("Error fetching weather data:", error);
+            } finally {
+                setLoadingWeather(false);
+            }
         };
 
         fetchWeatherData();
-    }, []);
+    }, [isSpanish]);
 
     const handlePlaceOrder = async () => {
-        alert(isSpanish ? "¡Pedido realizado!" : "Order placed!");
-
         // Get the "Customer" employee ID:
         const customerId: string = (await employeeApi.getEmployeeByName("Customer"))!.employeeId
         const { month, week, day, hour } = getTimeComponents();
@@ -103,42 +115,60 @@ const Checkout: React.FC = () => {
         console.log("ORDER ID:", newOrder.orderId);
 
         try {
+            setLoadingPlaceOrder(true);
             await orderApi.addOrder(newOrder);
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoadingPlaceOrder(false)
         }
 
+        alert(isSpanish ? "¡Pedido realizado!" : "Order placed!");
         clearCart();
         navigate('/customer');
     };
 
     return (
-        <Container fluid className="py-3" style={{ minHeight: '90vh', background: '#dc3545' }}>
+        <Container fluid className="py-3"
+                   style={{
+                       minHeight: '100vh',
+                       background: isHighContrast ? "black" : "#dc3545",
+                       fontSize: `${textSize}px`
+                   }}
+        >
             <Row className="justify-content-center">
+
                 <Col xs={12} md={8} lg={6}>
-                    <Card className="shadow-sm border-0">
+                    <Card className={`shadow-sm border-0 ${isHighContrast ? `text-white` : ''}`}>
                         <Card.Header className="bg-dark text-white text-center py-3">
                             <h2 className="h4 mb-0">{isSpanish ? "Finalizar Compra" : "Checkout"}</h2>
                         </Card.Header>
-                        <Card.Body className="bg-white">
-                            {cartItems.length === 0 ? (
-                                <Alert variant="info" className="mb-4 text-center">
-                                    {isSpanish ? "Tu carrito está vacío" : "Your cart is empty"}
-                                </Alert>
-                            ) : (
-                                <div className="mb-4">
-                                    {cartItems.map((item) => (
-                                        <div key={item.menuItemId} className="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <Card.Body className={isHighContrast ? "bg-black border border-white" : "bg-white"}>
+                            {loadingPlaceOrder && <LoadingView color={isHighContrast ? "light" : "black"} />}
+
+                            {!loadingPlaceOrder && (
+                                cartItems.length === 0 ? (
+                                    <Alert variant="info" className="mb-4 text-center">
+                                        {isSpanish ? "Tu carrito está vacío" : "Your cart is empty"}
+                                    </Alert>
+                                ) : (
+                                    <div className="mb-4">
+                                        {cartItems.map((item) => (
+                                            <div key={item.menuItemId}
+                                                 className="d-flex justify-content-between align-items-center py-3 border-bottom">
                                             <span>
                                                 {item.itemName} x {item.quantityOrdered}
                                             </span>
-                                            <span className="fw-bold">${(item.price * item.quantityOrdered).toFixed(2)}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                                                <span
+                                                    className="fw-bold">${(item.price * item.quantityOrdered).toFixed(2)}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
                             )}
 
-                            <div className="bg-light p-4 rounded mb-4">
+                            <div
+                                className={`p-4 rounded mb-4 ${isHighContrast ? "bg-black border border-white text-white" : "bg-light"}`}>
                                 <h3 className="h5 text-primary text-center mb-3">
                                     {isSpanish ? "Actualización del Clima" : "Weather Update"}
                                 </h3>
@@ -153,9 +183,10 @@ const Checkout: React.FC = () => {
                                 ) : weatherData ? (
                                     <>
                                         <p className="mb-2 fs-5 text-center">
-                                            {weatherData.weather.charAt(0).toUpperCase() + weatherData.weather.slice(1)} | {weatherData.temperature}°F
+                                            {weatherData.weather.charAt(0).toUpperCase() + weatherData.weather.slice(1)}
+                                            {" "}| {weatherData.temperature}°F
                                         </p>
-                                        <p className="text-muted fst-italic text-center mb-0">
+                                        <p className={`fst-italic text-center mb-0 ${isHighContrast ? "text-white" : "text-muted"}`}>
                                             {getWeatherRecommendation(weatherData.weather, weatherData.temperature)}
                                         </p>
                                     </>
@@ -167,18 +198,25 @@ const Checkout: React.FC = () => {
                             </div>
 
                             <div className="pt-3">
-                                <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                                <div
+                                    className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
                                     <h3 className="h4 mb-0">
                                         {isSpanish ? "Total" : "Total"}: ${cartTotal.toFixed(2)}
                                     </h3>
                                     <div className="d-flex gap-2">
-                                        <Link to="/customer" state={{ isSpanish: isSpanish }} className="btn btn-outline-danger">
+                                        <Link
+                                            to="/customer"
+                                            state={{ isSpanish: isSpanish }}
+                                            className="btn btn-outline-danger"
+                                            style={{ fontSize: `${textSize}px` }}
+                                        >
                                             {isSpanish ? "Pedir Más" : "Order More"}
                                         </Link>
                                         <Button
                                             variant="danger"
                                             onClick={handlePlaceOrder}
                                             disabled={cartItems.length === 0}
+                                            style={{ fontSize: `${textSize}px` }}
                                         >
                                             {isSpanish ? "Realizar Pedido" : "Place Order"}
                                         </Button>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Navbar, Image } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
 import { Tabs } from './TabsEnum';
@@ -10,17 +10,16 @@ import ButtonContainer from './components/ButtonContainer';
 import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
+import { usePreferences } from "../../contexts/PreferencesContext";
 
 const menuItemApi = new MenuItemApi();
 
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
-    const [textSize, setTextSize] = useState<number>(16);
-    const [isSpanish, setIsSpanish] = useState<boolean>(false);
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-    const [isHighContrast, setIsHighContrast] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const { isSpanish, setIsSpanish, isHighContrast, setIsHighContrast, textSize, setTextSize } = usePreferences();
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
 
     const fetchMenuItems = useCallback(async (includeTranslation: boolean) => {
@@ -35,28 +34,25 @@ function CustomerView() {
         }
     }, []);
 
-    const location = useLocation();
     useEffect(() => {
-        // If we're navigating back from the checkout page, we want to save the language preference
-        if (location.state?.isSpanish) {
-            setIsSpanish(location.state.isSpanish);
+        if (isSpanish) {
             fetchMenuItems(true);
         } else {
             fetchMenuItems(false);
         }
-    }, [location.state, fetchMenuItems])
+    }, [fetchMenuItems, isSpanish]);
 
     const handleTabChange = (tab: Tabs) => setActiveTab(tab);
     const toggleAccessibilityModal = () => setShowAccessibilityModal(!showAccessibilityModal);
-    const increaseTextSize = () => setTextSize((prev) => Math.min(prev + 2, 20));
-    const decreaseTextSize = () => setTextSize((prev) => Math.max(prev - 2, 12));
+    const increaseTextSize = () => setTextSize(Math.min(textSize + 2, 28));
+    const decreaseTextSize = () => setTextSize(Math.max(textSize - 2, 12));
     const toggleLanguage = () => {
-        setIsSpanish((prev) => !prev);
+        setIsSpanish(!isSpanish);
         fetchMenuItems(true);
     }
-    const toggleHighContrast = () => setIsHighContrast((prev) => !prev);
+    const toggleHighContrast = () => setIsHighContrast(!isHighContrast);
 
-    const bgClass = isHighContrast ? 'bg-dark' : 'bg-danger';
+    const bgClass = isHighContrast ? 'bg-black' : 'bg-danger';
     const textClass = isHighContrast ? 'text-white' : 'text-white';
 
     return (
@@ -69,6 +65,7 @@ function CustomerView() {
                         size="lg"
                         className="px-4 py-2"
                         onClick={toggleAccessibilityModal}
+                        style={{ fontSize: `${textSize}px` }}
                     >
                         {isSpanish ? "Accesibilidad" : "Accessibility"}
                     </Button>
@@ -85,6 +82,7 @@ function CustomerView() {
                             variant={isHighContrast ? 'light' : 'dark'}
                             size="lg"
                             className="px-4 py-2"
+                            style={{ fontSize: `${textSize}px` }}
                         >
                             {isSpanish ? "Verificar" : "Checkout"}
                         </Button>
@@ -115,7 +113,6 @@ function CustomerView() {
                                         imageUrl={`/images/${listing.itemName}.png`}
                                         quantityOrdered={quantityOrdered}
                                         onAddToCart={() => addToCart(listing)}
-                                        isHighContrast={isHighContrast}
                                     />
                                 </Col>
                             );
@@ -130,7 +127,6 @@ function CustomerView() {
                     onTabChange={handleTabChange}
                     isHighContrast={isHighContrast}
                     activeTab={activeTab}
-                    isSpanish={isSpanish}
                 />
             </Container>
 
@@ -139,8 +135,6 @@ function CustomerView() {
                 cartItems={cartItems}
                 total={cartTotal}
                 onClearCart={clearCart}
-                isSpanish={isSpanish}
-                isHighContrast={isHighContrast}
             />
 
             {/* Accessibility Modal */}
@@ -151,8 +145,6 @@ function CustomerView() {
                     onDecreaseTextSize={decreaseTextSize}
                     onToggleLanguage={toggleLanguage}
                     onToggleHighContrast={toggleHighContrast}
-                    isSpanish={isSpanish}
-                    isHighContrast={isHighContrast}
                 />
             )}
         </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Nav, Container } from 'react-bootstrap';
 import { Tabs } from "../TabsEnum";
+import { usePreferences } from "../../../contexts/PreferencesContext";
 
 interface ButtonContainerProps {
     onTabChange: (tab: Tabs) => void;
     isHighContrast?: boolean;
     activeTab: Tabs;
-    isSpanish: boolean;
 }
 
 const getSpanishLabel = (label: Tabs) => {
@@ -26,8 +26,8 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
                                                              onTabChange,
                                                              isHighContrast = false,
                                                              activeTab,
-                                                             isSpanish
                                                          }) => {
+    const { isSpanish, textSize } = usePreferences();
     const buttonLabels: Tabs[] = [Tabs.Entrees, Tabs.Sides, Tabs.Drinks, Tabs.Appetizers];
 
     return (
@@ -48,7 +48,7 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
                                     : 'text-light'
                             }`}
                             style={{
-                                fontSize: '1.1rem',
+                                fontSize: `${textSize}px`,
                                 fontWeight: 500,
                                 border: 'none',
                                 transition: 'all 0.2s ease-in-out',
