@@ -3,18 +3,38 @@ import MenuItemApi from '../../apis/menu-item-api';
 import ListingCard from '../Customer/components/ListingCard';
 import MenuItem from '../../models/MenuItem';
 import './css/CashierView.css';
+import OrderApi from "../../apis/order-api";
+import Order from "../../models/Order";
+import EmployeeApi from "../../apis/employee-api";
+import {v4 as uuidv4} from "uuid";
+import OrderStatus from "../../models/enums/OrderStatus";
+import LoadingView from "../shared/LoadingView";
+
+const getTimeComponents = () => {
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)) + 1;
+    return {
+        month: now.getMonth() + 1,
+        week: Math.ceil(dayOfYear / 7),
+        day: now.getDate(),
+        hour: now.getHours(),
+    };
+}
 
 function CashierView() {
+    const orderApi = new OrderApi();
+    const employeeApi = new EmployeeApi();
     interface OrderItem {
         name: string;
         price: number;
         quantity: number;
     }
-    interface Order {
+    interface OrderInterface {
         [key: string]: OrderItem;
     }
 
-    const [order, setOrder] = useState<Order>({});
+    const [order, setOrder] = useState<OrderInterface>({});
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]); // State for menu items
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -58,13 +78,42 @@ function CashierView() {
         setOrder({});
     };
 
-    const handlePlaceOrder = () => {
-        // Place order logic here (e.g., send to API)
-        setOrder({});
+    const handlePlaceOrder = async () => {
+        // Get the "Customer" employee ID:
+        const customerId: string = (await employeeApi.getEmployeeByName("Customer"))!.employeeId
+        const { month, week, day, hour } = getTimeComponents();
+
+        const cartTotal = Object.values(order).reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+        );
+
+        // Construct the order object
+        const newOrder: Order = new Order(
+            uuidv4(),
+            customerId,
+            month,
+            week,
+            day,
+            hour,
+            cartTotal,
+            OrderStatus.PLACED,
+        );
+
+        console.log("ORDER ID:", newOrder.orderId);
+
+        try {
+            await orderApi.addOrder(newOrder);
+            alert("Order Placed!")
+        } catch (error) {
+            console.log(error);
+        }
+
+        handleClearOrder();
     };
 
     if (loading) {
-        return <div className="loading">Loading...</div>;
+        return <LoadingView color={"white"}/>
     }
 
     if (error) {
