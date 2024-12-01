@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 // import { spicyIcon, information, premiumIcon } from '../images';
 
+
 interface ListingCardProps {
     menuItemId: string;
     name: string;
@@ -137,7 +138,7 @@ const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allerge
 
     return (
         <CardContainer>
-            {/*<NutritionImage src={information} alt="Nutrition Info" onClick={handleNutritionClick} />*/}
+            <NutritionImage src={'images/information.png'} alt="Nutrition Info" onClick={handleNutritionClick} />
 
             <Image src={imageUrl} alt={name} />
             <CardContent>
