@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs } from './components/TabsEnum';
-import listings from '../components/menu-boards/listingData';
+import ListingCard from './components/ListingCard';
+import listings from '../../models/dummy-data/MenuBoardsListingData';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
 const MenuBoardsView = () => {
@@ -41,9 +42,9 @@ const MenuBoardsView = () => {
         {listings[currentTab].map((item, index) => (
                 <Col key={index} md={4} className="mb-4">
             <Card className="text-center">
-            <Card.Img variant="top" src={item.imageUrl} alt={item.name} />
+            <Card.Img variant="top" src={item.imageUrl} alt={item.itemName} />
     <Card.Body>
-    <Card.Title>{item.name}</Card.Title>
+    <Card.Title>{item.itemName}</Card.Title>
     <Card.Text>
     <strong>Price:</strong> ${item.price.toFixed(2)}
     <br />

@@ -10,6 +10,7 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
+import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
+                            <Route path="menu-boards" element={
+                                <MenuBoardsView></MenuBoardsView>
+                            } />
                         </Route>
                     </Routes>
                 </UserProvider>

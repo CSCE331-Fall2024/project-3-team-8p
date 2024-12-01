@@ -77,7 +77,7 @@ export default class MenuBoardItem {
     }
 
     get imageUrl(): string {
-        return `https://example.com/images/${this._menuItemId}.jpg`; // Computed dynamically
+        return this._imageUrl;
     }
 
     get calories(): number {
