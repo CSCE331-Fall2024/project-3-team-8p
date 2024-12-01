@@ -56,6 +56,10 @@ public class MenuServiceController {
      * */
     @PutMapping
     public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
+        if (updatedMenuItem.isDiscounted == null) {
+            updatedMenuItem.isDiscounted = false; // or any default value you prefer
+        }
+
 
         dbMenuService.updateMenuItem(updatedMenuItem);
     }

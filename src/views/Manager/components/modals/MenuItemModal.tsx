@@ -37,8 +37,8 @@ const getInitialFormData = (menuItem?: MenuItem): FormData => ({
             protein: 0,
             sugar: 0,
             carbohydrates: 0,
-            isPremium: false,
-            isSpicy: false
+            isPremium: true,
+            isSpicy: true
         }
 });
 
@@ -90,7 +90,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = event.target;
         const newValue = type === 'checkbox' ? checked : value;
-        console.log("Running handleInputChange");
 
         if (name === "allergens") {
             setFormData(prevFormData => ({
