@@ -51,6 +51,11 @@ public class Order {
     public Double price;
 
     /**
+     * Kitchen status of the order
+     * */
+    public String status;
+
+    /**
      * List of menu items & quantities associated with the order
      * */
     public List<MenuItemWithQty> menuItemsWithQty;
@@ -64,6 +69,7 @@ public class Order {
      * @param day       the day the order was placed
      * @param hour      the hour the order was placed
      * @param price     the total price of the order
+     * @param status    the kitchen status of the order
      */
     public Order(
             UUID cashierId,
@@ -71,8 +77,10 @@ public class Order {
             Integer week,
             Integer day,
             Integer hour,
-            Double price) {
-        this(UUID.randomUUID(), cashierId, month, week, day, hour, price);
+            Double price,
+            String status
+            ) {
+        this(UUID.randomUUID(), cashierId, month, week, day, hour, price, status);
     }
 
     /**
@@ -85,6 +93,7 @@ public class Order {
      * @param day       the day the order was placed
      * @param hour      the hour the order was placed
      * @param price     the total price of the order
+     * @param status    the kitchen status of the order
      */
     public Order(
             UUID orderId,
@@ -93,7 +102,9 @@ public class Order {
             Integer week,
             Integer day,
             Integer hour,
-            Double price) {
+            Double price,
+            String status
+            ) {
         this.orderId = orderId;
         this.cashierId = cashierId;
         this.month = month;
@@ -101,6 +112,7 @@ public class Order {
         this.day = day;
         this.hour = hour;
         this.price = price;
+        this.status = status;
     }
 
     /**

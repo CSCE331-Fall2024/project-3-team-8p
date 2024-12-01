@@ -8,6 +8,7 @@ import InventoryItem from "../../../../models/InventoryItem";
 import "../../css/MenuItemModal.css";
 import { SearchableMultiSelect } from "./SearchableMultiSelect";
 import NutritionInfoDict from "../../../../models/dict-types/NutritionInfoDict";
+import MenuItemCategory from "../../../../models/enums/MenuItemCategory";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -65,8 +66,9 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 formData.menuItemId,
                 formData.price,
                 formData.itemName,
-                formData.nutritionInfo
-
+                MenuItemCategory.Entree,
+                false,
+                formData.nutritionInfo,
             );
             selectedInventoryItems.forEach((itemName: string) => {
                 const inventoryItem = allInventoryItems.find(
@@ -74,7 +76,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                 )!;
                 itemToSave.addInventoryItem(inventoryItem);
             });
-
 
             if (currMenuItem) {
                 await api.updateMenuItem(itemToSave);

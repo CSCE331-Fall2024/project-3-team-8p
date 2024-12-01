@@ -5,6 +5,8 @@ export default interface MenuItemDict {
     menuItemId: string;
     price: number;
     itemName: string;
+    category: string;
+    isDiscounted: boolean;
     inventoryItems: InventoryItemDict[];
     nutritionInfo: NutritionInfoDict;
 }

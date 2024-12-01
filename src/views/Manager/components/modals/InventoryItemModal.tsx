@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import InventoryItem from "../../../../models/InventoryItem";
 import { v4 as uuidv4 } from "uuid";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface ModalProps {
     currItem: InventoryItem | undefined;
