@@ -25,11 +25,13 @@ export default class MenuItem implements CardItem {
             dict.isDiscounted,
             dict.nutritionInfo,
         );
-        dict.inventoryItems
-            .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
-            .forEach((item: InventoryItemDict) => {
-                menuItem.addInventoryItem(InventoryItem.fromDict(item));
-            });
+        if (dict.inventoryItems) {
+            dict.inventoryItems
+                .sort((a: InventoryItemDict, b: InventoryItemDict) => a.itemName.localeCompare(b.itemName))
+                .forEach((item: InventoryItemDict) => {
+                    menuItem.addInventoryItem(InventoryItem.fromDict(item));
+                });
+        }
         return menuItem;
     }
 

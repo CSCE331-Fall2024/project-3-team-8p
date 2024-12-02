@@ -38,6 +38,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
                 menuItemId: item.menuItemId,
                 price: item.price,
                 itemName: item.itemName,
+                translatedItemName: item.translatedItemName,
                 category: item.category,
                 isDiscounted: item.isDiscounted,
                 inventoryItems: item.toDict().inventoryItems,

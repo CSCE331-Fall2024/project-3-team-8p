@@ -4,14 +4,14 @@ import EmployeeApi from "../../apis/employee-api";
 import Unauthorized from "./Unauthorized";
 import LoadingView from "../shared/LoadingView";
 
-interface EmployeeOnlyRouteProps {
+interface ManagerOnlyRouteProps {
     children: ReactElement;
 }
 
 const employeeApi = new EmployeeApi();
 
 // Wrapper for views that require authentication
-function EmployeeOnlyRoute({ children }: EmployeeOnlyRouteProps) : ReactElement {
+function ManagerOnlyRoute({ children }: ManagerOnlyRouteProps) : ReactElement {
     const { user } = useUser();
     const [isManager, setIsManager] = useState<boolean | undefined>(undefined);
 
@@ -37,4 +37,4 @@ function EmployeeOnlyRoute({ children }: EmployeeOnlyRouteProps) : ReactElement 
     return isManager ? <>{children}</> : <Unauthorized />;
 }
 
-export default EmployeeOnlyRoute;
+export default ManagerOnlyRoute;
