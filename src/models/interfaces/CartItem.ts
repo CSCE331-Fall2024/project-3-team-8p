@@ -5,6 +5,7 @@ export default interface CartItem {
     menuItemId: string;
     price: number;
     itemName: string;
+    translatedItemName: string;
     category: string;
     isDiscounted: boolean;
     inventoryItems: InventoryItemDict[];

@@ -14,22 +14,11 @@ import OrderStatus from "../../../models/enums/OrderStatus";
 import { usePreferences } from "../../../contexts/PreferencesContext";
 import TranslateApi from "../../../apis/translate-api";
 import LoadingView from "../../shared/LoadingView";
+import getTimeComponents from "../../../utils/getTimeComponents";
 
 const orderApi = new OrderApi();
 const employeeApi = new EmployeeApi();
 const translateApi = new TranslateApi();
-
-const getTimeComponents = () => {
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-    return {
-        month: now.getMonth() + 1,
-        week: Math.ceil(dayOfYear / 7),
-        day: now.getDate(),
-        hour: now.getHours(),
-    };
-}
 
 const Checkout: React.FC = () => {
     const { isSpanish, isHighContrast, textSize } = usePreferences();

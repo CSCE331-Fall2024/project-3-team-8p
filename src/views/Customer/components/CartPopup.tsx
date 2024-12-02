@@ -85,7 +85,7 @@ const CartPopup = ({
                                         }`}
                                     >
                                         <div>
-                                            <div className="fw-medium">{item.itemName}</div>
+                                            <div className="fw-medium">{isSpanish ? item.translatedItemName : item.itemName}</div>
                                             <div className={`small ${isHighContrast ? 'text-light' : 'text-muted'}`}>
                                                 ${item.price.toFixed(2)} × {item.quantityOrdered}
                                             </div>

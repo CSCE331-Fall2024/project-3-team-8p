@@ -9,18 +9,7 @@ import EmployeeApi from "../../apis/employee-api";
 import {v4 as uuidv4} from "uuid";
 import OrderStatus from "../../models/enums/OrderStatus";
 import LoadingView from "../shared/LoadingView";
-
-const getTimeComponents = () => {
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-    return {
-        month: now.getMonth() + 1,
-        week: Math.ceil(dayOfYear / 7),
-        day: now.getDate(),
-        hour: now.getHours(),
-    };
-}
+import getTimeComponents from "../../utils/getTimeComponents";
 
 function CashierView() {
     const orderApi = new OrderApi();
