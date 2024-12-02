@@ -1,6 +1,5 @@
 import Employee from "../Employee";
 import { v4 as uuidv4 } from "uuid";
-import MenuItem from "../MenuItem";
 import InventoryItem from "../InventoryItem";
 
 export const INVENTORY_ITEM_DATA = [

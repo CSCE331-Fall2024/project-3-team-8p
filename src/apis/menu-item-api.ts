@@ -19,19 +19,18 @@ export default class MenuItemApi extends BaseApi {
     /*
     Gets all menu items
     */
-    async getMenuItems(includeTranslation: boolean = false): Promise<MenuItem[]> {
+    async getMenuItems(): Promise<MenuItem[]> {
         const response = await this.apiClient.get<MenuItemDict[]>("");
         const items: MenuItem[] = response.data
             .map((item: MenuItemDict) => MenuItem.fromDict(item))
             .sort((a: MenuItem, b: MenuItem) => a.itemName.localeCompare(b.itemName));
 
-        if (includeTranslation) {
-            await Promise.all(
-                items.map(async (item: MenuItem) => {
-                    item.translatedItemName = await this._translateApi.translate(item.itemName, "es")
-                })
-            );
-        }
+        // Fetch the translations as well, in case we need them
+        await Promise.all(
+            items.map(async (item: MenuItem) => {
+                item.translatedItemName = await this._translateApi.translate(item.itemName, "es")
+            })
+        );
 
         return items;
     }

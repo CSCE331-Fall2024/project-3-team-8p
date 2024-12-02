@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button, Navbar, Image } from 'react-bootstrap';
+import { Button, Col, Container, Image, Navbar, Row } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
-import { Tabs } from './TabsEnum';
 import MenuItem from '../../models/MenuItem';
 import { useCart } from '../../contexts/CartContext';
 import ListingCard from './components/ListingCard';
@@ -11,21 +10,22 @@ import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
 import { usePreferences } from "../../contexts/PreferencesContext";
+import MenuItemCategory from "../../models/enums/MenuItemCategory";
 
 const menuItemApi = new MenuItemApi();
 
 function CustomerView() {
-    const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Entrees);
+    const [activeTab, setActiveTab] = useState<MenuItemCategory>(MenuItemCategory.Entree);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const { isSpanish, setIsSpanish, isHighContrast, setIsHighContrast, textSize, setTextSize } = usePreferences();
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
 
-    const fetchMenuItems = useCallback(async (includeTranslation: boolean) => {
+    const fetchMenuItems = useCallback(async () => {
         try {
             setLoading(true);
-            const items = await menuItemApi.getMenuItems(includeTranslation);
+            const items = await menuItemApi.getMenuItems();
             setMenuItems(items);
         } catch (err) {
             console.log("Error in menu item retrieval");
@@ -35,21 +35,14 @@ function CustomerView() {
     }, []);
 
     useEffect(() => {
-        if (isSpanish) {
-            fetchMenuItems(true);
-        } else {
-            fetchMenuItems(false);
-        }
-    }, [fetchMenuItems, isSpanish]);
+        fetchMenuItems();
+    }, [fetchMenuItems]);
 
-    const handleTabChange = (tab: Tabs) => setActiveTab(tab);
+    const handleTabChange = (tab: MenuItemCategory) => setActiveTab(tab);
     const toggleAccessibilityModal = () => setShowAccessibilityModal(!showAccessibilityModal);
     const increaseTextSize = () => setTextSize(Math.min(textSize + 2, 28));
     const decreaseTextSize = () => setTextSize(Math.max(textSize - 2, 12));
-    const toggleLanguage = () => {
-        setIsSpanish(!isSpanish);
-        fetchMenuItems(true);
-    }
+    const toggleLanguage = () => setIsSpanish(!isSpanish);
     const toggleHighContrast = () => setIsHighContrast(!isHighContrast);
 
     const bgClass = isHighContrast ? 'bg-black' : 'bg-danger';
@@ -99,24 +92,27 @@ function CustomerView() {
                 )}
 
                 {!loading && (
-                    <Row xs={2} sm={3} md={4} lg={5} className="g-4">
-                        {menuItems.map((listing: MenuItem) => {
-                            const cartItem = cartItems.find(
-                                (item) => item.menuItemId === listing.menuItemId
-                            );
-                            const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
-                            return (
-                                <Col key={listing.menuItemId}>
-                                    <ListingCard
-                                        name={isSpanish ? listing.translatedItemName : listing.itemName}
-                                        price={listing.price}
-                                        imageUrl={`/images/${listing.itemName}.png`}
-                                        quantityOrdered={quantityOrdered}
-                                        onAddToCart={() => addToCart(listing)}
-                                    />
-                                </Col>
-                            );
-                        })}
+                    <Row xs={2} sm={3} md={4} lg={5} className="g-4 mb-5">
+                        {menuItems
+                            .filter((menuItem: MenuItem) => menuItem.category === activeTab)
+                            .map((menuItem: MenuItem) => {
+                                    const cartItem = cartItems.find(
+                                        (item) => item.menuItemId === menuItem.menuItemId
+                                    );
+                                    const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
+                                    return (
+                                        <Col key={menuItem.menuItemId}>
+                                            <ListingCard
+                                                name={isSpanish ? menuItem.translatedItemName : menuItem.itemName}
+                                                price={menuItem.price}
+                                                imageUrl={`/images/${menuItem.itemName}.png`}
+                                                quantityOrdered={quantityOrdered}
+                                                onAddToCart={() => addToCart(menuItem)}
+                                            />
+                                        </Col>
+                                    );
+                            })
+                        }
                     </Row>
                 )}
             </Container>

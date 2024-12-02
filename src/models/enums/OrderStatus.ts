@@ -1,5 +1,5 @@
 enum OrderStatus {
-    PLACED= "placed",
+    PLACED = "placed",
     IN_PROGRESS = "inProgress",
     COMPLETED = "completed",
 }

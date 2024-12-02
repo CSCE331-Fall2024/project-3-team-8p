@@ -18,14 +18,14 @@ Search bar logic:
     3. DOES NOT show items that are already selected
  */
 export function SearchableMultiSelect<ItemType>({
-                                             items,
-                                             selectedValues,
-                                             getItemValue,
-                                             getItemLabel = getItemValue,
-                                             onChange,
-                                             placeholder = "Search...",
-                                             className = ""
-                                         }: SearchableMultiSelectProps<ItemType>) {
+                                                    items,
+                                                    selectedValues,
+                                                    getItemValue,
+                                                    getItemLabel = getItemValue,
+                                                    onChange,
+                                                    placeholder = "Search...",
+                                                    className = ""
+                                                }: SearchableMultiSelectProps<ItemType>) {
     const [searchTerm, setSearchTerm] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -65,24 +65,27 @@ export function SearchableMultiSelect<ItemType>({
     return (
         <div className={`${className}`} ref={containerRef}>
             <div className="d-flex flex-wrap gap-2 border rounded p-2 mb-2">
-                {selectedValues.map((value: string) => {
-                    const item = items.find(i => getItemValue(i) === value);
-                    return item && (
-                        <Badge
-                            key={value}
-                            bg="secondary"
-                            text="light"
-                            className="p-2 d-flex align-items-center"
-                            data-bs-theme="dark"
-                        >
-                            <span>{getItemLabel(item)}</span>
-                            <CloseButton
-                                onClick={() => handleRemoveItem(value)}
-                                className="text-light p-0 ms-2"
-                            />
-                        </Badge>
-                    );
-                })}
+                {selectedValues.length > 0
+                    ? selectedValues.map((value: string) => {
+                        const item = items.find(i => getItemValue(i) === value);
+                        return item && (
+                            <Badge
+                                key={value}
+                                bg="secondary"
+                                text="light"
+                                className="p-2 d-flex align-items-center"
+                                data-bs-theme="dark"
+                            >
+                                <span>{getItemLabel(item)}</span>
+                                <CloseButton
+                                    onClick={() => handleRemoveItem(value)}
+                                    className="text-light p-0 ms-2"
+                                />
+                            </Badge>
+                        );
+                    })
+                    : <span className={"text-muted"}>...</span>
+                }
             </div>
 
             <div className="position-relative">
