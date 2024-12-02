@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Badge } from 'react-bootstrap';
 import { usePreferences } from "../../../contexts/PreferencesContext";
+import { DISCOUNT_RATE } from "../../../utils/constants";
 
 interface ListingCardProps {
     name: string;
@@ -8,6 +9,7 @@ interface ListingCardProps {
     imageUrl: string;
     quantityOrdered: number;
     onAddToCart: () => void;
+    isDiscounted?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -16,6 +18,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                                                      imageUrl,
                                                      quantityOrdered,
                                                      onAddToCart,
+                                                     isDiscounted = false
                                                  }) => {
     const { isHighContrast, textSize } = usePreferences();
 
@@ -54,15 +57,24 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         padding: '1rem'
                     }}
                 />
-                {quantityOrdered > 0 && (
-                    <Badge
-                        bg={isHighContrast ? "light" : "danger"}
-                        text={isHighContrast ? "black" : "white"}
-                        className="position-absolute top-0 end-0 m-2"
-                    >
-                        {quantityOrdered}
-                    </Badge>
-                )}
+                <div className="position-absolute top-0 end-0 m-2 d-flex flex-column gap-2">
+                    {quantityOrdered > 0 && (
+                        <Badge
+                            bg={isHighContrast ? "light" : "danger"}
+                            text={isHighContrast ? "black" : "white"}
+                        >
+                            {quantityOrdered}
+                        </Badge>
+                    )}
+                    {isDiscounted && (
+                        <Badge
+                            bg={isHighContrast ? "light" : "success"}
+                            text={isHighContrast ? "black" : "white"}
+                        >
+                            Sale
+                        </Badge>
+                    )}
+                </div>
             </div>
             <Card.Body className={`d-flex flex-column align-items-center text-center ${
                 isHighContrast ? 'text-white' : ''
@@ -71,10 +83,23 @@ const ListingCard: React.FC<ListingCardProps> = ({
                     {name}
                 </Card.Title>
                 <Card.Text
-                    className={`fw-bold mb-0 ${ isHighContrast ? 'text-white' : 'text-danger'}`}
+                    className={`d-flex gap-2 align-items-baseline fw-bold mb-0 ${isHighContrast ? 'text-white' : 'text-danger'}`}
                     style={{ fontSize: `${textSize}px` }}
                 >
-                    ${price.toFixed(2)}
+                    {isDiscounted && (
+                        <Card.Text
+                            className={`mb-0 text-muted text-decoration-line-through`}
+                            style={{ fontSize: `${textSize - 2}px` }}
+                        >
+                            ${price.toFixed(2)}
+                        </Card.Text>
+                    )}
+                    <Card.Text
+                        className={`fw-bold mb-0 ${isHighContrast ? 'text-white' : 'text-danger'}`}
+                        style={{ fontSize: `${textSize}px` }}
+                    >
+                        ${isDiscounted ? (price * DISCOUNT_RATE).toFixed(2) : price.toFixed(2)}
+                    </Card.Text>
                 </Card.Text>
             </Card.Body>
         </Card>

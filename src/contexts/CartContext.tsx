@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, ReactElement } from 'react';
 import MenuItem from "../models/MenuItem";
 import CartItem from "../models/interfaces/CartItem";
-import MenuItemDict from "../models/dict-types/MenuItemDict";
-
+import { DISCOUNT_RATE } from "../utils/constants";
 
 interface CartContextType {
     cartItems: CartItem[];
@@ -36,7 +35,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             // Add new item to the cart with initial quantity 1
             const cartItem: CartItem = {
                 menuItemId: item.menuItemId,
-                price: item.price,
+                price: item.isDiscounted ? item.price * DISCOUNT_RATE : item.price,
                 itemName: item.itemName,
                 translatedItemName: item.translatedItemName,
                 category: item.category,
@@ -50,7 +49,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
             setCartItems([...cartItems, cartItem]);  // Add the new CartItem
         }
 
-        setCartTotal(prevTotal => prevTotal + item.price);
+        setCartTotal(prevTotal => prevTotal + (item.isDiscounted ? item.price * DISCOUNT_RATE : item.price));
     };
 
     const clearCart = () => {

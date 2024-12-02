@@ -229,7 +229,4 @@ public class DBMenuService extends DBConnector {
         }
         return sales;
     }
-
-
-
 }

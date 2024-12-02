@@ -11,6 +11,7 @@ import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
 import { usePreferences } from "../../contexts/PreferencesContext";
 import MenuItemCategory from "../../models/enums/MenuItemCategory";
+import { DISCOUNT_RATE } from "../../utils/constants";
 
 const menuItemApi = new MenuItemApi();
 
@@ -108,6 +109,7 @@ function CustomerView() {
                                                 imageUrl={`/images/${menuItem.itemName}.png`}
                                                 quantityOrdered={quantityOrdered}
                                                 onAddToCart={() => addToCart(menuItem)}
+                                                isDiscounted={menuItem.isDiscounted}
                                             />
                                         </Col>
                                     );
