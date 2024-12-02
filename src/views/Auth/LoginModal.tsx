@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useUser } from "../../contexts/UserContext";
+import React from 'react';
+import Modal from "react-bootstrap/Modal";
 import { jwtDecode } from "jwt-decode";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import Modal from "react-bootstrap/Modal";
+import { useUser } from "../../contexts/UserContext";
 
 interface GoogleUser {
     name: string;

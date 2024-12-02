@@ -32,6 +32,11 @@ public class MenuItem {
     public NutritionInfo nutritionInfo;
 
     /**
+     * Category of menu item
+     * */
+    public String category;
+
+    /**
      * Discount status of menu item
      * */
     public Boolean isDiscounted;
@@ -54,12 +59,13 @@ public class MenuItem {
                     Double price,
                     String itemName,
                     NutritionInfo nutritionInfo,
-                    Boolean isDiscounted
-                    ) {
+                    String category,
+                    Boolean isDiscounted) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
         this.nutritionInfo = nutritionInfo;
+        this.category = category;
         this.isDiscounted = isDiscounted;
     }
 
@@ -72,8 +78,9 @@ public class MenuItem {
     public MenuItem(Double price,
                     String itemName,
                     NutritionInfo nutritionInfo,
+                    String category,
                     Boolean isDiscounted) {
-        this(UUID.randomUUID(), price, itemName, nutritionInfo, isDiscounted);
+        this(UUID.randomUUID(), price, itemName, nutritionInfo, category, isDiscounted);
     }
 
     /**
