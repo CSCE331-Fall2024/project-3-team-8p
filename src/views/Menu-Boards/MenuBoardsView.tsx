@@ -105,7 +105,7 @@ const MenuBoardsView = () => {
                                         menuItemId={item.menuItemId}
                                         itemName={item.translatedItemName || item.itemName}
                                         price={item.price}
-                                        imageUrl={`/images/${item.itemName}.png`}
+                                        imageUrl={`/images/${item.itemName}.avif`}
                                         nutritionInfo={item.nutritionInfo}
                                     />
                                 </Col>

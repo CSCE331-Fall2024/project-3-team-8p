@@ -134,7 +134,10 @@ const ListingCard: React.FC<ListingCardProps> = ({itemName, price, imageUrl, nut
         <CardContainer>
             <NutritionImage src={'images/information.png'} alt="Nutrition Info" onClick={handleNutritionClick} />
 
-            <Image src={imageUrl} alt={itemName} />
+            <Image src={imageUrl} alt={itemName}
+                   onError={(e) => {
+                       (e.target as HTMLImageElement).src = "/images/sample_image.png";
+                   }}/>
             <CardContent>
                 <Name>{itemName}</Name>
                 <p> ${price.toFixed(2)} </p>

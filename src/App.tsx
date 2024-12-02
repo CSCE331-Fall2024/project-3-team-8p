@@ -12,7 +12,10 @@ import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
 import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
-import { LanguageProvider } from "./contexts/PreferencesContext";
+// import { PreferencesProvider } from "./contexts/PreferencesContext";
+import { PreferencesProvider } from "./contexts/PreferencesContext";
+import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
+import KitchenView from "./views/Kitchen/KitchenView";
 
 
 function App() {
@@ -29,11 +32,11 @@ function App() {
                                 </ManagerOnlyRoute>
                             } />
                             <Route path={"customer"} element={
-                                <LanguageProvider>
+                                <PreferencesProvider>
                                     <CartProvider>
                                         <Outlet />
                                     </CartProvider>
-                                </LanguageProvider>
+                                </PreferencesProvider>
                             }>
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
@@ -42,6 +45,20 @@ function App() {
                                 <MenuBoardsView></MenuBoardsView>
                             } />
                             <Route path="cashier" element={<CashierView />} />
+                            <Route path="cashier" element={
+                                <EmployeeOnlyRoute>
+                                    <CartProvider>
+                                        <PreferencesProvider>
+                                            <CashierView />
+                                        </PreferencesProvider>
+                                    </CartProvider>
+                                </EmployeeOnlyRoute>
+                            } />
+                            <Route path="kitchen" element={
+                                <EmployeeOnlyRoute>
+                                    <KitchenView />
+                                </EmployeeOnlyRoute>
+                            } />
                         </Route>
                     </Routes>
                 </UserProvider>

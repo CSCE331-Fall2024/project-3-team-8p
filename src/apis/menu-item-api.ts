@@ -59,4 +59,13 @@ export default class MenuItemApi extends BaseApi {
         });
         return response.data;
     }
+
+    async getDiscountStatus(): Promise<boolean> {
+        const response = await this.apiClient.get<boolean>("discount");
+        return response.data;
+    }
+
+    async updateDiscount(isDiscounted: boolean): Promise<void> {
+        await this.apiClient.put(`update-discount?isDiscounted=${isDiscounted}`);
+    }
 }

@@ -25,6 +25,9 @@ const useGridData = (
             switch (currGridPane) {
                 case GridViewTab.MenuItems:
                     itemData = await menuItemApi.getMenuItems();
+                    itemData.forEach((item: CardItem) => {
+                        item.itemUrl = `images/${item.itemName}.avif`;
+                    })
                     break;
                 case GridViewTab.InventoryItems:
                     itemData = await inventoryItemApi.getInventoryItems();
