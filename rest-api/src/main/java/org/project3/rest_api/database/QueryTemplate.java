@@ -421,4 +421,30 @@ public class QueryTemplate {
                     i.itemName;
                 """;
 
+    // reviews
+
+    /**
+     * SQL query to select all reviews
+     * */
+
+    public static final String selectAllReviews = """
+            SELECT * FROM review;
+            """;
+
+    /**
+     * SQL query to insert into review
+     * */
+    public static final String insertReview = """
+            INSERT INTO review (reviewId, customerName, review)
+            VALUES ('%s', '%s', '%s');
+            """;
+
+    /**
+     * SQL query to delete review
+     * */
+    public static final String deleteReview = """
+            DELETE FROM review
+            WHERE reviewId = '%s';
+            """;
+
 }

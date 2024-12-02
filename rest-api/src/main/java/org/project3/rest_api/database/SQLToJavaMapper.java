@@ -179,7 +179,7 @@ public class SQLToJavaMapper {
         try {
             return new Order(
                     UUID.fromString(rs.getString("orderId")),
-                    UUID.fromString(rs.getString("cashierid")),
+                    UUID.fromString(rs.getString("cashierId")),
                     rs.getInt("month"),
                     rs.getInt("week"),
                     rs.getInt("day"),
@@ -190,6 +190,24 @@ public class SQLToJavaMapper {
         }
         catch (SQLException e) {
             throw new RuntimeException("Error mapping ResultSet to order", e);
+        }
+    }
+
+    /**
+     * Maps a ResultSet to a Review object
+     * @param rs the ResultSet containing the Review data
+     * @return an Review object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     * */
+    public static Review reviewMapper(ResultSet rs) {
+        try {
+            return new Review(
+                    UUID.fromString(rs.getString("reviewId")),
+                    rs.getString("customerName"),
+                    rs.getString("review")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error mapping ResultSet to review", e);
         }
     }
 }
