@@ -105,7 +105,7 @@ function CustomerView() {
                                             <ListingCard
                                                 name={isSpanish ? menuItem.translatedItemName : menuItem.itemName}
                                                 price={menuItem.price}
-                                                imageUrl={`/images/${menuItem.itemName}.png`}
+                                                imageUrl={`/images/${menuItem.itemName}.avif`}
                                                 quantityOrdered={quantityOrdered}
                                                 onAddToCart={() => addToCart(menuItem)}
                                             />

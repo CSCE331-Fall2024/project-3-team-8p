@@ -146,7 +146,7 @@ function CashierView() {
                                     <ListingCard
                                         name={menuItem.itemName}
                                         price={menuItem.price}
-                                        imageUrl={`/images/${menuItem.itemName}.png`}
+                                        imageUrl={`/images/${menuItem.itemName}.avif`}
                                         quantityOrdered={quantityOrdered}
                                         onAddToCart={() => addToCart(menuItem)}
                                     />
