@@ -11,11 +11,11 @@ interface PreferencesContextType {
 
 const PreferencesContext = createContext<PreferencesContextType | undefined>(undefined)
 
-interface LanguageProviderProps {
+interface PreferencesProviderProps {
     children: ReactElement;
 }
 
-export const LanguageProvider = ({ children }: LanguageProviderProps) => {
+export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     const [isSpanish, setIsSpanish] = useState(false);
     const [isHighContrast, setIsHighContrast] = useState(false);
     const [textSize, setTextSize] = useState(16);

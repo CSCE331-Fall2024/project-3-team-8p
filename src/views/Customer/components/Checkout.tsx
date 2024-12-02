@@ -106,13 +106,13 @@ const Checkout: React.FC = () => {
         try {
             setLoadingPlaceOrder(true);
             await orderApi.addOrder(newOrder);
+            alert(isSpanish ? "¡Pedido realizado!" : "Order placed!");
         } catch (error) {
             console.log(error);
         } finally {
             setLoadingPlaceOrder(false)
         }
 
-        alert(isSpanish ? "¡Pedido realizado!" : "Order placed!");
         clearCart();
         navigate('/customer');
     };

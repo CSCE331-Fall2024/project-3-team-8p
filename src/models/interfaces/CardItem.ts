@@ -4,4 +4,5 @@ import BaseItem from "./BaseItem";
 // e.g., CashierView, ManagerView
 export default interface CardItem extends BaseItem {
     itemName: string;
+    itemUrl?: string;
 }

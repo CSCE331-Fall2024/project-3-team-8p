@@ -52,6 +52,13 @@ function Header() {
                             </Nav.Link>
                             <Nav.Link
                                 as={Link}
+                                to="/cashier"
+                                className={`rounded mx-1 ${location.pathname === "/cashier" ? "active" : ""}`}
+                            >
+                                Cashier
+                            </Nav.Link>
+                            <Nav.Link
+                                as={Link}
                                 to="/customer"
                                 className={`rounded mx-1 ${location.pathname === "/customer" ? "active" : ""}`}
                             >

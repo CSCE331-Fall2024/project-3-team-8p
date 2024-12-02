@@ -43,7 +43,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
                 inventoryItems: item.toDict().inventoryItems,
                 nutritionInfo: item.nutritionInfo,
 
-                imageUrl: `images/${item.itemName}.png`,
+                imageUrl: `images/${item.itemName}.avif`,
                 quantityOrdered: 1,  // Initial quantity
             };
             setCartItems([...cartItems, cartItem]);  // Add the new CartItem
