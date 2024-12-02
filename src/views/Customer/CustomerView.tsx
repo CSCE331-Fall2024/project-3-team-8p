@@ -11,6 +11,7 @@ import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
 import { usePreferences } from "../../contexts/PreferencesContext";
 import MenuItemCategory from "../../models/enums/MenuItemCategory";
+import { DISCOUNT_RATE } from "../../utils/constants";
 
 const menuItemApi = new MenuItemApi();
 
@@ -105,9 +106,10 @@ function CustomerView() {
                                             <ListingCard
                                                 name={isSpanish ? menuItem.translatedItemName : menuItem.itemName}
                                                 price={menuItem.price}
-                                                imageUrl={`/images/${menuItem.itemName}.png`}
+                                                imageUrl={`/images/${menuItem.itemName}.avif`}
                                                 quantityOrdered={quantityOrdered}
                                                 onAddToCart={() => addToCart(menuItem)}
+                                                isDiscounted={menuItem.isDiscounted}
                                             />
                                         </Col>
                                     );
