@@ -11,6 +11,7 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
+import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
 import { PreferencesProvider } from "./contexts/PreferencesContext";
 import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 import KitchenView from "./views/Kitchen/KitchenView";
@@ -39,6 +40,9 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
+                            <Route path="menu" element={
+                                <MenuBoardsView></MenuBoardsView>
+                            } />
                             <Route path="cashier" element={
                                 <EmployeeOnlyRoute>
                                     <CartProvider>

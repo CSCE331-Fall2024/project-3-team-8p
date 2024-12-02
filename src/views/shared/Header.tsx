@@ -59,6 +59,13 @@ function Header() {
                             </Nav.Link>
                             <Nav.Link
                                 as={Link}
+                                to="/kitchen"
+                                className={`rounded mx-1 ${location.pathname === "/kitchen" ? "active" : ""}`}
+                            >
+                                Kitchen
+                            </Nav.Link>
+                            <Nav.Link
+                                as={Link}
                                 to="/customer"
                                 className={`rounded mx-1 ${location.pathname === "/customer" ? "active" : ""}`}
                             >
@@ -66,10 +73,10 @@ function Header() {
                             </Nav.Link>
                             <Nav.Link
                                 as={Link}
-                                to="/kitchen"
-                                className={`rounded mx-1 ${location.pathname === "/kitchen" ? "active" : ""}`}
+                                to="/menu"
+                                className={`rounded mx-1 ${location.pathname === "/menu" ? "active" : ""}`}
                             >
-                                Kitchen
+                                Menu
                             </Nav.Link>
                         </Nav>
 
