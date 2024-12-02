@@ -1,17 +1,21 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import ListingCard from './components/ListingCard';
-// import listings from '../../models/dummy-data/MenuBoardsListingData';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import NutritionInfoDict from "../../models/dict-types/NutritionInfoDict";
-import MenuBoardsDict from "../../models/dict-types/MenuBoardsDict";
 import MenuBoardItem from "../../models/MenuBoardItem";
 import menuItemCategory from "../../models/enums/MenuItemCategory";
+// import { Tabs } from '../../views/Customer/TabsEnum'; // or wherever your Tabs enum is located
+import MenuBoardsDict from "../../models/dict-types/MenuBoardsDict"; // import the MenuBoardsDict type
+
+// Example data, replace with actual data or import from your data source
+const allMenuItems: MenuBoardsDict[] = [
+    // Add your list of MenuBoardsDict items here
+];
 
 const tabOptions = [
-    { label: 'Entree', value: menuItemCategory.Entree },
-    { label: 'Side', value: menuItemCategory.Side },
-    { label: 'Drink', value: menuItemCategory.Drink },
-    { label: 'Appetizer', value: menuItemCategory.Appetizer },
+    { label: 'Entrees', value: menuItemCategory.Entree },
+    { label: 'Sides', value: menuItemCategory.Side },
+    { label: 'Drinks', value: menuItemCategory.Drink },
+    { label: 'Appetizers', value: menuItemCategory.Appetizer },
 ];
 
 const MenuBoardsView = () => {
@@ -57,21 +61,14 @@ const MenuBoardsView = () => {
                     <h1 style={{ color: 'black' }} className="text-center mb-4">{tab.label}</h1>
 
                     <Row className="justify-content-center">
-                        {listings[tab.value].map((item) => (
+                        {MenuBoardItem.fromCategory(tab.value, allMenuItems).map((item) => (
                             <Col key={item.menuItemId} md={4} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
                                 <ListingCard
                                     menuItemId={item.menuItemId}
-                                    name={item.itemName}
+                                    itemName={item.itemName}
                                     price={item.price}
-                                    imageUrl={item.imageUrl}
-                                    allergens={item.allergens}
-                                    calories={item.calories}
-                                    fat={item.fat}
-                                    protein={item.protein}
-                                    sugar={item.sugar}
-                                    carbohydrates={item.carbohydrates}
-                                    isPremium={item.isPremium}
-                                    isSpicy={item.isSpicy}
+                                    // imageUrl={item.imageUrl}
+                                    nutritionInfo={item.nutritionInfo}
                                 />
                             </Col>
                         ))}
