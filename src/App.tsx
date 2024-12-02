@@ -12,6 +12,7 @@ import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
 import { LanguageProvider } from "./contexts/PreferencesContext";
+import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 
 
 function App() {
@@ -37,7 +38,11 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
-                            <Route path="cashier" element={<CashierView />} />
+                            <Route path="cashier" element={
+                                <EmployeeOnlyRoute>
+                                    <CashierView />
+                                </EmployeeOnlyRoute>
+                            } />
                         </Route>
                     </Routes>
                 </UserProvider>
