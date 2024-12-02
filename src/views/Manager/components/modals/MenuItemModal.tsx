@@ -173,7 +173,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                         <SearchableMultiSelect
                             items={allInventoryItems}
                             selectedValues={selectedInventoryItems}
-                            getItemValue={(item: InventoryItem): string => item.itemName}
                             onChange={setSelectedInventoryItems}
                             placeholder="Select inventory items..."
                         />

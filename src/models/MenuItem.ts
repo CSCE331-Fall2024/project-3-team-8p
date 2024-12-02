@@ -89,7 +89,9 @@ export default class MenuItem implements CardItem {
     }
 
     addInventoryItem(inventoryItem: InventoryItem): void {
-        this._inventoryItems.push(inventoryItem);
+        if (!this.inventoryItems.includes(inventoryItem)) {
+            this._inventoryItems.push(inventoryItem);
+        }
     }
 
     get nutritionInfo(): NutritionInfoDict {
