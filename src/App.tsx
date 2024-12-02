@@ -41,7 +41,7 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
-                            <Route path="menu-items" element={
+                            <Route path="menu" element={
                                 <MenuBoardsView></MenuBoardsView>
                             } />
                             <Route path="cashier" element={<CashierView />} />

@@ -100,7 +100,7 @@ const MenuBoardsView = () => {
                         <h1 style={{ color: 'black' }} className="text-center mb-4">{tab.label}</h1>
                         <Row className="justify-content-center">
                             {filteredItems.map((item) => (
-                                <Col key={item.menuItemId} md={4} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
+                                <Col key={item.menuItemId} md={3} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
                                     <ListingCard
                                         menuItemId={item.menuItemId}
                                         itemName={item.translatedItemName || item.itemName}

@@ -73,10 +73,10 @@ function Header() {
                             </Nav.Link>
                             <Nav.Link
                                 as={Link}
-                                to="/menu-items"
-                                className={`rounded mx-1 ${location.pathname === "/menu-items" ? "active" : ""}`}
+                                to="/menu"
+                                className={`rounded mx-1 ${location.pathname === "/menu" ? "active" : ""}`}
                             >
-                                Menu Items
+                                Menu
                             </Nav.Link>
                         </Nav>
 
