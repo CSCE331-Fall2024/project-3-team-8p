@@ -8,6 +8,7 @@ interface ListingCardProps {
     menuItemId: string;
     price: number;
     itemName: string;
+    imageUrl: string;
     nutritionInfo: NutritionInfoDict;
 }
 
@@ -118,7 +119,7 @@ const PopupOverlay = styled.div`
     z-index: 999;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({itemName, price, nutritionInfo}) => {
+const ListingCard: React.FC<ListingCardProps> = ({itemName, price, imageUrl, nutritionInfo}) => {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleNutritionClick = () => {
@@ -133,7 +134,7 @@ const ListingCard: React.FC<ListingCardProps> = ({itemName, price, nutritionInfo
         <CardContainer>
             <NutritionImage src={'images/information.png'} alt="Nutrition Info" onClick={handleNutritionClick} />
 
-            {/*<Image src={imageUrl} alt={itemName} />*/}
+            <Image src={imageUrl} alt={itemName} />
             <CardContent>
                 <Name>{itemName}</Name>
                 <p> ${price.toFixed(2)} </p>
