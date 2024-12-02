@@ -12,7 +12,6 @@ import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
 import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
-// import { PreferencesProvider } from "./contexts/PreferencesContext";
 import { PreferencesProvider } from "./contexts/PreferencesContext";
 import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 import KitchenView from "./views/Kitchen/KitchenView";
@@ -44,7 +43,6 @@ function App() {
                             <Route path="menu-items" element={
                                 <MenuBoardsView></MenuBoardsView>
                             } />
-                            <Route path="cashier" element={<CashierView />} />
                             <Route path="cashier" element={
                                 <EmployeeOnlyRoute>
                                     <CartProvider>
