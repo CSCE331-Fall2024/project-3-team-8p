@@ -15,7 +15,7 @@ export default class Order implements BaseItem {
     private readonly _menuItems: Map<MenuItem, number>;
     private readonly _inventoryItems: InventoryItem[];
     private readonly _price: number;
-    private readonly _status: OrderStatus;
+    private _status: OrderStatus;
 
     static fromDict(dict: OrderDict): Order {
         const order = new Order(
@@ -59,7 +59,7 @@ export default class Order implements BaseItem {
         this._status = status;
     }
 
-    get id() {
+    get id(): string {
         return this._orderId;
     }
 
@@ -67,31 +67,39 @@ export default class Order implements BaseItem {
         return this._orderId;
     }
 
-    get cashierId() {
+    get cashierId(): string {
         return this._cashierId;
     }
 
-    get month() {
+    get month(): number {
         return this._month;
     }
 
-    get week() {
+    get week(): number {
         return this._week;
     }
 
-    get day() {
+    get day(): number {
         return this._day;
     }
 
-    get hour() {
+    get hour(): number {
         return this._hour;
     }
 
-    get price() {
+    get price(): number {
         return this._price;
     }
 
-    get menuItems() {
+    get status(): OrderStatus {
+        return this._status;
+    }
+
+    set status(value: OrderStatus) {
+        this._status = value;
+    }
+
+    get menuItems(): Map<MenuItem, number> {
         return this._menuItems;
     }
 
@@ -99,18 +107,14 @@ export default class Order implements BaseItem {
         this._menuItems.set(menuItem, qty);
     }
 
-    get inventoryItems() {
+    get inventoryItems(): InventoryItem[] {
         return this._inventoryItems;
     }
 
-    addInventoryItem(inventoryItem: InventoryItem) {
+    addInventoryItem(inventoryItem: InventoryItem): void {
         this._inventoryItems.push(inventoryItem);
     }
 
-    get status(): OrderStatus {
-        return this._status;
-    }
-    
     toDict(): OrderDict {
         return {
             orderId: this._orderId,
