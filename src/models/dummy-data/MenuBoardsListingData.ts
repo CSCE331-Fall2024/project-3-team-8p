@@ -1,4 +1,4 @@
-import { Tabs } from '../../views/Customer/TabsEnum';
+import { Tabs } from '../../views/Menu-Boards/components/TabsEnum';
 
 
 import MenuBoardItem from '../MenuBoardItem';
