@@ -1,11 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Badge, CloseButton, Form, ListGroup } from 'react-bootstrap';
+import InventoryItem from "../../../../models/InventoryItem";
 
-interface SearchableMultiSelectProps<ItemType> {
-    items: ItemType[];
+interface SearchableMultiSelectProps {
+    items: InventoryItem[];
     selectedValues: string[];
-    getItemValue: (item: ItemType) => string;
-    getItemLabel?: (item: ItemType) => string;
     onChange: (selectedValues: string[]) => void;
     placeholder?: string;
     className?: string;
@@ -17,15 +16,13 @@ Search bar logic:
     2. When the user starts typing an item name, only show items whose names include the search term
     3. DOES NOT show items that are already selected
  */
-export function SearchableMultiSelect<ItemType>({
-                                                    items,
-                                                    selectedValues,
-                                                    getItemValue,
-                                                    getItemLabel = getItemValue,
-                                                    onChange,
-                                                    placeholder = "Search...",
-                                                    className = ""
-                                                }: SearchableMultiSelectProps<ItemType>) {
+export function SearchableMultiSelect({
+                                          items,
+                                          selectedValues,
+                                          onChange,
+                                          placeholder = "Search...",
+                                          className = ""
+                                      }: SearchableMultiSelectProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -42,15 +39,10 @@ export function SearchableMultiSelect<ItemType>({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    useEffect(() => {
-        console.log(selectedValues);
-    }, [selectedValues]);
-
-    const filteredItems: ItemType[] = items.filter(item => {
-        const value = getItemValue(item);
-        return !selectedValues.includes(value) &&
-            (searchTerm === "" || value.toLowerCase().includes(searchTerm.toLowerCase()));
-    });
+    const filteredItems: InventoryItem[] = items.filter((item, index, items) =>
+        !selectedValues.includes(item.itemName)
+        && (searchTerm === "" || item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     const handleAddItem = (value: string) => {
         onChange([...selectedValues, value]);
@@ -65,27 +57,26 @@ export function SearchableMultiSelect<ItemType>({
     return (
         <div className={`${className}`} ref={containerRef}>
             <div className="d-flex flex-wrap gap-2 border rounded p-2 mb-2">
-                {selectedValues.length > 0
-                    ? selectedValues.map((value: string) => {
-                        const item = items.find(i => getItemValue(i) === value);
-                        return item && (
-                            <Badge
-                                key={value}
-                                bg="secondary"
-                                text="light"
-                                className="p-2 d-flex align-items-center"
-                                data-bs-theme="dark"
-                            >
-                                <span>{getItemLabel(item)}</span>
-                                <CloseButton
-                                    onClick={() => handleRemoveItem(value)}
-                                    className="text-light p-0 ms-2"
-                                />
-                            </Badge>
-                        );
-                    })
-                    : <span className={"text-muted"}>...</span>
-                }
+                {selectedValues.length > 0 ? (selectedValues.map((value: string) => {
+                    const item = items.find(i => i.itemName === value);
+                    return item && (
+                        <Badge
+                            key={value}
+                            bg="secondary"
+                            text="light"
+                            className="p-2 d-flex align-items-center"
+                            data-bs-theme="dark"
+                        >
+                            <span>{item.itemName}</span>
+                            <CloseButton
+                                onClick={() => handleRemoveItem(value)}
+                                className="text-light p-0 ms-2"
+                            />
+                        </Badge>
+                    );
+                })) : (
+                    <span className={"text-muted"}>...</span>
+                )}
             </div>
 
             <div className="position-relative">
@@ -104,14 +95,14 @@ export function SearchableMultiSelect<ItemType>({
                         style={{ maxHeight: '300px', overflowY: 'auto', zIndex: 1000 }}
                     >
                         {filteredItems.length > 0 ? (
-                            filteredItems.map((item: ItemType) => (
+                            filteredItems.map((item: InventoryItem) => (
                                 <ListGroup.Item
-                                    key={getItemValue(item)}
+                                    key={item.inventoryItemId}
                                     action
-                                    onClick={() => handleAddItem(getItemValue(item))}
+                                    onClick={() => handleAddItem(item.itemName)}
                                     className="border-start-0 border-end-0"
                                 >
-                                    {getItemLabel(item)}
+                                    {item.itemName}
                                 </ListGroup.Item>
                             ))
                         ) : (
