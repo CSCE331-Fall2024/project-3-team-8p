@@ -4,7 +4,7 @@ import "./css/Home.css";
 function Home() {
     return (
         <div className={"home-background"}>
-            <div className="container h-80vh d-flex align-items-center justify-content-center">
+            <div className="container h-80-vh d-flex align-items-center justify-content-center">
                 <div className="card" style={{ maxWidth: '800px', width: '100%' }}>
                     <div className="card-body p-4">
                         <div className="text-center mb-4">

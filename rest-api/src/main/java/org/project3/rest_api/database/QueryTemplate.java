@@ -31,6 +31,32 @@ public class QueryTemplate {
                 """;
 
     /**
+     * SQL query to select menu items associated with an order
+     * */
+    public static final String selectOrderMenuItems = """
+                SELECT
+                    m.menuItemId,
+                    m.price,
+                    m.itemName,
+                    m.category,
+                    m.nutritionInfo,
+                    m.isDiscounted,
+                    om.quantity AS count
+                FROM "order" o
+                JOIN orderToMenuItem om ON o.orderId = om.orderId
+                JOIN menuItem m ON m.menuItemId = om.menuItemId
+                WHERE o.orderId = '%s';
+            """;
+
+    /**
+     * SQL query to select all undelivered orders
+     * */
+    public static final String selectAllUndeliveredOrders = """
+            SELECT * FROM "order"
+            WHERE NOT(status = 'delivered')
+            """;
+
+    /**
      * SQL query to select recent orders by month and limit
      */
     public static final String selectRecentOrders = """
@@ -64,16 +90,16 @@ public class QueryTemplate {
      * SQL query to insert a new order
      */
     public static final String insertOrder = """
-                INSERT INTO "order" (orderId, cashierId, month, week, day, hour, price)
-                VALUES ('%s', '%s', %d, %d, %d, %d, %f);
+                INSERT INTO "order" (orderId, cashierId, month, week, day, hour, price, status)
+                VALUES ('%s', '%s', %d, %d, %d, %d, %f, '%s');
                 """;
 
     /**
-     * SQL query to update an existing order
+     * SQL query to update an existing order's status
      */
-    public static final String updateOrder = """
+    public static final String updateOrderStatus = """
                 UPDATE "order"
-                SET month = %d, week = '%s', day = %d, hour = %d, price = %f
+                SET status  = '%s'
                 WHERE orderId = '%s';
                 """;
 
@@ -247,8 +273,8 @@ public class QueryTemplate {
      * SQL query to update discount status
      * */
     public static final String updateDiscountStatus = """
-            UPDATE menuitem 
-            SET isdiscounted = %b;
+            UPDATE menuItem 
+            SET isDiscounted = %b;
             """;
     /**
      * SQL query to select a menu item by menuItemId
@@ -311,8 +337,8 @@ public class QueryTemplate {
      * SQL query to insert a new menu item
      */
     public static final String insertMenuItem = """
-                INSERT INTO menuitem (menuItemId, itemName, price, nutritionInfo)
-                VALUES ('%s', '%s', %.2f, '%s');
+                INSERT INTO menuItem (menuItemId, itemName, price, nutritionInfo, category)
+                VALUES ('%s', '%s', %.2f, '%s', '%s');
                 """;
 
     /**
@@ -320,7 +346,8 @@ public class QueryTemplate {
      */
     public static final String updateMenuItem = """
                 UPDATE menuItem
-                SET price = %f, itemName = '%s', nutritionInfo = '%s', isDiscounted = '%s'
+                SET price = %f, itemName = '%s', nutritionInfo = '%s',
+                category = '%s', isDiscounted = %b
                 WHERE menuItemId = '%s';
                 """;
 
