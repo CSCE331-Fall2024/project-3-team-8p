@@ -1,6 +1,12 @@
 /* Global styles  */
 :root {
-    --background-color: rgb(189, 45, 64);
+    --background-color: #dc3545;
+    --primary-red: #D51A1F;
+    --dark-red: #871E2D;
+    --hover-red: #E62F34;
+    --neutral-dark: #1F1F1F;
+    --neutral-light: #FFFFFF;
+    --pill-shadow: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -16,4 +22,12 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.h-80-vh {
+    height: 80vh;
+}
+
+.h-60-vh {
+    height: 60vh;
 }

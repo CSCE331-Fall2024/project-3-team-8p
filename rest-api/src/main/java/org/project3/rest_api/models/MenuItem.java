@@ -1,7 +1,6 @@
 package org.project3.rest_api.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,9 +27,25 @@ public class MenuItem {
     public String itemName;
 
     /**
-     * A map to store inventory items required to create the menu item and their quantities
+     * Nutrition and allergens information for the menu item
      */
-//    public Map<InventoryItem, Integer> inventoryItems = new HashMap<>();
+    public NutritionInfo nutritionInfo;
+
+    /**
+     * Category of menu item
+     * */
+    public String category;
+
+    /**
+     * Discount status of menu item
+     * */
+    public Boolean isDiscounted;
+
+
+    /**
+     * List of associated inventory items
+     * */
+    public List<InventoryItem> inventoryItems;
 
     /**
      * Constructor to create a MenuItem with a specified ID.
@@ -38,11 +53,20 @@ public class MenuItem {
      * @param menuItemId the unique ID of the menu item
      * @param price      the price of the menu item
      * @param itemName   the name of the menu item
+     * @param nutritionInfo the nutrition and allergen information
      */
-    public MenuItem(UUID menuItemId, Double price, String itemName) {
+    public MenuItem(UUID menuItemId,
+                    Double price,
+                    String itemName,
+                    NutritionInfo nutritionInfo,
+                    String category,
+                    Boolean isDiscounted) {
         this.menuItemId = menuItemId;
         this.price = price;
         this.itemName = itemName;
+        this.nutritionInfo = nutritionInfo;
+        this.category = category;
+        this.isDiscounted = isDiscounted;
     }
 
     /**
@@ -51,30 +75,17 @@ public class MenuItem {
      * @param price    the price of the menu item
      * @param itemName the name of the menu item
      */
-    public MenuItem(Double price, String itemName) {
-        this(UUID.randomUUID(), price, itemName);
+    public MenuItem(Double price,
+                    String itemName,
+                    NutritionInfo nutritionInfo,
+                    String category,
+                    Boolean isDiscounted) {
+        this(UUID.randomUUID(), price, itemName, nutritionInfo, category, isDiscounted);
     }
 
     /**
-     * Adds or updates the quantity of an InventoryItem required for this menu item.
-     *
-     * @param item     the inventory item to be added or updated
-     * @param quantity the quantity of the inventory item required for the menu item
-     */
-//    public void addOrUpdateInventoryItem(InventoryItem item, Integer quantity) {
-//        inventoryItems.put(item, quantity);
-//    }
+     * No-arg default constructor for MenuItem
+     * */
+    public MenuItem() {}
 
-    /**
-     * Checks if the menu item is available based on the availability of its required inventory items.
-     *
-     * @return true if all inventory items required for the menu item are available, false otherwise
-     */
-//    public Boolean isAvailable() {
-//        for (InventoryItem item : inventoryItems.keySet()) {
-//            if (item.availableStock <= 0)
-//                return false;
-//        }
-//        return true;
-//    }
 }
