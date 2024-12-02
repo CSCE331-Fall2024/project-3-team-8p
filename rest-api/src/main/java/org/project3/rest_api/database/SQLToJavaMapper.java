@@ -202,6 +202,7 @@ public class SQLToJavaMapper {
     public static Review reviewMapper(ResultSet rs) {
         try {
             return new Review(
+                    UUID.fromString(rs.getString("reviewId")),
                     rs.getString("customerName"),
                     rs.getString("review")
             );

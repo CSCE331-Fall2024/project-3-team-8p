@@ -424,7 +424,7 @@ public class QueryTemplate {
     // reviews
 
     /**
-     * SQL query to select all review
+     * SQL query to select all reviews
      * */
 
     public static final String selectAllReviews = """
