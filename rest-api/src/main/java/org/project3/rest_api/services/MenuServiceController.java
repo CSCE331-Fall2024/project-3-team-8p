@@ -69,6 +69,15 @@ public class MenuServiceController {
         return dbMenuService.selectSales(startMonth, endMonth, startDay, endDay);
     }
 
+    @GetMapping("/discount")
+    public Boolean getDiscount() {
+        List<MenuItem> items = dbMenuService.selectMenuItems();
+        for (MenuItem item : items) {
+            if (!item.isDiscounted) return false;
+        }
+        return true;
+    }
+
     /**
      * Updates menu item discount
      * */
