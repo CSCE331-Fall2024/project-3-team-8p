@@ -22,6 +22,7 @@ const menuItemApi = new MenuItemApi();
 function CashierView() {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [waitingPlaceOrder, setWaitingPlaceOrder] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const { user } = useUser();
     const { cartItems, cartTotal, addToCart, clearCart } = useCart();
@@ -72,11 +73,14 @@ function CashierView() {
         });
 
         try {
+            setWaitingPlaceOrder(true);
             await orderApi.addOrder(newOrder);
             console.log("Order ID: ", newOrder.orderId);
             alert("Order Placed!")
         } catch (error) {
             console.log("Error when placing order:", error);
+        } finally {
+            setWaitingPlaceOrder(false);
         }
 
         clearCart();
@@ -99,7 +103,11 @@ function CashierView() {
                             <h2 className="h4 mb-0 text-center fw-bold">Current Order</h2>
                         </Card.Header>
                         <Card.Body>
-                            <Table striped bordered hover>
+                            {waitingPlaceOrder ? (
+                                <div className={"mt-3"}>
+                                    <LoadingView color={"black"} />
+                                </div>
+                            ) : (<Table striped bordered hover>
                                 <thead>
                                 <tr>
                                     <th>Item</th>
@@ -116,7 +124,15 @@ function CashierView() {
                                     </tr>
                                 ))}
                                 </tbody>
-                            </Table>
+                            </Table>)}
+
+                            {/* Cart Total Section */}
+                            <div className="d-flex justify-content-end mt-3 mb-3">
+                                <h5 className="fw-bold">
+                                    Total: ${cartTotal.toFixed(2)}
+                                </h5>
+                            </div>
+
                             <div className="d-flex justify-content-between mt-3">
                                 <Button variant="secondary" onClick={() => clearCart()}>
                                     Clear Order
@@ -149,6 +165,7 @@ function CashierView() {
                                         imageUrl={`/images/${menuItem.itemName}.avif`}
                                         quantityOrdered={quantityOrdered}
                                         onAddToCart={() => addToCart(menuItem)}
+                                        isDiscounted={menuItem.isDiscounted}
                                     />
                                 </Col>
                             );
