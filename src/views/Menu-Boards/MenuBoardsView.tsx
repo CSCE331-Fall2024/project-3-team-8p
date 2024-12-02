@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import ListingCard from './components/ListingCard';
-import listings from '../../models/dummy-data/MenuBoardsListingData';
+// import listings from '../../models/dummy-data/MenuBoardsListingData';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import { Tabs } from './components/TabsEnum';
+import NutritionInfoDict from "../../models/dict-types/NutritionInfoDict";
+import MenuBoardsDict from "../../models/dict-types/MenuBoardsDict";
+import MenuBoardItem from "../../models/MenuBoardItem";
+import menuItemCategory from "../../models/enums/MenuItemCategory";
 
 const tabOptions = [
-    { label: 'Entrees', value: Tabs.Entrees },
-    { label: 'Sides', value: Tabs.Sides },
-    { label: 'Drinks', value: Tabs.Drinks },
-    { label: 'Desserts', value: Tabs.Desserts },
+    { label: 'Entree', value: menuItemCategory.Entree },
+    { label: 'Side', value: menuItemCategory.Side },
+    { label: 'Drink', value: menuItemCategory.Drink },
+    { label: 'Appetizer', value: menuItemCategory.Appetizer },
 ];
 
 const MenuBoardsView = () => {

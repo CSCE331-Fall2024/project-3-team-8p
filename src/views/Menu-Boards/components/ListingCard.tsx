@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 // import { spicyIcon, information, premiumIcon } from '../images';
+import NutritionInfoDict from "../../../models/dict-types/NutritionInfoDict";
 
 
 interface ListingCardProps {
     menuItemId: string;
-    name: string;
     price: number;
-    imageUrl: string;
-    allergens?: string[];
-    calories: number;
-    fat: number;
-    protein: number;
-    sugar: number;
-    carbohydrates: number;
-    isPremium: boolean;
-    isSpicy: boolean;
+    itemName: string;
+    nutritionInfo: NutritionInfoDict;
 }
 
 const CardContainer = styled.div`
@@ -125,7 +118,7 @@ const PopupOverlay = styled.div`
     z-index: 999;
 `;
 
-const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allergens = [], calories, fat, protein, sugar, carbohydrates, isPremium, isSpicy}) => {
+const ListingCard: React.FC<ListingCardProps> = ({itemName, price, nutritionInfo}) => {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleNutritionClick = () => {
@@ -140,17 +133,17 @@ const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allerge
         <CardContainer>
             <NutritionImage src={'images/information.png'} alt="Nutrition Info" onClick={handleNutritionClick} />
 
-            <Image src={imageUrl} alt={name} />
+            {/*<Image src={imageUrl} alt={itemName} />*/}
             <CardContent>
-                <Name>{name}</Name>
+                <Name>{itemName}</Name>
                 <p> ${price.toFixed(2)} </p>
-                <div>Calories: {calories} cal</div>
+                <div>Calories: {nutritionInfo.calories} cal</div>
                 <PremiumContainer>
-                    {isPremium && <Premium src={'images/premium.png'} alt="Premium"/>}
+                    {nutritionInfo.isPremium && <Premium src={'images/premium.png'} alt="Premium"/>}
 
                 </PremiumContainer>
                 <SpicyContainer>
-                    {isSpicy && <Spicy src={'images/spicy.png'} alt="Spicy"/>}
+                    {nutritionInfo.isSpicy && <Spicy src={'images/spicy.png'} alt="Spicy"/>}
                 </SpicyContainer>
             </CardContent>
 
@@ -160,16 +153,16 @@ const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allerge
                     <PopupOverlay onClick={handleClosePopup} />
                     <PopupContainer>
                         <CloseButton onClick={handleClosePopup}>&times;</CloseButton>
-                        <h2>{name}</h2>
-                        <p>Calories: {calories} cal</p>
-                        <p>Fat: {fat} g</p>
-                        <p>Protein: {protein} g</p>
-                        <p>Sugar: {sugar} g</p>
-                        <p>Carbohydrates: {carbohydrates} g</p>
-                        {allergens.length > 0 ? (
+                        <h2>{itemName}</h2>
+                        <p>Calories: {nutritionInfo.calories} cal</p>
+                        <p>Fat: {nutritionInfo.fat} g</p>
+                        <p>Protein: {nutritionInfo.protein} g</p>
+                        <p>Sugar: {nutritionInfo.sugar} g</p>
+                        <p>Carbohydrates: {nutritionInfo.carbohydrates} g</p>
+                        {nutritionInfo.allergens.length > 0 ? (
                             <div>
                                 <strong>Allergens:</strong>
-                                {allergens.map((item, index) => (
+                                {nutritionInfo.allergens.map((item, index) => (
                                     <p key={index}>{item}</p>
                                 ))}
                             </div>
