@@ -355,15 +355,17 @@ public class QueryTemplate {
      * SQL query to delete a menu item
      */
     public static final String deleteMenuItem = """
-                DELETE FROM menuItem 
-                WHERE menuItemId='%s'; 
+                DELETE FROM menuItem
+                WHERE menuItemId='%s';
                 """;
 
     /**
      * SQL query to select menu item sales by time period
      */
     public static final String selectMenuItemSalesByTimePeriod = """
-                SELECT m.menuItemId, m.price, m.itemName, count(*), m.nutritionInfo
+                SELECT m.menuItemId, m.price, m.itemName,
+                       count(*), m.nutritionInfo, m.category,
+                       m.isDiscounted
                 FROM "order" o
                 JOIN orderToMenuItem otm ON o.orderId = otm.orderId
                 JOIN menuItem m ON otm.menuItemId = m.menuItemId
