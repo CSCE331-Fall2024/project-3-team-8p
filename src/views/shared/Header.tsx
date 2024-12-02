@@ -57,6 +57,13 @@ function Header() {
                             >
                                 Customer
                             </Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                to="/menu-items"
+                                className={`rounded mx-1 ${location.pathname === "/menu-items" ? "active" : ""}`}
+                            >
+                                Menu Items
+                            </Nav.Link>
                         </Nav>
 
                         {user ? (

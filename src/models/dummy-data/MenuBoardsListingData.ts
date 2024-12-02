@@ -5,7 +5,7 @@ import MenuBoardItem from '../MenuBoardItem';
 
 const listings: Record<Tabs, MenuBoardItem[]> = {
     [Tabs.Entrees]: [
-        new MenuBoardItem("1", 4.40, "Beijing Beef", "images/Beijing Beef.png", 1, 2, 3, 4, 5, true, true, ['soy']),
+        new MenuBoardItem("1", 4.40, "Beijing Beef", "images/Beijing Beef.png", 1, 2, 3, 4, 5, true, true, []),
         new MenuBoardItem("2", 4.40, "The Original Orange Chicken", "images/The Original Orange Chicken.png", 1, 2, 3, 4, 5, true, true, ['soy']),
         new MenuBoardItem("3", 4.40, "Kung Pao Chicken", "images/Kung Pao Chicken.png", 1, 2, 3, 4, 5, true, true, ['soy']),
         new MenuBoardItem("4", 4.40, "Hot Ones Blazing Bourbon Chicken", "images/Hot Ones Blazing Bourbon Chicken.png", 1, 2, 3, 4, 5, true, true, ['soy']),

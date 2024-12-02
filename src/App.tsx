@@ -34,7 +34,7 @@ function App() {
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
-                            <Route path="menu-boards" element={
+                            <Route path="menu-items" element={
                                 <MenuBoardsView></MenuBoardsView>
                             } />
                         </Route>

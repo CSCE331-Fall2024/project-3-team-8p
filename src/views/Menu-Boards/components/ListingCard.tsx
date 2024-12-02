@@ -146,11 +146,11 @@ const ListingCard: React.FC<ListingCardProps> = ({name, price, imageUrl, allerge
                 <p> ${price.toFixed(2)} </p>
                 <div>Calories: {calories} cal</div>
                 <PremiumContainer>
-                    {/*{isPremium && <Premium src={premiumIcon} alt="Premium"/>}*/}
+                    {isPremium && <Premium src={'images/premium.png'} alt="Premium"/>}
 
                 </PremiumContainer>
                 <SpicyContainer>
-                    {/*{isSpicy && <Spicy src={spicyIcon} alt="Spicy"/>}*/}
+                    {isSpicy && <Spicy src={'images/spicy.png'} alt="Spicy"/>}
                 </SpicyContainer>
             </CardContent>
 
