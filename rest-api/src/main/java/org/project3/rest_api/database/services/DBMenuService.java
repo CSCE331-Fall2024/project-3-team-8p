@@ -61,7 +61,9 @@ public class DBMenuService extends DBConnector {
                 newMenuItem.menuItemId,
                 newMenuItem.itemName,
                 newMenuItem.price,
-                nutritionInfoJson
+                nutritionInfoJson,
+                newMenuItem.category,
+                newMenuItem.isDiscounted
         ));
         mapMenutoInventory(newMenuItem.menuItemId, newMenuItem.inventoryItems);
     }
@@ -131,8 +133,9 @@ public class DBMenuService extends DBConnector {
                 updatedMenuItem.price,
                 updatedMenuItem.itemName,
                 nutritionInfoJson,
+                updatedMenuItem.category,
+                updatedMenuItem.isDiscounted,
                 updatedMenuItem.menuItemId
-
         ));
 
         // delete old inventory item association
@@ -143,6 +146,15 @@ public class DBMenuService extends DBConnector {
         // add association
         mapMenutoInventory(updatedMenuItem.menuItemId, updatedMenuItem.inventoryItems);
 
+    }
+
+    /**
+     * Updates all menu items' discount status
+     * */
+    public void updateDiscountStatus(Boolean isDiscounted) {
+        executeUpdate(String.format(QueryTemplate.updateDiscountStatus,
+                isDiscounted
+        ));
     }
 
     /**

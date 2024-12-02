@@ -4,5 +4,4 @@ enum OrderStatus {
     READY_FOR_DELIVERY = "ready",
     DELIVERED = "delivered",
 }
-
 export default OrderStatus;

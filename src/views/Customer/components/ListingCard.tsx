@@ -1,6 +1,6 @@
-// ListingCard.tsx
 import React from 'react';
-import '../css/ListingCard.css';
+import { Card, Badge } from 'react-bootstrap';
+import { usePreferences } from "../../../contexts/PreferencesContext";
 
 interface ListingCardProps {
     name: string;
@@ -10,16 +10,74 @@ interface ListingCardProps {
     onAddToCart: () => void;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({ name, price, imageUrl, quantityOrdered, onAddToCart }) => {
+const ListingCard: React.FC<ListingCardProps> = ({
+                                                     name,
+                                                     price,
+                                                     imageUrl,
+                                                     quantityOrdered,
+                                                     onAddToCart,
+                                                 }) => {
+    const { isHighContrast, textSize } = usePreferences();
+
     return (
-        <div className="card-container" onClick={onAddToCart}> {/* Apply CSS class for container */}
-            <img className="image" src={imageUrl} alt={name} /> {/* Apply CSS class for image */}
-            <div className="card-content"> {/* Apply CSS class for content */}
-                <h3 className="name">{name}</h3> {/* Apply CSS class for name */}
-                <span className="price">${price.toFixed(2)}</span> {/* Apply CSS class for price */}
-                <span className="quantity">Quantity Ordered: {quantityOrdered}</span> {/* Apply CSS class for quantity */}
+        <Card
+            onClick={onAddToCart}
+            className={`h-100 shadow-sm ${
+                isHighContrast ? 'bg-black border-white' : 'bg-white border-0'
+            }`}
+            role="button"
+            aria-label={`Add ${name} to cart`}
+            style={{
+                cursor: 'pointer',
+                transition: 'all 0.2s ease-in-out',
+            }}
+            onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'scale(1.02)';
+                e.currentTarget.style.boxShadow = '0 .5rem 1rem rgba(0,0,0,.15)';
+            }}
+            onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 .125rem .25rem rgba(0,0,0,.075)';
+            }}
+        >
+            <div className="position-relative">
+                <Card.Img
+                    variant="top"
+                    src={imageUrl}
+                    alt={name}
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/images/sample_image.png";
+                    }}
+                    style={{
+                        height: '200px',
+                        objectFit: 'contain',
+                        padding: '1rem'
+                    }}
+                />
+                {quantityOrdered > 0 && (
+                    <Badge
+                        bg={isHighContrast ? "light" : "danger"}
+                        text={isHighContrast ? "black" : "white"}
+                        className="position-absolute top-0 end-0 m-2"
+                    >
+                        {quantityOrdered}
+                    </Badge>
+                )}
             </div>
-        </div>
+            <Card.Body className={`d-flex flex-column align-items-center text-center ${
+                isHighContrast ? 'text-white' : ''
+            }`}>
+                <Card.Title className="mb-2" style={{ fontSize: `${textSize}px` }}>
+                    {name}
+                </Card.Title>
+                <Card.Text
+                    className={`fw-bold mb-0 ${ isHighContrast ? 'text-white' : 'text-danger'}`}
+                    style={{ fontSize: `${textSize}px` }}
+                >
+                    ${price.toFixed(2)}
+                </Card.Text>
+            </Card.Body>
+        </Card>
     );
 };
 

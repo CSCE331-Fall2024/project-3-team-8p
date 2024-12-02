@@ -2,6 +2,7 @@ import BaseItem from "./interfaces/BaseItem";
 import MenuItem from "./MenuItem";
 import InventoryItem from "./InventoryItem";
 import OrderDict from "./dict-types/OrderDict";
+import MenuItemWithQtyDict from "./dict-types/MenuItemWithQtyDict";
 import OrderStatus from "./enums/OrderStatus";
 
 export default class Order implements BaseItem {
@@ -13,11 +14,11 @@ export default class Order implements BaseItem {
     private readonly _hour: number;
     private readonly _menuItems: Map<MenuItem, number>;
     private readonly _inventoryItems: InventoryItem[];
-    private _price: number;
+    private readonly _price: number;
     private _status: OrderStatus;
 
     static fromDict(dict: OrderDict): Order {
-        return new Order(
+        const order = new Order(
             dict.orderId,
             dict.cashierId,
             dict.month,
@@ -27,6 +28,12 @@ export default class Order implements BaseItem {
             dict.price,
             dict.status
         );
+        dict.menuItemsWithQty
+            .sort((a, b) => a.menuItem.itemName.localeCompare(b.menuItem.itemName))
+            .forEach((itemWithQty: MenuItemWithQtyDict) => {
+                order.addMenuItem(MenuItem.fromDict(itemWithQty.menuItem), itemWithQty.quantity);
+            });
+        return order;
     }
 
     constructor(
@@ -47,12 +54,16 @@ export default class Order implements BaseItem {
         this._day = day;
         this._hour = hour;
         this._price = price;
-        this._status = status;
         this._menuItems = new Map<MenuItem, number>();
         this._inventoryItems = [];
+        this._status = status;
     }
 
     get id(): string {
+        return this._orderId;
+    }
+
+    get orderId(): string {
         return this._orderId;
     }
 
@@ -92,13 +103,7 @@ export default class Order implements BaseItem {
         return this._menuItems;
     }
 
-    addOrUpdateMenuItem(menuItem: MenuItem, qty: number = 1): void {
-        // Update the order price
-        // by determining the difference in qty for the menu item
-        const oldQty: number = this.menuItems.get(menuItem) ?? 0;
-        let qtyDiff: number = qty - oldQty;
-        this._price += qtyDiff * menuItem.price;
-
+    addMenuItem(menuItem: MenuItem, qty: number = 1) {
         this._menuItems.set(menuItem, qty);
     }
 
@@ -109,7 +114,7 @@ export default class Order implements BaseItem {
     addInventoryItem(inventoryItem: InventoryItem): void {
         this._inventoryItems.push(inventoryItem);
     }
-    
+
     toDict(): OrderDict {
         return {
             orderId: this._orderId,
@@ -119,7 +124,13 @@ export default class Order implements BaseItem {
             day: this._day,
             hour: this._hour,
             price: this._price,
-            status: this._status,
+            menuItemsWithQty: Array.from(
+                this._menuItems,
+                ([item, qty]: [MenuItem, number]): MenuItemWithQtyDict => (
+                    { menuItem: item.toDict(), quantity: qty }
+                )
+            ),
+            status: this._status
         };
     }
 }

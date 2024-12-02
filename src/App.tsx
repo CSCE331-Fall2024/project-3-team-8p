@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import ManagerView from "./views/Manager/ManagerView";
 import CustomerView from "./views/Customer/CustomerView";
+import CashierView from "./views/Cashier/CashierView";
 import Checkout from "./views/Customer/components/Checkout";
 import './App.css';
 import { CartProvider } from './contexts/CartContext';
@@ -10,14 +11,15 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
+import { LanguageProvider } from "./contexts/PreferencesContext";
 import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 import KitchenView from "./views/Kitchen/KitchenView";
 
 
 function App() {
     return (
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
-            <Router>
+        <Router>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
                 <UserProvider>
                     <Routes>
                         <Route path="/" element={<RouteLayoutWrapper />}>
@@ -28,9 +30,11 @@ function App() {
                                 </ManagerOnlyRoute>
                             } />
                             <Route path={"customer"} element={
-                                <CartProvider>
-                                    <Outlet />
-                                </CartProvider>
+                                <LanguageProvider>
+                                    <CartProvider>
+                                        <Outlet />
+                                    </CartProvider>
+                                </LanguageProvider>
                             }>
                                 <Route index element={<CustomerView />} />
                                 <Route path="checkout" element={<Checkout />} />
@@ -40,11 +44,12 @@ function App() {
                                     <KitchenView />
                                 </EmployeeOnlyRoute>
                             } />
+                            <Route path="cashier" element={<CashierView />} />
                         </Route>
                     </Routes>
                 </UserProvider>
-            </Router>
-        </GoogleOAuthProvider>
+            </GoogleOAuthProvider>
+        </Router>
     );
 }
 

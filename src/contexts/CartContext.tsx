@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactElement } from 'react';
 import MenuItem from "../models/MenuItem";
 import CartItem from "../models/interfaces/CartItem";
+import MenuItemDict from "../models/dict-types/MenuItemDict";
 
 
 interface CartContextType {
@@ -37,7 +38,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
                 menuItemId: item.menuItemId,
                 price: item.price,
                 itemName: item.itemName,
-                imageUrl: item.imageUrl,
+                category: item.category,
+                isDiscounted: item.isDiscounted,
+                inventoryItems: item.toDict().inventoryItems,
+                nutritionInfo: item.nutritionInfo,
+
+                imageUrl: `images/${item.itemName}.png`,
                 quantityOrdered: 1,  // Initial quantity
             };
             setCartItems([...cartItems, cartItem]);  // Add the new CartItem

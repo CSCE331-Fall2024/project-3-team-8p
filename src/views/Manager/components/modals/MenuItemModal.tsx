@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import InventoryItem from "../../../../models/InventoryItem";
 import "../../css/MenuItemModal.css";
 import { SearchableMultiSelect } from "./SearchableMultiSelect";
+import MenuItemCategory from "../../../../models/enums/MenuItemCategory";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -50,7 +51,20 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
             const itemToSave = new MenuItem(
                 formData.menuItemId,
                 formData.price,
-                formData.itemName
+                formData.itemName,
+                // TODO: replace with actual form data
+                MenuItemCategory.Entree,
+                false,
+                {
+                    allergens: [],
+                    calories: 0,
+                    fat: 0,
+                    protein: 0,
+                    sugar: 0,
+                    carbohydrates: 0,
+                    isPremium: false,
+                    isSpicy: false,
+                }
             );
             selectedInventoryItems.forEach((itemName: string) => {
                 const inventoryItem = allInventoryItems.find(
@@ -99,7 +113,7 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formPrice">
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Price ($)</Form.Label>
                         <Form.Control
                             name="price"
                             type="number"

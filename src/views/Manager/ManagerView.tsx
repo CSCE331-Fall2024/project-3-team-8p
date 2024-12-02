@@ -1,6 +1,5 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import './css/ManagerView.css';
 import "./css/ManagerView.css"
 import GridView from "./components/GridView/GridView";
 import ReportView from "./components/ReportView/ReportView";
