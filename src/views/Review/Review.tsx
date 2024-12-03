@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap"
 import ReviewApi from "../../apis/review-api";
 import Review from "../../models/Review";
 import { v4 as uuidv4 } from 'uuid';
+import LoadingView from "../shared/LoadingView";
 
 const Reviews: React.FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -95,7 +96,7 @@ const Reviews: React.FC = () => {
             {/* Loading and error handling */}
             {loading ? (
                 <div className="text-center">
-                    <p>Loading reviews...</p>
+                    <LoadingView color={"white"}/>
                 </div>
             ) : error ? (
                 <div className="text-center text-danger">

@@ -60,11 +60,7 @@ function App() {
                             } />
 
                             <Route path={"Reviews"} element={
-                                <PreferencesProvider>
-                                    <CartProvider>
                                         <Outlet />
-                                    </CartProvider>
-                                </PreferencesProvider>
                             }>
                                 <Route index element={<Reviews />} />
                             </Route>
