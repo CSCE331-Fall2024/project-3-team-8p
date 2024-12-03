@@ -15,6 +15,7 @@ import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
 import { PreferencesProvider } from "./contexts/PreferencesContext";
 import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 import KitchenView from "./views/Kitchen/KitchenView";
+import Reviews from "./views/Review/Review"
 
 
 function App() {
@@ -57,6 +58,17 @@ function App() {
                                     <KitchenView />
                                 </EmployeeOnlyRoute>
                             } />
+
+                            <Route path={"Reviews"} element={
+                                <PreferencesProvider>
+                                    <CartProvider>
+                                        <Outlet />
+                                    </CartProvider>
+                                </PreferencesProvider>
+                            }>
+                                <Route index element={<Reviews />} />
+                            </Route>
+
                         </Route>
                     </Routes>
                 </UserProvider>
