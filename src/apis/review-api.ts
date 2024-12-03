@@ -13,7 +13,7 @@ export default class ReviewApi extends BaseApi {
         const response = await this.apiClient.get<ReviewDict[]>("");
         return response.data
             .map((item: ReviewDict) => Review.fromDict(item))
-            .sort((a: Review, b: Review) => a.customerName.localeCompare(b.customerName)).reverse();
+            .reverse();
     }
 
     // Post a new review
