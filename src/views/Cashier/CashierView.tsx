@@ -97,36 +97,45 @@ function CashierView() {
     return (
         <Container fluid className="bg-danger min-vh-100 text-white py-3">
             <Row>
-                <Col md={4} className="border-end border-white">
-                    <Card className="bg-light text-dark">
-                        <Card.Header className="bg-dark text-white">
-                            <h2 className="h4 mb-0 text-center fw-bold">Current Order</h2>
+                <Col md={4}>
+                    <Card className="bg-light text-dark h-100">
+                        <Card.Header as="h2" className="bg-dark text-white h4 mb-0 text-center fw-bold">
+                            Current Order
                         </Card.Header>
                         <Card.Body>
                             {waitingPlaceOrder ? (
-                                <div className={"mt-3"}>
-                                    <LoadingView color={"black"} />
+                                <div className="mt-3">
+                                    <LoadingView color="black" />
                                 </div>
-                            ) : (<Table striped bordered hover>
-                                <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {Object.values(cartItems).map((item) => (
-                                    <tr key={item.itemName}>
-                                        <td>{item.itemName}</td>
-                                        <td>${item.price.toFixed(2)}</td>
-                                        <td>{item.quantityOrdered}</td>
+                            ) : (
+                                <Table striped bordered hover>
+                                    <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
                                     </tr>
-                                ))}
-                                </tbody>
-                            </Table>)}
+                                    </thead>
+                                    <tbody>
+                                    {cartItems.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={3} className="text-center text-muted fst-italic">
+                                                No items in order
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        cartItems.map((item) => (
+                                            <tr key={item.itemName}>
+                                                <td>{item.itemName}</td>
+                                                <td>${item.price.toFixed(2)}</td>
+                                                <td>{item.quantityOrdered}</td>
+                                            </tr>
+                                        ))
+                                    )}
+                                    </tbody>
+                                </Table>
+                            )}
 
-                            {/* Cart Total Section */}
                             <div className="d-flex justify-content-end mt-3 mb-3">
                                 <h5 className="fw-bold">
                                     Total: ${cartTotal.toFixed(2)}
@@ -134,10 +143,18 @@ function CashierView() {
                             </div>
 
                             <div className="d-flex justify-content-between mt-3">
-                                <Button variant="secondary" onClick={() => clearCart()}>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => clearCart()}
+                                    disabled={cartItems.length === 0}
+                                >
                                     Clear Order
                                 </Button>
-                                <Button variant="primary" onClick={handlePlaceOrder}>
+                                <Button
+                                    variant="primary"
+                                    onClick={handlePlaceOrder}
+                                    disabled={cartItems.length === 0}
+                                >
                                     Place Order
                                 </Button>
                             </div>
@@ -146,31 +163,35 @@ function CashierView() {
                 </Col>
 
                 <Col md={8}>
-                    <Card className="bg-light text-dark mb-3">
-                        <Card.Header className="bg-dark text-white">
-                            <h2 className="h4 mb-0 text-center fw-bold">Menu Items</h2>
+                    <Card className="bg-light text-dark h-100">
+                        <Card.Header as="h2" className="bg-dark text-white h4 mb-0 text-center fw-bold">
+                            Menu Items
                         </Card.Header>
+                        <Card.Body>
+                            <Row className="g-3">
+                                {menuItems.map((menuItem: MenuItem) => {
+                                    const cartItem = cartItems.find(
+                                        (item) => item.menuItemId === menuItem.menuItemId
+                                    );
+                                    const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
+                                    return (
+                                        <Col key={menuItem.menuItemId} xs={12} sm={6} md={4} lg={3}>
+                                            <div className="shadow">
+                                                <ListingCard
+                                                    name={menuItem.itemName}
+                                                    price={menuItem.price}
+                                                    imageUrl={`/images/${menuItem.itemName}.avif`}
+                                                    quantityOrdered={quantityOrdered}
+                                                    onAddToCart={() => addToCart(menuItem)}
+                                                    isDiscounted={menuItem.isDiscounted}
+                                                />
+                                            </div>
+                                        </Col>
+                                    );
+                                })}
+                            </Row>
+                        </Card.Body>
                     </Card>
-                    <Row className="g-3">
-                        {menuItems.map((menuItem: MenuItem) => {
-                            const cartItem = cartItems.find(
-                                (item) => item.menuItemId === menuItem.menuItemId
-                            );
-                            const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
-                            return (
-                                <Col key={menuItem.menuItemId} xs={12} sm={6} md={4} lg={3}>
-                                    <ListingCard
-                                        name={menuItem.itemName}
-                                        price={menuItem.price}
-                                        imageUrl={`/images/${menuItem.itemName}.avif`}
-                                        quantityOrdered={quantityOrdered}
-                                        onAddToCart={() => addToCart(menuItem)}
-                                        isDiscounted={menuItem.isDiscounted}
-                                    />
-                                </Col>
-                            );
-                        })}
-                    </Row>
                 </Col>
             </Row>
         </Container>
