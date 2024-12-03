@@ -1,5 +1,4 @@
 import ReviewDict from "./dict-types/ReviewDict";
-import EmployeeDict from "./dict-types/EmployeeDict";
 
 export default class Review{
     private readonly _reviewId: string;

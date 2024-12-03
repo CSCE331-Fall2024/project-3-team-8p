@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
+import { Container, Card, Button, Modal, Form } from "react-bootstrap";
 import ReviewApi from "../../apis/review-api";
 import Review from "../../models/Review";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import LoadingView from "../shared/LoadingView";
 
 const Reviews: React.FC = () => {
@@ -11,7 +11,7 @@ const Reviews: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const reviewsPerPage = 9;
+    const reviewsPerPage = 3;
 
     // Initialize the ReviewApi
     const reviewApi = new ReviewApi();
@@ -30,6 +30,12 @@ const Reviews: React.FC = () => {
         };
 
         fetchReviews();
+
+        // Persist the active page on page load
+        const savedPage = localStorage.getItem("currentPage");
+        if (savedPage) {
+            setCurrentPage(Number(savedPage));
+        }
     }, []);
 
     // Modal handlers
@@ -48,7 +54,7 @@ const Reviews: React.FC = () => {
                 await reviewApi.postReview(new Review(uuidv4(), name, text));
 
                 // Add the new review to the local state
-                setReviews([...reviews, { name, text }]);
+                setReviews([{ name, text }, ...reviews]);
                 handleCloseModal();
             } catch (error) {
                 setError("Failed to submit review. Please try again later.");
@@ -62,76 +68,70 @@ const Reviews: React.FC = () => {
     const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
     // Handle pagination
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(reviews.length / reviewsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+    const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+    const handlePageClick = (page: number) => {
+        setCurrentPage(page);
+        localStorage.setItem("currentPage", String(page)); // Save the active page to localStorage
     };
 
     return (
         <Container fluid className="py-3" style={{ background: "#dc3545", minHeight: "100vh" }}>
-            <Row>
-                <Col>
-                    <Container
-                        className="py-4 mb-4"
-                        style={{
-                            backgroundColor: "white",
-                            borderRadius: "8px",
-                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        }}
-                    >
-                        <h1 className="text-center" style={{ fontSize: "24px", color: "black", margin: 0 }}>
-                            Customer Reviews
-                        </h1>
-                    </Container>
-                </Col>
-            </Row>
+            {/* Page Navigation and Write a Review Button */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <Button variant="primary" onClick={handleShowModal}>
+                    Write a Review
+                </Button>
+
+                {/* Pagination */}
+                <div className="d-flex">
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <Button
+                            key={index}
+                            variant="outline-light"
+                            className="mx-1"
+                            onClick={() => handlePageClick(index + 1)}
+                            active={currentPage === index + 1}
+                            style={{
+                                color: "#fff",
+                                backgroundColor: currentPage === index + 1 ? "black" : "transparent",
+                                transition: "all 0.3s ease",
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "black")}
+                            onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor =
+                                    currentPage === index + 1 ? "black" : "transparent")
+                            }
+                        >
+                            {index + 1}
+                        </Button>
+                    ))}
+                </div>
+            </div>
 
             {/* Loading and error handling */}
             {loading ? (
                 <div className="text-center">
-                    <LoadingView color={"white"}/>
+                    <LoadingView color={"black"} />
                 </div>
             ) : error ? (
                 <div className="text-center text-danger">
                     <p>{error}</p>
                 </div>
             ) : (
-                <Row className="g-4">
-                    {currentReviews.map((review, index) => (
-                        <Col xs={12} md={6} lg={4} key={index}>
-                            <Card className="d-flex flex-column" style={{ height: '100%' }}>
-                                <Card.Body className="d-flex flex-column">
-                                    <Card.Title>{review.name}</Card.Title>
+                <div>
+                    {/* Reviews List Stack */}
+                    <div className="d-flex flex-column align-items-center">
+                        {currentReviews.map((review, index) => (
+                            <Card className="shadow-lg p-3 mb-5 bg-white rounded w-75" key={index}>
+                                <Card.Body className="text-center">
+                                    <Card.Title className="h5">{review.name}</Card.Title>
                                     <Card.Text>{review.text}</Card.Text>
                                 </Card.Body>
                             </Card>
-                        </Col>
-                    ))}
-                </Row>
+                        ))}
+                    </div>
+                </div>
             )}
-
-            {/* Pagination controls */}
-            <div className="d-flex justify-content-center mt-4">
-                <Button variant="secondary" onClick={handlePrevPage} disabled={currentPage === 1}>
-                    Previous
-                </Button>
-                <Button variant="secondary" onClick={handleNextPage} disabled={currentPage >= Math.ceil(reviews.length / reviewsPerPage)}>
-                    Next
-                </Button>
-            </div>
-
-            <div className="text-center mt-4">
-                <Button variant="primary" onClick={handleShowModal}>
-                    Write a Review
-                </Button>
-            </div>
 
             {/* Review Modal */}
             <Modal show={showModal} onHide={handleCloseModal}>
