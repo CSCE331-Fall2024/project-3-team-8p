@@ -18,7 +18,7 @@ function ItemGrid<T extends CardItem>({ pageTitle, loading, items, onAddOrUpdate
     const [currentPage, setCurrentPage] = useState(1);
     const [isHappyHour, setIsHappyHour] = useState<boolean | undefined>(undefined);
 
-    const itemsPerPage = 12;
+    const itemsPerPage = 18;
     const lastItemIndex = currentPage * itemsPerPage;
     const firstItemIndex = lastItemIndex - itemsPerPage;
     const currentPageItems = items.slice(firstItemIndex, lastItemIndex);
@@ -64,7 +64,7 @@ function ItemGrid<T extends CardItem>({ pageTitle, loading, items, onAddOrUpdate
             ) : (
                 <Row>
                     {currentPageItems.map((item: T) => (
-                        <Col key={item.id} md={3} className={"mb-3"}>
+                        <Col key={item.id} md={2} className={"mb-3"}>
                             <ItemCard item={item} onClick={onAddOrUpdateItem} />
                         </Col>
                     ))}
