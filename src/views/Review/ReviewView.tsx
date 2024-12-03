@@ -93,7 +93,7 @@ function Reviews() {
                         {error}
                     </Alert>
                 ) : (
-                    <div className="d-flex flex-column justify-content-between h-80-vh">
+                    <div className="d-flex flex-column justify-content-between h-90-vh">
                         <Row className="g-4">
                             {currentReviews.map((review, index) => (
                                 <Col xs={12} key={index}>
