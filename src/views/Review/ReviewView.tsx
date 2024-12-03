@@ -118,7 +118,7 @@ function Reviews() {
                             ))}
                         </Row>
 
-                        <div className="d-flex justify-content-center">
+                        <div className="d-flex justify-content-center mt-4">
                             {Array.from({ length: totalPages }, (_, index) => (
                                 <Button
                                     key={index}
