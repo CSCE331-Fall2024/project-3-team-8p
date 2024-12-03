@@ -23,9 +23,12 @@ function OrderColumn({ title, columnId = title, orders }: OrderColumnProps) {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
-                            {orders.map((order, index) => (
+
+                            {orders.length > 0 ? orders.map((order, index) => (
                                 <OrderCard key={order.id} order={order} column={title} index={index} />
-                            ))}
+                            )) : (
+                                <span className={"text-muted"}>No orders found</span>
+                            )}
                             {provided.placeholder}
                         </Card.Body>
                     )}

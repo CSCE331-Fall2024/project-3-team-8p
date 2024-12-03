@@ -4,6 +4,7 @@ import { Container, Row, Col, Image, Spinner, Alert } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
 import MenuBoardItem from '../../models/MenuBoardItem';
 import menuItemCategory from '../../models/enums/MenuItemCategory';
+import LoadingView from "../shared/LoadingView";
 
 const tabOptions = [
     { label: 'Entrees', value: menuItemCategory.Entree },
@@ -47,11 +48,7 @@ const MenuBoardsView = () => {
 
     if (loading) {
         return (
-            <Container fluid className="bg-white min-vh-100 d-flex justify-content-center align-items-center">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </Container>
+            <LoadingView color={"white"}/>
         );
     }
 
