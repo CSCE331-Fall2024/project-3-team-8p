@@ -11,7 +11,6 @@ import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
 import { usePreferences } from "../../contexts/PreferencesContext";
 import MenuItemCategory from "../../models/enums/MenuItemCategory";
-import { DISCOUNT_RATE } from "../../utils/constants";
 
 const menuItemApi = new MenuItemApi();
 
@@ -52,35 +51,39 @@ function CustomerView() {
     return (
         <div className={`min-vh-100 ${bgClass} ${textClass}`} style={{ fontSize: `${textSize}px` }}>
             {/* Header */}
-            <Navbar className="py-3 px-4 shadow-sm">
-                <Container fluid className="d-flex justify-content-between align-items-center">
-                    <Button
-                        variant={isHighContrast ? 'light' : 'dark'}
-                        size="lg"
-                        className="px-4 py-2"
-                        onClick={toggleAccessibilityModal}
-                        style={{ fontSize: `${textSize}px` }}
-                    >
-                        {isSpanish ? "Accesibilidad" : "Accessibility"}
-                    </Button>
+            <Navbar className="py-3">
+                <Container fluid className="ps-4">
+                    <Row className="w-100 d-flex justify-content-between align-items-baseline">
+                        <Col>
+                            <h5 className={"ms-2"}>Customer Kiosk</h5>
+                        </Col>
+                        <Col className="pe-0">
+                            <div className={"d-flex justify-content-end"}>
+                                <div className={"d-flex gap-4"}>
+                                    <Button
+                                        variant={isHighContrast ? 'light' : 'dark'}
+                                        size="lg"
+                                        className="px-4 py-2"
+                                        onClick={toggleAccessibilityModal}
+                                        style={{ fontSize: `${textSize}px` }}
+                                    >
+                                        {isSpanish ? "Accesibilidad" : "Accessibility"}
+                                    </Button>
 
-                    <Image
-                        src="/images/POS.png"
-                        alt="Panda Express Logo"
-                        className={`mx-auto ${isHighContrast ? 'filter-invert' : ''}`}
-                        style={{ maxHeight: '80px' }}
-                    />
-
-                    <Link to="checkout" state={{ isSpanish: isSpanish }}>
-                        <Button
-                            variant={isHighContrast ? 'light' : 'dark'}
-                            size="lg"
-                            className="px-4 py-2"
-                            style={{ fontSize: `${textSize}px` }}
-                        >
-                            {isSpanish ? "Verificar" : "Checkout"}
-                        </Button>
-                    </Link>
+                                    <Link to="checkout" state={{ isSpanish: isSpanish }}>
+                                        <Button
+                                            variant={isHighContrast ? 'light' : 'primary'}
+                                            size="lg"
+                                            className="px-4 py-2"
+                                            style={{ fontSize: `${textSize}px` }}
+                                        >
+                                            {isSpanish ? "Verificar" : "Checkout"}
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
                 </Container>
             </Navbar>
 
@@ -97,22 +100,22 @@ function CustomerView() {
                         {menuItems
                             .filter((menuItem: MenuItem) => menuItem.category === activeTab)
                             .map((menuItem: MenuItem) => {
-                                    const cartItem = cartItems.find(
-                                        (item) => item.menuItemId === menuItem.menuItemId
-                                    );
-                                    const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
-                                    return (
-                                        <Col key={menuItem.menuItemId}>
-                                            <ListingCard
-                                                name={isSpanish ? menuItem.translatedItemName : menuItem.itemName}
-                                                price={menuItem.price}
-                                                imageUrl={`/images/${menuItem.itemName}.avif`}
-                                                quantityOrdered={quantityOrdered}
-                                                onAddToCart={() => addToCart(menuItem)}
-                                                isDiscounted={menuItem.isDiscounted}
-                                            />
-                                        </Col>
-                                    );
+                                const cartItem = cartItems.find(
+                                    (item) => item.menuItemId === menuItem.menuItemId
+                                );
+                                const quantityOrdered = cartItem ? cartItem.quantityOrdered : 0;
+                                return (
+                                    <Col key={menuItem.menuItemId}>
+                                        <ListingCard
+                                            name={isSpanish ? menuItem.translatedItemName : menuItem.itemName}
+                                            price={menuItem.price}
+                                            imageUrl={`/images/${menuItem.itemName}.avif`}
+                                            quantityOrdered={quantityOrdered}
+                                            onAddToCart={() => addToCart(menuItem)}
+                                            isDiscounted={menuItem.isDiscounted}
+                                        />
+                                    </Col>
+                                );
                             })
                         }
                     </Row>

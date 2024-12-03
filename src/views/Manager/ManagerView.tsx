@@ -6,7 +6,7 @@ import ReportView from "./components/ReportView/ReportView";
 
 function ManagerView() {
     return (
-        <Container>
+        <Container fluid>
             <div className={"manager-view align-items-stretch py-4"}>
                 <Row>
                     <Col className={"px-4"}>

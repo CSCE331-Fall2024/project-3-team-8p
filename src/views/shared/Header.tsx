@@ -21,7 +21,7 @@ function Header() {
     return (
         <>
             <Navbar bg="dark" variant="dark" expand="lg" className="sticky-top py-3 shadow">
-                <Container>
+                <Container fluid className={"px-4"}>
                     <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-3">
                         <Image
                             alt="Panda Express POS Logo"
