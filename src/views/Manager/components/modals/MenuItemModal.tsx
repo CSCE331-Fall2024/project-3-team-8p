@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 import MenuItemApi from "../../../../apis/menu-item-api";
 import MenuItem from "../../../../models/MenuItem";
-import { v4 as uuidv4 } from "uuid";
 import InventoryItem from "../../../../models/InventoryItem";
-import "../../css/MenuItemModal.css";
 import { SearchableMultiSelect } from "./SearchableMultiSelect";
 import NutritionInfoDict from "../../../../models/dict-types/NutritionInfoDict";
 import MenuItemCategory from "../../../../models/enums/MenuItemCategory";
+import "../../css/MenuItemModal.css";
 
 interface ModalProps {
     currMenuItem: MenuItem | undefined;
@@ -51,6 +51,17 @@ const getInitialInventoryItems = (menuItem?: MenuItem): string[] => (
     menuItem?.inventoryItems?.map((item: InventoryItem): string => item.itemName) ?? []
 );
 
+/**
+ * The MenuItemModal component allows for adding or editing a menu item.
+ * It displays a form where the user can input item details such as name, price, category, associated inventory items, and nutrition information.
+ *
+ * @param currMenuItem - The current menu item being edited, or undefined if adding a new menu item.
+ * @param allInventoryItems - A list of all inventory items to be selected from.
+ * @param showModal - A flag indicating whether the modal should be visible.
+ * @param onClose - Callback function to handle closing the modal, passing a flag indicating whether the data was updated.
+ * @param api - The API instance used for interacting with menu item data (e.g., adding or updating menu items).
+ * @constructor
+ */
 function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, api }: ModalProps) {
     const [formData, setFormData] = useState<FormData>(getInitialFormData(currMenuItem));
     const [selectedInventoryItems, setSelectedInventoryItems] = useState<string[]>(
@@ -95,8 +106,6 @@ function MenuItemModal({ currMenuItem, allInventoryItems, showModal, onClose, ap
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = event.target;
         const newValue: string | boolean = type === 'checkbox' ? checked : value;
-
-        console.log(name, newValue);
 
         if (name === "allergens") {
             setFormData(prevFormData => ({

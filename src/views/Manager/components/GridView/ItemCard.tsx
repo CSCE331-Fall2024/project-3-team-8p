@@ -7,6 +7,15 @@ interface ItemCardProps<T extends CardItem> {
     onClick: (item: T) => void;
 }
 
+/**
+ * The ItemCard component represents a clickable card displaying an item with its image and name.
+ * When clicked, it triggers the `onClick` callback with the item as the argument.
+ *
+ * @template T - The type of the item, which must extend `CardItem`.
+ * @param item - The item to be displayed in the card.
+ * @param onClick - Callback function that is triggered when the card is clicked, passing the item as an argument.
+ * @constructor
+ */
 function ItemCard<T extends CardItem>({ item, onClick }: ItemCardProps<T>) {
     return (
         <div className="item-card p-2 h-100 flex flex-col cursor-pointer" onClick={() => onClick(item)}>

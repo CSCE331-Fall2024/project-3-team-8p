@@ -1,6 +1,10 @@
 import React from 'react';
 import "./css/Home.css";
 
+/**
+ * Home component that serves as the landing page for the Panda Express POS System.
+ * @constructor
+ */
 function Home() {
     return (
         <div className={"home-background"}>

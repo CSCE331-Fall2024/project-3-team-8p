@@ -10,6 +10,14 @@ interface OrderColumnProps {
     orders: Order[];
 }
 
+/**
+ * OrderColumn component displays a list of orders within a specific column (e.g., "Placed", "In Progress").
+ * Each order is represented by an `OrderCard` and the column is made droppable using drag-and-drop functionality.
+ * @param title - The title of the column (e.g., "Placed Orders").
+ * @param columnId - The unique ID of the column (optional, defaults to the title).
+ * @param orders - A list of orders to display in the column.
+ * @constructor
+ */
 function OrderColumn({ title, columnId = title, orders }: OrderColumnProps) {
     return (
         <Col className="h-80vh">

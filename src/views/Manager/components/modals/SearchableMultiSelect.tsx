@@ -10,11 +10,17 @@ interface SearchableMultiSelectProps {
     className?: string;
 }
 
-/*
-Search bar logic:
-    1. When the user initially clicks the search bar, show a dropdown of all available items
-    2. When the user starts typing an item name, only show items whose names include the search term
-    3. DOES NOT show items that are already selected
+/**
+ * The SearchableMultiSelect component provides a searchable dropdown that allows users to select multiple items.
+ * It shows suggestions based on the user's search term, excluding already selected items.
+ *
+ * @param items - List of available inventory items.
+ * @param selectedValues - List of currently selected item names.
+ * @param onChange - Callback function that is triggered when the selected values change.
+ * @param placeholder - Placeholder text for the search input (defaults to "Search...").
+ * @param className - Additional CSS classes for styling the component.
+ * @returns A component that allows for selecting multiple items from a list with search functionality.
+ * @constructor
  */
 export function SearchableMultiSelect({
                                           items,

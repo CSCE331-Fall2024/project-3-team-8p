@@ -6,6 +6,19 @@ import Button from "react-bootstrap/Button";
 import "./css/Header.css";
 import LoginModal from "../Auth/LoginModal";
 
+/**
+ * The `Header` component displays a navigation bar with links to different sections of the app.
+ * It shows user profile information if logged in, or a login button if the user is not authenticated.
+ *
+ * The component includes:
+ * - A sticky top navbar with navigation links (Home, Manager, Cashier, Kitchen, Customer, Menu, and Reviews).
+ * - Active link highlighting based on the current route.
+ * - A user profile section (with picture and name) when logged in, or a login button if not.
+ * - A login modal that appears when the "Login" button is clicked.
+ *
+ * @returns A responsive navigation bar with user authentication features.
+ * @constructor
+ */
 function Header() {
     const { user, setUser } = useUser();
     const location = useLocation();

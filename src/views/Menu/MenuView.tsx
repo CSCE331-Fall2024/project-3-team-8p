@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ListingCard from './components/ListingCard';
-import { Container, Row, Col, Image, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Image, Alert } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
-import MenuBoardItem from '../../models/MenuBoardItem';
 import menuItemCategory from '../../models/enums/MenuItemCategory';
 import LoadingView from "../shared/LoadingView";
+import MenuItem from "../../models/MenuItem";
 
+// Options for the tabs displaying different categories of menu items
 const tabOptions = [
     { label: 'Entrees', value: menuItemCategory.Entree },
     { label: 'Sides', value: menuItemCategory.Side },
@@ -13,29 +14,27 @@ const tabOptions = [
     { label: 'Appetizers', value: menuItemCategory.Appetizer },
 ];
 
-const MenuBoardsView = () => {
-    const [menuItems, setMenuItems] = useState<MenuBoardItem[]>([]);
+/**
+ * The MenuView component displays a categorized list of menu items. It fetches menu items
+ * from the API and renders the items in a grid based on their category (e.g., Entrées,
+ * Sides, Drinks, Appetizers).
+ *
+ * @returns A component displaying the menu items categorized into tabs with loading and error handling.
+ * @constructor
+ */
+const MenuView = () => {
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const menuItemApi = new MenuItemApi();
 
+    // Fetches the menu items from the API when the component mounts
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
                 const items = await menuItemApi.getMenuItems();
-
-                const boardItems = items.map((item) =>
-                    MenuBoardItem.fromDict({
-                        menuItemId: item.menuItemId,
-                        price: item.price,
-                        itemName: item.itemName,
-                        category: item.category,
-                        nutritionInfo: item.nutritionInfo,
-                    })
-                );
-
-                setMenuItems(boardItems);
+                setMenuItems(items);
             } catch (err: any) {
                 setError(err.message || 'An error occurred while fetching menu items.');
             } finally {
@@ -46,12 +45,14 @@ const MenuBoardsView = () => {
         fetchMenuItems();
     }, []);
 
+    // Display loading indicator while fetching data
     if (loading) {
         return (
-            <LoadingView color={"white"}/>
+            <LoadingView color={"white"} />
         );
     }
 
+    // Display error message if fetching menu items fails
     if (error) {
         return (
             <Container fluid className="bg-white min-vh-100 d-flex justify-content-center align-items-center">
@@ -60,6 +61,7 @@ const MenuBoardsView = () => {
         );
     }
 
+    // Main rendering of menu items categorized into tabs
     return (
         <Container fluid className="bg-white min-vh-100 px-4 py-4">
             <Row className="mb-2">
@@ -68,6 +70,7 @@ const MenuBoardsView = () => {
                 </Col>
             </Row>
 
+            {/* Spicy and Premium icons */}
             <Row className="mb-4">
                 <Col xs={12} className="d-flex justify-content-center">
                     <div className="d-flex align-items-center mx-4">
@@ -89,18 +92,20 @@ const MenuBoardsView = () => {
                 </Col>
             </Row>
 
+            {/* Render menu items by category */}
             {tabOptions.map((tab) => {
-                const filteredItems = MenuBoardItem.fromCategory(tab.value, menuItems);
+                const filteredItems = menuItems.filter(item => item.category === tab.value);
 
                 return (
                     <div key={tab.value} className="mb-5">
                         <h1 style={{ color: 'black' }} className="text-center mb-4">{tab.label}</h1>
                         <Row className="justify-content-center">
                             {filteredItems.map((item) => (
-                                <Col key={item.menuItemId} md={3} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
+                                <Col key={item.menuItemId} md={3} sm={6} xs={12}
+                                     className="mb-4 d-flex justify-content-center">
                                     <ListingCard
                                         menuItemId={item.menuItemId}
-                                        itemName={item.translatedItemName || item.itemName}
+                                        itemName={item.itemName}
                                         price={item.price}
                                         imageUrl={`/images/${item.itemName}.avif`}
                                         nutritionInfo={item.nutritionInfo}
@@ -115,4 +120,4 @@ const MenuBoardsView = () => {
     );
 };
 
-export default MenuBoardsView;
+export default MenuView;

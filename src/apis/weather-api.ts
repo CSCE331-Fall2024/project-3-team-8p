@@ -8,7 +8,15 @@ export interface WeatherData {
     temperature: number;
 }
 
+/**
+ * API client for weather data
+ */
 export const WeatherApi = {
+    /**
+     * Gets weather information for current location
+     * @async
+     * @returns A `Promise` containing {@linkcode WeatherData}
+     */
     async fetchWeather(): Promise<WeatherData | null> {
         try {
             const response = await axios.get(

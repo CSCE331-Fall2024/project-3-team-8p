@@ -6,7 +6,15 @@ import EmployeeApi from "../../../../apis/employee-api";
 import GridViewTab from "./GridViewTab";
 import InventoryItem from "../../../../models/InventoryItem";
 
-
+/**
+ * The `useGridData` hook manages the state and data fetching logic for grid views displaying menu items, inventory items, and employees.
+ * It handles switching between different grid panes, fetching data from APIs, and providing loading and error states.
+ *
+ * @param menuItemApi - The API for fetching menu items.
+ * @param inventoryItemApi - The API for fetching inventory items.
+ * @param employeeApi - The API for fetching employee data.
+ * @returns An object containing the grid data, loading state, error state, current grid pane, and functions to refresh and set the grid pane.
+ */
 const useGridData = (
     menuItemApi: MenuItemApi,
     inventoryItemApi: InventoryItemApi,

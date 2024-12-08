@@ -20,7 +20,11 @@ const orderApi = new OrderApi();
 const employeeApi = new EmployeeApi();
 const translateApi = new TranslateApi();
 
-const Checkout: React.FC = () => {
+/**
+ * Checkout page where users can review their cart, receive weather recommendations, and place an order.
+ * @constructor
+ */
+function Checkout() {
     const { isSpanish, isHighContrast, textSize } = usePreferences();
 
     const { cartItems, cartTotal, clearCart } = useCart();
@@ -30,6 +34,12 @@ const Checkout: React.FC = () => {
     const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
     const [loadingPlaceOrder, setLoadingPlaceOrder] = useState<boolean>(false);
 
+    /**
+     * Returns a recommendation based on the current weather conditions and temperature.
+     * @param weather - The weather description (e.g., rain, sunny).
+     * @param temperature - The current temperature in Fahrenheit.
+     * @returns A string with a weather-based recommendation for the user.
+     */
     const getWeatherRecommendation = (weather: string, temperature: number): string => {
         if (weather.includes("rain")) {
             return isSpanish
@@ -71,6 +81,9 @@ const Checkout: React.FC = () => {
         fetchWeatherData();
     }, [isSpanish]);
 
+    /**
+     * Handles the order placement process. Constructs an order, submits it to the API, and clears the cart.
+     */
     const handlePlaceOrder = async () => {
         // Get the "Customer" employee ID:
         const customerId: string = (await employeeApi.getEmployeeByName("Customer"))!.employeeId
@@ -218,6 +231,6 @@ const Checkout: React.FC = () => {
             </Row>
         </Container>
     );
-};
+}
 
 export default Checkout;

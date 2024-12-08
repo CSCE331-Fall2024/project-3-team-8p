@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 import EmployeeApi from "../../../../apis/employee-api";
 import Employee from "../../../../models/Employee";
-import { v4 as uuidv4 } from "uuid";
-
 
 interface ModalProps {
     currEmployee: Employee | undefined;
@@ -25,6 +24,16 @@ const getInitialFormData = (currEmployee?: Employee) => ({
     isManager: currEmployee?.isManager ?? false,
 });
 
+/**
+ * The MenuItemModal component allows for adding or editing an employee record.
+ * It displays a form where the user can input employee details such as name and manager status.
+ *
+ * @param currEmployee - The current employee being edited, or undefined if adding a new employee.
+ * @param showModal - A flag indicating whether the modal should be visible.
+ * @param onClose - Callback function to handle closing the modal, passing a flag indicating whether the data was updated.
+ * @param api - The API instance used for interacting with employee data (e.g., adding or updating employees).
+ * @constructor
+ */
 function MenuItemModal({ currEmployee, showModal, onClose, api }: ModalProps) {
     const [formData, setFormData] = useState<FormData>(getInitialFormData(currEmployee));
 

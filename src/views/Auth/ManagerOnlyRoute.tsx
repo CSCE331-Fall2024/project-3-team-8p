@@ -10,7 +10,11 @@ interface ManagerOnlyRouteProps {
 
 const employeeApi = new EmployeeApi();
 
-// Wrapper for views that require authentication
+/**
+ * Wrapper component for views that require manager access to view
+ * @param children - The React components to wrap
+ * @constructor
+ */
 function ManagerOnlyRoute({ children }: ManagerOnlyRouteProps) : ReactElement {
     const { user } = useUser();
     const [isManager, setIsManager] = useState<boolean | undefined>(undefined);

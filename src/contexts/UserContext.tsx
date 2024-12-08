@@ -18,6 +18,11 @@ interface UserProviderProps {
     children: ReactElement;
 }
 
+/**
+ * Provides context about the current logged-in user. Provides {@linkcode UserContext}
+ * @param children - The React components to receive the context
+ * @constructor
+ */
 export const UserProvider = ({ children }: UserProviderProps) => {
     const [user, setUserState] = useState<User | null>(() => {
         // Get user info cached in localStorage to persist their information
@@ -49,6 +54,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
 };
 
+/**
+ * Custom hook to access the {@linkcode UserContext} in React components
+ */
 export const useUser = (): UserContextType => {
     const context = useContext(UserContext);
     if (context === undefined) {

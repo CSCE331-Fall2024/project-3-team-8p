@@ -44,6 +44,16 @@ const getChartUnits = (chartName: string) => {
     }
 };
 
+/**
+ * The SingleBarChart component displays a bar chart representing either product usage or sales report data.
+ * The chart data is fetched from the `dataProvider` function, which is passed as a prop.
+ * Users can select a start and end date to filter the data.
+ *
+ * @param chartName - The title of the chart, either "Product Usage Report" or "Sales Report".
+ * @param dataProvider - A function that provides the data for the chart, given the date range.
+ * @returns A component displaying a vertical bar chart for the given data.
+ * @constructor
+ */
 function SingleBarChart({ chartName, dataProvider }: SingleBarChartProps) {
     // By default, get the previous week's data
     const [formData, setFormData] = useState<FormData>({

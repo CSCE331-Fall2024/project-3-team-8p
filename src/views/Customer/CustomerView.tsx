@@ -1,19 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Container, Image, Navbar, Row } from 'react-bootstrap';
+import { Button, Col, Container, Navbar, Row } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
 import MenuItem from '../../models/MenuItem';
+import MenuItemCategory from "../../models/enums/MenuItemCategory";
 import { useCart } from '../../contexts/CartContext';
+import { usePreferences } from "../../contexts/PreferencesContext";
 import ListingCard from './components/ListingCard';
-import ButtonContainer from './components/ButtonContainer';
+import MenuButtonContainer from './components/MenuButtonContainer';
 import CartPopup from './components/CartPopup';
 import AccessibilityModal from './components/AccessibilityModal';
 import LoadingView from "../shared/LoadingView";
-import { usePreferences } from "../../contexts/PreferencesContext";
-import MenuItemCategory from "../../models/enums/MenuItemCategory";
 
 const menuItemApi = new MenuItemApi();
 
+/**
+ * The customer kiosk view
+ * @constructor
+ */
 function CustomerView() {
     const [activeTab, setActiveTab] = useState<MenuItemCategory>(MenuItemCategory.Entree);
     const [showAccessibilityModal, setShowAccessibilityModal] = useState(false);
@@ -89,13 +93,11 @@ function CustomerView() {
 
             {/* Menu Items Grid */}
             <Container fluid className="p-4">
-                {loading && (
+                {loading ? (
                     <div className="h-60-vh">
                         <LoadingView color="white" />
                     </div>
-                )}
-
-                {!loading && (
+                ) : (
                     <Row xs={2} sm={3} md={4} lg={5} className="g-4 mb-5">
                         {menuItems
                             .filter((menuItem: MenuItem) => menuItem.category === activeTab)
@@ -124,21 +126,19 @@ function CustomerView() {
 
             {/* Navigation Tabs */}
             <Container fluid className="mt-3">
-                <ButtonContainer
+                <MenuButtonContainer
                     onTabChange={handleTabChange}
                     isHighContrast={isHighContrast}
                     activeTab={activeTab}
                 />
             </Container>
 
-            {/* Cart Popup */}
             <CartPopup
                 cartItems={cartItems}
                 total={cartTotal}
                 onClearCart={clearCart}
             />
 
-            {/* Accessibility Modal */}
             {showAccessibilityModal && (
                 <AccessibilityModal
                     onClose={toggleAccessibilityModal}
