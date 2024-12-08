@@ -1,6 +1,13 @@
 package org.project3.rest_api.models;
 import java.util.List;
-
+/**
+ * The NutritionInfo class represents the nutritional information for a menu item in the Panda Express POS system.
+ * It stores information about the menu item's allergens, calories, fat, protein, sugar, and carbohydrates.
+ * <p>This class includes attributes for allergens, calories, fat, protein, sugar, carbohydrates, premium status, and spicy status.</p>
+ * <p>Author: Kevin Zhang</p>
+ * <p>Author: Soham Nagawanshi</p>
+ * <p>Author: Ryan Kha</p>
+ */
 public class NutritionInfo {
 
     /**
