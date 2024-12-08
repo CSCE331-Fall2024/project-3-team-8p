@@ -10,6 +10,15 @@ interface AccessibilityModalProps {
     onToggleHighContrast: () => void;
 }
 
+/**
+ * Modal that displays accessibility options (change text size, toggle high contrast, change language)
+ * @param onClose - Callback called when the modal closes
+ * @param onIncreaseTextSize - Callback called when the user increases text size
+ * @param onDecreaseTextSize - Callback called when user decreases text size
+ * @param onToggleLanguage - Callback called when user switches language
+ * @param onToggleHighContrast - Callback called when user toggles high contrast
+ * @constructor
+ */
 const AccessibilityModal: React.FC<AccessibilityModalProps> = ({
                                                                    onClose,
                                                                    onIncreaseTextSize,

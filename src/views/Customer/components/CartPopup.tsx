@@ -10,6 +10,13 @@ interface CartPopupProps {
     onClearCart: () => void;
 }
 
+/**
+ * Popup modal that displays the cart contents, total price, and offers options for clearing the cart or proceeding to checkout.
+ * @param cartItems - Array of items currently in the cart
+ * @param total - The total price of the items in the cart
+ * @param onClearCart - Callback function that is called when the cart is cleared
+ * @constructor
+ */
 const CartPopup = ({
                        cartItems,
                        total,

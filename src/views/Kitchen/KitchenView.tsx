@@ -10,6 +10,12 @@ import LoadingView from "../shared/LoadingView";
 
 const orderApi = new OrderApi();
 
+/**
+ * KitchenView component that displays and manages orders in different stages:
+ * Placed, In Progress, Ready for Delivery, and Delivered.
+ * Users can drag and drop orders between columns to update their statuses.
+ * @constructor
+ */
 function KitchenView() {
     const [placedOrders, setPlacedOrders] = useState<Order[]>([]);
     const [inProgressOrders, setInProgressOrders] = useState<Order[]>([]);
@@ -17,6 +23,11 @@ function KitchenView() {
     const [deliveredOrders, setDeliveredOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Handles the completion of a drag-and-drop action, updating the order's status
+     * and reordering the orders in the corresponding columns.
+     * @param result - The result of the drag-and-drop action.
+     */
     const handleDragEnd = async (result: DropResult) => {
         const { source, destination, draggableId } = result;
 

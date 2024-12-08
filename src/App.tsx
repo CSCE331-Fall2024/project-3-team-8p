@@ -11,13 +11,19 @@ import { UserProvider } from "./contexts/UserContext";
 import ManagerOnlyRoute from "./views/Auth/ManagerOnlyRoute";
 import Home from "./views/Home/Home";
 import RouteLayoutWrapper from "./views/shared/RouteLayoutWrapper";
-import MenuBoardsView from "./views/Menu-Boards/MenuBoardsView";
+import MenuView from "./views/Menu/MenuView";
 import { PreferencesProvider } from "./contexts/PreferencesContext";
 import EmployeeOnlyRoute from "./views/Auth/EmployeeOnlyRoute";
 import KitchenView from "./views/Kitchen/KitchenView";
 import Reviews from "./views/Review/ReviewView"
 
-
+/**
+ * The `App` component sets up the routing and layout for the entire application.
+ * The component uses `react-router-dom` to define the routes and render the appropriate views based on the path.
+ *
+ * @returns The main app layout with routes and context providers for managing authentication, preferences, and cart.
+ * @constructor
+ */
 function App() {
     return (
         <Router>
@@ -42,7 +48,7 @@ function App() {
                                 <Route path="checkout" element={<Checkout />} />
                             </Route>
                             <Route path="menu" element={
-                                <MenuBoardsView></MenuBoardsView>
+                                <MenuView></MenuView>
                             } />
                             <Route path="cashier" element={
                                 <EmployeeOnlyRoute>

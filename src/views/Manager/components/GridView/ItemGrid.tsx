@@ -14,6 +14,17 @@ interface ItemGridProps<T extends CardItem> {
     onAddOrUpdateItem: (item?: T) => void;
 }
 
+/**
+ * The ItemGrid component displays a paginated grid of items, with functionality to add/update items and toggle happy hour status for menu items.
+ * It shows a loading view while the data is being fetched and supports pagination for navigating through the items.
+ *
+ * @template T - The type of items, which must extend `CardItem`.
+ * @param pageTitle - The title to be displayed for the grid, typically "Menu Item", "Inventory Item", etc.
+ * @param loading - A flag indicating whether the data is still loading.
+ * @param items - The array of items to display in the grid.
+ * @param onAddOrUpdateItem - Callback function to handle adding or updating an item when clicked.
+ * @constructor
+ */
 function ItemGrid<T extends CardItem>({ pageTitle, loading, items, onAddOrUpdateItem }: ItemGridProps<T>) {
     const [currentPage, setCurrentPage] = useState(1);
     const [isHappyHour, setIsHappyHour] = useState<boolean | undefined>(undefined);

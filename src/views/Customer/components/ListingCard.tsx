@@ -12,6 +12,17 @@ interface ListingCardProps {
     isDiscounted?: boolean;
 }
 
+/**
+ * ListingCard component that displays an individual item in the product listing.
+ * It includes the item image, name, price, quantity ordered, and any applicable discounts.
+ * @param name - The name of the item.
+ * @param price - The price of the item.
+ * @param imageUrl - The URL of the item's image.
+ * @param quantityOrdered - The number of this item ordered, if any.
+ * @param onAddToCart - Callback called when the item is added to the cart.
+ * @param isDiscounted - Optional flag to indicate if the item is on sale. Defaults to false.
+ * @constructor
+ */
 const ListingCard: React.FC<ListingCardProps> = ({
                                                      name,
                                                      price,

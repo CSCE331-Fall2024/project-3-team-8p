@@ -14,6 +14,15 @@ type ChartData = {
     sales: number
 };
 
+/**
+ * The SingleBarComponent displays a bar chart with hourly orders and sales data.
+ * It fetches data from the `dataProvider` function, which provides a report, and renders the data as a vertical bar chart.
+ *
+ * @param chartName - The title of the chart to display.
+ * @param dataProvider - A function that returns a promise which resolves to the report data.
+ * @returns A component that displays a bar chart with two bars: number of orders and sales amount for each hour of the day.
+ * @constructor
+ */
 function SingleBarComponent({ chartName, dataProvider }: SingleBarChartProps) {
     const [chartData, setChartData] = useState<ChartData[]>([]);
     const [loading, setLoading] = useState(false);

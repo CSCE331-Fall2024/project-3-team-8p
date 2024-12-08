@@ -26,6 +26,13 @@ const getReportViewTabTitle = (currReportViewTab: ReportViewTab) => {
     }
 }
 
+/**
+ * The ReportView component displays different types of reports, such as the product usage report, sales report,
+ * X report, and Z report. It allows users to switch between these reports using tabs.
+ *
+ * @returns A component that allows for switching between different report views and displays the corresponding charts.
+ * @constructor
+ */
 function ReportView() {
     const [currReportViewTab, setCurrReportViewTab] = useState<ReportViewTab>(ReportViewTab.UsageChart)
 

@@ -31,6 +31,12 @@ const getGridViewTitle = (currGridView: GridViewTab) => {
     }
 }
 
+/**
+ * The GridView component renders a dynamic grid view with multiple tabs (Menu Items, Inventory Items, Employees).
+ * It displays different modals and grids based on the current tab selection and allows interaction with data items.
+ *
+ * @constructor
+ */
 function GridView() {
     const {
         gridItems,

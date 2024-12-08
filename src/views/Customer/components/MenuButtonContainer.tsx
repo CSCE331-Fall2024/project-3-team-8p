@@ -1,8 +1,8 @@
 import React from 'react';
 import { Nav, Container } from 'react-bootstrap';
-import { usePreferences } from "../../../contexts/PreferencesContext";
 import MenuItemCategory from "../../../models/enums/MenuItemCategory";
 import capitalizeString from "../../../utils/capitalizeString";
+import { usePreferences } from "../../../contexts/PreferencesContext";
 import "../css/ButtonContainer.css";
 
 interface ButtonContainerProps {
@@ -24,7 +24,14 @@ const getSpanishLabel = (label: MenuItemCategory) => {
     }
 };
 
-const ButtonContainer: React.FC<ButtonContainerProps> = ({
+/**
+ * Bottom menu bar in kiosk view to switch between item types (entrée, side, drink, appetizer)
+ * @param onTabChange - Callback called when tab changes
+ * @param isHighContrast - Boolean that is `true` when high contrast is on, otherwise `false`
+ * @param activeTab - {@linkcode MenuItemCategory} value indicating the currently selected tab
+ * @constructor
+ */
+const MenuButtonContainer: React.FC<ButtonContainerProps> = ({
                                                              onTabChange,
                                                              isHighContrast = false,
                                                              activeTab,
@@ -66,4 +73,4 @@ const ButtonContainer: React.FC<ButtonContainerProps> = ({
     );
 };
 
-export default ButtonContainer;
+export default MenuButtonContainer;

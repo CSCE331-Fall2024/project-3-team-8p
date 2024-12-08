@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 import InventoryItemApi from "../../../../apis/inventory-item-api";
 import InventoryItem from "../../../../models/InventoryItem";
-import { v4 as uuidv4 } from "uuid";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface ModalProps {
     currItem: InventoryItem | undefined;
@@ -27,6 +26,16 @@ const getInitialFormData = (currItem?: InventoryItem) => ({
     itemName: currItem?.itemName ?? ""
 });
 
+/**
+ * The MenuItemModal component allows for adding or editing an inventory item.
+ * It displays a form where the user can input item details such as name, available stock, and cost.
+ *
+ * @param currItem - The current inventory item being edited, or undefined if adding a new item.
+ * @param showModal - A flag indicating whether the modal should be visible.
+ * @param onClose - Callback function to handle closing the modal, passing a flag indicating whether the data was updated.
+ * @param api - The API instance used for interacting with inventory item data (e.g., adding or updating inventory items).
+ * @constructor
+ */
 function MenuItemModal({ currItem, showModal, onClose, api }: ModalProps) {
     const [formData, setFormData] = useState<FormData>(getInitialFormData(currItem));
 

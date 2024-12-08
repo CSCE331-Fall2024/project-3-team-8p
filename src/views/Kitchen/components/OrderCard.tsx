@@ -10,6 +10,14 @@ interface OrderCardProps {
     index: number;
 }
 
+/**
+ * OrderCard component that displays an individual order with its ID, items, and status.
+ * The order is displayed in a draggable card, allowing it to be moved between columns.
+ * @param order - The order to be displayed in the card.
+ * @param column - The current column the order belongs to (e.g., "placed", "in progress").
+ * @param index - The index of the order in its column.
+ * @constructor
+ */
 function OrderCard({ order, column, index }: OrderCardProps) {
     const statusStyles: Record<string, string> = {
         placed: "danger",

@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card, Button, Modal, Form, Row, Col, Alert } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 import ReviewApi from "../../apis/review-api";
 import Review from "../../models/Review";
-import { v4 as uuidv4 } from "uuid";
 import LoadingView from "../shared/LoadingView";
 
 const reviewApi = new ReviewApi();
 
+/**
+ * The `Reviews` component displays a list of customer reviews for a product or service. It supports pagination,
+ * allows users to write and submit their reviews through a modal form.
+ *
+ * @returns A component that displays customer reviews, handles review submission, and supports pagination.
+ * @constructor
+ */
 function Reviews() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [reviews, setReviews] = useState<Review[]>([]);

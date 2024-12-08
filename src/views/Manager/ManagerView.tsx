@@ -4,6 +4,10 @@ import "./css/ManagerView.css"
 import GridView from "./components/GridView/GridView";
 import ReportView from "./components/ReportView/ReportView";
 
+/**
+ * The manager view
+ * @constructor
+ */
 function ManagerView() {
     return (
         <Container fluid>

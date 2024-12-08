@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Table, Button, Card } from 'react-bootstrap';
-import MenuItemApi from '../../apis/menu-item-api';
-import ListingCard from '../Customer/components/ListingCard';
-import MenuItem from '../../models/MenuItem';
-import OrderApi from "../../apis/order-api";
-import Order from "../../models/Order";
-import EmployeeApi from "../../apis/employee-api";
 import { v4 as uuidv4 } from "uuid";
-import OrderStatus from "../../models/enums/OrderStatus";
-import LoadingView from "../shared/LoadingView";
+import MenuItemApi from '../../apis/menu-item-api';
+import OrderApi from "../../apis/order-api";
+import EmployeeApi from "../../apis/employee-api";
 import getTimeComponents from "../../utils/getTimeComponents";
-import { useUser } from "../../contexts/UserContext";
-import MenuItemCategory from "../../models/enums/MenuItemCategory";
-import { useCart } from "../../contexts/CartContext";
+import MenuItem from '../../models/MenuItem';
+import Order from "../../models/Order";
+import ListingCard from '../Customer/components/ListingCard';
 import CartItem from "../../models/interfaces/CartItem";
+import OrderStatus from "../../models/enums/OrderStatus";
+import MenuItemCategory from "../../models/enums/MenuItemCategory";
+import { useUser } from "../../contexts/UserContext";
+import { useCart } from "../../contexts/CartContext";
+import LoadingView from "../shared/LoadingView";
 
 const orderApi = new OrderApi();
 const employeeApi = new EmployeeApi();
 const menuItemApi = new MenuItemApi();
 
+/**
+ * The cashier view
+ * @constructor
+ */
 function CashierView() {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

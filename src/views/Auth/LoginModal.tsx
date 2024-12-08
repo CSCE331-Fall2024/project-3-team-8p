@@ -15,6 +15,12 @@ interface LoginModalProps {
     onHide: () => void;
 }
 
+/**
+ * The login modal
+ * @param show - Boolean indicating whether to show the modal
+ * @param onHide - Callback that gets calls when the modal closes
+ * @constructor
+ */
 function LoginModal({ show, onHide }: LoginModalProps) {
     const { setUser } = useUser();
 
