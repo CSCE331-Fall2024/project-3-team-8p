@@ -1,11 +1,29 @@
 import axios, { AxiosInstance } from "axios";
 
-export default class TranslateApi  {
+/**
+ * API client that interfaces with Google Translate API
+ */
+export default class TranslateApi {
+    /**
+     * The base URL for the Google Translate API
+     * @private
+     */
     private static readonly BASE_URL: string = "https://translation.googleapis.com/language/translate/v2";
+    /**
+     * The API key to access the Google Translate API
+     * @private
+     */
     private static readonly API_KEY: string = process.env.REACT_APP_GOOGLE_TRANSLATE_API_KEY as string;
 
+    /**
+     * The current axios client instance
+     * @private
+     */
     private readonly client: AxiosInstance;
 
+    /**
+     * Constructs a new {@linkcode TranslateApi} instance
+     */
     constructor() {
         this.client = axios.create({
             headers: {
@@ -14,6 +32,13 @@ export default class TranslateApi  {
         });
     }
 
+    /**
+     * Translates the given text to the target language
+     * @async
+     * @param text - The original text to translate
+     * @param targetLanguage - The target language
+     * @returns a `Promise` containing the translated text
+     */
     async translate(text: string, targetLanguage: string): Promise<string> {
         const translationCacheKey = `${text}:${targetLanguage}`;
         const cachedTranslation: string | null = localStorage.getItem(translationCacheKey);
