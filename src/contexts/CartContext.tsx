@@ -16,6 +16,11 @@ interface CartProviderProps {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+/**
+ * Context provider for cart information (used in customer and cashier views). Provides {@linkcode CartContext}
+ * @param children - The React elements that should receive cart context
+ * @constructor
+ */
 export const CartProvider = ({ children }: CartProviderProps) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
@@ -71,7 +76,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     );
 };
 
-// Custom hook to use the CartContext in other components
+/**
+ * Custom hook to access {@linkcode CartContext} in React components
+ */
 export const useCart = (): CartContextType => {
     const context = useContext(CartContext);
     if (context === undefined) {

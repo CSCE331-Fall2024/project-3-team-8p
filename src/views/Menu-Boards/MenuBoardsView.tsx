@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ListingCard from './components/ListingCard';
-import { Container, Row, Col, Image, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Image, Alert } from 'react-bootstrap';
 import MenuItemApi from '../../apis/menu-item-api';
-import MenuBoardItem from '../../models/MenuBoardItem';
 import menuItemCategory from '../../models/enums/MenuItemCategory';
 import LoadingView from "../shared/LoadingView";
+import MenuItem from "../../models/MenuItem";
 
 const tabOptions = [
     { label: 'Entrees', value: menuItemCategory.Entree },
@@ -14,7 +14,7 @@ const tabOptions = [
 ];
 
 const MenuBoardsView = () => {
-    const [menuItems, setMenuItems] = useState<MenuBoardItem[]>([]);
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,18 +24,7 @@ const MenuBoardsView = () => {
         const fetchMenuItems = async () => {
             try {
                 const items = await menuItemApi.getMenuItems();
-
-                const boardItems = items.map((item) =>
-                    MenuBoardItem.fromDict({
-                        menuItemId: item.menuItemId,
-                        price: item.price,
-                        itemName: item.itemName,
-                        category: item.category,
-                        nutritionInfo: item.nutritionInfo,
-                    })
-                );
-
-                setMenuItems(boardItems);
+                setMenuItems(items);
             } catch (err: any) {
                 setError(err.message || 'An error occurred while fetching menu items.');
             } finally {
@@ -90,7 +79,7 @@ const MenuBoardsView = () => {
             </Row>
 
             {tabOptions.map((tab) => {
-                const filteredItems = MenuBoardItem.fromCategory(tab.value, menuItems);
+                const filteredItems = menuItems.filter(item => item.category === tab.value)
 
                 return (
                     <div key={tab.value} className="mb-5">
@@ -100,7 +89,7 @@ const MenuBoardsView = () => {
                                 <Col key={item.menuItemId} md={3} sm={6} xs={12} className="mb-4 d-flex justify-content-center">
                                     <ListingCard
                                         menuItemId={item.menuItemId}
-                                        itemName={item.translatedItemName || item.itemName}
+                                        itemName={item.itemName}
                                         price={item.price}
                                         imageUrl={`/images/${item.itemName}.avif`}
                                         nutritionInfo={item.nutritionInfo}

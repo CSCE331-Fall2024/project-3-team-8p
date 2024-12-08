@@ -15,6 +15,11 @@ interface PreferencesProviderProps {
     children: ReactElement;
 }
 
+/**
+ * Provides context for user preference options. Provides {@linkcode PreferencesContext}
+ * @param children - The React children to receive the context
+ * @constructor
+ */
 export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     const [isSpanish, setIsSpanish] = useState(false);
     const [isHighContrast, setIsHighContrast] = useState(false);
@@ -27,6 +32,9 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     )
 };
 
+/**
+ * Custom hook to access {@linkcode PreferencesContext} in React components
+ */
 export const usePreferences = (): PreferencesContextType => {
     const context = useContext(PreferencesContext);
     if (!context) {

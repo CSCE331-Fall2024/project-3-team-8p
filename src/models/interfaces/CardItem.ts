@@ -1,7 +1,8 @@
 import BaseItem from "./BaseItem";
 
-// Generic interface for UI components that have a grid view
-// e.g., CashierView, ManagerView
+/**
+ * Generic interface for items to be displayed in a grid view
+ */
 export default interface CardItem extends BaseItem {
     itemName: string;
     itemUrl?: string;

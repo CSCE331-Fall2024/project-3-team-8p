@@ -1,3 +1,6 @@
+/**
+ * Item categories for a menu item
+ */
 enum MenuItemCategory {
     Entree = "entree",
     Side = "side",
