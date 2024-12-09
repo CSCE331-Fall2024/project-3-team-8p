@@ -54,6 +54,8 @@ public class MenuItem {
      * @param price      the price of the menu item
      * @param itemName   the name of the menu item
      * @param nutritionInfo the nutrition and allergen information
+     * @param category   the category of the menu item
+     * @param isDiscounted the discount status of the menu item
      */
     public MenuItem(UUID menuItemId,
                     Double price,
@@ -74,6 +76,9 @@ public class MenuItem {
      *
      * @param price    the price of the menu item
      * @param itemName the name of the menu item
+     * @param nutritionInfo the nutrition and allergen information
+     * @param category      the category of the menu item
+     * @param isDiscounted  the discount status of the menu item
      */
     public MenuItem(Double price,
                     String itemName,

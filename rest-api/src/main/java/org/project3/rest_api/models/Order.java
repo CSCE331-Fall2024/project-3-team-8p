@@ -56,7 +56,7 @@ public class Order {
     public String status;
 
     /**
-     * List of menu items & quantities associated with the order
+     * List of menu items and quantities associated with the order
      * */
     public List<MenuItemWithQty> menuItemsWithQty;
 

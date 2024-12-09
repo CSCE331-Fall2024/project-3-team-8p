@@ -59,7 +59,15 @@ public class NutritionInfo {
 
     /**
      * Attribute constructor
-     * */
+     * @param allergens the list of allergens
+     * @param calories the number of calories
+     * @param fat the grams of fat
+     * @param protein the grams of protein
+     * @param sugar the grams of sugar
+     * @param carbohydrates the grams of carbohydrates
+     * @param isPremium the premium status
+     * @param isSpicy the spicy status
+     */
     public NutritionInfo(List<String> allergens,
                          int calories,
                          int fat,

@@ -19,6 +19,12 @@ import java.util.UUID;
 @CrossOrigin
 public class OrderServiceController {
 
+    /**
+     * Default constructor
+     */
+    public OrderServiceController() {
+        // Default constructor
+    }
 
     @Autowired
     DBOrderService dbOrderService;
@@ -35,6 +41,7 @@ public class OrderServiceController {
 
     /**
      * Queries database for all undelivered orders
+     * @return list of undelivered Order
      * */
     @GetMapping("/undelivered")
     public List<Order> getUndeliveredOrders() {
@@ -44,6 +51,7 @@ public class OrderServiceController {
     /**
      * Creates new orders in database
      * @param newOrder Order object to be created in database
+     * @return the created Order object
      * */
     @PostMapping
     public Order addOrder(@RequestBody Order newOrder) {
@@ -70,6 +78,7 @@ public class OrderServiceController {
     /**
      * Queries X and Z reports from database
      * @param wholeDay Boolean used to determine X or Z report
+     * @return a map containing the X or Z report data
      * */
     @GetMapping("/report")
     public Map<String, List<Double>> getXOrZReport(@RequestParam boolean wholeDay) {
