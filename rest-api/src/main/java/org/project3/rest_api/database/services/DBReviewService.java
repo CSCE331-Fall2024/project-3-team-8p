@@ -11,7 +11,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
+/**
+ * Service class for handling database operations related to reviews.
+ */
 public class DBReviewService extends DBConnector {
+    /**
+     * Default constructor for DBReviewService
+     */
+    public DBReviewService() {
+        // Default constructor
+    }
 
     /**
      * Selects all review from database
