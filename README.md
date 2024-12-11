@@ -1,8 +1,8 @@
-# Build Dependencies
+Hosted documentation: https://csce331-fall2024.github.io/project-3-team-8p/
+
+# Frontend Build Dependencies
 1. npm: 10.9.0
 2. WebStorm IDE
-
-(I believe that's all we need to run React)
 
 # Frontend Project Structure
 
