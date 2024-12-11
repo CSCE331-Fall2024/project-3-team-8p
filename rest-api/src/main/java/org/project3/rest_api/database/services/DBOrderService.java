@@ -21,6 +21,13 @@ import java.util.*;
 @Repository
 public class DBOrderService extends DBConnector {
     /**
+     * Default constructor for DBOrderService
+     */
+    public DBOrderService() {
+        // Default constructor
+    }
+
+    /**
      * Interacts with DBMenuservice
      * */
     @Autowired
@@ -143,6 +150,7 @@ public class DBOrderService extends DBConnector {
      * SQL query to select orders' menu items
      *
      * @param orderId ID of order to select menu items for
+     * @return a list of menu items with quantities associated with the order
      * */
     public List<MenuItemWithQty> selectOrderMenuItems(UUID orderId) {
 
@@ -163,6 +171,7 @@ public class DBOrderService extends DBConnector {
     /**
      * SQL query to select all undelivered orders
      *
+     * @return a list of undelivered orders
      * */
     public List<Order> selectUndeliveredOrders() {
         List<Order> undeliveredOrders = Collections.emptyList();
@@ -350,6 +359,7 @@ public class DBOrderService extends DBConnector {
      * based on which report is being requested.
      *
      * @param wholeDay true if we're fetching the Z report, false for X report
+     * @return a map containing lists of sales and orders by hour
      */
     public Map<String, List<Double>> fetchXOrZReport(boolean wholeDay) {
         // Get sales per hour data from DBDriverSingleton

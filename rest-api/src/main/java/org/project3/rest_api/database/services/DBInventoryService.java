@@ -18,7 +18,17 @@ import java.util.UUID;
  * Implements inventory-related database actions
  * */
 @Repository
+/**
+ * Default constructor for DBInventoryService
+ */
 public class DBInventoryService extends DBConnector {
+    /**
+     * Default constructor for DBInventoryService
+     */
+    public DBInventoryService() {
+        // Default constructor
+    }
+
     /**
      * Selects all inventory items
      *
@@ -96,6 +106,7 @@ public class DBInventoryService extends DBConnector {
      * @param endMonth Time period end month
      * @param startDay Time period start day
      * @param endDay Time period end day
+     * @return a {@code Map<String, Integer>} of product usage
      * */
     public Map<String, Integer> selectProductUsage(
             Integer startMonth,

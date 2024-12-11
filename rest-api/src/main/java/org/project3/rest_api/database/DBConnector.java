@@ -17,7 +17,20 @@ import java.util.function.Function;
  */
 
 @Repository
+/**
+ * Default constructor for DBConnector
+ */
 public class DBConnector {
+    /**
+     * Default constructor for DBConnector
+     */
+    public DBConnector() {
+        // Default constructor
+    }
+
+    /**
+     * Calendar instance used for date and time operations
+     */
     protected final Calendar calendar = Calendar.getInstance();
     /**
      * maintains single connection to database;
@@ -34,9 +47,11 @@ public class DBConnector {
     /**
      * Executes all necessary SQL queries
      *
+     * @param <T>    the type of the result
      * @param query  query string from QueryTemplate
      * @param mapper mapper from SQLToJavaMapper
      * @return list of query results
+     * @throws SQLException if a database access error occurs
      */
     protected <T> List<T> executeQuery(String query, Function<ResultSet, T> mapper) throws SQLException {
         List<T> results = new ArrayList<>();

@@ -18,7 +18,12 @@ import java.util.UUID;
 @RequestMapping("api/inventory")
 @CrossOrigin
 public class InventoryServiceController {
-
+    /**
+     * Default constructor for InventoryServiceController
+     */
+    public InventoryServiceController() {
+        // Default constructor
+    }
     /**
      * Database connector instance
      * */
@@ -39,6 +44,7 @@ public class InventoryServiceController {
     /**
      * Creates new inventory items in database
      * @param newInventoryItem  InventoryItem object to be created in database
+     * @return the created InventoryItem object
      * */
     @PostMapping
     public InventoryItem addInventoryItem(@RequestBody InventoryItem newInventoryItem) {
@@ -63,7 +69,14 @@ public class InventoryServiceController {
         //TODO: add validation for updatedInventoryItem's id
         dbInventoryService.updateInventoryItem(updatedInventoryItem);
     }
-
+    /**
+     * Retrieves a report of product usage within a specified date range
+     * @param startMonth the starting month of the date range
+     * @param endMonth the ending month of the date range
+     * @param startDay the starting day of the date range
+     * @param endDay the ending day of the date range
+     * @return a map where the key is the product name and the value is the usage count
+     */
     @GetMapping("/product-usage")
     public Map<String, Integer> getProductUsageReport(
             @RequestParam Integer startMonth,

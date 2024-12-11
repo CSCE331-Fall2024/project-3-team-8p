@@ -13,6 +13,14 @@ package org.project3.rest_api.database;
  * @author Kevin Zhang
  */
 public class QueryTemplate {
+
+    /**
+     * Default constructor
+     */
+    public QueryTemplate() {
+        // Default constructor
+    }
+
     // Orders
     /**
      * SQL query to select an order by orderId

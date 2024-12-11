@@ -17,7 +17,12 @@ import java.util.UUID;
  * */
 @Repository
 public class DBEmployeeService extends DBConnector {
-
+    /**
+     * Default constructor for DBEmployeeService
+     */
+    public DBEmployeeService() {
+        // Default constructor
+    }
     /**
      * Selects employee by name
      * @param name name of employee to select

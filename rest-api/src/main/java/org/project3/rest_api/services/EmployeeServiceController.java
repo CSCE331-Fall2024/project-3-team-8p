@@ -16,14 +16,27 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/employee")
 @CrossOrigin
+/**
+ * Controller class for handling employee services.
+ */
 public class EmployeeServiceController {
+    /**
+     * Default constructor for EmployeeServiceController
+     */
+    public EmployeeServiceController() {
+        // Default constructor
+    }
 
     /**
      * Database connector instance
      * */
     @Autowired
     DBEmployeeService dbEmployeeService;
-
+    /**
+     * Retrieves an employee by name from the database
+     * @param name the name of the employee to retrieve
+     * @return the employee object corresponding to the given name
+     */
     @GetMapping("/{name}")
     public Employee getEmployee(@PathVariable String name) {
         return dbEmployeeService.selectEmployee(name);

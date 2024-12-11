@@ -19,6 +19,12 @@ import java.util.*;
 
 @Repository
 public class DBMenuService extends DBConnector {
+    /**
+     * Default constructor for DBMenuService
+     */
+    public DBMenuService() {
+        // Default constructor
+    }
 
     /**
      * Selects all menu items
@@ -98,6 +104,7 @@ public class DBMenuService extends DBConnector {
     /**
      * Maps menu items to inventory items
      *
+     * @param menuItemId the ID of the menu item
      * @param invItemsWithQty inventory items and quantities associated with menu items
      * */
     public void insertMenuItemInventoryItems(UUID menuItemId, List<InventoryItemWithQty> invItemsWithQty) {
@@ -150,6 +157,7 @@ public class DBMenuService extends DBConnector {
 
     /**
      * Updates all menu items' discount status
+     * @param isDiscounted the new discount status to set for all menu items
      * */
     public void updateDiscountStatus(Boolean isDiscounted) {
         executeUpdate(String.format(QueryTemplate.updateDiscountStatus,
@@ -200,6 +208,7 @@ public class DBMenuService extends DBConnector {
      * @param endMonth Time period end month
      * @param startDay Time period start day
      * @param endDay Time period end day
+     * @return a {@code Map<String, Integer>} of menu item sales
      * */
     public Map<String, Integer> selectSales(
             Integer startMonth,

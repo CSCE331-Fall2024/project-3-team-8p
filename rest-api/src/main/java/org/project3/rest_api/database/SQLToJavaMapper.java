@@ -155,6 +155,13 @@ public class SQLToJavaMapper {
             throw new RuntimeException("Error mapping ResultSet to Integer", e);
         }
     }
+    /**
+     * Maps a ResultSet row to an Employee object.
+     *
+     * @param rs the ResultSet containing the employee data
+     * @return an Employee object mapped from the ResultSet
+     * @throws RuntimeException if an SQLException occurs during mapping
+     */
     public static Employee employeeMapper(ResultSet rs){
         try {
             return new Employee(

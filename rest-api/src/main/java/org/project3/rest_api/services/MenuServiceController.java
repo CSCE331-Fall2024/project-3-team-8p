@@ -18,7 +18,12 @@ import java.util.UUID;
 @RequestMapping("api/menu")
 @CrossOrigin
 public class MenuServiceController {
-
+    /**
+     * Default constructor for MenuServiceController
+     */
+    public MenuServiceController() {
+        // Default constructor
+    }
     /**
      * Database connector instance
      * */
@@ -37,6 +42,7 @@ public class MenuServiceController {
     /**
      * Creates new menu item in database
      * @param newMenuItem MenuItem object to be created in database
+     * @return the created MenuItem object
      * */
     @PostMapping
     public MenuItem addMenuItem(@RequestBody MenuItem newMenuItem) {
@@ -58,7 +64,14 @@ public class MenuServiceController {
     public void updateMenuItem(@RequestBody MenuItem updatedMenuItem) {
         dbMenuService.updateMenuItem(updatedMenuItem);
     }
-
+    /**
+     * Retrieves sales report for a given date range
+     * @param startMonth the starting month of the date range
+     * @param endMonth the ending month of the date range
+     * @param startDay the starting day of the date range
+     * @param endDay the ending day of the date range
+     * @return a map containing sales data
+     */
     @GetMapping("/sales-report")
     public Map<String, Integer> getSalesReport(
             @RequestParam Integer startMonth,
@@ -68,7 +81,10 @@ public class MenuServiceController {
     ) {
         return dbMenuService.selectSales(startMonth, endMonth, startDay, endDay);
     }
-
+    /**
+     * Checks if all menu items are discounted
+     * @return true if all menu items are discounted, false otherwise
+     */
     @GetMapping("/discount")
     public Boolean getDiscount() {
         List<MenuItem> items = dbMenuService.selectMenuItems();
@@ -80,6 +96,7 @@ public class MenuServiceController {
 
     /**
      * Updates menu item discount
+     * @param isDiscounted the discount status to be updated
      * */
     @PutMapping("/update-discount")
     public void updateDiscount(@RequestParam Boolean isDiscounted) {
