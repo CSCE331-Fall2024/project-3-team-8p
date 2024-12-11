@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.project3.rest_api"},{"l":"org.project3.rest_api.database"},{"l":"org.project3.rest_api.database.services"},{"l":"org.project3.rest_api.models"},{"l":"org.project3.rest_api.models.wrappers"},{"l":"org.project3.rest_api.services"}];updateSearchResults();

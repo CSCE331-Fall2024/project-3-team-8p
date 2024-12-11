@@ -1,0 +1,6 @@
+org.project3.rest_api
+org.project3.rest_api.database
+org.project3.rest_api.database.services
+org.project3.rest_api.models
+org.project3.rest_api.models.wrappers
+org.project3.rest_api.services
