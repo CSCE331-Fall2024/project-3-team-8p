@@ -9,17 +9,15 @@
 ## Main Directory Structure (src/main/java/org.project3.rest_api)
 - __database__: classes that directly interact with PSQL database
 - __models__: classes that represent database entities 
-- __services__: classes that declare endpoints for services (menu, inventory, employee, order)
+- __services__: classes that declare endpoints for services (menu, inventory, employee, order, review)
 
 ## Testing Directory (src/test/java/org.project3.rest_api)
-- Tests associated with menu, inventory, employee, order services
+- Tests associated with menu, inventory, employee, order, and review services
 
 # Running The Spring Boot Application
 In the rest-api directory, you can run:
 
 `mvn spring-boot:run`
-
-Runs the app locally. You should be able to access APIs at
 
 # URL and Endpoints
 
@@ -34,6 +32,7 @@ Replace {endpoint} with:
 2. "inventory" for inventory item related tasks
 3. "employee" for employee related tasks
 4. "order" for order related tasks
+5. "review" for review related tasks
 
 # Spring Initializr
 This project was initialized with [Spring Initializr](https://start.spring.io/)
